@@ -1,15 +1,148 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>My Residency Journey</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dr. Arjun Sharma — EM Resident</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'DM Sans', sans-serif; background: #0a0d12; color: #e8eaf0; min-height: 100vh; }
+
+  .hero { position: relative; padding: 3rem 2.5rem 2rem; border-bottom: 1px solid #1e2a3a; overflow: hidden; }
+  .ecg-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.04; }
+  .cross { position: absolute; top: 1.5rem; right: 2rem; font-size: 2.8rem; color: #e63946; font-family: 'Bebas Neue', sans-serif; letter-spacing: 2px; }
+
+  .badge { display: inline-flex; align-items: center; gap: 6px; background: #e6394615; border: 1px solid #e6394640; color: #e63946; font-size: 11px; font-family: 'DM Mono', monospace; padding: 4px 12px; border-radius: 20px; margin-bottom: 1.2rem; letter-spacing: 1px; }
+  .badge-dot { width: 6px; height: 6px; border-radius: 50%; background: #e63946; animation: blink 1.4s infinite; }
+  @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.2; } }
+
+  .hero h1 { font-family: 'Bebas Neue', sans-serif; font-size: 3.5rem; letter-spacing: 3px; line-height: 1; color: #f0f2f6; margin-bottom: 0.3rem; }
+  .hero h1 span { color: #e63946; }
+  .hero .role { font-size: 0.85rem; color: #6b7a96; font-family: 'DM Mono', monospace; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 1.8rem; }
+
+  .vitals { display: flex; gap: 0; border: 1px solid #1e2a3a; border-radius: 10px; overflow: hidden; margin-top: 1rem; max-width: 500px; }
+  .vital { flex: 1; padding: 1rem; text-align: center; background: #0a0d12; border-right: 1px solid #1e2a3a; }
+  .vital:last-child { border-right: none; }
+  .vital .v-val { font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; color: #4ade80; line-height: 1; }
+  .vital .v-label { font-size: 10px; color: #4a5568; letter-spacing: 1px; text-transform: uppercase; font-family: 'DM Mono', monospace; margin-top: 2px; }
+
+  .stats-row { display: flex; gap: 2rem; flex-wrap: wrap; margin-top: 1.5rem; }
+  .stat .num { font-family: 'Bebas Neue', sans-serif; font-size: 2rem; color: #e63946; line-height: 1; }
+  .stat .label { font-size: 11px; color: #4a5568; letter-spacing: 1px; text-transform: uppercase; font-family: 'DM Mono', monospace; }
+
+  .section { padding: 2rem 2.5rem; border-bottom: 1px solid #0f1720; }
+  .sec-title { font-family: 'DM Mono', monospace; font-size: 10px; color: #e63946; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 1.2rem; }
+
+  .about-text { font-size: 0.95rem; color: #9aa4b8; line-height: 1.8; max-width: 600px; }
+
+  .skills-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 10px; }
+  .skill-chip { background: #0f1720; border: 1px solid #1e2a3a; border-radius: 8px; padding: 10px 14px; font-size: 13px; color: #c5cede; font-family: 'DM Mono', monospace; transition: border-color 0.2s; cursor: default; }
+  .skill-chip:hover { border-color: #e6394650; }
+  .skill-chip .icon { font-size: 16px; margin-bottom: 4px; }
+
+  .timeline { display: flex; flex-direction: column; gap: 0; }
+  .tl-item { display: flex; gap: 1.5rem; padding: 1.2rem 0; border-bottom: 1px solid #0f1720; }
+  .tl-item:last-child { border-bottom: none; }
+  .tl-left { min-width: 90px; font-family: 'DM Mono', monospace; font-size: 11px; color: #e63946; padding-top: 3px; letter-spacing: 1px; }
+  .tl-right h3 { font-size: 0.95rem; font-weight: 500; color: #d4d8e2; margin-bottom: 3px; }
+  .tl-right p { font-size: 0.83rem; color: #4a5568; line-height: 1.6; }
+
+  .contact-row { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 0.5rem; }
+  .contact-pill { background: #0f1720; border: 1px solid #1e2a3a; border-radius: 6px; padding: 8px 16px; font-size: 13px; color: #6b7a96; font-family: 'DM Mono', monospace; }
+  .contact-pill span { color: #c5cede; }
+
+  .footer { padding: 1.5rem 2.5rem; text-align: center; font-family: 'DM Mono', monospace; font-size: 10px; color: #2a3347; letter-spacing: 2px; }
+
+  @media (max-width: 600px) {
+    .hero { padding: 2rem 1.2rem 1.5rem; }
+    .hero h1 { font-size: 2.5rem; }
+    .section { padding: 1.5rem 1.2rem; }
+    .vitals { max-width: 100%; }
+    .tl-item { flex-direction: column; gap: 0.3rem; }
+    .footer { padding: 1rem 1.2rem; }
+  }
+</style>
 </head>
-<body style="font-family: Arial; text-align: center; margin-top: 50px;">
+<body>
 
-    <h1>👨‍⚕️ My Residency Journey</h1>
-    <p>Welcome to my personal blog where I share my experiences in medicine.</p>
+<div class="hero">
+  <svg class="ecg-bg" viewBox="0 0 800 200" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+    <polyline points="0,100 100,100 130,100 145,30 160,170 175,100 210,100 240,100 255,60 265,140 275,100 400,100 430,100 445,30 460,170 475,100 510,100 540,100 555,60 565,140 575,100 700,100 730,100 745,30 760,170 775,100 800,100" fill="none" stroke="#e63946" stroke-width="2"/>
+  </svg>
+  <div class="cross">+</div>
+  <div class="badge"><span class="badge-dot"></span>CURRENTLY ON CALL — EM RESIDENT</div>
+  <h1>DR. <span>ARJUN</span><br>SHARMA</h1>
+  <div class="role">Emergency Medicine · PGY-2 · Resident Physician</div>
+  <div class="vitals">
+    <div class="vital"><div class="v-val">72</div><div class="v-label">HR bpm</div></div>
+    <div class="vital"><div class="v-val">120/80</div><div class="v-label">BP mmHg</div></div>
+    <div class="vital"><div class="v-val">98%</div><div class="v-label">SpO2</div></div>
+    <div class="vital"><div class="v-val">36.8°</div><div class="v-label">Temp °C</div></div>
+  </div>
+  <div class="stats-row">
+    <div class="stat"><div class="num">1200+</div><div class="label">Patients Seen</div></div>
+    <div class="stat"><div class="num">2</div><div class="label">Years Residency</div></div>
+    <div class="stat"><div class="num">24/7</div><div class="label">Always Ready</div></div>
+  </div>
+</div>
 
-    <h2>My First Post</h2>
-    <p>My first day of residency was intense, emotional, and unforgettable...</p>
+<div class="section">
+  <div class="sec-title">// About Me</div>
+  <p class="about-text">Emergency Medicine resident at JIPMER, Puducherry. Passionate about critical care, trauma management aur resuscitation. High-pressure situations mein calm rehna meri specialty hai. Har patient ko best care dena mera mission hai.</p>
+</div>
+
+<div class="section">
+  <div class="sec-title">// Core Skills</div>
+  <div class="skills-grid">
+    <div class="skill-chip"><div class="icon">🫀</div>Advanced Cardiac Life Support</div>
+    <div class="skill-chip"><div class="icon">🩺</div>Trauma Assessment</div>
+    <div class="skill-chip"><div class="icon">💉</div>Procedural Skills</div>
+    <div class="skill-chip"><div class="icon">🧠</div>Neuro Emergencies</div>
+    <div class="skill-chip"><div class="icon">🩻</div>Point-of-Care Ultrasound</div>
+    <div class="skill-chip"><div class="icon">🌡️</div>Toxicology</div>
+    <div class="skill-chip"><div class="icon">👶</div>Pediatric EM</div>
+    <div class="skill-chip"><div class="icon">📊</div>Critical Care</div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="sec-title">// Residency Timeline</div>
+  <div class="timeline">
+    <div class="tl-item">
+      <div class="tl-left">2024–NOW</div>
+      <div class="tl-right">
+        <h3>PGY-2 Emergency Medicine Resident</h3>
+        <p>JIPMER, Puducherry — Trauma bay management, resuscitation, independent procedures</p>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-left">2023–2024</div>
+      <div class="tl-right">
+        <h3>PGY-1 Junior Resident</h3>
+        <p>Initial ED rotations, ICU, Surgery exposure — foundation building phase</p>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-left">2018–2023</div>
+      <div class="tl-right">
+        <h3>MBBS</h3>
+        <p>Medical College — Graduated with distinction. Emergency rotation mein special interest develop hua.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="sec-title">// Contact</div>
+  <div class="contact-row">
+    <div class="contact-pill">Email: <span>arjun@jipmer.edu.in</span></div>
+    <div class="contact-pill">Hospital: <span>JIPMER, Puducherry</span></div>
+    <div class="contact-pill">Dept: <span>Emergency Medicine</span></div>
+  </div>
+</div>
+
+<div class="footer">EMERGENCY MEDICINE · FIRST DO NO HARM · ALWAYS READY</div>
 
 </body>
 </html>
