@@ -513,9 +513,32 @@
     100% { transform: translate(-50%, -50%) scale(1.05); opacity: 1; -webkit-text-stroke: 3px rgba(255, 42, 75, 0.15); }
   }
 
+  /* Defib Splash Screen Styles */
+  .defib-splash { position: fixed; inset: 0; background: #010205; z-index: 9999; display: flex; flex-direction: column; justify-content: center; align-items: center; transition: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275); font-family: 'DM Mono', monospace; }
+  .defib-ui { text-align: center; z-index: 10; transition: transform 0.1s; }
+  .charge-text { font-size: clamp(2rem, 5vw, 4rem); color: #00f5d4; letter-spacing: 8px; margin-bottom: 30px; transition: all 0.2s; font-weight: bold; }
+  .charge-bar-container { width: 400px; max-width: 80vw; height: 12px; background: rgba(255,255,255,0.1); border-radius: 6px; overflow: hidden; margin: 0 auto; box-shadow: 0 0 15px rgba(0,0,0,0.8); }
+  .charge-bar { width: 0%; height: 100%; background: #00f5d4; transition: width 2.5s cubic-bezier(0.4, 0, 1, 1), background-color 0.5s; }
+  .shock-overlay { position: absolute; inset: 0; background: #fff; opacity: 0; z-index: 20; pointer-events: none; transition: opacity 0.05s ease-out; box-shadow: 0 0 100vw #fff; }
+  .glitch-fast { animation: blink 0.1s infinite; color: #ff2a4b; text-shadow: 0 0 30px #ff2a4b; }
+  @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.2; } }
+  .violent-shake { animation: vShake 0.1s infinite; }
+  @keyframes vShake { 0% { transform: translate(3px, 3px) rotate(0deg); } 25% { transform: translate(-3px, -2px) rotate(-1deg); } 50% { transform: translate(-3px, 3px) rotate(1deg); } 75% { transform: translate(3px, -3px) rotate(0deg); } 100% { transform: translate(2px, -2px) rotate(-1deg); } }
+  body.locked { overflow: hidden; height: 100vh; }
 </style>
 </head>
-<body>
+<body class="locked">
+
+<!-- Splash Screen / Preloader -->
+<div id="splash-screen" class="defib-splash">
+  <div class="defib-ui" id="defib-ui">
+    <div class="charge-text" id="charge-text">INITIALIZING...</div>
+    <div class="charge-bar-container">
+      <div class="charge-bar" id="charge-bar"></div>
+    </div>
+  </div>
+  <div class="shock-overlay"></div>
+</div>
 
 <!-- Animated Background Elements -->
 <div class="bg-elements">
@@ -688,6 +711,54 @@
   }
   
   setTimeout(dropPatients, 500); // Start animation slightly after load
+
+  // Cinematic Defibrillator Jump-Start Sequence
+  const splashScreen = document.getElementById('splash-screen');
+  const chargeText = document.getElementById('charge-text');
+  const chargeBar = document.getElementById('charge-bar');
+  const shockOverlay = document.querySelector('.shock-overlay');
+  const defibUi = document.getElementById('defib-ui');
+
+  window.addEventListener('load', () => {
+    // 1. Charging Phase
+    setTimeout(() => {
+      chargeText.style.color = '#ff2a4b';
+      chargeText.classList.add('glitch-fast');
+      chargeBar.style.width = '100%';
+      chargeBar.style.backgroundColor = '#ff2a4b';
+      
+      let joules = 0;
+      let interval = setInterval(() => {
+        joules += 8;
+        if(joules >= 200) { joules = 200; clearInterval(interval); }
+        chargeText.innerText = `CHARGING... ${joules}J`;
+      }, 90);
+    }, 500);
+
+    // 2. Stand Clear! & Screen Shake
+    setTimeout(() => {
+      chargeText.innerText = '⚠️ STAND CLEAR! ⚠️';
+      chargeText.style.transform = 'scale(1.5)';
+      defibUi.classList.add('violent-shake');
+    }, 3000);
+
+    // 3. Shock Delivery -> Immediate Jump-Start
+    setTimeout(() => {
+      shockOverlay.style.opacity = '1'; // blinding white flash
+      
+      // Explosion clears the screen to reveal page
+      setTimeout(() => {
+        splashScreen.style.transform = 'scale(1.2)';
+        splashScreen.style.opacity = '0';
+        
+        setTimeout(() => {
+          splashScreen.style.display = 'none';
+          document.body.classList.remove('locked');
+        }, 800); // 0.8s CSS transition time
+      }, 150); // Flash duration
+      
+    }, 3600); // Wait 600ms vibrating before shock
+  });
 </script>
 </body>
 </html>
