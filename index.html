@@ -94,11 +94,11 @@
     position: relative; 
     z-index: 2; 
     width: 100%;
-    max-width: 950px;
-    padding: 2.5rem;
+    max-width: 1400px;
+    padding: 3rem 4rem;
     display: flex;
     flex-direction: column;
-    gap: 2rem;
+    gap: 2.5rem;
   }
 
   /* Glassmorphism utility */
@@ -187,18 +187,21 @@
   
   .vitals { 
     display: flex; 
-    flex: 1;
+    flex: 2;
     min-width: 320px;
     background: rgba(0,0,0,0.3);
     border: 1px solid var(--glass-border); 
     border-radius: 16px; 
     overflow: hidden; 
+    flex-wrap: wrap;
   }
   .vital { 
-    flex: 1; 
+    flex: 1 1 20%;
+    min-width: 80px;
     padding: 1.5rem 0.5rem; 
     text-align: center; 
     border-right: 1px solid var(--glass-border); 
+    border-bottom: 1px solid transparent;
     transition: background 0.3s ease;
   }
   .vital:hover {
@@ -389,9 +392,15 @@
     gap: 2rem;
   }
   @media (max-width: 850px) {
+    .content { padding: 1.5rem 1rem; }
+    .glass-panel { padding: 1.5rem; }
+    h1 { font-size: 3.5rem; }
+    .vital { min-width: 40%; border-bottom: 1px solid var(--glass-border); }
+    .vital:nth-child(even) { border-right: none; }
+  }
+
+  @media (max-width: 600px) {
     .info-grid { grid-template-columns: 1fr; }
-    .content { padding: 1.5rem; }
-    .glass-panel { padding: 2rem; }
   }
 
   .sec-title { 
@@ -519,11 +528,13 @@
 
 <div class="content">
 
-  <!-- Hero Glass Panel -->
-  <div class="glass-panel">
+  <!-- Hero Section -->
+  <div>
     <div class="badge"><span class="badge-dot"></span>CURRENTLY ON CALL</div>
     <h1>DR. <span>JAYANT</span> MEHTA</h1>
     <div class="role">Emergency Medicine Resident</div>
+    
+    <div class="glass-panel" style="padding: 2rem; margin-top: 2rem;">
     
     <div class="dashboard">
       <div class="vitals">
@@ -560,9 +571,8 @@
       </svg>
     </div>
   </div>
-
-  <!-- Coming Soon Glass Panel -->
-  <div class="glass-panel cs-section">
+</div>
+  <div class="cs-section">
     <div class="cs-tag">// Status Update</div>
     <div class="cs-big">COMING<br><span>SOON</span></div>
     <p class="cs-sub">A complete professional portfolio is currently under resuscitation. Gathering case studies, clinical experiences, and late-night coffee stats. Stay tuned!</p>
@@ -575,7 +585,7 @@
 
   <!-- Details Grid -->
   <div class="info-grid">
-    <div class="glass-panel">
+    <div>
       <div class="sec-title">About Me</div>
       <p class="about-text">Emergency Medicine resident passionate about critical care, trauma management, and rapid resuscitation. Calming chaos is my specialty. Delivering high-quality, evidence-based care in high-pressure situations is my daily mission.</p>
       
@@ -595,7 +605,7 @@
       </div>
     </div>
 
-    <div class="glass-panel">
+    <div>
       <div class="sec-title">Core Skills</div>
       <div class="skills-wrap">
         <div class="skill-chip"><span>🫀</span> ACLS & Resus</div>
