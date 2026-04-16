@@ -588,7 +588,32 @@
     <div>
       <div class="sec-title">About Me</div>
       <p class="about-text">Emergency Medicine resident passionate about critical care, trauma management, and rapid resuscitation. Calming chaos is my specialty. Delivering high-quality, evidence-based care in high-pressure situations is my daily mission.</p>
-      
+
+     <div class="glass-panel">
+  <div class="sec-title">Feedback</div>
+
+  <form action="https://formspree.io/f/yourID" method="POST">
+    
+    <input type="text" name="name" placeholder="Your Name" required 
+    style="width:100%; padding:12px; margin-bottom:12px; border-radius:8px; border:1px solid var(--glass-border); background:rgba(0,0,0,0.3); color:white;">
+
+    <input type="email" name="email" placeholder="Your Email" required 
+    style="width:100%; padding:12px; margin-bottom:12px; border-radius:8px; border:1px solid var(--glass-border); background:rgba(0,0,0,0.3); color:white;">
+
+    <textarea name="message" rows="4" placeholder="Your Feedback" required 
+    style="width:100%; padding:12px; margin-bottom:15px; border-radius:8px; border:1px solid var(--glass-border); background:rgba(0,0,0,0.3); color:white;"></textarea>
+
+    <!-- THANK YOU REDIRECT -->
+    <input type="hidden" name="_redirect" value="thankyou.html">
+
+    <button type="submit" 
+    style="width:100%; padding:12px; background:var(--primary-red); border:none; border-radius:8px; color:white; font-size:15px; cursor:pointer;">
+      Send Feedback
+    </button>
+
+  </form>
+</div>
+     
       <div class="contact-wrap">
         <div class="contact-item">
           <span class="c-label">Email</span>
