@@ -376,7 +376,23 @@
     --teal:#38d9d9;--teal-lt:#0a2020;
     --yellow:#f0c040;--yellow-lt:#201800;
   }
-  #sepsisOverlay .sepsis-content-wrap { background: var(--bg); border-radius: var(--r); overflow-y: auto; flex: 1; position: relative; }
+  #sepsisOverlay .sepsis-content-wrap { 
+    background: var(--bg); 
+    border-radius: var(--r); 
+    overflow-y: auto; 
+    flex: 1; 
+    position: relative; 
+    -webkit-overflow-scrolling: touch;
+    will-change: transform;
+    transform: translate3d(0,0,0);
+  }
+  #sepsisOverlay.active {
+    animation: sepsisFadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  @keyframes sepsisFadeIn {
+    from { opacity: 0; transform: scale(0.98); }
+    to { opacity: 1; transform: scale(1); }
+  }
   #sepsisOverlay h1, #sepsisOverlay h2, #sepsisOverlay h3, #sepsisOverlay h4 { font-family: var(--font-display); line-height: 1.2; text-wrap: balance; }
   #sepsisOverlay p, #sepsisOverlay li { text-wrap: pretty; max-width: 74ch; }
   
@@ -399,7 +415,51 @@
   /* Layout */
   #sepsisOverlay .page-wrap { max-width: 1100px; margin: 0 auto; padding: 2.5rem 1.5rem 5rem; text-align: left; }
   #sepsisOverlay .two-col { display: grid; grid-template-columns: 220px 1fr; gap: 2rem; align-items: start; }
-  @media(max-width:768px){ #sepsisOverlay .two-col { grid-template-columns: 1fr; } #sepsisOverlay .sidebar { display: none; } }
+
+  @media(max-width:768px){
+    #sepsisOverlay .two-col { grid-template-columns: 1fr; gap: 1.5rem; }
+    #sepsisOverlay .sidebar { 
+      position: sticky; 
+      top: 60px; 
+      z-index: 90; 
+      display: block; 
+      padding: 0.75rem; 
+      margin-bottom: 1rem;
+      background: var(--surface);
+      border-radius: 0;
+      border-left: none;
+      border-right: none;
+      box-shadow: var(--shadow-sm);
+    }
+    #sepsisOverlay .sidebar-title { display: none; }
+    #sepsisOverlay .nav-list { 
+      flex-direction: row; 
+      overflow-x: auto; 
+      padding-bottom: 0.5rem;
+      scrollbar-width: none; 
+      gap: 0.75rem;
+    }
+    #sepsisOverlay .nav-list::-webkit-scrollbar { display: none; }
+    #sepsisOverlay .nav-list li { flex-shrink: 0; }
+    #sepsisOverlay .nav-list a { 
+      font-size: 0.75rem; 
+      padding: 0.5rem 1rem; 
+      background: var(--surface-2); 
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      white-space: nowrap;
+    }
+    #sepsisOverlay .nav-list a:hover, #sepsisOverlay .nav-list a:active {
+      background: var(--primary);
+      color: #fff;
+    }
+    #sepsisOverlay .hero { padding: 2.5rem 1rem 2rem; }
+    #sepsisOverlay .hero h1 { font-size: 1.8rem; }
+    #sepsisOverlay .page-wrap { padding: 1rem 1rem 4rem; }
+    #sepsisOverlay .acls-topbar { justify-content: space-between; padding: 0 5px; }
+    #sepsisOverlay .acls-topbar-title { font-size: 0.8rem; text-align: center; flex: 1; }
+    #sepsisOverlay .close-btn { width: 35px; height: 35px; font-size: 1.2rem; }
+  }
 
   /* Sidebar */
   #sepsisOverlay .sidebar { position: sticky; top: 72px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--r); padding: 1.25rem; box-shadow: var(--shadow-sm); }
@@ -454,8 +514,42 @@
   #sepsisOverlay .pill-red { background: var(--red-lt); color: var(--red); }
   #sepsisOverlay .pill-blue { background: var(--primary-lt); color: var(--primary); }
 
-  #sepsisOverlay footer { background: var(--surface); border-top: 1px solid var(--border); padding: 1.5rem; text-align: center; font-size: .78rem; color: var(--text-faint); margin-top: 2rem; }
+  #sepsisOverlay footer { background: var(--surface); border-top: 1px solid var(--border); padding: 1.5rem; text-align: center; font-size: 0.78rem; color: var(--text-faint); margin-top: 2rem; }
   #sepsisOverlay footer span { color: var(--primary); }
+
+  /* Smooth scrolling for inner container */
+  #sepsisOverlay .sepsis-content-wrap {
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Interactive feedback */
+  #sepsisOverlay .card, #sepsisOverlay .info-block {
+    transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.2s ease, background 0.2s ease;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+  #sepsisOverlay .card:hover {
+    background: var(--surface-2);
+    border-color: var(--primary);
+  }
+  #sepsisOverlay .card:active { transform: scale(0.97); }
+  
+  /* Section Spacing */
+  #sepsisOverlay .section {
+    background: var(--surface);
+    padding: 1.5rem;
+    border-radius: var(--r);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-sm);
+  }
+  @media(max-width:768px) {
+    #sepsisOverlay .section { padding: 1rem; border-radius: 0.5rem; }
+  }
+  
+  /* Modern Typography adjustments */
+  #sepsisOverlay .hero p { text-wrap: balance; }
+  #sepsisOverlay .logo-title { font-weight: 600; letter-spacing: -0.02em; }
 </style>
 </head>
 <body>
