@@ -1,0 +1,1163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Clinical Procedures | Interactive Study Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300..700&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --font-body: 'Inter', sans-serif;
+  --font-display: 'Outfit', sans-serif;
+  --space-1: 0.25rem; --space-2: 0.5rem; --space-3: 0.75rem; --space-4: 1rem;
+  --space-5: 1.25rem; --space-6: 1.5rem; --space-8: 2rem; --space-10: 2.5rem;
+  --space-12: 3rem; --space-16: 4rem;
+  --text-xs: clamp(0.75rem, 0.7rem + 0.25vw, 0.875rem);
+  --text-sm: clamp(0.875rem, 0.8rem + 0.35vw, 1rem);
+  --text-base: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
+  --text-lg: clamp(1.125rem, 1rem + 0.75vw, 1.5rem);
+  --text-xl: clamp(1.5rem, 1.2rem + 1.25vw, 2.25rem);
+  --radius-sm: 0.375rem; --radius-md: 0.5rem; --radius-lg: 0.75rem;
+  --radius-xl: 1rem; --radius-2xl: 1.5rem; --radius-full: 9999px;
+  --transition: 200ms cubic-bezier(0.16,1,0.3,1);
+  /* Vibrant palette */
+  --c-red: #ef4444; --c-red-bg: #fff1f1; --c-red-dark: #b91c1c;
+  --c-blue: #3b82f6; --c-blue-bg: #eff6ff; --c-blue-dark: #1d4ed8;
+  --c-green: #22c55e; --c-green-bg: #f0fdf4; --c-green-dark: #15803d;
+  --c-orange: #f97316; --c-orange-bg: #fff7ed; --c-orange-dark: #c2410c;
+  --c-purple: #a855f7; --c-purple-bg: #faf5ff; --c-purple-dark: #7e22ce;
+  --c-teal: #14b8a6; --c-teal-bg: #f0fdfa; --c-teal-dark: #0f766e;
+  --c-pink: #ec4899; --c-pink-bg: #fdf2f8; --c-pink-dark: #be185d;
+  --c-amber: #f59e0b; --c-amber-bg: #fffbeb; --c-amber-dark: #b45309;
+  --c-indigo: #6366f1; --c-indigo-bg: #eef2ff; --c-indigo-dark: #4338ca;
+  --c-cyan: #06b6d4; --c-cyan-bg: #ecfeff; --c-cyan-dark: #0e7490;
+  --c-lime: #84cc16; --c-lime-bg: #f7fee7; --c-lime-dark: #4d7c0f;
+  --c-rose: #f43f5e; --c-rose-bg: #fff1f2; --c-rose-dark: #be123c;
+  /* Chapter gradient themes */
+  --g1: linear-gradient(135deg,#ef4444,#f97316);
+  --g2: linear-gradient(135deg,#3b82f6,#06b6d4);
+  --g3: linear-gradient(135deg,#22c55e,#14b8a6);
+  --g4: linear-gradient(135deg,#a855f7,#6366f1);
+  --g5: linear-gradient(135deg,#f97316,#f59e0b);
+  --g6: linear-gradient(135deg,#14b8a6,#22c55e);
+  --g7: linear-gradient(135deg,#64748b,#475569);
+  --g8: linear-gradient(135deg,#f59e0b,#f97316);
+  --g9: linear-gradient(135deg,#06b6d4,#3b82f6);
+  --g10: linear-gradient(135deg,#ec4899,#a855f7);
+  --g11: linear-gradient(135deg,#1e293b,#334155);
+  --g12: linear-gradient(135deg,#94a3b8,#64748b);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:none;text-size-adjust:none}
+body{font-family:var(--font-body);background:#f1f5f9;color:#1e293b;line-height:1.6;min-height:100dvh;font-size:var(--text-base);-webkit-font-smoothing:antialiased}
+img,svg{display:block;max-width:100%;height:auto}
+button{cursor:pointer;background:none;border:none;font:inherit;color:inherit}
+a{color:inherit;text-decoration:none}
+ul{list-style:none}
+
+/* ============ LAYOUT ============ */
+.app{display:flex;min-height:100dvh}
+
+/* ============ SIDEBAR ============ */
+.sidebar{
+  width:300px;flex-shrink:0;
+  background:linear-gradient(180deg,#0f172a 0%,#1e293b 100%);
+  color:#f8fafc;
+  position:sticky;top:0;height:100dvh;
+  overflow-y:auto;z-index:100;
+  display:flex;flex-direction:column;
+  scrollbar-width:thin;scrollbar-color:rgba(255,255,255,0.15) transparent;
+}
+.sidebar::-webkit-scrollbar{width:4px}
+.sidebar::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.15);border-radius:var(--radius-full)}
+
+.sidebar-header{
+  padding:var(--space-5) var(--space-4);
+  border-bottom:1px solid rgba(255,255,255,0.08);
+  position:sticky;top:0;z-index:1;
+  background:linear-gradient(180deg,#0f172a,#1e293b);
+}
+.logo-row{display:flex;align-items:center;gap:var(--space-3);margin-bottom:var(--space-3)}
+.logo-icon{
+  width:40px;height:40px;border-radius:var(--radius-md);
+  background:linear-gradient(135deg,#3b82f6,#a855f7);
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.2rem;flex-shrink:0;
+}
+.logo-text{font-family:var(--font-display);font-size:1.05rem;font-weight:700;line-height:1.2}
+.logo-sub{font-size:var(--text-xs);color:rgba(255,255,255,0.5);margin-top:var(--space-1)}
+
+.search-wrap{position:relative}
+.search-wrap input{
+  width:100%;padding:var(--space-2) var(--space-4) var(--space-2) var(--space-8);
+  background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);
+  border-radius:var(--radius-full);color:#f8fafc;font-size:var(--text-xs);
+  transition:var(--transition);outline:none;
+}
+.search-wrap input::placeholder{color:rgba(255,255,255,0.4)}
+.search-wrap input:focus{background:rgba(255,255,255,0.14);border-color:rgba(255,255,255,0.25)}
+.search-icon{position:absolute;left:var(--space-3);top:50%;transform:translateY(-50%);opacity:0.45;font-size:0.85rem}
+
+.chapter-list{padding:var(--space-2) 0 var(--space-4)}
+.chapter-btn{
+  width:100%;text-align:left;padding:var(--space-3) var(--space-4);
+  background:transparent;color:rgba(255,255,255,0.75);
+  font-size:var(--text-xs);cursor:pointer;
+  display:flex;align-items:center;gap:var(--space-3);
+  border-left:3px solid transparent;
+  transition:var(--transition);border-radius:0 var(--radius-md) var(--radius-md) 0;
+  position:relative;
+}
+.chapter-btn:hover{background:rgba(255,255,255,0.07);color:#fff;border-left-color:rgba(255,255,255,0.3)}
+.chapter-btn.active{background:rgba(59,130,246,0.2);color:#fff;border-left-color:#3b82f6;font-weight:600}
+.ch-num{
+  width:28px;height:28px;border-radius:var(--radius-sm);
+  display:flex;align-items:center;justify-content:center;
+  font-size:0.65rem;font-weight:700;flex-shrink:0;
+  background:rgba(255,255,255,0.1);
+}
+.chapter-btn.active .ch-num{background:linear-gradient(135deg,#3b82f6,#a855f7);color:#fff}
+.ch-title{flex:1;line-height:1.3}
+.ch-pages{font-size:0.6rem;color:rgba(255,255,255,0.35)}
+
+/* ============ MAIN ============ */
+.main{flex:1;overflow-y:auto;max-height:100dvh;scroll-behavior:smooth;position:relative}
+
+/* TOP BAR */
+.topbar{
+  position:sticky;top:0;z-index:50;
+  background:rgba(241,245,249,0.9);backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
+  border-bottom:1px solid #e2e8f0;
+  padding:var(--space-3) var(--space-5);
+  display:flex;align-items:center;gap:var(--space-4);
+}
+.menu-btn{
+  display:none;width:40px;height:40px;border-radius:var(--radius-md);
+  background:#1e293b;color:#fff;font-size:1.2rem;
+  align-items:center;justify-content:center;flex-shrink:0;
+}
+.topbar-title{font-family:var(--font-display);font-weight:700;font-size:var(--text-sm);color:#1e293b;flex:1}
+.progress-info{display:flex;align-items:center;gap:var(--space-2);font-size:var(--text-xs);color:#64748b}
+.progress-bar-wrap{width:80px;height:6px;background:#e2e8f0;border-radius:var(--radius-full);overflow:hidden}
+.progress-bar{height:100%;background:linear-gradient(90deg,#3b82f6,#a855f7);border-radius:var(--radius-full);transition:width 0.5s ease}
+
+/* ============ CONTENT ============ */
+.content{padding:var(--space-6) var(--space-5) var(--space-16)}
+
+/* Hero Stats */
+.stats-row{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:var(--space-3);
+  margin-bottom:var(--space-6);
+}
+.stat-card{
+  background:#fff;border-radius:var(--radius-xl);padding:var(--space-4);
+  box-shadow:0 1px 3px rgba(0,0,0,0.06),0 4px 12px rgba(0,0,0,0.04);
+  display:flex;flex-direction:column;align-items:center;text-align:center;gap:var(--space-1);
+}
+.stat-icon{font-size:1.5rem}
+.stat-val{font-family:var(--font-display);font-size:var(--text-lg);font-weight:800;color:#1e293b}
+.stat-label{font-size:var(--text-xs);color:#64748b}
+
+/* Chapter Card */
+.chapter-card{
+  background:#fff;border-radius:var(--radius-2xl);
+  margin-bottom:var(--space-5);
+  box-shadow:0 2px 8px rgba(0,0,0,0.06),0 8px 24px rgba(0,0,0,0.04);
+  overflow:hidden;scroll-margin-top:80px;
+  transition:transform 0.2s,box-shadow 0.2s;
+}
+.chapter-card:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,0.1),0 16px 48px rgba(0,0,0,0.06)}
+
+.card-header{
+  padding:var(--space-5) var(--space-6);
+  display:flex;align-items:center;gap:var(--space-4);
+  color:#fff;position:relative;overflow:hidden;
+}
+.card-header::before{
+  content:'';position:absolute;inset:0;
+  background:rgba(255,255,255,0.05);
+  mask:radial-gradient(circle at 80% 50%,black,transparent 70%);
+}
+.header-icon{
+  width:52px;height:52px;border-radius:var(--radius-lg);
+  background:rgba(255,255,255,0.2);backdrop-filter:blur(8px);
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.5rem;flex-shrink:0;
+}
+.header-text{flex:1;min-width:0}
+.header-text h3{font-family:var(--font-display);font-size:var(--text-lg);font-weight:700;line-height:1.2;margin-bottom:var(--space-1)}
+.header-text .meta{font-size:var(--text-xs);opacity:0.8;display:flex;align-items:center;gap:var(--space-3);flex-wrap:wrap}
+.page-badge{
+  background:rgba(255,255,255,0.2);backdrop-filter:blur(4px);
+  padding:0.2rem 0.7rem;border-radius:var(--radius-full);
+  font-size:0.65rem;font-weight:600;letter-spacing:0.03em;
+}
+.complete-btn{
+  width:36px;height:36px;border-radius:var(--radius-full);
+  background:rgba(255,255,255,0.2);backdrop-filter:blur(8px);
+  display:flex;align-items:center;justify-content:center;font-size:1.1rem;
+  transition:var(--transition);flex-shrink:0;
+}
+.complete-btn:hover{background:rgba(255,255,255,0.35);transform:scale(1.1)}
+.complete-btn.done{background:rgba(255,255,255,0.9);color:#1e293b}
+
+.card-content{padding:var(--space-5) var(--space-6)}
+
+/* ============ INFO GRID ============ */
+.info-grid{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(min(260px,100%),1fr));
+  gap:var(--space-3);margin-bottom:var(--space-3);
+}
+.info-card{
+  border-radius:var(--radius-lg);padding:var(--space-4);
+  border:1.5px solid transparent;
+}
+.info-card h4{
+  font-family:var(--font-display);font-size:0.9rem;font-weight:700;
+  margin-bottom:var(--space-2);display:flex;align-items:center;gap:var(--space-2);
+}
+.info-card p{font-size:var(--text-sm);line-height:1.6}
+
+/* Card color variants */
+.blue-card{background:var(--c-blue-bg);border-color:rgba(59,130,246,0.2);color:#1e3a5f}
+.blue-card h4{color:var(--c-blue-dark)}
+.red-card{background:var(--c-red-bg);border-color:rgba(239,68,68,0.2);color:#450a0a}
+.red-card h4{color:var(--c-red-dark)}
+.green-card{background:var(--c-green-bg);border-color:rgba(34,197,94,0.2);color:#052e16}
+.green-card h4{color:var(--c-green-dark)}
+.orange-card{background:var(--c-orange-bg);border-color:rgba(249,115,22,0.2);color:#431407}
+.orange-card h4{color:var(--c-orange-dark)}
+.purple-card{background:var(--c-purple-bg);border-color:rgba(168,85,247,0.2);color:#3b0764}
+.purple-card h4{color:var(--c-purple-dark)}
+.teal-card{background:var(--c-teal-bg);border-color:rgba(20,184,166,0.2);color:#042f2e}
+.teal-card h4{color:var(--c-teal-dark)}
+.pink-card{background:var(--c-pink-bg);border-color:rgba(236,72,153,0.2);color:#500724}
+.pink-card h4{color:var(--c-pink-dark)}
+
+/* Lists */
+.dot-list{padding-left:var(--space-4)}
+.dot-list li{font-size:var(--text-sm);padding:var(--space-1) 0;position:relative;list-style:disc}
+.dot-list li::marker{color:currentColor;opacity:0.5}
+.dot-list li strong{font-weight:600}
+.checklist{padding-left:0}
+.checklist li{
+  font-size:var(--text-sm);padding:var(--space-2) 0 var(--space-2) var(--space-6);
+  position:relative;border-bottom:1px solid rgba(0,0,0,0.04);
+}
+.checklist li:last-child{border-bottom:none}
+.checklist li::before{
+  content:"âœ“";position:absolute;left:0;
+  font-weight:700;font-size:0.8rem;opacity:0.7;
+}
+ol{padding-left:var(--space-5)}
+ol li{font-size:var(--text-sm);padding:var(--space-1) 0}
+
+/* Alert boxes */
+.danger-box{
+  background:linear-gradient(135deg,#fff1f1,#fff5f5);
+  border:2px solid rgba(239,68,68,0.3);
+  border-radius:var(--radius-lg);padding:var(--space-4);
+  font-size:var(--text-sm);color:#7f1d1d;
+  margin-top:var(--space-3);font-weight:500;
+  display:flex;align-items:flex-start;gap:var(--space-3);
+}
+.pearl-box{
+  background:linear-gradient(135deg,#fffbeb,#fef9c3);
+  border:2px solid rgba(234,179,8,0.3);
+  border-radius:var(--radius-lg);padding:var(--space-4);
+  font-size:var(--text-sm);color:#713f12;
+  margin-top:var(--space-3);font-weight:500;
+  display:flex;align-items:flex-start;gap:var(--space-3);
+}
+.danger-box::before{content:"ðŸš¨";flex-shrink:0;font-size:1.1rem}
+.pearl-box::before{content:"ðŸ’¡";flex-shrink:0;font-size:1.1rem}
+
+/* ============ SCROLL TOP ============ */
+.scroll-top{
+  position:fixed;bottom:var(--space-6);right:var(--space-5);
+  width:48px;height:48px;border-radius:var(--radius-full);
+  background:linear-gradient(135deg,#3b82f6,#a855f7);
+  color:#fff;font-size:1.2rem;
+  box-shadow:0 4px 16px rgba(59,130,246,0.4);
+  display:flex;align-items:center;justify-content:center;
+  z-index:200;opacity:0;pointer-events:none;
+  transition:opacity 0.3s,transform 0.3s;transform:translateY(8px);
+}
+.scroll-top.visible{opacity:1;pointer-events:auto;transform:translateY(0)}
+
+/* ============ MOBILE OVERLAY ============ */
+.sidebar-overlay{
+  display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);
+  z-index:99;backdrop-filter:blur(4px);
+}
+
+/* ============ MOBILE BOTTOM NAV ============ */
+.mobile-nav{
+  display:none;position:fixed;bottom:0;left:0;right:0;z-index:150;
+  background:rgba(15,23,42,0.95);backdrop-filter:blur(16px);
+  border-top:1px solid rgba(255,255,255,0.08);
+  padding:var(--space-2) var(--space-4) env(safe-area-inset-bottom,var(--space-2));
+  flex-direction:row;align-items:center;justify-content:space-between;gap:var(--space-2);
+}
+.mob-nav-btn{
+  display:flex;flex-direction:column;align-items:center;gap:2px;
+  color:rgba(255,255,255,0.5);font-size:0.6rem;font-weight:500;
+  padding:var(--space-2) var(--space-3);border-radius:var(--radius-md);
+  transition:var(--transition);min-width:48px;
+}
+.mob-nav-btn span:first-child{font-size:1.2rem}
+.mob-nav-btn.active{color:#3b82f6;background:rgba(59,130,246,0.12)}
+
+/* ============ SEARCH OVERLAY ============ */
+.search-overlay{
+  display:none;position:fixed;inset:0;z-index:300;
+  background:rgba(0,0,0,0.6);backdrop-filter:blur(8px);
+  align-items:flex-start;justify-content:center;padding:var(--space-16) var(--space-4) var(--space-4);
+}
+.search-overlay.open{display:flex}
+.search-box{
+  background:#fff;border-radius:var(--radius-xl);width:100%;max-width:600px;
+  overflow:hidden;box-shadow:0 24px 64px rgba(0,0,0,0.2);
+}
+.search-box-input{
+  width:100%;padding:var(--space-4) var(--space-5);font-size:var(--text-base);
+  border:none;outline:none;border-bottom:1px solid #e2e8f0;
+}
+.search-results{max-height:60vh;overflow-y:auto}
+.search-result-item{
+  padding:var(--space-3) var(--space-5);display:flex;align-items:center;gap:var(--space-3);
+  cursor:pointer;border-bottom:1px solid #f1f5f9;transition:var(--transition);
+}
+.search-result-item:hover{background:#f8fafc}
+.search-result-icon{width:36px;height:36px;border-radius:var(--radius-md);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0}
+.search-result-title{font-weight:600;font-size:var(--text-sm)}
+.search-result-sub{font-size:var(--text-xs);color:#64748b}
+
+/* ============ DARK MODE ============ */
+[data-theme="dark"]{
+  --bg:#0f172a;--surface:#1e293b;--surface2:#263449;
+  --text:#e2e8f0;--text-muted:#94a3b8;--border:rgba(255,255,255,0.08);
+}
+[data-theme="dark"] body{background:var(--bg);color:var(--text)}
+[data-theme="dark"] .main{background:var(--bg)}
+[data-theme="dark"] .topbar{background:rgba(15,23,42,0.9);border-color:var(--border)}
+[data-theme="dark"] .topbar-title{color:var(--text)}
+[data-theme="dark"] .progress-info{color:var(--text-muted)}
+[data-theme="dark"] .progress-bar-wrap{background:rgba(255,255,255,0.1)}
+[data-theme="dark"] .chapter-card{background:var(--surface);box-shadow:0 2px 8px rgba(0,0,0,0.3)}
+[data-theme="dark"] .chapter-card:hover{box-shadow:0 8px 32px rgba(0,0,0,0.4)}
+[data-theme="dark"] .stat-card{background:var(--surface);box-shadow:0 2px 8px rgba(0,0,0,0.3)}
+[data-theme="dark"] .stat-val{color:var(--text)}
+[data-theme="dark"] .stat-label{color:var(--text-muted)}
+[data-theme="dark"] .blue-card{background:rgba(59,130,246,0.12);border-color:rgba(59,130,246,0.25);color:#bfdbfe}
+[data-theme="dark"] .blue-card h4{color:#93c5fd}
+[data-theme="dark"] .red-card{background:rgba(239,68,68,0.12);border-color:rgba(239,68,68,0.25);color:#fecaca}
+[data-theme="dark"] .red-card h4{color:#fca5a5}
+[data-theme="dark"] .green-card{background:rgba(34,197,94,0.12);border-color:rgba(34,197,94,0.25);color:#bbf7d0}
+[data-theme="dark"] .green-card h4{color:#86efac}
+[data-theme="dark"] .orange-card{background:rgba(249,115,22,0.12);border-color:rgba(249,115,22,0.25);color:#fed7aa}
+[data-theme="dark"] .orange-card h4{color:#fdba74}
+[data-theme="dark"] .purple-card{background:rgba(168,85,247,0.12);border-color:rgba(168,85,247,0.25);color:#e9d5ff}
+[data-theme="dark"] .purple-card h4{color:#d8b4fe}
+[data-theme="dark"] .danger-box{background:rgba(239,68,68,0.1);border-color:rgba(239,68,68,0.3);color:#fca5a5}
+[data-theme="dark"] .pearl-box{background:rgba(234,179,8,0.1);border-color:rgba(234,179,8,0.3);color:#fde68a}
+[data-theme="dark"] .checklist li{border-bottom-color:rgba(255,255,255,0.05)}
+
+/* ============ RESPONSIVE ============ */
+@media (max-width:1024px){
+  .sidebar{width:270px}
+  .stats-row{grid-template-columns:repeat(2,1fr)}
+}
+@media (max-width:768px){
+  .sidebar{
+    position:fixed;top:0;left:0;bottom:0;
+    transform:translateX(-100%);transition:transform 0.3s cubic-bezier(0.16,1,0.3,1);
+    z-index:200;width:min(85vw,320px);
+  }
+  .sidebar.open{transform:translateX(0)}
+  .sidebar-overlay{display:block}
+  .sidebar-overlay.active{display:block}
+  .menu-btn{display:flex}
+  .main{max-height:100dvh}
+  .content{padding:var(--space-4) var(--space-4) 100px}
+  .stats-row{grid-template-columns:repeat(2,1fr);gap:var(--space-2)}
+  .card-header{padding:var(--space-4)}
+  .card-content{padding:var(--space-4)}
+  .info-grid{grid-template-columns:1fr}
+  .topbar{padding:var(--space-3) var(--space-4)}
+  .mobile-nav{display:flex}
+  .scroll-top{bottom:80px;right:var(--space-4)}
+}
+@media (max-width:480px){
+  .stats-row{grid-template-columns:repeat(2,1fr)}
+  .card-header h3{font-size:1rem}
+  .header-icon{width:42px;height:42px;font-size:1.2rem}
+}
+
+/* Animations */
+@keyframes fadeInUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+@keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
+.chapter-card{animation:fadeInUp 0.4s cubic-bezier(0.16,1,0.3,1) both}
+.chapter-card:nth-child(1){animation-delay:0.05s}
+.chapter-card:nth-child(2){animation-delay:0.1s}
+.chapter-card:nth-child(3){animation-delay:0.15s}
+
+/* Theme toggle */
+.theme-toggle{
+  width:36px;height:36px;border-radius:var(--radius-full);
+  background:rgba(255,255,255,0.1);color:#fff;
+  display:flex;align-items:center;justify-content:center;
+  font-size:1rem;transition:var(--transition);
+}
+.theme-toggle:hover{background:rgba(255,255,255,0.2)}
+
+/* Tag pills */
+.tag{
+  display:inline-flex;align-items:center;gap:var(--space-1);
+  padding:0.15rem 0.6rem;border-radius:var(--radius-full);
+  font-size:0.65rem;font-weight:600;letter-spacing:0.03em;
+  background:rgba(255,255,255,0.15);color:rgba(255,255,255,0.9);
+}
+
+/* Category sections */
+.section-divider{
+  display:flex;align-items:center;gap:var(--space-3);
+  margin:var(--space-6) 0 var(--space-4);
+}
+.section-divider span{
+  font-family:var(--font-display);font-size:var(--text-xs);font-weight:700;
+  text-transform:uppercase;letter-spacing:0.08em;color:#64748b;white-space:nowrap;
+}
+.section-divider::before,.section-divider::after{
+  content:'';flex:1;height:1px;background:#e2e8f0;
+}
+[data-theme="dark"] .section-divider span{color:#94a3b8}
+[data-theme="dark"] .section-divider::before,[data-theme="dark"] .section-divider::after{background:rgba(255,255,255,0.08)}
+
+/* Highlight */
+strong{font-weight:600}
+
+/* Empty search state */
+.no-results{
+  text-align:center;padding:var(--space-12) var(--space-8);
+  color:#94a3b8;
+}
+.no-results .icon{font-size:3rem;margin-bottom:var(--space-3)}
+.no-results p{font-size:var(--text-sm)}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:0.01ms!important;transition-duration:0.01ms!important}
+}
+</style>
+</head>
+<body>
+
+<div class="sidebar-overlay" id="overlay" onclick="closeSidebar()"></div>
+
+<div class="app">
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <div class="logo-row">
+        <div class="logo-icon">ðŸ©º</div>
+        <div>
+          <div class="logo-text">ClinProcedures</div>
+          <div class="logo-sub">Dehn &amp; Asprey 4th Ed.</div>
+        </div>
+        <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" aria-label="Toggle theme">ðŸŒ™</button>
+      </div>
+      <div class="search-wrap">
+        <span class="search-icon">ðŸ”</span>
+        <input type="text" id="sidebarSearch" placeholder="Search chaptersâ€¦" oninput="filterChapters(this.value)" autocomplete="off">
+      </div>
+    </div>
+    <div class="chapter-list" id="chapterList"></div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main" id="mainContent">
+    <div class="topbar">
+      <button class="menu-btn" onclick="openSidebar()" aria-label="Open menu">â˜°</button>
+      <div class="topbar-title">ðŸ©º Essential Clinical Procedures</div>
+      <div class="progress-info">
+        <span id="progressText">0/40</span>
+        <div class="progress-bar-wrap"><div class="progress-bar" id="progressBar" style="width:0%"></div></div>
+      </div>
+    </div>
+
+    <div class="content" id="contentArea">
+      <!-- Stats row -->
+      <div class="stats-row">
+        <div class="stat-card"><span class="stat-icon">ðŸ“š</span><span class="stat-val">40</span><span class="stat-label">Chapters</span></div>
+        <div class="stat-card"><span class="stat-icon">ðŸ“„</span><span class="stat-val">400+</span><span class="stat-label">Pages</span></div>
+        <div class="stat-card"><span class="stat-icon">âœ…</span><span class="stat-val" id="completedCount">0</span><span class="stat-label">Completed</span></div>
+        <div class="stat-card"><span class="stat-icon">â­</span><span class="stat-val" id="starredCount">0</span><span class="stat-label">Starred</span></div>
+      </div>
+      <!-- Chapters rendered here -->
+      <div id="chaptersContainer"></div>
+    </div>
+  </main>
+</div>
+
+<!-- Scroll top -->
+<button class="scroll-top" id="scrollTopBtn" onclick="scrollToTop()" aria-label="Scroll to top">â¬†</button>
+
+<!-- Mobile bottom nav -->
+<nav class="mobile-nav">
+  <button class="mob-nav-btn active" id="mobAll" onclick="mobNav('all')"><span>ðŸ“š</span><span>All</span></button>
+  <button class="mob-nav-btn" id="mobSearch" onclick="openSearchOverlay()"><span>ðŸ”</span><span>Search</span></button>
+  <button class="mob-nav-btn" id="mobMenu" onclick="openSidebar()"><span>â˜°</span><span>Chapters</span></button>
+  <button class="mob-nav-btn" id="mobDark" onclick="toggleTheme()"><span id="mobDarkIcon">ðŸŒ™</span><span>Theme</span></button>
+</nav>
+
+<!-- Search overlay (mobile) -->
+<div class="search-overlay" id="searchOverlay" onclick="closeSearchOverlay(event)">
+  <div class="search-box">
+    <input type="text" class="search-box-input" id="overlaySearchInput" placeholder="Search proceduresâ€¦" oninput="overlaySearch(this.value)" autocomplete="off">
+    <div class="search-results" id="overlaySearchResults"></div>
+  </div>
+</div>
+
+<script>
+const chapters = [
+        { num: "01", title: "Anoscopy", startPage: "1", endPage: "5", color: "c1",
+          content: `
+            <div class="info-grid">
+                <div class="info-card blue-card"><h4>ðŸ“Œ Indications</h4><ul class="dot-list"><li>Rectal bleeding</li><li>Anorectal pain, pruritus, discharge</li><li>Mass detected on DRE</li><li>Foreign body removal / biopsy</li></ul></div>
+                <div class="info-card red-card"><h4>â›” Contraindications</h4><ul class="dot-list"><li>Severe rectal pain / perirectal abscess</li><li>Acutely thrombosed hemorrhoid</li><li>Acute anal fissure (severe discomfort)</li><li>Recent anorectal surgery</li></ul></div>
+            </div>
+            <div class="info-grid">
+                <div class="info-card green-card"><h4>ðŸ“ Anatomy Pearl</h4><p><strong>Dentate line:</strong> Squamous epithelium below, columnar above.<br><strong>Anorectal ring:</strong> Palpable â€” key for continence.<br>Internal hemorrhoids â†’ portal drainage. External â†’ systemic.</p></div>
+                <div class="info-card orange-card"><h4>ðŸ› ï¸ Procedure Steps</h4><ul class="checklist"><li>Lateral decubitus or lithotomy</li><li>Digital rectal exam first</li><li>Lubricated anoscope with obturator</li><li>Remove obturator â†’ rotate 360Â° for full view</li><li>Biopsy if needed â†’ control bleeding with silver nitrate</li></ul></div>
+            </div>
+            <div class="danger-box">âš ï¸ Complication: Bleeding (rare) â€” usually self-limited. Avoid in severe coagulopathy.</div>
+            <div class="pearl-box">ðŸ’¡ Tip: Ask patient to bear down during inspection â€” may reveal prolapsing hemorrhoids.</div>
+          ` },
+        { num: "02", title: "Arterial Puncture (ABG)", startPage: "6", endPage: "13", color: "c2",
+          content: `
+            <div class="info-grid">
+                <div class="info-card blue-card"><h4>ðŸ“Œ Indications</h4><ul class="dot-list"><li>Respiratory failure / COPD exacerbation</li><li>Coma of unknown cause / overdose</li><li>Shock states / cardiac arrhythmias</li><li>Monitor oxygen therapy response</li><li>Lactate, COHb levels (arterial preferred)</li></ul></div>
+                <div class="info-card red-card"><h4>ðŸš« Contraindications</h4><ul class="dot-list"><li>Non-palpable arterial pulse</li><li><strong>Negative Allen test</strong> (collateral circulation absent)</li><li>AV shunt / infection at site</li><li>Severe coagulopathy</li></ul></div>
+            </div>
+            <div class="info-grid">
+                <div class="info-card purple-card"><h4>ðŸ–ï¸ Modified Allen Test</h4><p>Occlude radial + ulnar â†’ release ulnar only. <strong>Color return within 5-15 seconds = positive = safe for radial puncture.</strong></p></div>
+                <div class="info-card green-card"><h4>âœ… Best Practice</h4><ul class="checklist"><li>Radial artery first choice (lowest complications)</li><li>Needle 21-25G, pre-heparinized syringe</li><li>Insert at 40-60Â° angle</li><li>Apply pressure â‰¥10 minutes post-procedure</li><li>Place on ice â†’ analyze within 30 minutes</li></ul></div>
+            </div>
+            <div class="danger-box">ðŸ”¥ Negative Allen test = DO NOT puncture radial artery (risk of hand ischemia/gangrene). Use brachial or femoral artery instead.</div>
+          ` },
+        { num: "03", title: "Blood Pressure Measurement", startPage: "14", endPage: "24", color: "c3",
+          content: `
+            <div class="info-grid">
+                <div class="info-card blue-card"><h4>ðŸ“ Cuff Size Rule</h4><p>Bladder length = 80% of arm circumference.<br>Bladder width = 40% of arm circumference.<br><strong>Too small â†’ falsely high BP | Too large â†’ falsely low BP.</strong></p></div>
+                <div class="info-card orange-card"><h4>ðŸŽ§ Korotkoff Sounds</h4><ul class="dot-list"><li><strong>Phase I:</strong> First tapping â†’ Systolic</li><li><strong>Phase IV:</strong> Muffling</li><li><strong>Phase V:</strong> Disappearance â†’ Diastolic</li></ul></div>
+            </div>
+            <div class="info-grid">
+                <div class="info-card green-card"><h4>ðŸ“Š ACC/AHA 2017 Classification</h4><ul class="dot-list"><li>Normal: &lt;120/80</li><li>Elevated: 120-129 / &lt;80</li><li>Stage 1 HTN: 130-139 / 80-89</li><li>Stage 2 HTN: â‰¥140 / â‰¥90</li><li>Hypertensive crisis: â‰¥180 / â‰¥120</li></ul></div>
+                <div class="info-card red-card"><h4>âš ï¸ Common Errors</h4><ul class="dot-list"><li>Arm below heart â†’ falsely high</li><li>Arm above heart â†’ falsely low</li><li>Talking during measurement</li><li>Rapid cuff deflation</li><li>Crossing legs</li></ul></div>
+            </div>
+            <div class="pearl-box">ðŸ©º Orthostatic BP: Supine â†’ sitting â†’ standing (1 & 3 min). Abnormal = drop >20 mmHg systolic with symptoms.</div>
+          ` },
+        { num: "04", title: "Casting & Splinting", startPage: "27", endPage: "45", color: "c4",
+          content: `
+            <div class="info-grid">
+                <div class="info-card red-card"><h4>ðŸš¨ Compartment Syndrome (EMERGENCY)</h4><ul class="dot-list"><li>Pain out of proportion</li><li>Pain with passive stretch of digits</li><li>Paresthesias â†’ then pallor, pulselessness (late signs)</li><li><strong>Treatment: Bivalve cast immediately â†’ fasciotomy</strong></li></ul></div>
+                <div class="info-card blue-card"><h4>âš¡ Plaster vs Fiberglass</h4><ul class="dot-list"><li>Plaster: better molding, heavy, not water-resistant, longer drying</li><li>Fiberglass: light, water-resistant, less exothermic, quicker set</li></ul></div>
+            </div>
+            <div class="info-grid">
+                <div class="info-card green-card"><h4>âœ… Post-Casting Instructions</h4><ul class="checklist"><li>Elevate extremity 24-48 hours</li><li>Keep cast dry (cast bag for shower)</li><li>Never insert objects inside cast (no coat hangers!)</li><li>Return immediately for numbness, increased pain, swelling</li></ul></div>
+                <div class="info-card orange-card"><h4>ðŸ› ï¸ Cast Removal</h4><p>Oscillating saw (vibrates, does NOT spin). Cut along both sides â†’ cast spreader â†’ remove padding.</p></div>
+            </div>
+            <div class="danger-box">ðŸ¦µ Short-leg cast: ankle at strict 90Â° flexion to prevent equinus deformity (toe walking).</div>
+          ` },
+        { num: "05", title: "Cryosurgery", startPage: "46", endPage: "52", color: "c5",
+          content: `
+            <div class="info-grid">
+                <div class="info-card blue-card"><h4>ðŸ“Œ Indications</h4><ul class="dot-list"><li>Verrucae (warts)</li><li>Actinic keratosis</li><li>Seborrheic keratosis</li><li>Condyloma acuminata</li><li>Molluscum contagiosum, skin tags</li></ul></div>
+                <div class="info-card red-card"><h4>â›” Contraindications</h4><ul class="dot-list"><li>Undiagnosed pigmented lesion (melanoma)</li><li>Recurrent basal cell carcinoma</li><li>Cryoglobulinemia, Raynaud's phenomenon</li><li>Dark skin (high risk of hypopigmentation)</li></ul></div>
+            </div>
+            <div class="info-grid">
+                <div class="info-card green-card"><h4>â„ï¸ Technique</h4><ul class="dot-list"><li>Liquid nitrogen preferred (-196Â°C)</li><li>Spray or cotton-tip application</li><li>Halo size: 1-2 mm for warts, 1 mm for AK</li><li>Freeze-thaw cycle: 5-15 seconds</li><li>Deep freeze = 1.5Ã— lateral spread</li></ul></div>
+                <div class="info-card orange-card"><h4>âš ï¸ Complications</h4><ul class="dot-list"><li>Hypopigmentation / hyperpigmentation</li><li>Blister formation (leave intact if possible)</li><li>Scarring, infection, hair loss</li></ul></div>
+            </div>
+            <div class="pearl-box">ðŸ’¡ Better to undertreat (can retreat) than overtreat â€” scarring and pigment changes may be permanent.</div>
+          ` },
+        { num: "06", title: "Dermatologic Procedures", startPage: "53", endPage: "70", color: "c6",
+          content: `
+            <div class="info-grid">
+                <div class="info-card blue-card"><h4>ðŸ”¬ Biopsy Types</h4><ul class="dot-list"><li><strong>Shave:</strong> Epidermis + upper dermis (warts, seborrheic keratosis)</li><li><strong>Punch:</strong> 3-8 mm full thickness (incisional or excisional)</li><li><strong>Excisional:</strong> Complete removal with margins (>8 mm, melanoma)</li></ul></div>
+                <div class="info-card red-card"><h4>ðŸš« Shave Contraindications</h4><ul class="dot-list"><li>Suspected melanoma</li><li>Atypical nevi</li><li>Large dermal lesions</li><li>Hairy nevi (retained hair follicles)</li></ul></div>
+            </div>
+            <div class="info-grid">
+                <div class="info-card green-card"><h4>ðŸ©¸ Hemostasis</h4><ul class="dot-list"><li>Aluminum chloride 20% (Drysol) â€” no tattoo, preferred</li><li>Silver nitrate / Monsel solution â€” may tattoo skin</li><li>Electrocautery for brisk bleeding</li></ul></div>
+                <div class="info-card purple-card"><h4>ðŸ§µ Suture Removal Timeline</h4><ul class="dot-list"><li>Face: 3-5 days</li><li>Scalp: 7-10 days</li><li>Trunk: 10-14 days</li><li>Extremities: 10-14 days</li><li>Distal lower extremity: 10-21 days</li></ul></div>
+            </div>
+            <div class="danger-box">âš ï¸ Never shave a pigmented lesion suspicious for melanoma â€” perform excisional biopsy with 1-3 mm margins.</div>
+          ` },
+        { num: "07", title: "Subungual Hematoma", startPage: "71", endPage: "75", color: "c7",
+          content: `
+            <div class="info-grid">
+                <div class="info-card blue-card"><h4>ðŸ“Œ Indications for Trephination</h4><ul class="dot-list"><li>Painful, visible subungual hematoma</li><li>Pressure relief to prevent nail deformity</li><li>Usually >50% of nail involved</li></ul></div>
+                <div class="info-card red-card"><h4>â›” Relative Contraindications</h4><ul class="dot-list"><li>Distal phalanx fracture (can become open fracture)</li><li>Crushed or severely disrupted nail</li><li>Suspected subungual melanoma</li><li>Artificial acrylic nails (flammable with heat)</li></ul></div>
+            </div>
+            <div class="info-grid">
+                <div class="info-card green-card"><h4>ðŸ› ï¸ Trephination Methods</h4><ul class="dot-list"><li><strong>Cautery:</strong> Heated paperclip or microcautery â€” 1-2 mm hole</li><li><strong>Needle:</strong> 18G needle with rotary motion (digital block often needed)</li><li><strong>Electrocautery unit:</strong> Preferred for controlled depth</li></ul></div>
+                <div class="info-card orange-card"><h4>âš ï¸ Complications</h4><ul class="dot-list"><li>Permanent nail deformity</li><li>Infection (rare)</li><li>Nail bed burn (with cautery)</li></ul></div>
+            </div>
+            <div class="danger-box">ðŸ”¥ 32% of subungual hematomas have associated distal phalanx fracture â€” obtain X-ray before trephination.</div>
+          ` },
+        { num: "08", title: "Endometrial Biopsy", startPage: "77", endPage: "85", color: "c8",
+          content: `
+            <div class="info-grid">
+                <div class="info-card blue-card"><h4>ðŸ“Œ Indications</h4><ul class="dot-list"><li>Postmenopausal bleeding</li><li>Abnormal uterine bleeding >35 years</li><li>Atypical glandular cells on Pap</li><li>Follow-up for endometrial hyperplasia</li><li>Lynch syndrome screening (annual starting age 35)</li></ul></div>
+                <div class="info-card red-card"><h4>ðŸš« Contraindications</h4><ul class="dot-list"><li>Pregnancy (absolute)</li><li>Acute PID</li><li>Cervical cancer</li><li>Severe cervical stenosis</li><li>Coagulopathy</li></ul></div>
+            </div>
+            <div class="info-grid">
+                <div class="info-card green-card"><h4>ðŸ› ï¸ Pipelle Technique</h4><ul class="checklist"><li>Lithotomy position</li><li>Bimanual exam for uterine position</li><li>Speculum, cleanse cervix</li><li>Sound uterus (6-8 cm depth)</li><li>Insert Pipelle, apply suction, move in/out 4Ã—</li><li>Expel specimen into formalin</li></ul></div>
+                <div class="info-card purple-card"><h4>ðŸ§« Histology Results</h4><ul class="dot-list"><li>Proliferative/secretory/atrophic (benign)</li><li>Simple hyperplasia without atypia (low risk)</li><li>Complex hyperplasia with atypia (30-45% progress to cancer)</li><li>Endometrial carcinoma</li></ul></div>
+            </div>
+            <div class="pearl-box">ðŸ’¡ Sensitivity: 99% for endometrial cancer in postmenopausal women. NSAID 1 hour before reduces cramping.</div>
+          ` },
+        { num: "09", title: "Endotracheal Intubation", startPage: "87", endPage: "103", color: "c9",
+          content: `
+            <div class="info-grid">
+                <div class="info-card blue-card"><h4>ðŸ“Œ Indications</h4><ul class="dot-list"><li>Airway protection (GCS <8)</li><li>Respiratory failure</li><li>Bypass airway obstruction</li><li>Positive-pressure ventilation needed</li></ul></div>
+                <div class="info-card red-card"><h4>ðŸš« Absolute Contraindication</h4><ul class="dot-list"><li>Laryngeal disruption (cricothyroidotomy instead)</li></ul></div>
+            </div>
+            <div class="info-grid">
+                <div class="info-card green-card"><h4>ðŸ’‰ RSI Drugs</h4><ul class="dot-list"><li>Sedation: Etomidate 0.3 mg/kg or Ketamine 1-2 mg/kg</li><li>Paralytic: Succinylcholine 1 mg/kg or Rocuronium 1.2 mg/kg</li><li>Pretreatment: Lidocaine 1.5 mg/kg for head injury, ICP</li></ul></div>
+                <div class="info-card purple-card"><h4>ðŸ“ Tube Depth</h4><ul class="dot-list"><li>Adult: 21-23 cm at teeth (women), 22-24 cm (men)</li><li>Confirm with auscultation + capnography + CXR</li><li>Pediatric: uncuffed usually, depth = 3 Ã— tube size + age/4</li></ul></div>
+            </div>
+            <div class="danger-box">ðŸš¨ Confirm placement with capnography â€” gold standard. Esophageal intubation = unrecognized = death.</div>
+          ` },
+        { num: "10", title: "Epistaxis & Nasal FB", startPage: "105", endPage: "116", color: "c10",
+          content: `
+            <div class="info-grid">
+                <div class="info-card blue-card"><h4>ðŸ“Œ Epistaxis Management</h4><ul class="dot-list"><li>90% anterior (Kiesselbach's plexus)</li><li>First-line: pinch nose + oxymetazoline spray Ã— 15 min</li><li>Cautery: silver nitrate (unilateral only â€” septal perforation risk)</li><li>Packing: Rapid Rhino or Merocel</li></ul></div>
+                <div class="info-card red-card"><h4>ðŸš¨ Posterior Epistaxis</h4><ul class="dot-list"><li>Source: sphenopalatine artery</li><li>Requires posterior packing or balloon catheter</li><li>Admit for monitoring (airway risk)</li><li>ENT consult for arterial ligation/embolization</li></ul></div>
+            </div>
+            <div class="info-grid">
+                <div class="info-card green-card"><h4>ðŸ‘¶ Nasal Foreign Body Removal</h4><ul class="checklist"><li>"Parent's kiss" positive pressure technique</li><li>Alligator forceps for graspable objects</li><li>Balloon catheter (5 Fr) for smooth round objects</li><li>Refer if >2 attempts fail or button battery present</li></ul></div>
+                <div class="info-card orange-card"><h4>âš ï¸ Button Battery DANGER</h4><p>Do NOT irrigate or use forceps â€” causes tissue necrosis in 2 hours. Immediate ENT referral.</p></div>
+            </div>
+            <div class="pearl-box">ðŸ’¡ Most common age for nasal foreign body: 2-5 years. Always check both nostrils and ears.</div>
+          ` },
+        { num: "11", title: "Diabetic Foot Exam", startPage: "118", endPage: "123", color: "c11",
+          content: `
+            <div class="info-grid">
+                <div class="info-card blue-card"><h4>ðŸ“Œ Exam Components</h4><ul class="dot-list"><li>Inspection: ulcers, callus, fissures, maceration, color</li><li>Palpation: pulses (DP, PT), temperature, capillary refill</li><li>Sensory: 10g monofilament (5.07), 128 Hz tuning fork</li><li>Shoes/socks inspection</li></ul></div>
+                <div class="info-card red-card"><h4>ðŸš¨ Amputation Risk Factors</h4><ul class="dot-list"><li>Peripheral neuropathy</li><li>Peripheral vascular disease</li><li>Prior ulcer/amputation</li><li>Foot deformity (Charcot, hammertoes)</li><li>Poor glycemic control</li></ul></div>
+            </div>
+            <div class="info-grid">
+                <div class="info-card green-card"><h4>âœ… Monofilament Test Sites</h4><ul class="dot-list"><li>Great toe (plantar)</li><li>1st, 3rd, 5th metatarsal heads</li><li>Midfoot plantar</li><li>Heel</li></ul></div>
+                <div class="info-card purple-card"><h4>ðŸ“… Screening Frequency</h4><ul class="dot-list"><li>Low risk: annual comprehensive exam</li><li>High risk (neuropathy, PVD, deformity): every 3 months</li><li>Visual inspection at every visit</li></ul></div>
+            </div>
+            <div class="danger-box">ðŸ”¥ 60-70% of diabetics have neuropathy. 85% of amputations preceded by foot ulcer. Prevention saves limbs.</div>
+          ` },
+        { num: "12", title: "Incision & Drainage (I&D)", startPage: "125", endPage: "133", color: "c12",
+          content: `
+            <div class="info-grid">
+                <div class="info-card blue-card"><h4>ðŸ“Œ I&D Indications</h4><ul class="dot-list"><li>Fluctuant, tender collection</li><li>Failure of conservative therapy</li><li>Purulent material present</li></ul></div>
+                <div class="info-card red-card"><h4>ðŸš« I&D Contraindications</h4><ul class="dot-list"><li>Facial furuncle within danger triangle (cavernous sinus thrombosis risk)</li><li>Perirectal abscess without surgical evaluation</li><li>Palmar/deep hand abscess</li></ul></div>
+            </div>
+            <div class="info-grid">
+                <div class="info-card green-card"><h4>ðŸ› ï¸ I&D Steps</h4><ul class="checklist"><li>Ring block with lidocaine (without epinephrine)</li><li>Incise along skin tension lines with #11 blade</li><li>Blunt dissection with hemostat to break loculations</li><li>Irrigate with saline</li><li>Pack with iodoform gauze (change Q 24-48h)</li></ul></div>
+                <div class="info-card orange-card"><h4>ðŸ’Š Antibiotics (when needed)</h4><ul class="dot-list"><li>If cellulitis >5 cm, systemic symptoms, or immunocompromised</li><li>Cover MRSA: TMP-SMX DS, doxycycline, or clindamycin</li><li>I&D alone sufficient for simple abscess</li></ul></div>
+            </div>
+            <div class="pearl-box">ðŸ’¡ I&D is definitive treatment for simple abscess â€” antibiotics not required unless high-risk features present.</div>
+          ` },
+        { num: "13", title: "Injections (IM/SubQ/ID)", startPage: "135", endPage: "147", color: "c1",
+          content: `
+            <div class="info-grid">
+                <div class="info-card blue-card"><h4>ðŸ“Œ Routes</h4><ul class="dot-list"><li>Intradermal: 15Â°, wheal forms (TB test, allergy)</li><li>Subcutaneous: 45Â°, insulin, heparin, vaccines</li><li>Intramuscular: 90Â°, deltoid, ventrogluteal, vastus lateralis</li></ul></div>
+                <div class="info-card green-card"><h4>âœ… Needle Selection</h4><ul class="dot-list"><li>IM: 20-25G, 1-1.5 inch</li><li>SubQ: 25-27G, â…œ-â… inch</li><li>ID: 25-27G, â…œ-â… inch</li></ul></div>
+            </div>
+            <div class="danger-box">âš ï¸ Aspiration no longer recommended for vaccine administration (no large vessels at sites). Dorsogluteal site avoided due to sciatic nerve risk.</div>
+            <div class="pearl-box">ðŸ’¡ For IM injections in adults: deltoid for <2 mL, ventrogluteal or vastus lateralis for >2 mL.</div>
+          ` },
+        { num: "14", title: "IV Catheters", startPage: "148", endPage: "156", color: "c2",
+          content: `
+            <div class="info-grid">
+                <div class="info-card blue-card"><h4>ðŸ“Œ Vein Selection (Order of Preference)</h4><ol><li>Median cubital (best anchored)</li><li>Cephalic (poorly anchored)</li><li>Basilic (close to brachial artery/median nerve)</li><li>Dorsal hand (smaller gauge)</li></ol></div>
+                <div class="info-card red-card"><h4>ðŸš« Avoid These Sites</h4><ul class="dot-list"><li>Mastectomy side (lymphedema)</li><li>AV fistula, cellulitis, burns</li><li>Distal to failed venipuncture attempt</li><li>Extremities with DVT or PVD</li></ul></div>
+            </div>
+            <div class="info-grid">
+                <div class="info-card green-card"><h4>ðŸ“ Catheter Gauge Sizes</h4><ul class="dot-list"><li>24G: neonates, infants, fragile veins</li><li>22G: children, elderly, small veins</li><li>20G: most adults, routine fluids/meds</li><li>18G: trauma, blood products, rapid infusion</li><li>16G: massive transfusion, surgery</li></ul></div>
+                <div class="info-card orange-card"><h4>â° Change Protocol</h4><p>Peripheral IV change every 96 hours to reduce infection risk. Replace ASAP if signs of phlebitis (redness, warmth, tenderness).</p></div>
+            </div>
+            <div class="pearl-box">ðŸ’¡ Change IV immediately if site becomes painful, red, swollen, or purulent â€” suspect phlebitis or infection.</div>
+          ` },
+        { num: "15", title: "Joint & Bursal Aspiration", startPage: "157", endPage: "168", color: "c3",
+          content: `
+            <div class="info-grid">
+                <div class="info-card blue-card"><h4>ðŸ“Œ Knee Arthrocentesis</h4><ul class="dot-list"><li>Approach: superolateral (1 cm above and lateral to patella) or medial</li><li>Needle: 18-20G, 1.5 inch</li><li>Fluid analysis: cell count, crystals, Gram stain, culture</li></ul></div>
+                <div class="info-card orange-card"><h4>ðŸ¦´ Fluid Interpretation</h4><ul class="dot-list"><li>Normal: clear, viscous, WBC <200</li><li>Non-inflammatory: WBC 200-2000 (OA, trauma)</li><li>Inflammatory: WBC 2000-50,000 (gout, pseudogout, RA)</li><li>Septic: WBC >50,000, PMNs >75%, low glucose</li></ul></div>
+            </div>
+            <div class="info-grid">
+                <div class="info-card green-card"><h4>ðŸ©¹ Olecranon Bursa Aspiration</h4><ul class="dot-list"><li>Lateral approach (to avoid chronic sinus tract)</li><li>Consider gout, septic arthritis, trauma</li><li>Compression wrap after aspiration</li></ul></div>
+                <div class="info-card red-card"><h4>ðŸš« Avoid</h4><ul class="dot-list"><li>Do NOT aspirate through cellulitis or infected skin</li><li>Refer prosthetic joint effusion to orthopedics</li><li>Coagulopathy (INR >2.5) relative contraindication</li></ul></div>
+            </div>
+            <div class="danger-box">ðŸ”¥ Septic arthritis is an orthopedic emergency â€” joint washout within 24 hours to prevent cartilage destruction.</div>
+          ` },
+        { num: "16", title: "Local Anesthesia", startPage: "170", endPage: "182", color: "c4",
+          content: `
+            <div class="info-grid">
+                <div class="info-card blue-card"><h4>ðŸ§ª Common Agents</h4><ul class="dot-list"><li>Lidocaine 1%: onset 2-5 min, duration 30-60 min, max 4.5 mg/kg (7 with epi)</li><li>Bupivacaine 0.25%: onset 5-10 min, duration 2-4 hrs, max 1.5 mg/kg</li><li>Mepivacaine 1%: onset 3-5 min, duration 45-90 min, max 5 mg/kg</li></ul></div>
+                <div class="info-card red-card"><h4>âš ï¸ LAST (Local Anesthetic Systemic Toxicity)</h4><ul class="dot-list"><li>Symptoms: perioral numbness, metallic taste, seizures, arrhythmias, cardiac arrest</li><li>Treatment: 20% lipid emulsion 1.5 mL/kg bolus + ACLS</li><li>Avoid bupivacaine in pregnancy (higher cardiac toxicity risk)</li></ul></div>
+            </div>
+            <div class="info-grid">
+                <div class="info-card orange-card"><h4>ðŸ’‰ Buffer to Reduce Pain</h4><p>Mix lidocaine with sodium bicarbonate (1:10 ratio). Warm to body temperature.<br>Buffered lidocaine shelf life: 7 days (epinephrine degraded in 24 hrs).</p></div>
+                <div class="info-card purple-card"><h4>ðŸ“Œ Epinephrine Cautions</h4><ul class="dot-list"><li>Absolute contraindication in end-artery sites: fingers, toes, nose, penis, pinna (risk of ischemia/necrosis)</li><li>Avoid in severe CAD, thyrotoxicosis, pheochromocytoma</li><li>Caution with beta-blockers (unopposed alpha effect â†’ hypertension)</li></ul></div>
+            </div>
+            <div class="pearl-box">ðŸ’¡ Digital block: Use 1% lidocaine WITHOUT epinephrine. Inject at base of digit, maximum 2 mL per side. Onset 5-10 minutes.</div>
+          ` },
+        { num: "17", title: "Lumbar Puncture", startPage: "183", endPage: "191", color: "c5",
+          content: `
+            <div class="info-grid">
+                <div class="info-card blue-card"><h4>ðŸ“ Landmark</h4><p>Line between iliac crests crosses L4 spinous process. Insert at L3-L4 or L4-L5 interspace.<br>Atraumatic (pencil-point) needles reduce PDPH by 60%.</p></div>
+                <div class="info-card red-card"><h4>ðŸš¨ Contraindications</h4><ul class="dot-list"><li>Suspected increased ICP (mass lesion, herniation risk)</li><li>Coagulopathy (platelets <50K, INR >1.5, on anticoagulants)</li><li>Overlying skin infection at puncture site</li><li>Structural spinal abnormalities</li></ul></div>
+            </div>
+            <div class="info-grid">
+                <div class="info-card green-card"><h4>ðŸ“¦ CSF Collection Order</h4><ul class="dot-list"><li>Tube 1: Chemistry (glucose, protein)</li><li>Tube 2: Microbiology (Gram stain, culture, PCR)</li><li>Tube 3: Cell count and differential</li><li>Tube 4: Extra (cytology, VDRL, TB, fungal)</li></ul></div>
+                <div class="info-card purple-card"><h4>ðŸ©º Opening Pressure</h4><ul class="dot-list"><li>Normal: 10-20 cm H2O (lateral decubitus position)</li><li>Elevated: >25 cm H2O (meningitis, pseudotumor, SAH)</li><li>Low: <6 cm H2O (CSF leak, dehydration)</li></ul></div>
+            </div>
+            <div class="danger-box">ðŸ”¥ Post-LP headache (PDPH): Occipital, worse upright, relieved supine. Treatment: hydration, caffeine 500 mg IV, epidural blood patch if severe.</div>
+          ` },
+        { num: "18", title: "Nasogastric Tube", startPage: "193", endPage: "199", color: "c6",
+          content: `
+            <div class="info-grid">
+                <div class="info-card blue-card"><h4>ðŸ“Œ Indications</h4><ul class="dot-list"><li>Gastric decompression (obstruction, ileus, vomiting)</li><li>Gastrointestinal bleeding (diagnosis, lavage)</li><li>Medication/feed administration (enteric nutrition)</li><li>Overdose/poisoning (gastric lavage)</li></ul></div>
+                <div class="info-card red-card"><h4>ðŸš« Contraindications</h4><ul class="dot-list"><li>Facial trauma / basilar skull fracture (risk of intracranial placement)</li><li>Esophageal stricture, atresia, burn, perforation</li><li>Recent esophageal/gastric surgery</li><li>Choanal atresia</li><li>Zenker diverticulum</li></ul></div>
+            </div>
+            <div class="info-grid">
+                <div class="info-card green-card"><h4>ðŸ“ Insertion Steps</h4><ul class="checklist"><li>Measure from nose â†’ earlobe â†’ xiphoid (45-55 cm in adults)</li><li>Lubricate, insert with neck flexed</li><li>Have patient sip water and swallow while advancing</li><li>Confirm placement: aspirate (pH <4 indicates gastric), auscultate air bolus, X-ray gold standard</li></ul></div>
+                <div class="info-card orange-card"><h4>âš ï¸ Placement Confirmation</h4><ul class="dot-list"><li>Do NOT rely on auscultation alone (unreliable)</li><li>X-ray is gold standard for initial placement</li><li>Withdraw immediately if respiratory distress, coughing, or bubbling with exhalation</li></ul></div>
+            </div>
+            <div class="danger-box">ðŸ”¥ Never irrigate or inject anything into NG tube without confirming gastric placement â€” fatal pneumothorax if in lung.</div>
+          ` },
+        { num: "19", title: "Blood Cultures", startPage: "201", endPage: "205", color: "c7",
+          content: `
+            <div class="info-grid">
+                <div class="info-card blue-card"><h4>ðŸ“Œ Indications</h4><ul class="dot-list"><li>Suspected bacteremia or fungemia</li><li>Fever of unknown origin</li><li>Suspected infective endocarditis</li><li>Intravascular catheter infection</li><li>Sepsis / SIRS / qSOFA positive</li></ul></div>
+                <div class="info-card green-card"><h4>âœ… Best Practices</h4><ul class="checklist"><li>Two sets from two separate peripheral sites</li><li>10 mL per bottle (adults), 1-5 mL in children</li><li>Draw BEFORE antibiotics if possible</li><li>Skin prep: chlorhexidine or iodine (not alcohol alone)</li><li>Inoculate anaerobic first, then aerobic</li></ul></div>
+            </div>
+            <div class="info-grid">
+                <div class="info-card orange-card"><h4>ðŸ§« Contamination Signs</h4><ul class="dot-list"><li>Skin flora (CoNS, diphtheroids, Propionibacterium)</li><li>Single positive bottle among multiple</li><li>Growth only in one of two sets</li></ul></div>
+                <div class="info-card red-card"><h4>ðŸš« Avoid</h4><ul class="dot-list"><li>Drawing through indwelling lines (unless ruling out line infection)</li><li>Drawing from same site as previous attempt</li><li>Insufficient volume (<5 mL reduces sensitivity by 50%)</li></ul></div>
+            </div>
+            <div class="pearl-box">ðŸ’¡ False-positive blood cultures cost $4,000-8,000 and add 1-5 hospital days. Proper skin antisepsis is critical.</div>
+          ` },
+        { num: "20", title: "Pulmonary Function Tests", startPage: "208", endPage: "217", color: "c8",
+          content: `
+            <div class="info-grid">
+                <div class="info-card blue-card"><h4>ðŸ“Š Interpretation</h4><ul class="dot-list"><li><strong>Obstructive:</strong> Low FEV1/FVC (<70%), normal or low FVC (FEV1â†“, FEV1/FVCâ†“)</li><li><strong>Restrictive:</strong> Low FVC but normal FEV1/FVC (FEV1 and FVC decreased proportionally)</li><li><strong>Mixed:</strong> Both low FVC and low FEV1/FVC</li></ul></div>
+                <div class="info-card green-card"><h4>ðŸ“ GOLD Staging (COPD)</h4><ul class="dot-list"><li>Mild: FEV1 â‰¥80% predicted</li><li>Moderate: FEV1 50-79%</li><li>Severe: FEV1 30-49%</li><li>Very severe: FEV1 <30%</li></ul></div>
+            </div>
+            <div class="info-grid">
+                <div class="info-card orange-card"><h4>â° Pre-test Medication Withholding</h4><ul class="dot-list"><li>Short-acting bronchodilators: 4-6 hours</li><li>Long-acting bronchodilators: 12-24 hours</li><li>Anticholinergics: 24 hours</li></ul></div>
+                <div class="info-card purple-card"><h4>âœ… Acceptability Criteria</h4><ul class="dot-list"><li>Good start (no hesitation)</li><li>No cough in first second</li><li>6 seconds exhalation or plateau</li><li>Two largest FVC values within 0.15 L</li></ul></div>
+            </div>
+            <div class="pearl-box">ðŸ’¡ A post-bronchodilator FEV1/FVC <0.70 is diagnostic for COPD. Increase in FEV1 >12% and >200 mL suggests reversible component (asthma).</div>
+          ` },
+        { num: "21", title: "Point-of-Care Ultrasound (POCUS)", startPage: "219", endPage: "224", color: "c9",
+          content: `
+            <div class="info-grid">
+                <div class="info-card blue-card"><h4>ðŸ“Œ Core Applications</h4><ul class="dot-list"><li>FAST (trauma: pericardial, pleural, peritoneal fluid)</li><li>Abdominal aortic aneurysm</li><li>Cardiac (EF, effusion, IVC)</li><li>Renal (hydronephrosis, bladder volume)</li><li>DVT, biliary, obstetrics, lung (pneumothorax, effusion)</li><li>Procedural guidance (central line, paracentesis, thoracentesis)</li></ul></div>
+                <div class="info-card green-card"><h4>ðŸ“Š Probe Selection</h4><ul class="dot-list"><li><strong>Linear (high frequency):</strong> superficial structures, vascular access, DVT, MSK</li><li><strong>Curvilinear (low frequency):</strong> abdominal organs, FAST, renal, pelvic</li><li><strong>Phased array:</strong> cardiac, deep structures, small footprint</li></ul></div>
+            </div>
+            <div class="info-grid">
+                <div class="info-card orange-card"><h4>ðŸ–¼ï¸ Image Interpretation</h4><ul class="dot-list"><li>Hyperechoic: bright (bone, fat, stones)</li><li>Hypoechoic: dark gray (muscle, solid organs)</li><li>Anechoic: black (fluid, blood, cyst, bladder)</li></ul></div>
+                <div class="info-card purple-card"><h4>ðŸ› ï¸ Procedural POCUS</h4><ul class="dot-list"><li>Central line placement: 2D visualization reduces complications</li><li>Paracentesis: identify bowel, measure depth</li><li>Lumbar puncture: identify spinous processes, interspace</li><li>Foreign body localization</li></ul></div>
+            </div>
+            <div class="pearl-box">ðŸ’¡ Ultrasound-guided vascular access reduces failure rate, hematoma, and pneumothorax compared to landmark technique.</div>
+          ` },
+        { num: "22", title: "Procedural Sedation", startPage: "227", endPage: "236", color: "c10",
+          content: `
+            <div class="info-grid">
+                <div class="info-card green-card"><h4>ðŸ“ˆ ASA Sedation Levels</h4><ul class="dot-list"><li><strong>Minimal:</strong> Normal response to verbal commands</li><li><strong>Moderate (conscious sedation):</strong> Purposeful response, airway intact</li><li><strong>Deep:</strong> Repeated/painful stimulation needed, may need airway support</li><li><strong>General anesthesia:</strong> No arousal, ventilation required</li></ul></div>
+                <div class="info-card blue-card"><h4>ðŸ’Š Common Agents</h4><ul class="dot-list"><li>Midazolam: onset 1-3 min, duration 30-60 min, reversal: flumazenil</li><li>Fentanyl: onset 1-2 min, duration 30-40 min, reversal: naloxone</li><li>Ketamine: onset 1 min, duration 10-20 min, preserves airway reflexes</li><li>Propofol: onset 30 sec, duration 5-10 min, high risk of apnea</li></ul></div>
+            </div>
+            <div class="info-grid">
+                <div class="info-card red-card"><h4>ðŸš¨ Monitoring Requirements</h4><ul class="dot-list"><li>Continuous pulse oximetry</li><li>Capnography recommended (detects hypoventilation earlier)</li><li>Blood pressure Q 5 min</li><li>Two personnel (one dedicated to monitoring patient)</li></ul></div>
+                <div class="info-card orange-card"><h4>ðŸ“‹ Discharge Criteria</h4><ul class="checklist"><li>Return to baseline mental status</li><li>Stable vital signs for 30 minutes</li><li>No nausea/vomiting</li><li>Responsible adult present to escort</li><li>Written aftercare instructions</li></ul></div>
+            </div>
+            <div class="danger-box">ðŸ”¥ Never discharge without escort if received moderate/deep sedation. No driving for 24 hours.</div>
+          ` },
+        { num: "23", title: "ECG Recording", startPage: "237", endPage: "244", color: "c11",
+          content: `
+            <div class="info-grid">
+                <div class="info-card blue-card"><h4>ðŸ“Œ Indications</h4><ul class="dot-list"><li>Chest pain / suspected ACS</li><li>Palpitations, syncope, near-syncope</li><li>Pre-op evaluation (high-risk patients)</li><li>Drug monitoring (QT-prolonging meds)</li><li>Electrolyte abnormalities</li></ul></div>
+                <div class="info-card green-card"><h4>âœ… Lead Placement</h4><ul class="dot-list"><li>V1: 4th ICS right sternal border</li><li>V2: 4th ICS left sternal border</li><li>V4: 5th ICS midclavicular line</li><li>V3: midway between V2 and V4</li><li>V5: anterior axillary line at V4 level</li><li>V6: midaxillary line at V4 level</li></ul></div>
+            </div>
+            <div class="info-grid">
+                <div class="info-card orange-card"><h4>âš ï¸ Common Artifacts</h4><ul class="dot-list"><li>Muscle tremors (patient tense, cold)</li><li>AC interference (poor grounding, nearby equipment)</li><li>Wandering baseline (poor electrode contact, patient movement)</li><li>Lead reversal (wrong limb leads)</li></ul></div>
+                <div class="info-card purple-card"><h4>ðŸ©º Long-term Monitoring</h4><ul class="dot-list"><li>Holter: 24-48 hours continuous</li><li>Event recorder: 30 days, patient-activated</li><li>Loop recorder: implantable, up to 3 years</li></ul></div>
+            </div>
+            <div class="pearl-box">ðŸ’¡ A "normal ECG" does not rule out ACS â€” 5% of MIs have normal ECG. Serial ECGs and troponin are key.</div>
+          ` },
+        { num: "24", title: "Reduction (Shoulder/Finger)", startPage: "246", endPage: "251", color: "c12",
+          content: `
+            <div class="info-grid">
+                <div class="info-card blue-card"><h4>ðŸ¦¾ Shoulder Dislocation (Anterior 95%)</h4><ul class="dot-list"><li>Presentation: arm externally rotated/abducted, "square" shoulder</li><li>Reduction: Stimson (gravity) or external rotation method</li><li>Post-reduction: X-ray to confirm reduction and rule out fracture</li><li>Sling 3 weeks (young), 1-2 weeks (elderly)</li></ul></div>
+                <div class="info-card green-card"><h4>ðŸ¤š Finger Dislocation (PIP most common)</h4><ul class="dot-list"><li>Dorsal dislocation: hyperextension injury â†’ volar plate tear</li><li>Reduction: traction + flexion + dorsal pressure</li><li>Post-reduction: buddy tape for 3 weeks</li><li>Check digital nerve function before and after</li></ul></div>
+            </div>
+            <div class="danger-box">ðŸ”¥ Axillary nerve injury in 40% of anterior shoulder dislocations â€” check deltoid function and sensation over lateral shoulder before and after reduction.</div>
+          ` },
+        { num: "25", title: "Ear Cerumen & Foreign Body", startPage: "253", endPage: "258", color: "c1",
+          content: `
+            <div class="info-grid">
+                <div class="info-card blue-card"><h4>ðŸ‘‚ Cerumen Removal</h4><ul class="dot-list"><li>Indicated: hearing loss, pain, inability to visualize TM</li><li>Methods: irrigation (body temp water), curette, suction, cerumenolytics</li><li>Contraindications: TM perforation, ear surgery, active infection</li></ul></div>
+                <div class="info-card red-card"><h4>ðŸš¨ Foreign Body Removal</h4><ul class="dot-list"><li><strong>Live insect:</strong> kill with lidocaine or mineral oil first</li><li><strong>Button battery:</strong> EMERGENCY â€” immediate ENT referral (necrosis in 2 hours)</li><li><strong>Organic material (bean, seed):</strong> do NOT irrigate (swells)</li><li>Remove with alligator forceps, suction, or right-angle hook</li></ul></div>
+            </div>
+            <div class="pearl-box">ðŸ’¡ After removing a foreign body from a child's ear, always check the other ear and both nostrils â€” children hide objects everywhere.</div>
+          ` },
+        { num: "26", title: "Ring Removal", startPage: "260", endPage: "267", color: "c2",
+          content: `
+            <div class="info-grid">
+                <div class="info-card green-card"><h4>ðŸ› ï¸ Non-Cutting Techniques</h4><ul class="dot-list"><li>Winding technique: elastic cord wrapped distal to ring, then unwound</li><li>Compression: rubber tourniquet or Penrose drain wrapped tightly distal</li><li>Lubrication + caterpillar technique (slow rocking motion)</li></ul></div>
+                <div class="info-card orange-card"><h4>âš¡ Cutting Techniques (for ischemia or failed non-cutting)</h4><ul class="dot-list"><li>Manual ring cutter: works for soft metals (gold, silver)</li><li>Electric ring cutter: for harder metals (steel, titanium)</li><li>Locking pliers: for tungsten carbide (fractures ring)</li><li>Always place metal shield/protector under ring before cutting</li></ul></div>
+            </div>
+            <div class="danger-box">ðŸ”¥ Signs of ischemia: prolonged capillary refill, numbness, dusky color. If present, cut ring immediately â€” do not waste time with non-cutting techniques.</div>
+          ` },
+        { num: "27", title: "Pelvic Exam & Pap Smear", startPage: "269", endPage: "283", color: "c3",
+          content: `
+            <div class="info-grid">
+                <div class="info-card blue-card"><h4>ðŸ“Œ Screening Guidelines (ASCCP/ACOG)</h4><ul class="dot-list"><li>Start at age 21 (regardless of sexual history)</li><li>Age 21-29: cytology alone every 3 years</li><li>Age 30-65: co-testing (cytology + HPV) every 5 years (preferred) or cytology alone every 3 years</li><li>Stop at age 65 if adequate negative prior screening</li></ul></div>
+                <div class="info-card green-card"><h4>ðŸ©º Speculum Selection</h4><ul class="dot-list"><li>Pedersen: narrow, most comfortable for most patients</li><li>Graves: wider duckbill, for obese or multiparous</li><li>Pediatric: for virginal, elderly, or severe atrophy</li></ul></div>
+            </div>
+            <div class="info-grid">
+                <div class="info-card red-card"><h4>ðŸ“Š Bethesda System Results</h4><ul class="dot-list"><li>ASC-US: atypical squamous cells of undetermined significance</li><li>LSIL: low-grade lesion (usually HPV-related)</li><li>HSIL: high-grade lesion (CIN 2/3 â€” requires colposcopy)</li><li>AGC: atypical glandular cells (needs endometrial evaluation)</li></ul></div>
+                <div class="info-card purple-card"><h4>âœ… Adequate Sample Requirements</h4><ul class="dot-list"><li>Endocervical cells must be present (unless post-hysterectomy or postmenopausal with atrophy)</li><li>"No endocervical cells" = inadequate sample, may need repeat</li></ul></div>
+            </div>
+            <div class="pearl-box">ðŸ’¡ Always have a chaperone in the room for pelvic exams â€” required even if examiner is female.</div>
+          ` },
+        { num: "28", title: "Ocular Trauma & FB Removal", startPage: "285", endPage: "297", color: "c4",
+          content: `
+            <div class="info-grid">
+                <div class="info-card blue-card"><h4>ðŸ‘ï¸ Exam Sequence</h4><ul class="dot-list"><li><strong>First:</strong> Visual acuity (document before anything else)</li><li>External exam, pupils, EOMs</li><li>Fluorescein + Wood's lamp for corneal abrasions, dendrites, Seidel sign</li><li>Evert eyelids to check for hidden foreign body</li></ul></div>
+                <div class="info-card red-card"><h4>ðŸš¨ Globe Rupture Emergencies</h4><ul class="dot-list"><li>Do NOT examine further â€” place Fox shield, refer emergently</li><li>Signs: irregular pupil, hyphema, decreased IOP, Seidel sign</li><li>No topical medications, no pressure, no MRI</li></ul></div>
+            </div>
+            <div class="info-grid">
+                <div class="info-card green-card"><h4>ðŸ› ï¸ Corneal FB Removal</h4><ul class="checklist"><li>Topical anesthetic (proparacaine)</li><li>Visible superficial FB: moistened swab</li><li>Embedded FB: 25-27G needle (bevel up, tangential approach) or corneal spud</li><li>Remove rust ring with corneal burr</li><li>Post-procedure: topical antibiotic (erythromycin or fluoroquinolone)</li></ul></div>
+                <div class="info-card orange-card"><h4>âš ï¸ Contact Lens Wearers</h4><ul class="dot-list"><li>High risk for Pseudomonas keratitis â€” DO NOT patch</li><li>Refer to ophthalmology same day</li><li>Topical fluoroquinolone (ciprofloxacin or ofloxacin) Q1h</li></ul></div>
+            </div>
+            <div class="pearl-box">ðŸ’¡ Patching no longer recommended for simple corneal abrasions â€” studies show no benefit and possible increased infection risk.</div>
+          ` },
+        { num: "29", title: "Ingrown Toenail", startPage: "299", endPage: "302", color: "c5",
+          content: `
+            <div class="info-grid">
+                <div class="info-card blue-card"><h4>ðŸ“Œ Indications for Partial Nail Avulsion</h4><ul class="dot-list"><li>Recurrent ingrown toenail (onychocryptosis)</li><li>Failed conservative treatment (warm soaks, cotton wicking)</li><li>Granulation tissue or infection (paronychia)</li></ul></div>
+                <div class="info-card green-card"><h4>ðŸ› ï¸ Procedure Steps</h4><ul class="checklist"><li>Digital block with 1% lidocaine (no epinephrine)</li><li>Apply tourniquet at toe base (rubber band or Penrose drain)</li><li>Cut nail lengthwise 4-5 mm from affected edge</li><li>Elevate and remove nail segment with hemostat</li><li>Phenol ablation of nail matrix (88% phenol Ã— 3 min) to prevent regrowth</li><li>Neutralize with alcohol, antibiotic ointment, dressing</li></ul></div>
+            </div>
+            <div class="danger-box">âš ï¸ Caution in diabetic or PVD patients â€” consider conservative treatment first or refer to podiatry. Phenol contraindicated in pregnancy.</div>
+          ` },
+        { num: "30", title: "Urinary Catheterization", startPage: "303", endPage: "312", color: "c6",
+          content: `
+            <div class="info-grid">
+                <div class="info-card blue-card"><h4>ðŸ“Œ Types & Indications</h4><ul class="dot-list"><li><strong>Straight (Robinson):</strong> in-and-out, post-void residual, sterile urine sample</li><li><strong>Foley:</strong> indwelling, urine output monitoring, obstruction, prolonged immobilization</li><li><strong>CoudÃ©:</strong> bent tip for BPH or false passages</li><li><strong>3-way Foley:</strong> continuous irrigation (post-TURP, clot retention)</li></ul></div>
+                <div class="info-card red-card"><h4>ðŸš« Contraindication</h4><p>Blood at urethral meatus after pelvic trauma = possible urethral disruption. Do NOT attempt catheterization â€” consult urology immediately.</p></div>
+            </div>
+            <div class="info-grid">
+                <div class="info-card green-card"><h4>ðŸ“ Sizing Guide</h4><ul class="dot-list"><li>Adult female: 14-16 Fr</li><li>Adult male: 16-18 Fr (smaller may curl in urethra)</li><li>Pediatric: 8-12 Fr</li><li>Balloon: 5 mL (inflate with 10 mL sterile water) or 30 mL (for traction)</li><li>Large (20-30 Fr): clot evacuation</li></ul></div>
+                <div class="info-card orange-card"><h4>âš ï¸ Male Catheterization Tips</h4><ul class="dot-list"><li>Lift penis perpendicular to abdomen (straightens urethra)</li><li>If resistance at prostate: apply gentle pressure, have patient bear down, or use coudÃ© catheter</li><li>Never force â€” false passage risk</li><li>Inflate balloon only after urine flow confirmed</li></ul></div>
+            </div>
+            <div class="pearl-box">ðŸ’¡ For difficult female catheterization: put one catheter in vagina as landmark â€” urethra is just superior to it. Obtain new sterile catheter for actual placement.</div>
+          ` },
+        { num: "31", title: "Venipuncture", startPage: "314", endPage: "324", color: "c7",
+          content: `
+            <div class="info-grid">
+                <div class="info-card blue-card"><h4>ðŸ“‹ Order of Draw (Vacutainer)</h4><ol><li>Blood cultures (sterile, yellow/blue)</li><li>Light blue (coagulation â€” sodium citrate)</li><li>Red/gold (chemistry â€” clot activator)</li><li>Green (heparin â€” lithium/sodium heparin)</li><li>Lavender (CBC â€” EDTA)</li><li>Gray (glucose, lactate â€” sodium fluoride)</li></ol></div>
+                <div class="info-card red-card"><h4>ðŸš« Sites to Avoid</h4><ul class="dot-list"><li>Mastectomy side (lymphedema risk)</li><li>IV infusion arm (proximal to site dilutes specimen)</li><li>AV fistula, burned or scarred skin, cellulitis</li><li>Previous hematoma, sclerosed veins</li></ul></div>
+            </div>
+            <div class="info-grid">
+                <div class="info-card green-card"><h4>âœ… Technique Tips</h4><ul class="checklist"><li>Tourniquet on <2 minutes (hemoconcentration if longer)</li><li>Insert needle bevel up at 15-30Â° angle</li><li>Release tourniquet before removing needle</li><li>Apply pressure 3-5 minutes (longer if anticoagulated)</li><li>Do NOT bend arm (increases hematoma risk)</li></ul></div>
+                <div class="info-card orange-card"><h4>ðŸ©¸ Difficult Venipuncture Tips</h4><ul class="dot-list"><li>Warm towel (40-42Â°C) for 2 minutes</li><li>Place arm below heart level for 2 minutes</li><li>Use BP cuff as tourniquet (between SBP and DBP)</li><li>Tap vein gently, use 23-25G butterfly for small veins</li></ul></div>
+            </div>
+            <div class="pearl-box">ðŸ’¡ After 3 unsuccessful attempts, stop and ask for help. Patient satisfaction decreases significantly after each stick.</div>
+          ` },
+        { num: "32", title: "Wound Closure", startPage: "325", endPage: "348", color: "c8",
+          content: `
+            <div class="info-grid">
+                <div class="info-card blue-card"><h4>ðŸª¢ Suture Selection by Site</h4><ul class="dot-list"><li>Face: 6-0 or 7-0 monofilament (nylon), remove 3-5 days</li><li>Scalp: 4-0 or 5-0 monofilament, remove 6-8 days</li><li>Trunk: 4-0 or 5-0 monofilament, remove 8-10 days</li><li>Extremities: 4-0 or 5-0 monofilament, remove 10-14 days</li><li>Hand/foot: 5-0 monofilament, remove 8-12 days</li></ul></div>
+                <div class="info-card red-card"><h4>ðŸš« When NOT to Close Primarily</h4><ul class="dot-list"><li>Human/animal bites >8 hours old</li><li>Heavily contaminated or devitalized tissue</li><li>Deep puncture wounds (high infection risk)</li><li>Signs of active infection</li><li>Diabetic foot ulcers, crush injuries</li></ul></div>
+            </div>
+            <div class="info-grid">
+                <div class="info-card green-card"><h4>ðŸ’§ Irrigation Key Points</h4><ul class="dot-list"><li>At least 250-500 mL normal saline</li><li>Use 19-21G catheter on 60 mL syringe (8-10 PSI optimal)</li><li>Irrigation more important than antiseptics</li><li>Chlorhexidine or povidone-iodine for skin prep (not into wound)</li></ul></div>
+                <div class="info-card orange-card"><h4>ðŸŒ¡ï¸ Tetanus Prophylaxis</h4><ul class="dot-list"><li>Clean minor wound: booster if last dose >10 years</li><li>Dirty/tetanus-prone wound (>6h, >1cm, devitalized, soil/feces/saliva): booster if >5 years + TIG if <3 doses or unknown</li><li>Tdap once per lifetime, then Td boosters</li></ul></div>
+            </div>
+            <div class="danger-box">ðŸ”¥ Never shave an eyebrow â€” hair may not grow back or will grow irregularly. Align hair-skin border exactly for cosmesis.</div>
+          ` },
+        { num: "33", title: "Wound Dressings", startPage: "349", endPage: "362", color: "c9",
+          content: `
+            <div class="info-grid">
+                <div class="info-card blue-card"><h4>ðŸ“¦ Dressing Types & Uses</h4><ul class="dot-list"><li><strong>Alginate:</strong> heavy exudate, deep wounds, infected wounds</li><li><strong>Hydrocolloid:</strong> clean, dry to light exudate, autolytic debridement</li><li><strong>Hydrogel:</strong> necrotic/sloughy wounds, burns, rehydrates</li><li><strong>Foam:</strong> moderate to heavy exudate, absorbs, provides insulation</li><li><strong>Transparent film:</strong> superficial wounds, allows visualization</li><li><strong>Collagen:</strong> chronic wounds, stimulates granulation</li></ul></div>
+                <div class="info-card green-card"><h4>âœ… Ideal Dressing Properties</h4><ul class="checklist"><li>Maintain moist environment (not wet, not dry)</li><li>Remove excess exudate and toxic substances</li><li>Allow gas exchange (oxygen, COâ‚‚)</li><li>Impermeable to bacteria</li><li>Thermal insulation</li><li>Non-adherent, painless removal</li></ul></div>
+            </div>
+            <div class="pearl-box">ðŸ’¡ Chronic wounds (venous ulcers, diabetic foot ulcers, pressure ulcers) often require specialized care â€” consider negative pressure wound therapy (NPWT) for complex wounds.</div>
+          ` },
+        { num: "34", title: "Informed Consent", startPage: "364", endPage: "369", color: "c10",
+          content: `
+            <div class="info-grid">
+                <div class="info-card blue-card"><h4>ðŸ“œ 4 Essential Elements (Four C's)</h4><ul class="dot-list"><li><strong>Capacity:</strong> ability to understand and decide</li><li><strong>Competence:</strong> legal determination (presumed in adults unless declared incompetent)</li><li><strong>Clarity:</strong> information in understandable language</li><li><strong>Consent:</strong> voluntary, without coercion or duress</li></ul></div>
+                <div class="info-card green-card"><h4>ðŸ“ PARQ for Documentation</h4><ul class="dot-list"><li><strong>P:</strong> Procedure explanation</li><li><strong>A:</strong> Alternatives</li><li><strong>R:</strong> Material Risks</li><li><strong>Q:</strong> Questions solicited and answered</li></ul></div>
+            </div>
+            <div class="info-grid">
+                <div class="info-card orange-card"><h4>âš–ï¸ Standards of Disclosure</h4><ul class="dot-list"><li><strong>Professional standard:</strong> what a reasonable physician would disclose (older, paternalistic)</li><li><strong>Reasonable patient standard:</strong> what a reasonable person would want to know (current, patient-centered)</li><li>Half of US states use reasonable patient standard</li></ul></div>
+                <div class="info-card purple-card"><h4>ðŸ†˜ Exceptions to Consent</h4><ul class="dot-list"><li><strong>Emergency/implied consent:</strong> unconscious patient, life-saving care</li><li><strong>Therapeutic privilege:</strong> withholding information if disclosure would harm patient (rare, document carefully)</li></ul></div>
+            </div>
+            <div class="danger-box">ðŸ”¥ A signed consent form does NOT equal informed consent â€” the conversation and documentation of understanding are what matter.</div>
+          ` },
+        { num: "35", title: "Standard Precautions", startPage: "370", endPage: "378", color: "c11",
+          content: `
+            <div class="info-grid">
+                <div class="info-card blue-card"><h4>ðŸ§¼ Hand Hygiene Indications</h4><ul class="dot-list"><li>Before and after patient contact</li><li>After contact with blood/body fluids</li><li>Before aseptic task</li><li>After removing gloves</li><li>After contact with patient's environment (bed rails, equipment)</li></ul></div>
+                <div class="info-card green-card"><h4>ðŸ§¤ PPE Requirements</h4><ul class="dot-list"><li><strong>Gloves:</strong> any contact with blood/body fluids/mucous membranes</li><li><strong>Gown:</strong> anticipated splash or spray</li><li><strong>Mask + eye shield/face shield:</strong> splash/aerosol-generating procedures</li><li><strong>N95 respirator:</strong> airborne precautions (TB, measles, chickenpox, COVID)</li></ul></div>
+            </div>
+            <div class="info-grid">
+                <div class="info-card red-card"><h4>ðŸ’‰ Safe Injection Practices (NEVER)</h4><ul class="dot-list"><li>Do NOT reuse syringe for multiple patients (even with needle change)</li><li>Do NOT use single-dose vial for multiple patients</li><li>Do NOT enter a vial with a used syringe or needle</li><li>Do NOT use bags of IV solution as common source for multiple patients</li></ul></div>
+                <div class="info-card orange-card"><h4>ðŸ§« Transmission-Based Precautions</h4><ul class="dot-list"><li><strong>Contact:</strong> gown + gloves (MRSA, VRE, C. diff, RSV)</li><li><strong>Droplet:</strong> mask (influenza, meningitis, pertussis, mumps)</li><li><strong>Airborne:</strong> N95 + negative pressure (TB, measles, varicella)</li></ul></div>
+            </div>
+            <div class="danger-box">ðŸ”¥ N95 respirators must be fit-tested annually. Surgical masks protect against droplets only, not airborne particles.</div>
+          ` },
+        { num: "36", title: "Sterile Technique", startPage: "381", endPage: "388", color: "c12",
+          content: `
+            <div class="info-grid">
+                <div class="info-card blue-card"><h4>ðŸ§ª Surgical Scrub (2 methods)</h4><ul class="dot-list"><li><strong>Timed (anatomic) scrub:</strong> 3-5 minutes total</li><li><strong>Counted (numbered) scrub:</strong> 30 strokes fingernails, 20 strokes each surface</li><li>Keep hands higher than elbows (water runs away from clean areas)</li><li>No artificial nails or nail polish (chipped polish harbors bacteria)</li></ul></div>
+                <div class="info-card green-card"><h4>ðŸ‘• Sterile Field Principles</h4><ul class="checklist"><li>Only sterile touches sterile</li><li>Gowns sterile: front from chest to waist, sleeves to 2 inches above elbow</li><li>All items below waist/table level = contaminated</li><li>Non-sterile personnel stay â‰¥12 inches from sterile field</li><li>When in doubt, consider it contaminated</li></ul></div>
+            </div>
+            <div class="danger-box">ðŸ”¥ If sterile glove is punctured during procedure: remove immediately, wash hands, rescrub, replace with new glove.</div>
+          ` },
+        { num: "37", title: "Patient Education", startPage: "389", endPage: "397", color: "c1",
+          content: `
+            <div class="info-grid">
+                <div class="info-card blue-card"><h4>ðŸ“‹ Effective Interview Structure</h4><ul class="dot-list"><li>Opening: social amenities, eye contact, layout plan</li><li>Disease discussion: give diagnosis, assess patient knowledge, explain pathophysiology in plain language</li><li>Treatment: present goals, complete plan, identify barriers</li><li>Summarize: assess understanding, provide handouts, schedule follow-up</li></ul></div>
+                <div class="info-card green-card"><h4>âœ… Teaching Techniques</h4><ul class="checklist"><li>Use multiple channels (verbal, written, visual)</li><li>"Teach-back" method: "Tell me in your own words what you understand"</li><li>Involve family/significant others when appropriate</li><li>Provide written instructions (5th grade reading level)</li><li>Assess health literacy before teaching</li></ul></div>
+            </div>
+            <div class="pearl-box">ðŸ’¡ Patients remember only 50% of what they are told. Write it down, provide handouts, and use teach-back to confirm understanding.</div>
+          ` },
+        { num: "38", title: "Outpatient Coding", startPage: "399", endPage: "411", color: "c2",
+          content: `
+            <div class="info-grid">
+                <div class="info-card blue-card"><h4>ðŸ“Š E/M Coding Components</h4><ul class="dot-list"><li><strong>History:</strong> HPI, ROS, PFSH (the 4 C's)</li><li><strong>Exam:</strong> problem-focused, expanded, detailed, comprehensive</li><li><strong>Medical Decision Making (MDM):</strong> straightforward, low, moderate, high</li><li><strong>Time:</strong> dominant factor if counseling >50% of encounter</li></ul></div>
+                <div class="info-card green-card"><h4>ðŸ“ Documentation Essentials</h4><ul class="checklist"><li>Chief complaint (required for all visits)</li><li>HPI: 1-3 elements for brief, â‰¥4 for extended</li><li>ROS: problem-pertinent (1 system), extended (2-9), complete (â‰¥10)</li><li>PFSH: pertinent (1 item) or complete (2-3 items)</li><li>If not documented, it wasn't done</li></ul></div>
+            </div>
+            <div class="pearl-box">ðŸ’¡ For established patients: 99212-99215. New patients: 99201-99205. Medical decision making is the most important factor for higher-level coding.</div>
+          ` },
+        { num: "39", title: "Procedural Documentation", startPage: "412", endPage: "415", color: "c3",
+          content: `
+            <div class="info-grid">
+                <div class="info-card blue-card"><h4>ðŸ“„ Required Elements in Procedure Note</h4><ul class="dot-list"><li>Procedure name and indication</li><li>Informed consent obtained (with patient capacity statement)</li><li>Personnel (performer and assistant)</li><li>Anesthesia (agent, dose, route)</li><li>Description of procedure (with any variations)</li><li>Complications (if any) and blood loss estimate</li><li>Specimens (if any) and disposition</li><li>Patient condition at completion</li></ul></div>
+                <div class="info-card green-card"><h4>âœ… Good Documentation Tips</h4><ul class="checklist"><li>Record immediately after procedure (recall is best)</li><li>Use diagrams for lesion locations or suture patterns</li><li>Consider digital photos (with patient consent, de-identified)</li><li>Avoid non-standard abbreviations</li><li>If using EHR templates, customize to reflect actual procedure</li></ul></div>
+            </div>
+            <div class="danger-box">ðŸ”¥ "If it's not documented, it wasn't done" â€” this phrase is used in court, peer review, and by insurance auditors.</div>
+          ` },
+        { num: "40", title: "Giving Bad News (SPIKES)", startPage: "416", endPage: "425", color: "c4",
+          content: `
+            <div class="info-grid">
+                <div class="info-card purple-card"><h4>ðŸŽ¯ SPIKES Protocol</h4><ul class="dot-list"><li><strong>S</strong>etting: private room, sit down, no interruptions, tissues available</li><li><strong>P</strong>erception: "What do you understand about your condition so far?"</li><li><strong>I</strong>nvitation: "Would you like me to explain the results?"</li><li><strong>K</strong>nowledge: give warning shot ("I'm afraid I have difficult news..."), use plain language, small chunks</li><li><strong>E</strong>motions: validate, empathize, allow silence ("I can see this is very hard")</li><li><strong>S</strong>trategy: summarize, discuss next steps, provide written plan</li></ul></div>
+                <div class="info-card green-card"><h4>ðŸ¤ Managing Emotional Reactions</h4><ul class="dot-list"><li><strong>Anger:</strong> sit down, listen without interrupting, don't debate, say "I understand you're angry"</li><li><strong>Crying/tears:</strong> offer tissues, wait, say nothing or softly "Take your time"</li><li><strong>Silence:</strong> don't fill with talk â€” allow processing</li><li><strong>Denial:</strong> "This must be very hard to accept. We can talk more when you're ready."</li></ul></div>
+            </div>
+            <div class="danger-box">ðŸ”¥ Never give bad news over the phone unless absolutely unavoidable. Never give bad news in a hallway or public area.</div>
+            <div class="pearl-box">ðŸ’¡ Over-reassurance creates distance from reality â€” don't say "everything will be fine" when it won't. Honest empathy builds trust.</div>
+          ` }
+    ];
+
+// ============ GRADIENTS & ICONS ============
+const gradients = {
+  c1:'linear-gradient(135deg,#ef4444,#f97316)',
+  c2:'linear-gradient(135deg,#3b82f6,#06b6d4)',
+  c3:'linear-gradient(135deg,#22c55e,#14b8a6)',
+  c4:'linear-gradient(135deg,#a855f7,#6366f1)',
+  c5:'linear-gradient(135deg,#f97316,#f59e0b)',
+  c6:'linear-gradient(135deg,#14b8a6,#22c55e)',
+  c7:'linear-gradient(135deg,#64748b,#475569)',
+  c8:'linear-gradient(135deg,#f59e0b,#f97316)',
+  c9:'linear-gradient(135deg,#06b6d4,#3b82f6)',
+  c10:'linear-gradient(135deg,#ec4899,#a855f7)',
+  c11:'linear-gradient(135deg,#1e293b,#334155)',
+  c12:'linear-gradient(135deg,#94a3b8,#64748b)',
+};
+const icons = {
+  c1:'ðŸ”´',c2:'ðŸ”µ',c3:'ðŸŸ¢',c4:'ðŸŸ£',c5:'ðŸŸ ',c6:'ðŸ©µ',
+  c7:'âš«',c8:'ðŸŸ¡',c9:'ðŸ©·',c10:'ðŸ’œ',c11:'â¬›',c12:'ðŸ©¶'
+};
+const chapterEmojis = ['ðŸ”¬','ðŸ’‰','ðŸ©º','ðŸ¦´','â„ï¸','ðŸ§´','ðŸ©¹','ðŸ¥','ðŸ’Š','ðŸ«€','ðŸ©»','ðŸ”ª','ðŸ’‰','ðŸ©¸','ðŸ¦µ','ðŸ’Š','ðŸ§ ','ðŸª±','ðŸ©¸','ðŸ«','ðŸ“¡','ðŸ˜´','â¤ï¸','ðŸ¦¾','ðŸ‘‚','ðŸ’','ðŸ”¬','ðŸ«','ðŸ©¸','âœ‚ï¸','ðŸ¦·','ðŸ§µ','ðŸ©¹','ðŸ“‹','ðŸ§¤','ðŸ§ª','ðŸ“š','ðŸ”¬','ðŸ«€','ðŸƒ'];
+
+let completedSet = new Set();
+let starredSet = new Set();
+let isDark = false;
+
+// ============ RENDER ============
+function renderChapters(list){
+  const container = document.getElementById('chaptersContainer');
+  container.innerHTML = '';
+  if(!list.length){
+    container.innerHTML = '<div class="no-results"><div class="icon">ðŸ”</div><p>No chapters found</p></div>';
+    return;
+  }
+  list.forEach((ch,idx)=>{
+    const origIdx = chapters.indexOf(ch);
+    const card = document.createElement('div');
+    card.className = 'chapter-card';
+    card.id = `chapter-${origIdx}`;
+    card.style.animationDelay = `${Math.min(idx*0.04,0.4)}s`;
+    const grad = gradients[ch.color] || gradients.c1;
+    const emoji = chapterEmojis[origIdx] || 'ðŸ“‹';
+    const isDone = completedSet.has(origIdx);
+    const isStarred = starredSet.has(origIdx);
+    card.innerHTML = `
+      <div class="card-header" style="background:${grad}">
+        <div class="header-icon">${emoji}</div>
+        <div class="header-text">
+          <h3>Chapter ${ch.num} â€” ${ch.title}</h3>
+          <div class="meta">
+            <span class="page-badge">ðŸ“„ pp.${ch.startPage}â€“${ch.endPage}</span>
+            <span class="tag">${isDone?'âœ… Done':'ðŸ“– Study'}</span>
+          </div>
+        </div>
+        <button class="complete-btn ${isDone?'done':''}" onclick="toggleComplete(${origIdx},this)" title="Mark complete">
+          ${isDone?'âœ…':'â—‹'}
+        </button>
+      </div>
+      <div class="card-content">${ch.content}</div>
+    `;
+    container.appendChild(card);
+  });
+}
+
+// ============ SIDEBAR ============
+function renderSidebar(list){
+  const sl = document.getElementById('chapterList');
+  sl.innerHTML = '';
+  list.forEach((ch,i)=>{
+    const origIdx = chapters.indexOf(ch);
+    const grad = gradients[ch.color] || gradients.c1;
+    const btn = document.createElement('button');
+    btn.className = `chapter-btn${completedSet.has(origIdx)?' done':''}`;
+    btn.id = `sbtn-${origIdx}`;
+    btn.innerHTML = `
+      <span class="ch-num" style="background:${grad}">${ch.num}</span>
+      <span class="ch-title">${ch.title}</span>
+      <span class="ch-pages">p.${ch.startPage}</span>
+    `;
+    btn.onclick = ()=>{ scrollToChapter(origIdx); if(window.innerWidth<768) closeSidebar(); };
+    sl.appendChild(btn);
+  });
+}
+
+// ============ SCROLL ============
+function scrollToChapter(idx){
+  const el = document.getElementById(`chapter-${idx}`);
+  if(el){ el.scrollIntoView({behavior:'smooth',block:'start'}); }
+  document.querySelectorAll('.chapter-btn').forEach((b,i)=>b.classList.toggle('active',i===idx));
+}
+
+// ============ COMPLETE ============
+function toggleComplete(idx,btn){
+  if(completedSet.has(idx)) completedSet.delete(idx);
+  else completedSet.add(idx);
+  const done = completedSet.has(idx);
+  btn.innerHTML = done?'âœ…':'â—‹';
+  btn.classList.toggle('done',done);
+  // Update tag
+  const tag = btn.closest('.card-header').querySelector('.tag');
+  if(tag) tag.textContent = done?'âœ… Done':'ðŸ“– Study';
+  updateProgress();
+}
+
+function updateProgress(){
+  const n = completedSet.size;
+  document.getElementById('completedCount').textContent = n;
+  document.getElementById('progressText').textContent = `${n}/${chapters.length}`;
+  document.getElementById('progressBar').style.width = `${(n/chapters.length)*100}%`;
+}
+
+// ============ FILTER ============
+function filterChapters(q){
+  q = q.trim().toLowerCase();
+  const list = q ? chapters.filter(ch=>ch.title.toLowerCase().includes(q)||ch.num.includes(q)) : chapters;
+  renderChapters(list);
+  renderSidebar(list);
+}
+
+// ============ OVERLAY SEARCH ============
+function overlaySearch(q){
+  const res = document.getElementById('overlaySearchResults');
+  if(!q.trim()){ res.innerHTML=''; return; }
+  const matches = chapters.filter(ch=>ch.title.toLowerCase().includes(q.toLowerCase()));
+  if(!matches.length){ res.innerHTML='<div style="padding:1rem 1.5rem;color:#94a3b8;font-size:0.875rem">No results</div>'; return; }
+  res.innerHTML = matches.map(ch=>{
+    const idx = chapters.indexOf(ch);
+    const grad = gradients[ch.color];
+    return `<div class="search-result-item" onclick="closeSearchOverlay();scrollToChapter(${idx})">
+      <div class="search-result-icon" style="background:${grad}">${chapterEmojis[idx]||'ðŸ“‹'}</div>
+      <div><div class="search-result-title">${ch.title}</div><div class="search-result-sub">Chapter ${ch.num} Â· pp.${ch.startPage}â€“${ch.endPage}</div></div>
+    </div>`;
+  }).join('');
+}
+
+function openSearchOverlay(){
+  document.getElementById('searchOverlay').classList.add('open');
+  setTimeout(()=>document.getElementById('overlaySearchInput').focus(),100);
+  document.querySelectorAll('.mob-nav-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('mobSearch').classList.add('active');
+}
+function closeSearchOverlay(e){
+  if(!e||e.target.id==='searchOverlay'){
+    document.getElementById('searchOverlay').classList.remove('open');
+    document.getElementById('overlaySearchInput').value='';
+    document.getElementById('overlaySearchResults').innerHTML='';
+    document.getElementById('mobAll').classList.add('active');
+    document.getElementById('mobSearch').classList.remove('active');
+  }
+}
+
+// ============ SIDEBAR MOBILE ============
+function openSidebar(){
+  document.getElementById('sidebar').classList.add('open');
+  document.getElementById('overlay').classList.add('active');
+  document.querySelectorAll('.mob-nav-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('mobMenu').classList.add('active');
+}
+function closeSidebar(){
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('overlay').classList.remove('active');
+  document.getElementById('mobAll').classList.add('active');
+  document.getElementById('mobMenu').classList.remove('active');
+}
+
+function mobNav(type){
+  document.querySelectorAll('.mob-nav-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('mobAll').classList.add('active');
+}
+
+// ============ SCROLL TOP ============
+const mainEl = document.getElementById('mainContent');
+mainEl.addEventListener('scroll',()=>{
+  const btn = document.getElementById('scrollTopBtn');
+  btn.classList.toggle('visible', mainEl.scrollTop > 400);
+  // Active sidebar highlight
+  const cards = document.querySelectorAll('.chapter-card');
+  let current = 0;
+  cards.forEach((c,i)=>{ if(mainEl.scrollTop >= c.offsetTop - 120) current = i; });
+  document.querySelectorAll('.chapter-btn').forEach((b,i)=>b.classList.toggle('active',i===current));
+});
+function scrollToTop(){ mainEl.scrollTo({top:0,behavior:'smooth'}); }
+
+// ============ THEME ============
+function toggleTheme(){
+  isDark = !isDark;
+  document.documentElement.setAttribute('data-theme', isDark?'dark':'light');
+  document.getElementById('themeToggle').textContent = isDark?'â˜€ï¸':'ðŸŒ™';
+  document.getElementById('mobDarkIcon').textContent = isDark?'â˜€ï¸':'ðŸŒ™';
+}
+
+// ============ INIT ============
+renderChapters(chapters);
+renderSidebar(chapters);
+updateProgress();
+</script>
+</body>
+</html>
