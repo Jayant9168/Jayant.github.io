@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Paediatric Emergency Medicine – Notes</title>
+  <link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700&display=swap" rel="stylesheet">
+  <style>
+    :root, [data-theme="light"] {
+      --text-xs: clamp(0.75rem, 0.7rem + 0.25vw, 0.875rem);
+      --text-sm: clamp(0.875rem, 0.8rem + 0.35vw, 1rem);
+      --text-base: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
+      --text-lg: clamp(1.125rem, 1rem + 0.75vw, 1.5rem);
+      --text-xl: clamp(1.5rem, 1.2rem + 1.25vw, 2.25rem);
+      --text-2xl: clamp(2rem, 1.2rem + 2.5vw, 3.5rem);
+      --space-1: 0.25rem; --space-2: 0.5rem; --space-3: 0.75rem; --space-4: 1rem;
+      --space-5: 1.25rem; --space-6: 1.5rem; --space-8: 2rem; --space-10: 2.5rem;
+      --space-12: 3rem; --space-16: 4rem; --space-20: 5rem;
+      --color-bg: #f7f6f2;
+      --color-surface: #fbfbf9;
+      --color-surface-2: #f1efe9;
+      --color-border: #d9d5ce;
+      --color-divider: #e4e0d9;
+      --color-text: #28251d;
+      --color-text-muted: #67645e;
+      --color-text-faint: #8d8a83;
+      --color-primary: #01696f;
+      --color-primary-hover: #0c4e54;
+      --color-primary-soft: #dbe9e8;
+      --color-success: #437a22;
+      --color-success-soft: #e1edd8;
+      --color-warning: #a26512;
+      --color-warning-soft: #f8ecd6;
+      --color-error: #a12c7b;
+      --color-error-soft: #f1dde9;
+      --color-blue: #006494;
+      --color-blue-soft: #deedf5;
+      --radius-sm: 0.375rem;
+      --radius-md: 0.625rem;
+      --radius-lg: 0.875rem;
+      --radius-xl: 1rem;
+      --shadow-sm: 0 1px 2px rgba(38, 35, 29, 0.05);
+      --shadow-md: 0 8px 24px rgba(38, 35, 29, 0.08);
+      --font-body: 'Satoshi', system-ui, sans-serif;
+      --content: 1100px;
+    }
+    [data-theme="dark"] {
+      --color-bg: #171614;
+      --color-surface: #1d1b18;
+      --color-surface-2: #25231f;
+      --color-border: #35322d;
+      --color-divider: #2b2925;
+      --color-text: #ece8e1;
+      --color-text-muted: #b6b0a7;
+      --color-text-faint: #8a847b;
+      --color-primary: #5fb0b4;
+      --color-primary-hover: #84c7ca;
+      --color-primary-soft: #213437;
+      --color-success: #84c165;
+      --color-success-soft: #243124;
+      --color-warning: #f0b55a;
+      --color-warning-soft: #372c1b;
+      --color-error: #e186bc;
+      --color-error-soft: #382230;
+      --color-blue: #79b7e0;
+      --color-blue-soft: #1c2b35;
+      --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.24);
+      --shadow-md: 0 12px 28px rgba(0, 0, 0, 0.34);
+    }
+    @media (prefers-color-scheme: dark) {
+      html:not([data-theme]) {
+        --color-bg: #171614;
+      }
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      min-height: 100vh;
+      background: var(--color-bg);
+      color: var(--color-text);
+      font-family: var(--font-body);
+      font-size: var(--text-base);
+      line-height: 1.65;
+      transition: background-color .25s ease, color .25s ease;
+    }
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; cursor: pointer; border: none; background: none; }
+    table { width: 100%; border-collapse: collapse; }
+    .skip-link {
+      position: absolute; left: -9999px; top: 0;
+      background: var(--color-primary); color: white; padding: var(--space-3) var(--space-4);
+      z-index: 999;
+    }
+    .skip-link:focus { left: var(--space-4); top: var(--space-4); border-radius: var(--radius-sm); }
+    .topbar {
+      position: sticky; top: 0; z-index: 20;
+      backdrop-filter: blur(10px);
+      background: color-mix(in srgb, var(--color-bg) 82%, transparent);
+      border-bottom: 1px solid var(--color-divider);
+    }
+    .topbar-inner {
+      max-width: var(--content); margin: 0 auto; padding: var(--space-3) var(--space-4);
+      display: flex; align-items: center; justify-content: space-between; gap: var(--space-4);
+    }
+    .brand { font-size: var(--text-sm); font-weight: 700; letter-spacing: 0.02em; color: var(--color-primary); }
+    .theme-toggle {
+      width: 44px; height: 44px; border-radius: 999px;
+      display: inline-grid; place-items: center;
+      background: var(--color-surface); border: 1px solid var(--color-border);
+      box-shadow: var(--shadow-sm);
+    }
+    .theme-toggle:hover { background: var(--color-surface-2); }
+    .hero {
+      max-width: var(--content); margin: 0 auto; padding: var(--space-12) var(--space-4) var(--space-8);
+    }
+    .hero-card {
+      background: linear-gradient(135deg, var(--color-primary) 0%, color-mix(in srgb, var(--color-primary) 78%, black 22%) 100%);
+      color: white; border-radius: var(--radius-xl); box-shadow: var(--shadow-md);
+      padding: clamp(1.5rem, 4vw, 3rem);
+    }
+    .badge {
+      display: inline-flex; align-items: center; gap: var(--space-2);
+      background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.18);
+      padding: var(--space-2) var(--space-3); border-radius: 999px; font-size: var(--text-xs);
+      margin-bottom: var(--space-4); text-transform: uppercase; letter-spacing: .08em;
+    }
+    h1 { font-size: var(--text-2xl); line-height: 1.05; margin-bottom: var(--space-3); }
+    .hero p { max-width: 70ch; }
+    .meta {
+      display: flex; flex-wrap: wrap; gap: var(--space-3); margin-top: var(--space-5);
+      color: rgba(255,255,255,.9); font-size: var(--text-sm);
+    }
+    .toc, .content { max-width: var(--content); margin: 0 auto; padding: 0 var(--space-4); }
+    .toc-card {
+      background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-sm); padding: var(--space-6); margin-bottom: var(--space-8);
+    }
+    .toc h2 { font-size: var(--text-lg); margin-bottom: var(--space-4); }
+    .toc-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: var(--space-3);
+    }
+    .toc-grid a {
+      padding: var(--space-3) var(--space-4); border: 1px solid var(--color-border); border-radius: var(--radius-md);
+      background: var(--color-surface-2); color: var(--color-text-muted); font-size: var(--text-sm);
+    }
+    .toc-grid a:hover { color: var(--color-primary); border-color: var(--color-primary); }
+    .section { margin-bottom: var(--space-10); }
+    .section-header {
+      display: flex; align-items: center; gap: var(--space-3); margin-bottom: var(--space-5);
+      padding: var(--space-4) var(--space-5); border-radius: var(--radius-lg);
+      background: var(--color-surface); border: 1px solid var(--color-border);
+      box-shadow: var(--shadow-sm);
+    }
+    .section-pill {
+      padding: 0.35rem 0.7rem; border-radius: 999px; background: var(--color-primary-soft);
+      color: var(--color-primary); font-size: var(--text-xs); font-weight: 700; letter-spacing: .05em; text-transform: uppercase;
+    }
+    .section-header h2 { font-size: var(--text-lg); }
+    .cards { display: grid; gap: var(--space-4); }
+    .card {
+      background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-sm); padding: var(--space-5);
+    }
+    .card h3 {
+      font-size: var(--text-base); margin-bottom: var(--space-4); color: var(--color-primary);
+      border-bottom: 1px solid var(--color-divider); padding-bottom: var(--space-3);
+    }
+    .subheading { font-weight: 700; margin: var(--space-4) 0 var(--space-2); color: var(--color-text); }
+    .clinical-list { list-style: none; display: grid; gap: var(--space-2); }
+    .clinical-list li {
+      position: relative; padding-left: 1.05rem; color: var(--color-text-muted);
+    }
+    .clinical-list li::before {
+      content: '▸'; position: absolute; left: 0; top: 0; color: var(--color-primary); font-weight: 700;
+    }
+    .clinical-list strong { color: var(--color-text); }
+    .alert {
+      display: flex; gap: var(--space-3); align-items: flex-start; border-radius: var(--radius-md);
+      padding: var(--space-3) var(--space-4); margin-bottom: var(--space-4); border: 1px solid transparent;
+      font-size: var(--text-sm);
+    }
+    .alert strong { color: inherit; }
+    .info { background: var(--color-blue-soft); color: var(--color-blue); border-color: color-mix(in srgb, var(--color-blue) 18%, transparent); }
+    .success { background: var(--color-success-soft); color: var(--color-success); border-color: color-mix(in srgb, var(--color-success) 18%, transparent); }
+    .warning { background: var(--color-warning-soft); color: var(--color-warning); border-color: color-mix(in srgb, var(--color-warning) 18%, transparent); }
+    .danger { background: var(--color-error-soft); color: var(--color-error); border-color: color-mix(in srgb, var(--color-error) 18%, transparent); }
+    .table-wrap { overflow-x: auto; margin-top: var(--space-3); }
+    th, td { padding: 0.85rem 0.9rem; text-align: left; border-bottom: 1px solid var(--color-divider); }
+    th { font-size: var(--text-sm); color: var(--color-text); background: var(--color-surface-2); }
+    td { color: var(--color-text-muted); font-size: var(--text-sm); }
+    .drug {
+      display: inline-block; padding: 0.2rem 0.55rem; border-radius: 999px; font-size: 0.82em; font-weight: 700;
+      background: var(--color-warning-soft); color: var(--color-warning); border: 1px solid color-mix(in srgb, var(--color-warning) 16%, transparent);
+    }
+    .split { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-4); }
+    footer {
+      max-width: var(--content); margin: var(--space-12) auto var(--space-6); padding: 0 var(--space-4);
+      color: var(--color-text-faint); font-size: var(--text-sm); text-align: center;
+    }
+    @media (max-width: 760px) {
+      .split { grid-template-columns: 1fr; }
+      .hero { padding-top: var(--space-8); }
+      .section-header { align-items: flex-start; flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+  <a href="#main" class="skip-link">Skip to content</a>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">Paediatric Emergency Medicine Notes</div>
+      <button class="theme-toggle" type="button" aria-label="Switch theme" data-theme-toggle>
+        <span aria-hidden="true">🌙</span>
+      </button>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="hero-card">
+      <div class="badge">4th Edition · Professional Notes</div>
+      <h1>Paediatric Emergency Medicine</h1>
+      <p>Clean, exam-focused, clinically structured notes designed for rapid revision, ward reference, and emergency department recall.</p>
+      <div class="meta">
+        <span>📘 Chapter-wise summary</span>
+        <span>🏥 Rapid clinical review</span>
+        <span>🌗 Day mode + Dark mode</span>
+      </div>
+    </div>
+  </section>
+
+  <nav class="toc" aria-label="Table of contents">
+    <div class="toc-card">
+      <h2>Contents</h2>
+      <div class="toc-grid">
+        <a href="#s1">Section 1 — General Approach</a>
+        <a href="#s2">Section 2 — Resuscitation & ALS</a>
+        <a href="#s3">Section 3 — Analgesia & Sedation</a>
+        <a href="#s4">Section 4 — Neonatal Emergencies</a>
+        <a href="#s5">Section 5 — Cardiology</a>
+        <a href="#s6">Section 6 — Respiratory Emergencies</a>
+        <a href="#s7">Section 7 — Gastroenterology</a>
+        <a href="#s8">Section 8 — Neurology</a>
+        <a href="#s9">Sections 9–10 — Infection & Endocrine</a>
+        <a href="#s10">Sections 11–12 — Haematology & Renal</a>
+        <a href="#s11">Section 13 — Trauma & Burns</a>
+        <a href="#s12">Sections 23–24 — Poisoning</a>
+        <a href="#s13">Section 29 — Procedures</a>
+      </div>
+    </div>
+  </nav>
+
+  <main id="main" class="content">
+    <section id="s1" class="section">
+      <div class="section-header"><span class="section-pill">Section 1</span><h2>General Approach & Chronic Conditions</h2></div>
+      <div class="cards">
+        <article class="card">
+          <h3>1.1 Approach to the Paediatric Patient</h3>
+          <div class="alert info">💡 <div><strong>Core principle:</strong> Build rapport first, observe before touching, and use distraction rather than a forced examination.</div></div>
+          <div class="subheading">History red flags</div>
+          <ul class="clinical-list">
+            <li>&lt;50% normal fluid intake</li>
+            <li>Prolonged lethargy</li>
+            <li>No urine output for &gt;6 hours</li>
+            <li>Inconsolable crying</li>
+            <li>Parental concern out of proportion</li>
+          </ul>
+          <div class="subheading">Examination warning signs</div>
+          <ul class="clinical-list">
+            <li><strong>Non-blanching rash</strong> → sepsis / meningococcaemia</li>
+            <li><strong>Bilious vomiting</strong> → obstruction until proven otherwise</li>
+            <li><strong>Grunting</strong> → respiratory distress</li>
+          </ul>
+          <div class="subheading">Normal age-based vital signs</div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Age group</th><th>HR</th><th>RR</th></tr></thead>
+              <tbody>
+                <tr><td>Neonate</td><td>110–170</td><td>25–60</td></tr>
+                <tr><td>Child</td><td>70–135</td><td>16–34</td></tr>
+                <tr><td>Adolescent</td><td>60–120</td><td>14–26</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </article>
+        <article class="card">
+          <h3>1.2 Common Chronic Conditions</h3>
+          <div class="split">
+            <div>
+              <div class="subheading">Cerebral palsy</div>
+              <ul class="clinical-list">
+                <li>Respiratory infections are common ED presentations</li>
+                <li>Watch for aspiration, constipation, and PEG complications</li>
+              </ul>
+            </div>
+            <div>
+              <div class="subheading">Cystic fibrosis</div>
+              <ul class="clinical-list">
+                <li>Exacerbations present with change in sputum, cough, and lung function</li>
+                <li>Treat with IV antibiotics and chest physiotherapy</li>
+              </ul>
+            </div>
+            <div>
+              <div class="subheading">Autism spectrum disorder</div>
+              <ul class="clinical-list">
+                <li>Reduce sensory overload and involve caregivers early</li>
+                <li>Limit staff changes and use visual preparation</li>
+              </ul>
+            </div>
+            <div>
+              <div class="subheading">Ex-premature infants</div>
+              <ul class="clinical-list">
+                <li>Higher risk of severe bronchiolitis and pneumonia</li>
+                <li>Immunise by chronological age</li>
+              </ul>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="s2" class="section">
+      <div class="section-header"><span class="section-pill">Section 2</span><h2>Resuscitation & Advanced Life Support</h2></div>
+      <div class="cards">
+        <article class="card">
+          <h3>2.2 PBLS and 2.3 PALS</h3>
+          <ul class="clinical-list">
+            <li><strong>2-rescuer CPR:</strong> 15:2 in infants and children; newborn 3:1</li>
+            <li><strong>Compression depth:</strong> one-third of the AP chest diameter</li>
+            <li><strong>Compression rate:</strong> 100–120/min</li>
+            <li><strong>Defibrillation:</strong> <span class="drug">4 J/kg</span> for shockable rhythms</li>
+            <li><strong>IO access:</strong> use if IV access not secured within 60–90 seconds</li>
+          </ul>
+        </article>
+        <article class="card">
+          <h3>Shock and Sepsis</h3>
+          <div class="alert danger">🚨 <div><strong>Hypotension is a late sign.</strong> Early recognition depends on tachycardia, poor perfusion, and prolonged capillary refill.</div></div>
+          <ul class="clinical-list">
+            <li>Initial fluid bolus: <span class="drug">10–20 mL/kg</span> crystalloid, reassess after each bolus</li>
+            <li>Give antibiotics within <strong>1 hour</strong></li>
+            <li>Lactate &gt;4 mmol/L suggests severe sepsis</li>
+            <li>After 40 mL/kg fluid, start adrenaline or noradrenaline if needed</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section id="s3" class="section">
+      <div class="section-header"><span class="section-pill">Section 3</span><h2>Analgesia & Procedural Sedation</h2></div>
+      <div class="cards">
+        <article class="card">
+          <h3>3.1–3.2 Pain Control and Sedation</h3>
+          <div class="alert success">✓ <div><strong>Preferred approach:</strong> use multimodal analgesia whenever possible.</div></div>
+          <ul class="clinical-list">
+            <li>Sucrose for neonates during minor procedures</li>
+            <li>Topical anaesthetics such as EMLA or amethocaine</li>
+            <li>Intranasal fentanyl for moderate to severe pain</li>
+            <li>Ketamine provides dissociative sedation and preserves airway reflexes</li>
+            <li>Propofol gives deep sedation but no analgesia and can cause apnoea</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section id="s4" class="section">
+      <div class="section-header"><span class="section-pill">Section 4</span><h2>Neonatal Emergencies</h2></div>
+      <div class="cards">
+        <article class="card">
+          <h3>4.4 Acute Neonatal Emergencies</h3>
+          <div class="alert danger">🚨 <div><strong>Bilious vomiting is malrotation or volvulus until proven otherwise.</strong></div></div>
+          <ul class="clinical-list">
+            <li>Duct-dependent lesions: <span class="drug">PGE1 0.05–0.1 mcg/kg/min</span></li>
+            <li>Neonatal seizures may be subtle; first-line is <span class="drug">phenobarbitone 20 mg/kg</span></li>
+            <li>Pathological jaundice includes onset within 24 hours or conjugated rise</li>
+            <li>Neonatal resuscitation prioritises effective ventilation</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section id="s5" class="section">
+      <div class="section-header"><span class="section-pill">Section 5</span><h2>Cardiology</h2></div>
+      <div class="cards">
+        <article class="card">
+          <h3>Murmurs, Syncope, Tet Spells, and SVT</h3>
+          <ul class="clinical-list">
+            <li>Innocent murmurs are systolic, short, soft, and localised</li>
+            <li>Syncope red flags: exertional episode, no prodrome, family history of sudden death</li>
+            <li>Tet spell management: knee-chest position, oxygen, morphine, fluid, propranolol</li>
+            <li>SVT: vagal manoeuvres, then <span class="drug">adenosine 100–300 mcg/kg</span></li>
+            <li>Unstable SVT requires synchronised cardioversion <span class="drug">0.5–2 J/kg</span></li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section id="s6" class="section">
+      <div class="section-header"><span class="section-pill">Section 6</span><h2>Respiratory Emergencies</h2></div>
+      <div class="cards">
+        <article class="card">
+          <h3>Croup, Asthma, Pneumonia, Bronchiolitis</h3>
+          <ul class="clinical-list">
+            <li>Croup requires steroids in all cases: <span class="drug">dexamethasone 0.15 mg/kg</span></li>
+            <li>Severe croup with stridor at rest: nebulised adrenaline</li>
+            <li>Asthma first line: salbutamol MDI + spacer and oral prednisolone</li>
+            <li>Life-threatening asthma: continuous bronchodilator, ipratropium, IV magnesium</li>
+            <li>Bronchiolitis treatment is supportive; avoid routine bronchodilators and steroids</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section id="s7" class="section">
+      <div class="section-header"><span class="section-pill">Section 7</span><h2>Gastroenterology & Hepatology</h2></div>
+      <div class="cards">
+        <article class="card">
+          <h3>Bilious Vomiting, Pyloric Stenosis, Gastroenteritis</h3>
+          <div class="alert danger">🚨 <div><strong>Bilious vomiting = surgical emergency.</strong></div></div>
+          <ul class="clinical-list">
+            <li>Pyloric stenosis: projectile non-bilious vomiting in a 2–8 week infant</li>
+            <li>Button battery in the oesophagus needs urgent removal</li>
+            <li>Multiple magnets carry high perforation risk</li>
+            <li>Gastroenteritis: use ORS first; ondansetron can reduce vomiting</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section id="s8" class="section">
+      <div class="section-header"><span class="section-pill">Section 8</span><h2>Neurology</h2></div>
+      <div class="cards">
+        <article class="card">
+          <h3>Status Epilepticus and Raised ICP</h3>
+          <ul class="clinical-list">
+            <li>Stepwise treatment: benzodiazepine → levetiracetam or phenytoin → intubation</li>
+            <li>Raised ICP signs: Cushing triad, bulging fontanelle, altered consciousness</li>
+            <li>Emergency measures: head up 30°, hypertonic saline, avoid hypoxia and hypotension</li>
+            <li>Complex febrile seizure is focal, prolonged, or recurrent within 24 hours</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section id="s9" class="section">
+      <div class="section-header"><span class="section-pill">Sections 9–10</span><h2>Infectious Diseases & Endocrine</h2></div>
+      <div class="cards">
+        <article class="card">
+          <h3>Febrile Child, Meningitis, MIS-C, DKA</h3>
+          <ul class="clinical-list">
+            <li>UTI is the most common serious bacterial infection in young children</li>
+            <li>Meningitis: LP unless contraindicated; start cefotaxime or ceftriaxone promptly</li>
+            <li>MIS-C presents with persistent fever, shock, and multi-organ involvement</li>
+            <li>DKA insulin infusion: <span class="drug">0.05–0.1 units/kg/hr</span> after rehydration begins</li>
+            <li>Adrenal crisis: hydrocortisone IV, dextrose, and fluid resuscitation</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section id="s10" class="section">
+      <div class="section-header"><span class="section-pill">Sections 11–12</span><h2>Haematology / Oncology & Renal</h2></div>
+      <div class="cards">
+        <article class="card">
+          <h3>Febrile Neutropenia, Sickle Cell, HUS, Nephrotic Syndrome</h3>
+          <ul class="clinical-list">
+            <li>Febrile neutropenia requires IV broad-spectrum antibiotics within 60 minutes</li>
+            <li>Sickle cell acute chest syndrome: antibiotics, spirometry, exchange transfusion if severe</li>
+            <li>HUS is mainly supportive care; avoid antibiotics in STEC-associated disease</li>
+            <li>Nephrotic syndrome treatment: <span class="drug">prednisolone 60 mg/m²/day</span></li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section id="s11" class="section">
+      <div class="section-header"><span class="section-pill">Section 13</span><h2>Trauma & Burns</h2></div>
+      <div class="cards">
+        <article class="card">
+          <h3>Primary Survey and Burns</h3>
+          <ul class="clinical-list">
+            <li>Catastrophic haemorrhage first; use a tourniquet when indicated</li>
+            <li>Tension pneumothorax: needle thoracostomy followed by chest drain</li>
+            <li>Massive transfusion protocol: 1:1:1 ratio plus <span class="drug">TXA 15 mg/kg</span></li>
+            <li>Burns first aid: cool running water for 20 minutes within 3 hours</li>
+            <li>Modified Parkland: <span class="drug">3 mL/kg/%TBSA</span></li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section id="s12" class="section">
+      <div class="section-header"><span class="section-pill">Sections 23–24</span><h2>Poisoning & Envenomation</h2></div>
+      <div class="cards">
+        <article class="card">
+          <h3>Poisoning Principles and Antidotes</h3>
+          <ul class="clinical-list">
+            <li>Activated charcoal only for selected high-risk ingestions within 1 hour</li>
+            <li>Paracetamol overdose uses the nomogram and <span class="drug">NAC</span></li>
+            <li>One-pill-kill agents include calcium channel blockers, sulfonylureas, tricyclics, and chloroquine</li>
+            <li>Organophosphate poisoning: atropine plus pralidoxime</li>
+            <li>Snakebite: pressure immobilisation and antivenom for systemic envenoming</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section id="s13" class="section">
+      <div class="section-header"><span class="section-pill">Section 29</span><h2>Essential Procedures</h2></div>
+      <div class="cards">
+        <article class="card">
+          <h3>Airway, IO Access, Chest Drain, LP</h3>
+          <ul class="clinical-list">
+            <li>RSI commonly uses ketamine with rocuronium or suxamethonium</li>
+            <li>Cuffed ETT size formula: age/4 + 3.5</li>
+            <li>Waveform capnography is the gold standard for tube confirmation</li>
+            <li>Chest drain site: 4th–5th intercostal space, anterior axillary line</li>
+            <li>Do not delay antibiotics for lumbar puncture in a critically ill child</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    Paediatric Emergency Medicine · Refined professional notes with manual day and dark mode toggle.
+  </footer>
+
+  <script>
+    (function () {
+      const root = document.documentElement;
+      const button = document.querySelector('[data-theme-toggle]');
+      let theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      root.setAttribute('data-theme', theme);
+      function renderIcon(mode) {
+        button.innerHTML = mode === 'dark' ? '<span aria-hidden="true">☀️</span>' : '<span aria-hidden="true">🌙</span>';
+        button.setAttribute('aria-label', mode === 'dark' ? 'Switch to day mode' : 'Switch to dark mode');
+      }
+      renderIcon(theme);
+      button.addEventListener('click', function () {
+        theme = theme === 'dark' ? 'light' : 'dark';
+        root.setAttribute('data-theme', theme);
+        renderIcon(theme);
+      });
+    })();
+  </script>
+</body>
+</html>
