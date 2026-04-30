@@ -1554,24 +1554,21 @@ function toggleSepsisTheme() {
     </div>
 
     <!-- Procedural Landing View -->
-    <div class="procedural-landing" id="procedural-landing">
-      <div class="acls-landing">
-        <div class="acls-landing-title">PROCEDURAL <span>STATION</span></div>
-        <div class="acls-landing-sub">SECTION A: ESSENTIAL PROCEDURAL SKILLS // 40 MODULES</div>
-        <div class="acls-sections-grid" style="justify-content: center;">
-          <div class="acls-section-card" onclick="startProceduralGuide()" style="--card-accent: #00f5d4; max-width: 320px; position: relative; overflow: hidden;">
-            <div style="position:absolute; inset:0; background: radial-gradient(circle at 50% 0%, rgba(0, 245, 212, 0.1), transparent 70%); pointer-events: none;"></div>
-            <span class="card-icon">💉</span>
-            <span class="card-letter">SECTION A</span>
-            <span class="card-name">Interactive Modules</span>
-            <div style="margin-top: 10px; font-family: 'DM Mono', monospace; font-size: 10px; opacity: 0.5; letter-spacing: 1px;">40 CLINICAL PROCEDURES</div>
-          </div>
-        </div>
-        <div style="margin-top: 40px; text-align: center; font-family: 'DM Mono', monospace; font-size: 10px; color: rgba(255,255,255,0.2); letter-spacing: 2px; text-transform: uppercase;">
-          Operational Status: Optimal // Standby for Selection
-        </div>
-      </div>
-    </div>
+    <!-- Section A - Direct Link (No 404) -->
+<div class="acls-landing">
+  <div class="acls-landing-title">PROCEDURAL <span>STATION</span></div>
+  <div class="acls-landing-sub">SECTION A: ESSENTIAL PROCEDURAL SKILLS // 40 MODULES</div>
+  
+  <div class="acls-sections-grid" style="justify-content: center;">
+    <a href="neuro-emergency.html" 
+       class="acls-section-card" 
+       style="--card-accent: #00f5d4; max-width: 300px; text-decoration: none; color: inherit; display: block;">
+      <span class="card-icon">💉</span>
+      <span class="card-letter">SECTION A</span>
+      <span class="card-name">Interactive Modules</span>
+    </a>
+  </div>
+</div>
 
     <!-- Guide View (Iframe based) -->
     <div class="procedural-guide-area" id="proc-iframe-container" style="display: none; flex: 1; position: relative; background: #000; border-radius: 16px; overflow: hidden; border: 1px solid rgba(255,255,255,0.1); margin-top: 10px;">
