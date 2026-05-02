@@ -336,6 +336,7 @@
     .content { padding: 1.5rem 1rem; }
     .glass-panel { padding: 1.5rem; }
     h1 { font-size: 3.5rem; }
+    .vitals { min-width: 100%; }
     .vital { min-width: 40%; border-bottom: 1px solid var(--glass-border); }
     .vital:nth-child(even) { border-right: none; }
     .form-row-two { grid-template-columns: 1fr; }
@@ -344,6 +345,8 @@
   }
   @media (max-width: 600px) {
     .info-grid { grid-template-columns: 1fr; }
+    .n-tbl { display: block; overflow-x: auto; white-space: nowrap; -webkit-overflow-scrolling: touch; }
+    .acls-section-card { min-width: 100%; }
   }
   /* ── SEPSIS GUIDELINES SCOPED STYLES ──────────────────────────────── */
   #sepsisOverlay {
@@ -1240,72 +1243,10 @@
           <span>💉</span> Procedural
           <span style="font-size:10px;color:rgba(0,245,212,0.7);margin-left:4px">↗</span>
         </div>
-        <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  
-  <style>
-    .platform-launch-chip {
-      background: linear-gradient(135deg, rgba(26,86,219,0.15), rgba(8,145,178,0.15));
-      border: 1px solid rgba(26,86,219,0.5);
-      border-radius: 12px;
-      padding: 14px 22px;
-      font-size: 14px;
-      color: #60a5fa;
-      font-family: 'DM Mono', monospace;
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      cursor: pointer;
-      position: relative;
-      overflow: hidden;
-      transition: all 0.3s ease;
-    }
-
-    .platform-launch-chip:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 10px 25px rgba(26,86,219,0.4);
-      color: white;
-      border-color: rgba(26,86,219,0.9);
-    }
-
-    /* Blinking Dot */
-    .plc-pulse {
-      width: 9px;
-      height: 9px;
-      background: #3b82f6;
-      border-radius: 50%;
-      box-shadow: 0 0 12px #3b82f6;
-      animation: blinkPulse 1.4s infinite ease-in-out;
-    }
-
-    @keyframes blinkPulse {
-      0%, 100% { 
-        opacity: 1; 
-        transform: scale(1); 
-      }
-      50% { 
-        opacity: 0.3; 
-        transform: scale(0.6); 
-      }
-    }
-  </style>
-</head>
-<body style="background:#03060d; padding:50px; font-family:sans-serif;">
-
-  <h2 style="color:white; margin-bottom:20px;"></h2>
-
-  <!-- Yeh Wali Chip -->
-  <div class="platform-launch-chip" onclick=<Med Learning Platform.html>
-    <div class="plc-pulse"></div>
-    <span style="font-size:16px">🎓</span>
-    <span>Med Learning Platform</span>
-    <span style="font-size:11px; opacity:0.8">↗ Open</span>
-  </div>
-
-</body>
-</html>
+        <div class="skill-chip" onclick="window.location.href='Med Learning Platform.html'" style="border-color: #ffd700; background: rgba(255, 215, 0, 0.1); cursor: pointer;">
+          <span>🎓</span> Med Learning Platform
+          <span style="font-size:10px;color:#ffd700;margin-left:4px">↗</span>
+        </div>
         <div class="skill-chip"><span>🧠</span> Neuro Emerg</div>
         <div class="skill-chip"><span>🩻</span> POCUS Eval</div>
         <div class="skill-chip"><span>🌡️</span> Toxicology</div>
@@ -1620,29 +1561,23 @@ function toggleSepsisTheme() {
     </div>
 
     <!-- Procedural Landing View -->
-    <!-- Section A - Direct Link (No 404) -->
-<div class="acls-landing">
-  <div class="acls-landing-title">PROCEDURAL <span>STATION</span></div>
-  <div class="acls-landing-sub">SECTION A: ESSENTIAL PROCEDURAL SKILLS // 40 MODULES</div>
-  
-  <div class="acls-sections-grid" style="justify-content: center;">
-    <a href="neuro-emergency.html" 
-       class="acls-section-card" 
-       style="--card-accent: #00f5d4; max-width: 300px; text-decoration: none; color: inherit; display: block;">
-      <span class="card-icon">💉</span>
-      <span class="card-letter">SECTION A</span>
-      <span class="card-name">Interactive Modules</span>
-    </a>
-  </div>
-</div>
-
-    <!-- Guide View (Iframe based) -->
-    <div class="procedural-guide-area" id="proc-iframe-container" style="display: none; flex: 1; position: relative; background: #000; border-radius: 16px; overflow: hidden; border: 1px solid rgba(255,255,255,0.1); margin-top: 10px;">
-      <div id="proc-loading" style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background: #03060d; z-index: 5; flex-direction: column; gap: 1rem;">
-        <div style="width: 40px; height: 40px; border: 3px solid rgba(0,245,212,0.1); border-top-color: #00f5d4; border-radius: 50%; animation: spin 1s linear infinite;"></div>
-        <div style="font-family: 'DM Mono', monospace; font-size: 11px; color: #8a9bb3; letter-spacing: 2px;">SYNCHRONIZING MODULES...</div>
+    <div class="procedural-landing" id="procedural-landing">
+      <div class="acls-landing">
+        <div class="acls-landing-title">PROCEDURAL <span>STATION</span></div>
+        <div class="acls-landing-sub">SECTION A: ESSENTIAL PROCEDURAL SKILLS // 40 MODULES</div>
+        <div class="acls-sections-grid" style="justify-content: center;">
+          <a href="neuro-emergency.html" class="acls-section-card" style="--card-accent: #00f5d4; max-width: 320px; position: relative; overflow: hidden; text-decoration: none; color: inherit; display: block;">
+            <div style="position:absolute; inset:0; background: radial-gradient(circle at 50% 0%, rgba(0, 245, 212, 0.1), transparent 70%); pointer-events: none;"></div>
+            <span class="card-icon">💉</span>
+            <span class="card-letter">SECTION A</span>
+            <span class="card-name">Interactive Modules</span>
+            <div style="margin-top: 10px; font-family: 'DM Mono', monospace; font-size: 10px; opacity: 0.5; letter-spacing: 1px;">40 CLINICAL PROCEDURES</div>
+          </a>
+        </div>
+        <div style="margin-top: 40px; text-align: center; font-family: 'DM Mono', monospace; font-size: 10px; color: rgba(255,255,255,0.2); letter-spacing: 2px; text-transform: uppercase;">
+          Operational Status: Optimal // Standby for Selection
+        </div>
       </div>
-      <iframe id="proc-iframe" src="about:blank" style="width: 100%; height: 100%; border: none; opacity: 0; transition: opacity 0.5s ease;"></iframe>
     </div>
   </div>
 </div>
@@ -1773,21 +1708,21 @@ function toggleSepsisTheme() {
       <button class="close-btn" onclick="closePedsER()" style="color: #00f5d4; border-color: rgba(0,245,212,0.3); background: rgba(0,245,212,0.1);">✕</button>
     </div>
 
-   <!-- Section A - Direct Link (No 404) -->
-<div class="acls-landing">
-  <div class="acls-landing-title">👶Peds ER <span>STATION</span></div>
-  <div class="acls-landing-sub">SECTION A: 👶SECTION A Core Pediatric Emergencies // 40 MODULES</div>
-  
-  <div class="acls-sections-grid" style="justify-content: center;">
-    <a href="Peds Eicu-emergency.html" 
-       class="acls-section-card" 
-       style="--card-accent: #00f5d4; max-width: 300px; text-decoration: none; color: inherit; display: block;">
-      <span class="card-icon">💉</span>
-      <span class="card-letter">SECTION A</span>
-      <span class="card-name">Interactive Modules</span>
-    </a>
-  </div>
-</div>
+    <!-- Section A - Direct Link -->
+    <div class="acls-landing" id="pedsLanding">
+      <div class="acls-landing-title">👶Peds ER <span>STATION</span></div>
+      <div class="acls-landing-sub">SECTION A: Core Pediatric Emergencies // 40 MODULES</div>
+      
+      <div class="acls-sections-grid" style="justify-content: center;">
+        <a href="Peds Eicu-emergency.html" 
+           class="acls-section-card" 
+           style="--card-accent: #00f5d4; max-width: 300px; text-decoration: none; color: inherit; display: block;">
+          <span class="card-icon">💉</span>
+          <span class="card-letter">SECTION A</span>
+          <span class="card-name">Interactive Modules</span>
+        </a>
+      </div>
+    </div>
 
   </div>
 </div>
