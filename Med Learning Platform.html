@@ -1,0 +1,891 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MedResidency — Clinical Learning Platform</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=DM+Mono:wght@400;500&family=Playfair+Display:ital,wght@0,600;1,400&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --blue:#1a56db;--blue-lt:#eff4ff;--blue-mid:#3b82f6;--blue-dk:#1e3a8a;
+  --teal:#0891b2;--teal-lt:#ecfeff;
+  --green:#059669;--green-lt:#ecfdf5;
+  --red:#dc2626;--red-lt:#fef2f2;
+  --amber:#d97706;--amber-lt:#fffbeb;
+  --gray-50:#f8fafc;--gray-100:#f1f5f9;--gray-200:#e2e8f0;--gray-300:#cbd5e1;
+  --gray-400:#94a3b8;--gray-500:#64748b;--gray-600:#475569;--gray-700:#334155;
+  --gray-800:#1e293b;--gray-900:#0f172a;
+  --white:#ffffff;
+  --font-sans:'Sora',sans-serif;
+  --font-mono:'DM Mono',monospace;
+  --font-serif:'Playfair Display',serif;
+  --shadow-sm:0 1px 3px rgba(0,0,0,.06),0 1px 2px rgba(0,0,0,.04);
+  --shadow-md:0 4px 16px rgba(0,0,0,.08),0 2px 6px rgba(0,0,0,.05);
+  --shadow-lg:0 10px 40px rgba(0,0,0,.10),0 4px 12px rgba(0,0,0,.06);
+  --shadow-xl:0 20px 60px rgba(0,0,0,.13);
+  --r:0.75rem;--r-lg:1.25rem;--r-xl:1.75rem;
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--font-sans);background:var(--gray-50);color:var(--gray-800);min-height:100vh;overflow-x:hidden}
+
+/* ── SIDEBAR ── */
+.sidebar{position:fixed;top:0;left:0;height:100vh;width:260px;background:var(--white);border-right:1px solid var(--gray-200);display:flex;flex-direction:column;z-index:100;transition:transform .3s ease}
+.sidebar-logo{padding:1.5rem 1.5rem 1rem;border-bottom:1px solid var(--gray-100)}
+.logo-mark{display:flex;align-items:center;gap:.75rem}
+.logo-icon{width:38px;height:38px;background:var(--blue);border-radius:10px;display:flex;align-items:center;justify-content:center}
+.logo-icon svg{width:20px;height:20px;fill:white}
+.logo-text{display:flex;flex-direction:column}
+.logo-title{font-size:1rem;font-weight:700;color:var(--gray-900);letter-spacing:-.02em}
+.logo-sub{font-size:.65rem;font-family:var(--font-mono);color:var(--gray-400);letter-spacing:.06em;text-transform:uppercase}
+
+.nav-section{padding:.75rem .75rem .25rem;font-size:.6rem;font-family:var(--font-mono);color:var(--gray-400);letter-spacing:.1em;text-transform:uppercase;font-weight:600}
+.nav-item{display:flex;align-items:center;gap:.75rem;padding:.65rem 1rem;border-radius:.6rem;margin:1px .5rem;cursor:pointer;transition:all .15s;font-size:.88rem;font-weight:500;color:var(--gray-600);text-decoration:none;position:relative}
+.nav-item:hover{background:var(--gray-50);color:var(--gray-900)}
+.nav-item.active{background:var(--blue-lt);color:var(--blue)}
+.nav-item.active::before{content:'';position:absolute;left:-0.5rem;top:50%;transform:translateY(-50%);width:3px;height:20px;background:var(--blue);border-radius:4px}
+.nav-icon{width:18px;height:18px;flex-shrink:0;opacity:.7}
+.nav-item.active .nav-icon,.nav-item:hover .nav-icon{opacity:1}
+.nav-badge{margin-left:auto;background:var(--blue);color:white;font-size:.6rem;padding:.15rem .5rem;border-radius:99px;font-family:var(--font-mono)}
+
+.sidebar-footer{margin-top:auto;padding:1rem 1.25rem;border-top:1px solid var(--gray-100)}
+.user-card{display:flex;align-items:center;gap:.75rem}
+.user-avatar{width:36px;height:36px;border-radius:50%;background:var(--blue-lt);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.8rem;color:var(--blue);flex-shrink:0}
+.user-info .name{font-size:.82rem;font-weight:600;color:var(--gray-800)}
+.user-info .role{font-size:.7rem;color:var(--gray-400);font-family:var(--font-mono)}
+
+/* ── MAIN ── */
+.main{margin-left:260px;min-height:100vh;display:flex;flex-direction:column}
+.topbar{background:var(--white);border-bottom:1px solid var(--gray-200);padding:.875rem 2rem;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50}
+.topbar-left{display:flex;flex-direction:column}
+.topbar-title{font-size:1.1rem;font-weight:700;color:var(--gray-900);letter-spacing:-.02em}
+.topbar-sub{font-size:.75rem;color:var(--gray-400);font-family:var(--font-mono);margin-top:1px}
+.topbar-right{display:flex;align-items:center;gap:.75rem}
+.topbar-btn{padding:.5rem 1.1rem;border-radius:.6rem;font-size:.8rem;font-weight:600;cursor:pointer;transition:all .15s;font-family:var(--font-sans);border:1px solid var(--gray-200);background:white;color:var(--gray-700)}
+.topbar-btn:hover{background:var(--gray-50);border-color:var(--gray-300)}
+.topbar-btn.primary{background:var(--blue);color:white;border-color:var(--blue)}
+.topbar-btn.primary:hover{background:var(--blue-dk);border-color:var(--blue-dk)}
+.notif-dot{position:relative}
+.notif-dot::after{content:'';position:absolute;top:4px;right:4px;width:7px;height:7px;background:var(--red);border-radius:50%;border:1.5px solid white}
+
+.page{display:none;padding:2rem;flex:1}
+.page.active{display:block}
+
+/* ── DASHBOARD ── */
+.welcome-banner{background:linear-gradient(135deg,#1a56db 0%,#1e40af 50%,#0891b2 100%);border-radius:var(--r-xl);padding:2rem 2.5rem;color:white;position:relative;overflow:hidden;margin-bottom:1.75rem}
+.welcome-banner::before{content:'';position:absolute;top:-40px;right:-40px;width:200px;height:200px;background:rgba(255,255,255,.06);border-radius:50%}
+.welcome-banner::after{content:'';position:absolute;bottom:-60px;right:80px;width:160px;height:160px;background:rgba(255,255,255,.04);border-radius:50%}
+.wb-tag{font-size:.65rem;font-family:var(--font-mono);letter-spacing:.1em;text-transform:uppercase;opacity:.7;margin-bottom:.5rem}
+.wb-title{font-size:1.6rem;font-weight:700;letter-spacing:-.03em;margin-bottom:.35rem}
+.wb-title em{font-family:var(--font-serif);font-style:italic;font-weight:400}
+.wb-sub{font-size:.88rem;opacity:.75;margin-bottom:1.5rem}
+.wb-actions{display:flex;gap:.75rem;flex-wrap:wrap}
+.wb-btn{padding:.6rem 1.4rem;border-radius:.65rem;font-size:.82rem;font-weight:600;cursor:pointer;font-family:var(--font-sans);transition:all .2s;border:none}
+.wb-btn.white{background:white;color:var(--blue)}
+.wb-btn.white:hover{background:var(--blue-lt)}
+.wb-btn.ghost{background:rgba(255,255,255,.15);color:white;border:1px solid rgba(255,255,255,.3)}
+.wb-btn.ghost:hover{background:rgba(255,255,255,.25)}
+
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:1.75rem}
+.stat-card{background:white;border:1px solid var(--gray-200);border-radius:var(--r-lg);padding:1.25rem 1.5rem;transition:all .2s}
+.stat-card:hover{box-shadow:var(--shadow-md);border-color:var(--gray-300);transform:translateY(-1px)}
+.stat-label{font-size:.68rem;font-family:var(--font-mono);color:var(--gray-400);letter-spacing:.08em;text-transform:uppercase;margin-bottom:.5rem}
+.stat-num{font-size:1.75rem;font-weight:700;color:var(--gray-900);letter-spacing:-.03em;line-height:1}
+.stat-sub{font-size:.75rem;color:var(--gray-500);margin-top:.35rem;display:flex;align-items:center;gap:.3rem}
+.stat-up{color:var(--green);font-weight:600}
+.stat-icon{float:right;width:36px;height:36px;border-radius:.6rem;display:flex;align-items:center;justify-content:center;font-size:1rem;margin-top:-4px}
+
+.dash-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;margin-bottom:1.75rem}
+.section-card{background:white;border:1px solid var(--gray-200);border-radius:var(--r-lg);padding:1.5rem}
+.section-card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem}
+.sc-title{font-size:.95rem;font-weight:700;color:var(--gray-900)}
+.sc-link{font-size:.75rem;color:var(--blue);cursor:pointer;font-weight:600}
+.sc-link:hover{text-decoration:underline}
+
+.quick-test-list{display:flex;flex-direction:column;gap:.65rem}
+.qt-item{display:flex;align-items:center;gap:.875rem;padding:.875rem 1rem;background:var(--gray-50);border-radius:.65rem;cursor:pointer;transition:all .2s;border:1px solid transparent}
+.qt-item:hover{background:var(--blue-lt);border-color:rgba(26,86,219,.15)}
+.qt-icon{width:36px;height:36px;border-radius:.6rem;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0}
+.qt-info .qt-name{font-size:.85rem;font-weight:600;color:var(--gray-800)}
+.qt-info .qt-meta{font-size:.72rem;color:var(--gray-400);font-family:var(--font-mono);margin-top:1px}
+.qt-action{margin-left:auto;padding:.35rem .9rem;border-radius:.5rem;font-size:.75rem;font-weight:600;background:var(--blue);color:white;border:none;cursor:pointer;font-family:var(--font-sans);white-space:nowrap}
+.qt-action:hover{background:var(--blue-dk)}
+
+.progress-list{display:flex;flex-direction:column;gap:.75rem}
+.prog-item .prog-head{display:flex;justify-content:space-between;font-size:.82rem;margin-bottom:.4rem}
+.prog-item .prog-name{font-weight:600;color:var(--gray-700)}
+.prog-item .prog-pct{font-family:var(--font-mono);color:var(--gray-500);font-size:.75rem}
+.prog-bar{height:6px;background:var(--gray-100);border-radius:99px;overflow:hidden}
+.prog-fill{height:100%;border-radius:99px;transition:width .6s ease}
+
+.recent-activity{background:white;border:1px solid var(--gray-200);border-radius:var(--r-lg);padding:1.5rem}
+.activity-list{display:flex;flex-direction:column;gap:.5rem}
+.act-item{display:flex;align-items:center;gap:.875rem;padding:.75rem;border-radius:.6rem;transition:background .15s;cursor:pointer}
+.act-item:hover{background:var(--gray-50)}
+.act-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.act-text{font-size:.83rem;color:var(--gray-700);flex:1}
+.act-text strong{color:var(--gray-900);font-weight:600}
+.act-time{font-size:.7rem;font-family:var(--font-mono);color:var(--gray-400)}
+
+/* ── BOOK TEST PAGE ── */
+.test-hero{background:linear-gradient(135deg,#eff4ff 0%,#dbeafe 50%,#ecfeff 100%);border:1px solid rgba(59,130,246,.15);border-radius:var(--r-xl);padding:2rem 2.5rem;margin-bottom:1.75rem;position:relative;overflow:hidden}
+.test-hero::before{content:'EXAM';position:absolute;right:-20px;top:50%;transform:translateY(-50%);font-size:8rem;font-weight:800;color:rgba(26,86,219,.04);letter-spacing:-2px;white-space:nowrap;pointer-events:none}
+.th-tag{font-size:.65rem;font-family:var(--font-mono);color:var(--blue);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.5rem}
+.th-title{font-size:1.5rem;font-weight:700;color:var(--gray-900);letter-spacing:-.03em;margin-bottom:.35rem}
+.th-sub{font-size:.88rem;color:var(--gray-500)}
+
+.test-type-tabs{display:flex;gap:.5rem;margin-bottom:1.75rem;flex-wrap:wrap}
+.tt-tab{padding:.6rem 1.4rem;border-radius:.65rem;font-size:.82rem;font-weight:600;cursor:pointer;transition:all .2s;border:1.5px solid var(--gray-200);background:white;color:var(--gray-500);font-family:var(--font-sans)}
+.tt-tab:hover{border-color:var(--blue);color:var(--blue)}
+.tt-tab.active{background:var(--blue);color:white;border-color:var(--blue)}
+
+.test-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.1rem}
+.test-card{background:white;border:1.5px solid var(--gray-200);border-radius:var(--r-lg);padding:1.4rem;cursor:pointer;transition:all .22s;position:relative;overflow:hidden}
+.test-card::after{content:'';position:absolute;top:0;left:0;right:0;height:3px;border-radius:var(--r-lg) var(--r-lg) 0 0;background:var(--card-accent,var(--blue));opacity:0;transition:opacity .2s}
+.test-card:hover{box-shadow:var(--shadow-lg);border-color:transparent;transform:translateY(-2px)}
+.test-card:hover::after{opacity:1}
+.tc-icon{width:44px;height:44px;border-radius:.75rem;display:flex;align-items:center;justify-content:center;font-size:1.25rem;margin-bottom:1rem}
+.tc-subject{font-size:.65rem;font-family:var(--font-mono);color:var(--gray-400);letter-spacing:.08em;text-transform:uppercase;margin-bottom:.3rem}
+.tc-name{font-size:.95rem;font-weight:700;color:var(--gray-900);margin-bottom:.35rem;line-height:1.3}
+.tc-meta{font-size:.75rem;color:var(--gray-500);margin-bottom:.875rem;display:flex;gap:.75rem;flex-wrap:wrap}
+.tc-meta span{display:flex;align-items:center;gap:.3rem}
+.tc-tags{display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:.875rem}
+.tc-tag{font-size:.65rem;padding:.2rem .6rem;border-radius:99px;font-family:var(--font-mono);font-weight:600}
+.tc-btn{width:100%;padding:.65rem;border-radius:.6rem;font-size:.8rem;font-weight:700;border:none;cursor:pointer;font-family:var(--font-sans);background:var(--blue-lt);color:var(--blue);transition:all .2s;letter-spacing:.01em}
+.tc-btn:hover{background:var(--blue);color:white}
+.tc-difficulty{position:absolute;top:.875rem;right:.875rem;font-size:.62rem;font-family:var(--font-mono);font-weight:700;padding:.2rem .55rem;border-radius:99px}
+
+/* ── NOTES PAGE ── */
+.notes-filter-row{display:flex;align-items:center;gap:.75rem;margin-bottom:1.5rem;flex-wrap:wrap}
+.notes-search{flex:1;min-width:200px;position:relative}
+.notes-search input{width:100%;padding:.6rem 1rem .6rem 2.5rem;border:1.5px solid var(--gray-200);border-radius:.65rem;font-size:.85rem;font-family:var(--font-sans);color:var(--gray-700);background:white;outline:none;transition:border-color .15s}
+.notes-search input:focus{border-color:var(--blue)}
+.notes-search-icon{position:absolute;left:.875rem;top:50%;transform:translateY(-50%);color:var(--gray-400);width:15px;height:15px}
+.filter-btn{padding:.6rem 1.1rem;border-radius:.65rem;font-size:.8rem;font-weight:600;border:1.5px solid var(--gray-200);background:white;color:var(--gray-600);cursor:pointer;font-family:var(--font-sans);transition:all .15s;white-space:nowrap}
+.filter-btn.active{background:var(--blue-lt);border-color:rgba(26,86,219,.3);color:var(--blue)}
+
+.notes-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.1rem}
+.note-card{background:white;border:1.5px solid var(--gray-200);border-radius:var(--r-lg);overflow:hidden;cursor:pointer;transition:all .22s}
+.note-card:hover{box-shadow:var(--shadow-lg);border-color:var(--gray-300);transform:translateY(-2px)}
+.note-thumb{height:90px;display:flex;align-items:center;justify-content:center;font-size:2.5rem;position:relative;overflow:hidden}
+.note-body{padding:1.1rem}
+.note-subject{font-size:.62rem;font-family:var(--font-mono);letter-spacing:.08em;text-transform:uppercase;margin-bottom:.3rem;font-weight:600}
+.note-title{font-size:.88rem;font-weight:700;color:var(--gray-900);margin-bottom:.35rem;line-height:1.35}
+.note-desc{font-size:.75rem;color:var(--gray-500);line-height:1.5;margin-bottom:.75rem}
+.note-footer{display:flex;align-items:center;justify-content:space-between}
+.note-type{font-size:.65rem;font-family:var(--font-mono);font-weight:600;padding:.2rem .6rem;border-radius:99px}
+.note-pages{font-size:.7rem;color:var(--gray-400);font-family:var(--font-mono)}
+
+/* ── TEST MODAL ── */
+.modal-overlay{position:fixed;inset:0;background:rgba(15,23,42,.5);backdrop-filter:blur(8px);z-index:1000;display:flex;align-items:center;justify-content:center;padding:1rem;opacity:0;pointer-events:none;transition:opacity .25s}
+.modal-overlay.open{opacity:1;pointer-events:all}
+.modal-box{background:white;border-radius:var(--r-xl);width:100%;max-width:680px;max-height:90vh;overflow-y:auto;box-shadow:var(--shadow-xl);transform:scale(.95) translateY(10px);transition:all .3s cubic-bezier(.34,1.56,.64,1)}
+.modal-overlay.open .modal-box{transform:scale(1) translateY(0)}
+
+.modal-header{padding:1.5rem 1.75rem 1.25rem;border-bottom:1px solid var(--gray-100);display:flex;align-items:flex-start;justify-content:space-between;gap:1rem}
+.modal-title{font-size:1.1rem;font-weight:700;color:var(--gray-900)}
+.modal-sub{font-size:.78rem;color:var(--gray-500);margin-top:.2rem}
+.modal-close{width:32px;height:32px;border-radius:.5rem;border:1px solid var(--gray-200);background:white;color:var(--gray-500);cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:1rem;transition:all .15s}
+.modal-close:hover{background:var(--gray-100);color:var(--gray-700)}
+
+.modal-body{padding:1.75rem}
+.modal-footer{padding:1.25rem 1.75rem;border-top:1px solid var(--gray-100);display:flex;gap:.75rem;justify-content:flex-end}
+.modal-btn{padding:.65rem 1.5rem;border-radius:.65rem;font-size:.85rem;font-weight:600;cursor:pointer;font-family:var(--font-sans);transition:all .15s;border:1.5px solid var(--gray-200)}
+.modal-btn.ghost{background:white;color:var(--gray-600)}
+.modal-btn.ghost:hover{background:var(--gray-50);border-color:var(--gray-300)}
+.modal-btn.primary{background:var(--blue);color:white;border-color:var(--blue)}
+.modal-btn.primary:hover{background:var(--blue-dk)}
+
+/* ── QUIZ ENGINE ── */
+.quiz-header{background:linear-gradient(135deg,#eff4ff,#dbeafe);border-radius:var(--r-lg);padding:1.25rem 1.5rem;margin-bottom:1.5rem}
+.quiz-meta-row{display:flex;align-items:center;gap:1.5rem;flex-wrap:wrap}
+.quiz-subject{font-size:.7rem;font-family:var(--font-mono);color:var(--blue);letter-spacing:.08em;text-transform:uppercase;font-weight:600}
+.quiz-timer{font-family:var(--font-mono);font-size:1.1rem;font-weight:700;color:var(--gray-900);background:white;padding:.3rem .875rem;border-radius:.5rem;border:1px solid var(--gray-200)}
+.quiz-timer.warning{color:var(--red);border-color:var(--red);background:var(--red-lt)}
+.quiz-progress-bar{margin-top:.875rem;height:5px;background:rgba(255,255,255,.5);border-radius:99px;overflow:hidden}
+.quiz-progress-fill{height:100%;background:var(--blue);border-radius:99px;transition:width .4s ease}
+
+.quiz-qnum{font-size:.72rem;font-family:var(--font-mono);color:var(--gray-400);margin-bottom:.5rem;letter-spacing:.06em;text-transform:uppercase}
+.quiz-q{font-size:1.05rem;font-weight:600;color:var(--gray-900);line-height:1.55;margin-bottom:1.5rem}
+.quiz-options{display:flex;flex-direction:column;gap:.65rem}
+.quiz-opt{display:flex;align-items:flex-start;gap:.875rem;padding:.9rem 1.1rem;border-radius:.75rem;border:1.5px solid var(--gray-200);cursor:pointer;transition:all .18s;background:white}
+.quiz-opt:hover:not(.selected):not(.correct):not(.wrong){border-color:var(--blue);background:var(--blue-lt)}
+.quiz-opt.selected{border-color:var(--blue);background:var(--blue-lt)}
+.quiz-opt.correct{border-color:var(--green);background:var(--green-lt)}
+.quiz-opt.wrong{border-color:var(--red);background:var(--red-lt)}
+.opt-letter{width:26px;height:26px;border-radius:.4rem;background:var(--gray-100);display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:700;font-family:var(--font-mono);flex-shrink:0;margin-top:1px;transition:all .18s}
+.quiz-opt.selected .opt-letter{background:var(--blue);color:white}
+.quiz-opt.correct .opt-letter{background:var(--green);color:white}
+.quiz-opt.wrong .opt-letter{background:var(--red);color:white}
+.opt-text{font-size:.88rem;color:var(--gray-700);line-height:1.45}
+.quiz-opt.correct .opt-text,.quiz-opt.wrong .opt-text{font-weight:500}
+.quiz-explanation{margin-top:1.25rem;padding:1rem 1.25rem;background:var(--amber-lt);border:1px solid rgba(217,119,6,.2);border-radius:.75rem;font-size:.83rem;color:var(--gray-700);line-height:1.5;display:none}
+.quiz-explanation strong{color:var(--amber);display:block;margin-bottom:.3rem;font-size:.72rem;font-family:var(--font-mono);letter-spacing:.05em;text-transform:uppercase}
+.quiz-explanation.show{display:block}
+.quiz-nav{display:flex;align-items:center;justify-content:space-between;margin-top:1.5rem}
+.qnav-btn{padding:.6rem 1.3rem;border-radius:.65rem;font-size:.82rem;font-weight:600;cursor:pointer;font-family:var(--font-sans);transition:all .15s;border:1.5px solid var(--gray-200);background:white;color:var(--gray-600)}
+.qnav-btn:hover{border-color:var(--gray-300);background:var(--gray-50)}
+.qnav-btn.primary{background:var(--blue);color:white;border-color:var(--blue)}
+.qnav-btn.primary:hover{background:var(--blue-dk)}
+.qnav-btn:disabled{opacity:.4;cursor:not-allowed}
+
+.score-screen{text-align:center;padding:1rem}
+.score-circle{width:120px;height:120px;border-radius:50%;border:5px solid var(--blue);display:flex;flex-direction:column;align-items:center;justify-content:center;margin:0 auto 1.25rem}
+.score-num{font-size:2rem;font-weight:800;color:var(--blue);letter-spacing:-.03em}
+.score-denom{font-size:.75rem;color:var(--gray-400);font-family:var(--font-mono)}
+.score-title{font-size:1.2rem;font-weight:700;color:var(--gray-900);margin-bottom:.35rem}
+.score-sub{font-size:.85rem;color:var(--gray-500);margin-bottom:1.25rem}
+.score-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:.75rem;margin-bottom:1.25rem}
+.sc-stat{background:var(--gray-50);border-radius:.65rem;padding:.875rem;text-align:center}
+.sc-stat .n{font-size:1.25rem;font-weight:700;color:var(--gray-900)}
+.sc-stat .l{font-size:.68rem;font-family:var(--font-mono);color:var(--gray-400);text-transform:uppercase;letter-spacing:.06em;margin-top:.15rem}
+
+/* ── PPT / EPOSTER ── */
+.media-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.1rem}
+.media-card{background:white;border:1.5px solid var(--gray-200);border-radius:var(--r-lg);overflow:hidden;cursor:pointer;transition:all .22s}
+.media-card:hover{box-shadow:var(--shadow-lg);border-color:var(--gray-300);transform:translateY(-2px)}
+.media-thumb{height:120px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.5rem;font-size:2rem;position:relative}
+.media-format{position:absolute;top:.75rem;right:.75rem;font-size:.6rem;font-family:var(--font-mono);font-weight:700;padding:.2rem .55rem;border-radius:99px;letter-spacing:.04em}
+.media-body{padding:1.1rem}
+.media-title{font-size:.88rem;font-weight:700;color:var(--gray-900);margin-bottom:.25rem;line-height:1.35}
+.media-meta{font-size:.72rem;color:var(--gray-400);font-family:var(--font-mono);margin-bottom:.75rem}
+.media-btn-row{display:flex;gap:.5rem}
+.media-btn{flex:1;padding:.55rem;border-radius:.55rem;font-size:.75rem;font-weight:600;border:1.5px solid var(--gray-200);background:white;color:var(--gray-600);cursor:pointer;font-family:var(--font-sans);transition:all .15s;text-align:center}
+.media-btn:hover{border-color:var(--blue);color:var(--blue);background:var(--blue-lt)}
+.media-btn.dl{background:var(--blue);color:white;border-color:var(--blue)}
+.media-btn.dl:hover{background:var(--blue-dk)}
+
+/* ── LEADERBOARD ── */
+.board-card{background:white;border:1.5px solid var(--gray-200);border-radius:var(--r-lg);overflow:hidden}
+.board-top3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1px;background:var(--gray-100);margin-bottom:0}
+.podium{background:white;padding:1.5rem 1rem;text-align:center;display:flex;flex-direction:column;align-items:center;gap:.35rem}
+.podium.first{background:linear-gradient(135deg,#fffbeb,#fef3c7)}
+.podium-rank{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:800;font-family:var(--font-mono)}
+.podium-avatar{width:50px;height:50px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1rem}
+.podium-name{font-size:.82rem;font-weight:700;color:var(--gray-800)}
+.podium-score{font-size:.72rem;font-family:var(--font-mono);color:var(--gray-400)}
+.leaderboard-list{padding:.75rem}
+.lb-row{display:flex;align-items:center;gap:.875rem;padding:.75rem .875rem;border-radius:.65rem;transition:background .15s;cursor:pointer}
+.lb-row:hover{background:var(--gray-50)}
+.lb-rank{width:24px;font-size:.75rem;font-family:var(--font-mono);font-weight:700;color:var(--gray-400);text-align:center;flex-shrink:0}
+.lb-avatar{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.8rem;flex-shrink:0}
+.lb-name{flex:1;font-size:.85rem;font-weight:600;color:var(--gray-800)}
+.lb-score{font-family:var(--font-mono);font-size:.8rem;font-weight:700;color:var(--gray-900)}
+.lb-badge{font-size:.62rem;padding:.18rem .55rem;border-radius:99px;font-family:var(--font-mono);font-weight:700;margin-right:.35rem}
+
+/* ── RESPONSIVE ── */
+@media(max-width:1100px){.test-grid,.notes-grid,.media-grid{grid-template-columns:1fr 1fr}.stats-row{grid-template-columns:1fr 1fr}.dash-grid{grid-template-columns:1fr}}
+@media(max-width:768px){.sidebar{transform:translateX(-100%)}.main{margin-left:0}.stats-row,.test-grid,.notes-grid,.media-grid{grid-template-columns:1fr}}
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.page.active>*{animation:fadeUp .35s ease both}
+.page.active>*:nth-child(1){animation-delay:.0s}
+.page.active>*:nth-child(2){animation-delay:.05s}
+.page.active>*:nth-child(3){animation-delay:.1s}
+.page.active>*:nth-child(4){animation-delay:.15s}
+.page.active>*:nth-child(5){animation-delay:.2s}
+</style>
+</head>
+<body>
+
+<!-- ===== SIDEBAR ===== -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-mark">
+      <div class="logo-icon">
+        <svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 110 20A10 10 0 0112 2zm0 2a8 8 0 100 16A8 8 0 0012 4zm1 4v3h3v2h-3v3h-2v-3H8v-2h3V8h2z"/></svg>
+      </div>
+      <div class="logo-text">
+        <div class="logo-title">MedResidency</div>
+        <div class="logo-sub">Clinical Platform</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="nav-section">Main</div>
+  <a class="nav-item active" onclick="showPage('dashboard')">
+    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+    Dashboard
+  </a>
+  <a class="nav-item" onclick="showPage('tests')">
+    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+    Book a Test
+    <span class="nav-badge">12</span>
+  </a>
+  <a class="nav-item" onclick="showPage('notes')">
+    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+    Notes
+    <span class="nav-badge">48</span>
+  </a>
+  <a class="nav-item" onclick="showPage('ppts')">
+    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 21h10M12 21V7M7 7h10M5 7V5a2 2 0 012-2h10a2 2 0 012 2v2M5 7a2 2 0 00-2 2v1a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2"/></svg>
+    PPTs & ePosters
+  </a>
+  <a class="nav-item" onclick="showPage('leaderboard')">
+    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 21H5a2 2 0 01-2-2v-5m0 0l7-7 4 4 5-5m0 0v4m0-4h-4"/></svg>
+    Leaderboard
+  </a>
+
+  <div class="nav-section" style="margin-top:.5rem">Learning</div>
+  <a class="nav-item" onclick="showPage('acls')">
+    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
+    ACLS Reference
+  </a>
+  <a class="nav-item" onclick="showPage('sepsis')">
+    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l3 3"/></svg>
+    Sepsis Guidelines
+  </a>
+
+  <div class="sidebar-footer">
+    <div class="user-card">
+      <div class="user-avatar">JR</div>
+      <div class="user-info">
+        <div class="name">Jr. 6013</div>
+        <div class="role">EM Resident · Year 2</div>
+      </div>
+    </div>
+  </div>
+</aside>
+
+<!-- ===== MAIN ===== -->
+<div class="main">
+  <!-- TOPBAR -->
+  <div class="topbar">
+    <div class="topbar-left">
+      <div class="topbar-title" id="topbar-title">Dashboard</div>
+      <div class="topbar-sub" id="topbar-sub">Welcome back, Doctor</div>
+    </div>
+    <div class="topbar-right">
+      <button class="topbar-btn notif-dot">🔔</button>
+      <button class="topbar-btn primary" onclick="showPage('tests')">+ Book Test</button>
+    </div>
+  </div>
+
+  <!-- ===== DASHBOARD ===== -->
+  <div class="page active" id="page-dashboard">
+    <div class="welcome-banner">
+      <div class="wb-tag">// Today · Saturday, May 2, 2026</div>
+      <div class="wb-title">Ready to learn, <em>Doctor?</em></div>
+      <div class="wb-sub">You're 3 tests away from your weekly goal. Keep going — consistency builds excellence.</div>
+      <div class="wb-actions">
+        <button class="wb-btn white" onclick="showPage('tests')">📋 Book a Test</button>
+        <button class="wb-btn ghost" onclick="showPage('notes')">📖 Browse Notes</button>
+        <button class="wb-btn ghost" onclick="openQuizModal('mock','Rapid Mock Test','General','15 Qs · 20 min')">⚡ Quick Quiz</button>
+      </div>
+    </div>
+
+    <div class="stats-row">
+      <div class="stat-card">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start">
+          <div class="stat-label">Tests Completed</div>
+          <div class="stat-icon" style="background:#eff4ff">📋</div>
+        </div>
+        <div class="stat-num">47</div>
+        <div class="stat-sub"><span class="stat-up">↑ 12%</span> this week</div>
+      </div>
+      <div class="stat-card">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start">
+          <div class="stat-label">Avg Score</div>
+          <div class="stat-icon" style="background:#ecfdf5">🎯</div>
+        </div>
+        <div class="stat-num">78%</div>
+        <div class="stat-sub"><span class="stat-up">↑ 5%</span> vs last month</div>
+      </div>
+      <div class="stat-card">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start">
+          <div class="stat-label">Study Hours</div>
+          <div class="stat-icon" style="background:#ecfeff">⏱️</div>
+        </div>
+        <div class="stat-num">132</div>
+        <div class="stat-sub"><span style="color:var(--gray-400)">Total logged</span></div>
+      </div>
+      <div class="stat-card">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start">
+          <div class="stat-label">Rank</div>
+          <div class="stat-icon" style="background:#fffbeb">🏆</div>
+        </div>
+        <div class="stat-num">#14</div>
+        <div class="stat-sub"><span class="stat-up">↑ 3</span> positions</div>
+      </div>
+    </div>
+
+    <div class="dash-grid">
+      <div class="section-card">
+        <div class="section-card-header">
+          <div class="sc-title">Quick Tests</div>
+          <span class="sc-link" onclick="showPage('tests')">View all →</span>
+        </div>
+        <div class="quick-test-list">
+          <div class="qt-item" onclick="openQuizModal('subject','Cardiology MCQs','Cardiology','20 Qs · 30 min')">
+            <div class="qt-icon" style="background:#fef2f2">❤️</div>
+            <div class="qt-info"><div class="qt-name">Cardiology MCQs</div><div class="qt-meta">20 questions · 30 min</div></div>
+            <button class="qt-action">Start</button>
+          </div>
+          <div class="qt-item" onclick="openQuizModal('mini','Pharmacology Mini','Pharmacology','10 Qs · 12 min')">
+            <div class="qt-icon" style="background:#eff4ff">💊</div>
+            <div class="qt-info"><div class="qt-name">Pharma Mini Test</div><div class="qt-meta">10 questions · 12 min</div></div>
+            <button class="qt-action">Start</button>
+          </div>
+          <div class="qt-item" onclick="openQuizModal('mock','EM Mock Exam','Emergency Med','25 Qs · 35 min')">
+            <div class="qt-icon" style="background:#ecfdf5">🚑</div>
+            <div class="qt-info"><div class="qt-name">EM Mock Exam</div><div class="qt-meta">25 questions · 35 min</div></div>
+            <button class="qt-action">Start</button>
+          </div>
+        </div>
+      </div>
+      <div class="section-card">
+        <div class="section-card-header">
+          <div class="sc-title">Subject Progress</div>
+          <span class="sc-link">Details →</span>
+        </div>
+        <div class="progress-list">
+          <div class="prog-item"><div class="prog-head"><span class="prog-name">Cardiology</span><span class="prog-pct">82%</span></div><div class="prog-bar"><div class="prog-fill" style="width:82%;background:#1a56db"></div></div></div>
+          <div class="prog-item"><div class="prog-head"><span class="prog-name">Emergency Medicine</span><span class="prog-pct">75%</span></div><div class="prog-bar"><div class="prog-fill" style="width:75%;background:#0891b2"></div></div></div>
+          <div class="prog-item"><div class="prog-head"><span class="prog-name">Pharmacology</span><span class="prog-pct">61%</span></div><div class="prog-bar"><div class="prog-fill" style="width:61%;background:#059669"></div></div></div>
+          <div class="prog-item"><div class="prog-head"><span class="prog-name">Internal Medicine</span><span class="prog-pct">48%</span></div><div class="prog-bar"><div class="prog-fill" style="width:48%;background:#d97706"></div></div></div>
+          <div class="prog-item"><div class="prog-head"><span class="prog-name">Critical Care</span><span class="prog-pct">90%</span></div><div class="prog-bar"><div class="prog-fill" style="width:90%;background:#7c3aed"></div></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="recent-activity">
+      <div class="section-card-header" style="margin-bottom:1rem">
+        <div class="sc-title">Recent Activity</div>
+        <span class="sc-link">See all →</span>
+      </div>
+      <div class="activity-list">
+        <div class="act-item"><div class="act-dot" style="background:#059669"></div><div class="act-text"><strong>Cardiology Mock Test</strong> completed — scored 85%</div><div class="act-time">2h ago</div></div>
+        <div class="act-item"><div class="act-dot" style="background:#1a56db"></div><div class="act-text"><strong>ACLS Reference Module A</strong> reviewed</div><div class="act-time">5h ago</div></div>
+        <div class="act-item"><div class="act-dot" style="background:#d97706"></div><div class="act-text"><strong>Pharmacology Notes</strong> — 12 pages bookmarked</div><div class="act-time">Yesterday</div></div>
+        <div class="act-item"><div class="act-dot" style="background:#7c3aed"></div><div class="act-text"><strong>Sepsis Guidelines 2026</strong> eBook downloaded</div><div class="act-time">2 days ago</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== BOOK TEST PAGE ===== -->
+  <div class="page" id="page-tests">
+    <div class="test-hero">
+      <div class="th-tag">// Assessment Center</div>
+      <div class="th-title">Book a Test</div>
+      <div class="th-sub">Choose from Subject Tests, Mini Tests, or full Mock Exams. All adaptive and timed.</div>
+    </div>
+
+    <div class="test-type-tabs">
+      <button class="tt-tab active" onclick="filterTests('all',this)">All Tests</button>
+      <button class="tt-tab" onclick="filterTests('subject',this)">Subject Tests</button>
+      <button class="tt-tab" onclick="filterTests('mini',this)">Mini Tests</button>
+      <button class="tt-tab" onclick="filterTests('mock',this)">Mock Exams</button>
+    </div>
+
+    <div class="test-grid" id="test-grid">
+      <!-- Cards injected by JS -->
+    </div>
+  </div>
+
+  <!-- ===== NOTES PAGE ===== -->
+  <div class="page" id="page-notes">
+    <div class="test-hero">
+      <div class="th-tag">// Study Library</div>
+      <div class="th-title">Clinical Notes</div>
+      <div class="th-sub">Comprehensive notes, summaries, and flashcard sets for every subject.</div>
+    </div>
+    <div class="notes-filter-row">
+      <div class="notes-search">
+        <svg class="notes-search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        <input type="text" placeholder="Search notes, topics, subjects…">
+      </div>
+      <button class="filter-btn active">All</button>
+      <button class="filter-btn">Cardiology</button>
+      <button class="filter-btn">EM</button>
+      <button class="filter-btn">Pharmacology</button>
+      <button class="filter-btn">Critical Care</button>
+    </div>
+    <div class="notes-grid" id="notes-grid"></div>
+  </div>
+
+  <!-- ===== PPTs PAGE ===== -->
+  <div class="page" id="page-ppts">
+    <div class="test-hero">
+      <div class="th-tag">// Media Library</div>
+      <div class="th-title">PPTs & ePosters</div>
+      <div class="th-sub">Download presentation slides, ePosters, and illustrated guides for teaching and revision.</div>
+    </div>
+    <div class="media-grid" id="media-grid"></div>
+  </div>
+
+  <!-- ===== LEADERBOARD ===== -->
+  <div class="page" id="page-leaderboard">
+    <div class="test-hero">
+      <div class="th-tag">// Rankings</div>
+      <div class="th-title">Leaderboard</div>
+      <div class="th-sub">Weekly rankings based on test performance, consistency, and study hours.</div>
+    </div>
+    <div class="board-card">
+      <div class="board-top3" id="podium-area"></div>
+      <div class="leaderboard-list" id="lb-list"></div>
+    </div>
+  </div>
+
+  <!-- ===== ACLS PAGE ===== -->
+  <div class="page" id="page-acls">
+    <div class="test-hero">
+      <div class="th-tag">// ACLS Reference</div>
+      <div class="th-title">ACLS Protocols</div>
+      <div class="th-sub">Quick reference for CPR, ECG rhythms, algorithms, ACS, drug dosages and more.</div>
+    </div>
+    <div style="background:white;border:1.5px solid var(--gray-200);border-radius:var(--r-lg);padding:2rem;text-align:center">
+      <div style="font-size:3rem;margin-bottom:1rem">⚡</div>
+      <div style="font-size:1rem;font-weight:700;color:var(--gray-900);margin-bottom:.5rem">ACLS Reference Module</div>
+      <div style="font-size:.85rem;color:var(--gray-500);margin-bottom:1.25rem">Your full ACLS overlay from the existing site is connected here. Click to open the protocol viewer.</div>
+      <button class="topbar-btn primary" style="font-size:.9rem;padding:.75rem 2rem" onclick="alert('Connect this to your existing ACLS overlay using openACLS()')">Open ACLS Protocols</button>
+    </div>
+  </div>
+
+  <!-- ===== SEPSIS PAGE ===== -->
+  <div class="page" id="page-sepsis">
+    <div class="test-hero">
+      <div class="th-tag">// SSC 2026</div>
+      <div class="th-title">Sepsis Guidelines</div>
+      <div class="th-sub">Surviving Sepsis Campaign 2026 — full clinical practice guidelines.</div>
+    </div>
+    <div style="background:white;border:1.5px solid var(--gray-200);border-radius:var(--r-lg);padding:2rem;text-align:center">
+      <div style="font-size:3rem;margin-bottom:1rem">🦠</div>
+      <div style="font-size:1rem;font-weight:700;color:var(--gray-900);margin-bottom:.5rem">Sepsis Guidelines 2026</div>
+      <div style="font-size:.85rem;color:var(--gray-500);margin-bottom:1.25rem">Your full SSC 2026 overlay is connected here.</div>
+      <button class="topbar-btn primary" style="font-size:.9rem;padding:.75rem 2rem" onclick="alert('Connect this to your existing Sepsis overlay using openSepsis()')">Open Sepsis Guidelines</button>
+    </div>
+  </div>
+
+</div><!-- end .main -->
+
+<!-- ===== QUIZ MODAL ===== -->
+<div class="modal-overlay" id="quizModal">
+  <div class="modal-box" id="quizModalBox">
+    <!-- Injected by JS -->
+  </div>
+</div>
+
+<script>
+// ── NAV ──
+const pages = {dashboard:'Dashboard',tests:'Book a Test',notes:'Notes',ppts:'PPTs & ePosters',leaderboard:'Leaderboard',acls:'ACLS Reference',sepsis:'Sepsis Guidelines'};
+const subs = {dashboard:'Welcome back, Doctor',tests:'Assessment Center',notes:'Study Library',ppts:'Media Library',leaderboard:'Weekly Rankings',acls:'Clinical Protocols',sepsis:'SSC 2026 Guidelines'};
+
+function showPage(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  document.getElementById('page-'+id).classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(n=>{if(n.getAttribute('onclick')&&n.getAttribute('onclick').includes("'"+id+"'"))n.classList.add('active')});
+  document.getElementById('topbar-title').textContent=pages[id]||id;
+  document.getElementById('topbar-sub').textContent=subs[id]||'';
+  window.scrollTo(0,0);
+}
+
+// ── TESTS DATA ──
+const tests=[
+  {id:'c1',type:'subject',icon:'❤️',iconBg:'#fef2f2',accent:'#dc2626',subject:'Cardiology',name:'Cardiac Arrhythmias',qs:20,mins:30,diff:'Hard',diffBg:'#fef2f2',diffC:'#dc2626',tags:[{l:'ACLS',c:'#eff4ff',tc:'#1a56db'},{l:'ECG',c:'#ecfdf5',tc:'#059669'}]},
+  {id:'c2',type:'subject',icon:'💊',iconBg:'#eff4ff',accent:'#1a56db',subject:'Pharmacology',name:'ACLS Drug Dosages',qs:25,mins:35,diff:'Medium',diffBg:'#fffbeb',diffC:'#d97706',tags:[{l:'Drugs',c:'#eff4ff',tc:'#1a56db'},{l:'Dosing',c:'#fffbeb',tc:'#d97706'}]},
+  {id:'c3',type:'subject',icon:'🫁',iconBg:'#ecfeff',accent:'#0891b2',subject:'Respiratory',name:'Ventilator Management',qs:18,mins:25,diff:'Hard',diffBg:'#fef2f2',diffC:'#dc2626',tags:[{l:'ICU',c:'#ecfeff',tc:'#0891b2'}]},
+  {id:'c4',type:'mini',icon:'⚡',iconBg:'#fffbeb',accent:'#d97706',subject:'Emergency Med',name:'Rapid EM Assessment',qs:10,mins:12,diff:'Easy',diffBg:'#ecfdf5',diffC:'#059669',tags:[{l:'Mini',c:'#fffbeb',tc:'#d97706'},{l:'EM',c:'#fef2f2',tc:'#dc2626'}]},
+  {id:'c5',type:'mini',icon:'🧠',iconBg:'#f5f3ff',accent:'#7c3aed',subject:'Neurology',name:'Neuro Emergencies',qs:10,mins:15,diff:'Medium',diffBg:'#fffbeb',diffC:'#d97706',tags:[{l:'Mini',c:'#fffbeb',tc:'#d97706'}]},
+  {id:'c6',type:'mini',icon:'🩺',iconBg:'#ecfdf5',accent:'#059669',subject:'Internal Medicine',name:'Fluid & Electrolytes',qs:12,mins:18,diff:'Easy',diffBg:'#ecfdf5',diffC:'#059669',tags:[{l:'Mini',c:'#fffbeb',tc:'#d97706'}]},
+  {id:'c7',type:'mock',icon:'🏆',iconBg:'#fffbeb',accent:'#d97706',subject:'Full Mock',name:'Comprehensive EM Mock',qs:50,mins:70,diff:'Hard',diffBg:'#fef2f2',diffC:'#dc2626',tags:[{l:'Mock',c:'#fffbeb',tc:'#d97706'},{l:'Full',c:'#eff4ff',tc:'#1a56db'}]},
+  {id:'c8',type:'mock',icon:'📋',iconBg:'#eff4ff',accent:'#1a56db',subject:'ACLS Mock',name:'ACLS Board Simulation',qs:40,mins:55,diff:'Hard',diffBg:'#fef2f2',diffC:'#dc2626',tags:[{l:'Mock',c:'#fffbeb',tc:'#d97706'},{l:'ACLS',c:'#ecfdf5',tc:'#059669'}]},
+  {id:'c9',type:'mock',icon:'🩻',iconBg:'#ecfeff',accent:'#0891b2',subject:'Radiology',name:'Emergency Radiology',qs:30,mins:40,diff:'Medium',diffBg:'#fffbeb',diffC:'#d97706',tags:[{l:'Mock',c:'#fffbeb',tc:'#d97706'}]},
+];
+
+function renderTests(filter='all'){
+  const grid=document.getElementById('test-grid');
+  const filtered=filter==='all'?tests:tests.filter(t=>t.type===filter);
+  grid.innerHTML=filtered.map(t=>`
+    <div class="test-card" style="--card-accent:${t.accent}" onclick="openQuizModal('${t.type}','${t.name}','${t.subject}','${t.qs} Qs · ${t.mins} min')">
+      <div class="tc-difficulty" style="background:${t.diffBg};color:${t.diffC}">${t.diff}</div>
+      <div class="tc-icon" style="background:${t.iconBg}">${t.icon}</div>
+      <div class="tc-subject">${t.subject}</div>
+      <div class="tc-name">${t.name}</div>
+      <div class="tc-meta">
+        <span>📝 ${t.qs} questions</span>
+        <span>⏱️ ${t.mins} min</span>
+      </div>
+      <div class="tc-tags">${t.tags.map(tg=>`<span class="tc-tag" style="background:${tg.c};color:${tg.tc}">${tg.l}</span>`).join('')}</div>
+      <button class="tc-btn">Start ${t.type==='mock'?'Mock Exam':t.type==='mini'?'Mini Test':'Subject Test'}</button>
+    </div>
+  `).join('');
+}
+renderTests();
+function filterTests(f,btn){document.querySelectorAll('.tt-tab').forEach(b=>b.classList.remove('active'));btn.classList.add('active');renderTests(f)}
+
+// ── NOTES DATA ──
+const notes=[
+  {icon:'❤️',bg:'linear-gradient(135deg,#fef2f2,#fee2e2)',subject:'Cardiology',sC:'#dc2626',name:'ACLS Algorithms & ECG',desc:'Complete guide to cardiac arrest protocols, rhythm recognition, and defibrillation thresholds.',type:'Notes',typeBg:'#fef2f2',typeC:'#dc2626',pages:'24 pages'},
+  {icon:'💊',bg:'linear-gradient(135deg,#eff4ff,#dbeafe)',subject:'Pharmacology',sC:'#1a56db',name:'Emergency Drug Reference',desc:'Dosages, indications, and contraindications for all key ACLS and EM medications.',type:'Flashcards',typeBg:'#eff4ff',typeC:'#1a56db',pages:'18 cards'},
+  {icon:'🫁',bg:'linear-gradient(135deg,#ecfeff,#cffafe)',subject:'Critical Care',sC:'#0891b2',name:'Ventilator Settings Guide',desc:'Modes, parameters, weaning protocols, and troubleshooting for ICU ventilation.',type:'Notes',typeBg:'#ecfeff',typeC:'#0891b2',pages:'16 pages'},
+  {icon:'🧠',bg:'linear-gradient(135deg,#f5f3ff,#ede9fe)',subject:'Neurology',sC:'#7c3aed',name:'Stroke Recognition & tPA',desc:'NIHSS scoring, door-to-needle targets, contraindications, and neuro emergencies.',type:'Summary',typeBg:'#f5f3ff',typeC:'#7c3aed',pages:'12 pages'},
+  {icon:'🩺',bg:'linear-gradient(135deg,#ecfdf5,#d1fae5)',subject:'Internal Medicine',sC:'#059669',name:'Sepsis & Fluid Resuscitation',desc:'SSC 2026 bundles, fluid management, vasopressor selection, and MAP targets.',type:'Notes',typeBg:'#ecfdf5',typeC:'#059669',pages:'20 pages'},
+  {icon:'🌡️',bg:'linear-gradient(135deg,#fffbeb,#fef3c7)',subject:'EM Procedures',sC:'#d97706',name:'Procedural Skills Checklist',desc:'Step-by-step for central lines, intubation, chest tubes, and emergency procedures.',type:'Checklist',typeBg:'#fffbeb',typeC:'#d97706',pages:'30 steps'},
+];
+document.getElementById('notes-grid').innerHTML=notes.map(n=>`
+  <div class="note-card">
+    <div class="note-thumb" style="background:${n.bg}">${n.icon}</div>
+    <div class="note-body">
+      <div class="note-subject" style="color:${n.sC}">${n.subject}</div>
+      <div class="note-title">${n.name}</div>
+      <div class="note-desc">${n.desc}</div>
+      <div class="note-footer">
+        <span class="note-type" style="background:${n.typeBg};color:${n.typeC}">${n.type}</span>
+        <span class="note-pages">${n.pages}</span>
+      </div>
+    </div>
+  </div>
+`).join('');
+
+// ── MEDIA DATA ──
+const media=[
+  {icon:'📊',bg:'linear-gradient(135deg,#eff4ff,#dbeafe)',format:'PPT',fBg:'#eff4ff',fC:'#1a56db',title:'ACLS Update 2026',meta:'32 slides · Dr. Mehta · 2026'},
+  {icon:'🫀',bg:'linear-gradient(135deg,#fef2f2,#fee2e2)',format:'ePoster',fBg:'#fef2f2',fC:'#dc2626',title:'STEMI Recognition & Management',meta:'1 page · A0 format · 2025'},
+  {icon:'💉',bg:'linear-gradient(135deg,#ecfdf5,#d1fae5)',format:'PPT',fBg:'#ecfdf5',fC:'#059669',title:'Sepsis Bundles Simplified',meta:'24 slides · Evidence-based · 2026'},
+  {icon:'🧠',bg:'linear-gradient(135deg,#f5f3ff,#ede9fe)',format:'ePoster',fBg:'#f5f3ff',fC:'#7c3aed',title:'Stroke Fast Track Protocol',meta:'1 page · Infographic · 2025'},
+  {icon:'🫁',bg:'linear-gradient(135deg,#ecfeff,#cffafe)',format:'PPT',fBg:'#ecfeff',fC:'#0891b2',title:'Mechanical Ventilation Basics',meta:'28 slides · ICU · 2026'},
+  {icon:'📋',bg:'linear-gradient(135deg,#fffbeb,#fef3c7)',format:'PDF',fBg:'#fffbeb',fC:'#d97706',title:'EM Procedure Quick Cards',meta:'8 pages · Laminate-ready · 2026'},
+];
+document.getElementById('media-grid').innerHTML=media.map(m=>`
+  <div class="media-card">
+    <div class="media-thumb" style="background:${m.bg}">
+      ${m.icon}
+      <span class="media-format" style="background:${m.fBg};color:${m.fC}">${m.format}</span>
+    </div>
+    <div class="media-body">
+      <div class="media-title">${m.title}</div>
+      <div class="media-meta">${m.meta}</div>
+      <div class="media-btn-row">
+        <button class="media-btn">👁 Preview</button>
+        <button class="media-btn dl">⬇ Download</button>
+      </div>
+    </div>
+  </div>
+`).join('');
+
+// ── LEADERBOARD ──
+const lbData=[
+  {name:'Dr. Aisha K.',score:'2,840',badge:'🏆',badgeBg:'#fffbeb',badgeC:'#d97706',avatarBg:'#fffbeb',avatarC:'#d97706',init:'AK'},
+  {name:'Dr. Rohan M.',score:'2,710',badge:'🥈',badgeBg:'#f1f5f9',badgeC:'#64748b',avatarBg:'#f1f5f9',avatarC:'#475569',init:'RM'},
+  {name:'Jr. 6013',score:'2,580',badge:'🥉',badgeBg:'#fef2f2',badgeC:'#dc2626',avatarBg:'#fef2f2',avatarC:'#dc2626',init:'JR'},
+];
+const lbMore=[
+  {rank:4,name:'Dr. Priya S.',score:'2,420',init:'PS',avatarBg:'#eff4ff',avatarC:'#1a56db'},
+  {rank:5,name:'Dr. Sameer T.',score:'2,310',init:'ST',avatarBg:'#ecfdf5',avatarC:'#059669'},
+  {rank:6,name:'Dr. Neha V.',score:'2,190',init:'NV',avatarBg:'#f5f3ff',avatarC:'#7c3aed'},
+  {rank:7,name:'Dr. Arjun P.',score:'2,050',init:'AP',avatarBg:'#ecfeff',avatarC:'#0891b2'},
+  {rank:8,name:'Dr. Kavya R.',score:'1,980',init:'KR',avatarBg:'#fffbeb',avatarC:'#d97706'},
+];
+document.getElementById('podium-area').innerHTML=lbData.map((p,i)=>`
+  <div class="podium${i===0?' first':''}">
+    <div class="podium-rank" style="background:${p.badgeBg};color:${p.badgeC}">${p.badge}</div>
+    <div class="podium-avatar" style="background:${p.avatarBg};color:${p.avatarC}">${p.init}</div>
+    <div class="podium-name">${p.name}</div>
+    <div class="podium-score">${p.score} pts</div>
+  </div>
+`).join('');
+document.getElementById('lb-list').innerHTML=lbMore.map(r=>`
+  <div class="lb-row">
+    <div class="lb-rank">${r.rank}</div>
+    <div class="lb-avatar" style="background:${r.avatarBg};color:${r.avatarC}">${r.init}</div>
+    <div class="lb-name">${r.name}</div>
+    <div class="lb-score">${r.score}</div>
+  </div>
+`).join('');
+
+// ── QUIZ ENGINE ──
+const questionBank={
+  cardiology:[
+    {q:"A 58-year-old presents with crushing chest pain. ECG shows ST elevation in V1–V4. Which artery is most likely occluded?",opts:["Right coronary artery (RCA)","Left anterior descending (LAD)","Left circumflex (LCx)","Posterior descending artery"],ans:1,exp:"ST elevation in V1–V4 is classic for an anterior STEMI, caused by occlusion of the Left Anterior Descending (LAD) artery."},
+    {q:"What is the correct initial energy for synchronized cardioversion in a patient with unstable narrow-complex tachycardia?",opts:["25–50J","50–100J","200J","360J"],ans:1,exp:"For narrow-complex regular tachycardia, synchronized cardioversion starts at 50–100J biphasic."},
+    {q:"In VF cardiac arrest, when should the first defibrillation be delivered?",opts:["After 2 minutes of CPR","Immediately upon recognition","After IV access is established","After endotracheal intubation"],ans:1,exp:"Defibrillation should be performed as early as possible in VF. Time to first shock is a key determinant of survival."},
+    {q:"What is the first-line medication for symptomatic bradycardia with a pulse?",opts:["Epinephrine 1mg IV","Amiodarone 300mg IV","Atropine 0.5mg IV","Adenosine 6mg IV"],ans:2,exp:"Atropine 0.5mg IV (up to 3mg max) is the first-line drug for symptomatic bradycardia before considering pacing or other agents."},
+  ],
+  pharmacology:[
+    {q:"What is the correct dose of Epinephrine in cardiac arrest?",opts:["0.5 mg IV every 5 min","1 mg IV every 3–5 min","2 mg IV once","1 mg IM every 10 min"],ans:1,exp:"Epinephrine 1mg IV/IO is administered every 3–5 minutes during cardiac arrest per ACLS guidelines."},
+    {q:"Adenosine 6mg IV is administered for SVT. No conversion. What is the next dose?",opts:["6mg again","12mg IV rapid push","18mg IV","Switch to Amiodarone"],ans:1,exp:"If 6mg adenosine fails, the second dose is 12mg IV given as a rapid push followed by a saline flush."},
+    {q:"Which drug is CONTRAINDICATED in Wolff-Parkinson-White (WPW) with rapid AF?",opts:["Procainamide","Amiodarone","Adenosine","Ibuprofen"],ans:2,exp:"Adenosine is contraindicated in WPW with AF as it can paradoxically increase conduction down the accessory pathway, potentially causing VF."},
+  ],
+  general:[
+    {q:"A patient has HR 180, BP 70/40, and is diaphoretic. What is the IMMEDIATE management?",opts:["IV Amiodarone","Synchronized Cardioversion","Vagal maneuvers","Oral beta-blocker"],ans:1,exp:"Hemodynamically unstable tachycardia requires immediate synchronized cardioversion regardless of rhythm type."},
+    {q:"In the Hs and Ts of cardiac arrest, which of the following is a 'T'?",opts:["Hypothermia","Hypoxia","Tension Pneumothorax","Hypokalemia"],ans:2,exp:"The 'T's include: Tension Pneumothorax, Tamponade, Toxins, Thrombosis (PE), and Thrombosis (coronary)."},
+    {q:"What PETCO₂ value during CPR suggests good compressions?",opts:["< 10 mmHg","10–20 mmHg","20–35 mmHg","≥ 35–40 mmHg"],ans:3,exp:"A PETCO₂ of ≥35–40 mmHg indicates effective CPR. A sudden rise ≥40 mmHg suggests return of spontaneous circulation (ROSC)."},
+    {q:"Which STEMI location corresponds to ST elevation in leads II, III, and aVF?",opts:["Anterior","Lateral","Inferior","Posterior"],ans:2,exp:"ST elevation in II, III, aVF indicates an inferior STEMI, most commonly caused by RCA occlusion."},
+    {q:"According to SSC 2026, what is the recommended initial fluid bolus for sepsis-induced hypoperfusion?",opts:["10 mL/kg over 1 hour","30 mL/kg in first 3 hours","50 mL/kg over 6 hours","1L normal saline stat"],ans:1,exp:"SSC 2026 recommends at least 30 mL/kg IV crystalloid within the first 3 hours of resuscitation for sepsis-induced hypoperfusion."},
+  ]
+};
+
+let currentQuiz={qs:[],idx:0,ans:[],type:'',name:'',subject:'',timer:null,secs:0};
+
+function openQuizModal(type,name,subject,meta){
+  const modal=document.getElementById('quizModal');
+  const box=document.getElementById('quizModalBox');
+  let qs=[];
+  if(subject.toLowerCase().includes('cardio'))qs=[...questionBank.cardiology];
+  else if(subject.toLowerCase().includes('pharma'))qs=[...questionBank.pharmacology];
+  else qs=[...questionBank.general];
+  qs=qs.sort(()=>Math.random()-.5).slice(0,Math.min(type==='mini'?4:type==='mock'?5:4,qs.length));
+  currentQuiz={qs,idx:0,ans:Array(qs.length).fill(null),type,name,subject,secs:type==='mock'?600:type==='mini'?240:360,startSecs:type==='mock'?600:type==='mini'?240:360};
+  box.innerHTML=renderQuizSetup(type,name,subject,meta);
+  modal.classList.add('open');
+}
+
+function renderQuizSetup(type,name,subject,meta){
+  const colors={subject:'#1a56db',mini:'#d97706',mock:'#7c3aed'};
+  const labels={subject:'Subject Test',mini:'Mini Test',mock:'Mock Exam'};
+  return `
+    <div class="modal-header">
+      <div>
+        <div class="modal-title">${name}</div>
+        <div class="modal-sub">${labels[type]} · ${subject} · ${meta}</div>
+      </div>
+      <button class="modal-close" onclick="closeQuiz()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:.75rem;margin-bottom:1.5rem">
+        <div style="background:var(--gray-50);border-radius:.65rem;padding:1rem;text-align:center">
+          <div style="font-size:1.25rem;font-weight:800;color:var(--gray-900)">${currentQuiz.qs.length}</div>
+          <div style="font-size:.68rem;font-family:var(--font-mono);color:var(--gray-400);text-transform:uppercase;margin-top:.2rem">Questions</div>
+        </div>
+        <div style="background:var(--gray-50);border-radius:.65rem;padding:1rem;text-align:center">
+          <div style="font-size:1.25rem;font-weight:800;color:var(--gray-900)">${Math.round(currentQuiz.secs/60)} min</div>
+          <div style="font-size:.68rem;font-family:var(--font-mono);color:var(--gray-400);text-transform:uppercase;margin-top:.2rem">Time Limit</div>
+        </div>
+        <div style="background:var(--gray-50);border-radius:.65rem;padding:1rem;text-align:center">
+          <div style="font-size:1.25rem;font-weight:800;color:${colors[type]||'#1a56db'}">${labels[type]}</div>
+          <div style="font-size:.68rem;font-family:var(--font-mono);color:var(--gray-400);text-transform:uppercase;margin-top:.2rem">Format</div>
+        </div>
+      </div>
+      <div style="background:var(--blue-lt);border:1px solid rgba(26,86,219,.15);border-radius:.75rem;padding:1rem 1.25rem;font-size:.85rem;color:var(--gray-600);line-height:1.55">
+        <strong style="color:var(--blue);display:block;margin-bottom:.3rem;font-size:.72rem;font-family:var(--font-mono);letter-spacing:.05em;text-transform:uppercase">Instructions</strong>
+        Each question is MCQ with a single best answer. Your selections are recorded. Explanations are revealed after each answer. Your score is shown at the end.
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="modal-btn ghost" onclick="closeQuiz()">Cancel</button>
+      <button class="modal-btn primary" onclick="startQuiz()">Begin Test →</button>
+    </div>
+  `;
+}
+
+function startQuiz(){
+  renderQuestion();
+  startTimer();
+}
+
+function startTimer(){
+  clearInterval(currentQuiz.timer);
+  currentQuiz.timer=setInterval(()=>{
+    currentQuiz.secs--;
+    const el=document.getElementById('quiz-timer');
+    if(el){
+      const m=Math.floor(currentQuiz.secs/60);
+      const s=currentQuiz.secs%60;
+      el.textContent=`${m}:${s.toString().padStart(2,'0')}`;
+      if(currentQuiz.secs<=30)el.classList.add('warning');
+    }
+    if(currentQuiz.secs<=0){clearInterval(currentQuiz.timer);showScore();}
+  },1000);
+}
+
+function renderQuestion(){
+  const q=currentQuiz.qs[currentQuiz.idx];
+  const pct=((currentQuiz.idx)/currentQuiz.qs.length)*100;
+  const m=Math.floor(currentQuiz.secs/60);
+  const s=currentQuiz.secs%60;
+  document.getElementById('quizModalBox').innerHTML=`
+    <div class="modal-header">
+      <div>
+        <div class="modal-title">${currentQuiz.name}</div>
+        <div class="modal-sub">${currentQuiz.subject}</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:.75rem">
+        <div class="quiz-timer" id="quiz-timer">${m}:${s.toString().padStart(2,'0')}</div>
+        <button class="modal-close" onclick="closeQuiz()">✕</button>
+      </div>
+    </div>
+    <div class="modal-body">
+      <div class="quiz-header">
+        <div class="quiz-meta-row">
+          <span class="quiz-subject">${currentQuiz.subject}</span>
+          <span style="font-size:.75rem;color:var(--gray-500);font-family:var(--font-mono)">${currentQuiz.idx+1} / ${currentQuiz.qs.length}</span>
+        </div>
+        <div class="quiz-progress-bar"><div class="quiz-progress-fill" style="width:${pct}%"></div></div>
+      </div>
+      <div class="quiz-qnum">Question ${currentQuiz.idx+1} of ${currentQuiz.qs.length}</div>
+      <div class="quiz-q">${q.q}</div>
+      <div class="quiz-options">
+        ${q.opts.map((o,i)=>`<div class="quiz-opt${currentQuiz.ans[currentQuiz.idx]===i?(i===q.ans?' correct':' wrong'):''}" onclick="selectOpt(${i})" id="opt-${i}">
+          <div class="opt-letter">${String.fromCharCode(65+i)}</div>
+          <div class="opt-text">${o}</div>
+        </div>`).join('')}
+      </div>
+      <div class="quiz-explanation${currentQuiz.ans[currentQuiz.idx]!==null?' show':''}" id="quiz-exp">
+        <strong>Explanation</strong>${q.exp}
+      </div>
+      <div class="quiz-nav">
+        <button class="qnav-btn" onclick="navQ(-1)" ${currentQuiz.idx===0?'disabled':''}>← Previous</button>
+        <span style="font-size:.75rem;font-family:var(--font-mono);color:var(--gray-400)">${currentQuiz.ans.filter(a=>a!==null).length} answered</span>
+        ${currentQuiz.idx===currentQuiz.qs.length-1
+          ?`<button class="qnav-btn primary" onclick="showScore()">Submit →</button>`
+          :`<button class="qnav-btn primary" onclick="navQ(1)">Next →</button>`}
+      </div>
+    </div>
+  `;
+}
+
+function selectOpt(i){
+  if(currentQuiz.ans[currentQuiz.idx]!==null)return;
+  currentQuiz.ans[currentQuiz.idx]=i;
+  renderQuestion();
+}
+
+function navQ(dir){
+  currentQuiz.idx=Math.max(0,Math.min(currentQuiz.qs.length-1,currentQuiz.idx+dir));
+  renderQuestion();
+}
+
+function showScore(){
+  clearInterval(currentQuiz.timer);
+  const correct=currentQuiz.ans.filter((a,i)=>a===currentQuiz.qs[i].ans).length;
+  const total=currentQuiz.qs.length;
+  const pct=Math.round((correct/total)*100);
+  const msg=pct>=80?'Excellent work! 🎉':pct>=60?'Good effort! Keep studying 📚':'Review these topics carefully 📖';
+  document.getElementById('quizModalBox').innerHTML=`
+    <div class="modal-header">
+      <div class="modal-title">Test Complete</div>
+      <button class="modal-close" onclick="closeQuiz()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="score-screen">
+        <div class="score-circle" style="border-color:${pct>=80?'var(--green)':pct>=60?'var(--amber)':'var(--red)'}">
+          <div class="score-num" style="color:${pct>=80?'var(--green)':pct>=60?'var(--amber)':'var(--red)'}">${pct}%</div>
+          <div class="score-denom">${correct}/${total}</div>
+        </div>
+        <div class="score-title">${msg}</div>
+        <div class="score-sub">${currentQuiz.name} · ${currentQuiz.type==='mock'?'Mock Exam':currentQuiz.type==='mini'?'Mini Test':'Subject Test'}</div>
+        <div class="score-stats">
+          <div class="sc-stat"><div class="n" style="color:var(--green)">${correct}</div><div class="l">Correct</div></div>
+          <div class="sc-stat"><div class="n" style="color:var(--red)">${total-correct}</div><div class="l">Incorrect</div></div>
+          <div class="sc-stat"><div class="n" style="color:var(--blue)">${pct}%</div><div class="l">Score</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="modal-btn ghost" onclick="closeQuiz()">Close</button>
+      <button class="modal-btn primary" onclick="openQuizModal('${currentQuiz.type}','${currentQuiz.name}','${currentQuiz.subject}','')">Retake Test</button>
+    </div>
+  `;
+}
+
+function closeQuiz(){
+  clearInterval(currentQuiz.timer);
+  document.getElementById('quizModal').classList.remove('open');
+}
+document.getElementById('quizModal').addEventListener('click',function(e){if(e.target===this)closeQuiz()});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeQuiz()});
+</script>
+</body>
+</html>
