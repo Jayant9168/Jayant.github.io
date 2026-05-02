@@ -693,7 +693,7 @@ const notes=[
   {icon:'🌡️',bg:'linear-gradient(135deg,#fffbeb,#fef3c7)',subject:'EM Procedures',sC:'#d97706',name:'Procedural Skills Checklist',desc:'Step-by-step for central lines, intubation, chest tubes, and emergency procedures.',type:'Checklist',typeBg:'#fffbeb',typeC:'#d97706',pages:'30 steps'},
 ];
 document.getElementById('notes-grid').innerHTML=notes.map(n=>`
-  <div class="note-card">
+  <div class="note-card" onclick="alert('Opening ' + '${n.type}' + ': ' + '${n.name}')">
     <div class="note-thumb" style="background:${n.bg}">${n.icon}</div>
     <div class="note-body">
       <div class="note-subject" style="color:${n.sC}">${n.subject}</div>
@@ -717,7 +717,7 @@ const media=[
   {icon:'📋',bg:'linear-gradient(135deg,#fffbeb,#fef3c7)',format:'PDF',fBg:'#fffbeb',fC:'#d97706',title:'EM Procedure Quick Cards',meta:'8 pages · Laminate-ready · 2026'},
 ];
 document.getElementById('media-grid').innerHTML=media.map(m=>`
-  <div class="media-card">
+  <div class="media-card" onclick="alert('Opening ' + '${m.format}' + ': ' + '${m.title}')">
     <div class="media-thumb" style="background:${m.bg}">
       ${m.icon}
       <span class="media-format" style="background:${m.fBg};color:${m.fC}">${m.format}</span>
@@ -726,8 +726,8 @@ document.getElementById('media-grid').innerHTML=media.map(m=>`
       <div class="media-title">${m.title}</div>
       <div class="media-meta">${m.meta}</div>
       <div class="media-btn-row">
-        <button class="media-btn">👁 Preview</button>
-        <button class="media-btn dl">⬇ Download</button>
+        <button class="media-btn" onclick="event.stopPropagation(); alert('Previewing ' + '${m.title}')">👁 Preview</button>
+        <button class="media-btn dl" onclick="event.stopPropagation(); alert('Downloading ' + '${m.title}')">⬇ Download</button>
       </div>
     </div>
   </div>
