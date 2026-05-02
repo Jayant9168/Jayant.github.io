@@ -1,0 +1,1795 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>41 6013 283 — EM Resident</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;700&family=DM+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg-main: #03060d;
+    --primary-red: #ff2a4b;
+    --primary-red-glow: rgba(255, 42, 75, 0.6);
+    --vital-green: #00e676;
+    --text-main: #f0f4f8;
+    --text-muted: #8a9bb3;
+    --glass-bg: rgba(255, 255, 255, 0.03);
+    --glass-border: rgba(255, 255, 255, 0.08);
+  }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background-color: var(--bg-main);
+    color: var(--text-main);
+    min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
+    display: flex;
+    justify-content: center;
+  }
+
+  .bg-elements { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+  .orb { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.5; animation: float 10s infinite ease-in-out alternate; }
+  .orb-1 { width: 450px; height: 450px; background: radial-gradient(circle, rgba(255,42,75,0.45) 0%, transparent 70%); top: -100px; right: -100px; animation-duration: 12s; }
+  .orb-2 { width: 400px; height: 400px; background: radial-gradient(circle, rgba(0,245,212,0.25) 0%, transparent 70%); bottom: 10%; left: -100px; animation-duration: 9s; }
+  .orb-3 { width: 300px; height: 300px; background: radial-gradient(circle, rgba(162,0,255,0.2) 0%, transparent 70%); top: 40%; left: 30%; animation: float 15s infinite ease-in-out alternate-reverse; }
+  .bgrid { position: absolute; inset: 0; background-image: linear-gradient(var(--glass-border) 1px, transparent 1px), linear-gradient(90deg, var(--glass-border) 1px, transparent 1px); background-size: 50px 50px; opacity: 0.6; mask-image: radial-gradient(ellipse at center, black 30%, transparent 80%); -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 80%); }
+  @keyframes float { 0% { transform: translateY(0) scale(1); } 100% { transform: translateY(30px) scale(1.1); } }
+
+  .content { position: relative; z-index: 2; width: 100%; max-width: 1400px; padding: 3rem 4rem; display: flex; flex-direction: column; gap: 2.5rem; }
+
+  .glass-panel { background: var(--glass-bg); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid var(--glass-border); border-radius: 24px; padding: 3rem; box-shadow: 0 10px 40px 0 rgba(0,0,0,0.4); position: relative; overflow: hidden; transition: transform 0.3s ease, border-color 0.3s ease; }
+  .glass-panel:hover { border-color: rgba(255,255,255,0.15); }
+  .glass-panel::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent); }
+
+  .badge { display: inline-flex; align-items: center; gap: 10px; background: rgba(255,42,75,0.1); border: 1px solid rgba(255,42,75,0.3); color: var(--primary-red); font-size: 11px; font-family: 'DM Mono', monospace; padding: 8px 18px; border-radius: 30px; margin-bottom: 2rem; letter-spacing: 2px; box-shadow: 0 0 15px rgba(255,42,75,0.2); }
+  .badge-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--primary-red); box-shadow: 0 0 10px var(--primary-red); animation: blinkIndicator 1.5s infinite; }
+  @keyframes blinkIndicator { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.3; transform: scale(0.8); } }
+
+  h1 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(3.5rem, 8vw, 6rem); letter-spacing: 5px; line-height: 1.1; margin-bottom: 0.5rem; text-shadow: 0 4px 15px rgba(0,0,0,0.5); }
+  h1 span { color: var(--primary-red); text-shadow: 0 0 25px var(--primary-red-glow); }
+  .role { font-size: 13px; color: var(--text-muted); font-family: 'DM Mono', monospace; letter-spacing: 4px; text-transform: uppercase; margin-bottom: 2.5rem; }
+
+  .dashboard { display: flex; flex-wrap: wrap; gap: 1.5rem; margin-top: 1rem; }
+  .vitals { display: flex; flex: 2; min-width: 320px; background: rgba(0,0,0,0.3); border: 1px solid var(--glass-border); border-radius: 16px; overflow: hidden; flex-wrap: wrap; }
+  .vital { flex: 1 1 20%; min-width: 80px; padding: 1.5rem 0.5rem; text-align: center; border-right: 1px solid var(--glass-border); transition: background 0.3s ease; }
+  .vital:hover { background: rgba(255,255,255,0.05); }
+  .vital:last-child { border-right: none; }
+  .v-val { font-family: 'Bebas Neue', sans-serif; font-size: 2.2rem; color: var(--vital-green); line-height: 1; text-shadow: 0 0 15px rgba(0,230,118,0.4); transition: color 0.2s; }
+  .v-label { font-size: 10px; color: var(--text-muted); letter-spacing: 1.5px; text-transform: uppercase; font-family: 'DM Mono', monospace; margin-top: 8px; }
+  .stats-col { display: flex; flex-direction: column; justify-content: center; gap: 1.5rem; padding: 0 1rem; }
+  .stat { display: flex; align-items: center; gap: 1.2rem; }
+  .stat .num { font-family: 'Bebas Neue', sans-serif; font-size: 2.5rem; color: var(--primary-red); min-width: 65px; text-shadow: 0 0 15px var(--primary-red-glow); }
+  .stat .label { font-size: 11px; color: var(--text-muted); letter-spacing: 2px; text-transform: uppercase; font-family: 'DM Mono', monospace; }
+
+  .ecg-wrap { width: 100%; height: 90px; margin-top: 2rem; position: relative; border-radius: 12px; background: rgba(0,0,0,0.3); border: 1px solid var(--glass-border); overflow: hidden; }
+  .ecg-svg { position: absolute; height: 100%; width: 200%; animation: ecg-sweep 4.5s linear infinite; }
+  @keyframes ecg-sweep { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+  .ecg-fade { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(3,6,13,1) 0%, transparent 15%, transparent 85%, rgba(3,6,13,1) 100%); z-index: 1; pointer-events: none; }
+
+  .cs-section { text-align: center; display: flex; flex-direction: column; align-items: center; padding: 4rem 2rem; }
+  .cs-tag { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--primary-red); letter-spacing: 5px; text-transform: uppercase; border: 1px solid rgba(255,42,75,0.3); padding: 8px 24px; border-radius: 20px; margin-bottom: 2rem; background: rgba(255,42,75,0.05); }
+  .cs-big { font-family: 'Bebas Neue', sans-serif; font-size: clamp(4rem, 12vw, 8rem); letter-spacing: 12px; line-height: 1; margin-bottom: 1.5rem; animation: glitchFlicker 4s infinite alternate; }
+  .cs-big span { color: var(--primary-red); animation: neonBlinking 1.2s infinite; }
+  @keyframes glitchFlicker { 0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% { opacity: 1; } 20%, 24%, 55% { opacity: 0.6; } }
+  @keyframes neonBlinking { 0%, 100% { text-shadow: 0 0 10px var(--primary-red-glow), 0 0 20px var(--primary-red), 0 0 40px var(--primary-red), 0 0 80px var(--primary-red); opacity: 1; } 50% { text-shadow: 0 0 5px var(--primary-red-glow); opacity: 0.7; } 55% { opacity: 0.3; text-shadow: none; } 56% { opacity: 1; } }
+  .cs-sub { font-size: 16px; color: var(--text-muted); max-width: 550px; line-height: 1.8; margin-bottom: 2.5rem; }
+  .progress-wrap { width: 100%; max-width: 550px; }
+  .progress-label { display: flex; justify-content: space-between; font-family: 'DM Mono', monospace; font-size: 11px; color: var(--text-muted); margin-bottom: 12px; letter-spacing: 2px; }
+  .progress-bar { width: 100%; height: 6px; background: rgba(255,255,255,0.05); border-radius: 6px; overflow: hidden; position: relative; box-shadow: inset 0 1px 3px rgba(0,0,0,0.5); }
+  .progress-fill { height: 100%; width: 45%; background: var(--primary-red); border-radius: 6px; box-shadow: 0 0 15px var(--primary-red); position: relative; animation: pulseWidth 3s ease-in-out infinite alternate; }
+  @keyframes pulseWidth { 0% { width: 40%; } 100% { width: 48%; } }
+  .progress-fill::after { content: ""; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent); animation: sheen 2s infinite; }
+  @keyframes sheen { 0% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
+
+  .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+  .sec-title { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--primary-red); letter-spacing: 5px; text-transform: uppercase; margin-bottom: 2rem; display: flex; align-items: center; gap: 12px; }
+  .sec-title::before { content: ''; width: 40px; height: 2px; background: var(--primary-red); box-shadow: 0 0 10px var(--primary-red); }
+  .about-text { font-size: 15.5px; color: var(--text-muted); line-height: 1.9; }
+
+  .skills-wrap { display: flex; flex-wrap: wrap; gap: 14px; }
+  .skill-chip { background: rgba(255,255,255,0.03); border: 1px solid var(--glass-border); border-radius: 12px; padding: 12px 18px; font-size: 13.5px; color: var(--text-main); font-family: 'DM Mono', monospace; transition: all 0.3s cubic-bezier(0.4,0,0.2,1); display: flex; align-items: center; gap: 10px; cursor: pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+  .skill-chip span { font-size: 16px; }
+  .skill-chip:hover { border-color: var(--primary-red); background: rgba(255,42,75,0.08); transform: translateY(-4px); color: white; box-shadow: 0 8px 15px rgba(255,42,75,0.2); }
+  .skill-chip.acls-chip { border-color: rgba(255,42,75,0.4); background: rgba(255,42,75,0.06); }
+  .skill-chip.acls-chip:hover { background: rgba(255,42,75,0.15); }
+  .skill-chip.sepsis-chip { border-color: rgba(29,125,199,0.4); background: rgba(29,125,199,0.06); }
+  .skill-chip.sepsis-chip:hover { background: rgba(29,125,199,0.15); border-color: rgba(29,125,199,0.6); color: white; box-shadow: 0 8px 15px rgba(29,125,199,0.2); }
+  .skill-chip.procedural-chip { border-color: rgba(0,245,212,0.4); background: rgba(0,245,212,0.06); }
+  .skill-chip.procedural-chip:hover { background: rgba(0,245,212,0.15); border-color: rgba(0,245,212,0.6); color: white; box-shadow: 0 8px 15px rgba(0,245,212,0.2); }
+
+  .contact-wrap { display: flex; flex-direction: column; gap: 14px; margin-top: 1.5rem; }
+  .contact-item { display: flex; justify-content: space-between; padding: 16px 20px; background: rgba(0,0,0,0.25); border-radius: 12px; font-family: 'DM Mono', monospace; font-size: 13.5px; border: 1px solid var(--glass-border); transition: all 0.3s; }
+  .contact-item:hover { border-color: rgba(255,255,255,0.2); background: rgba(0,0,0,0.4); }
+  .c-label { color: var(--text-muted); }
+  .c-val { color: var(--text-main); font-weight: 500; letter-spacing: 0.5px; }
+
+  .form-field-group { margin-bottom: 1.5rem; }
+  .form-field-label { display: block; font-size: 11px; font-family: 'DM Mono', monospace; color: var(--text-muted); letter-spacing: 3px; text-transform: uppercase; margin-bottom: 10px; }
+  .form-input { width: 100%; background: rgba(0,0,0,0.3); border: 1px solid var(--glass-border); border-radius: 12px; color: var(--text-main); font-family: 'DM Sans', sans-serif; font-size: 14px; padding: 14px 18px; outline: none; transition: border-color 0.3s, box-shadow 0.3s; }
+  .form-input:focus { border-color: rgba(255,42,75,0.5); box-shadow: 0 0 0 3px rgba(255,42,75,0.1); }
+  .form-input::placeholder { color: rgba(138,155,179,0.4); }
+  textarea.form-input { resize: vertical; min-height: 130px; }
+  select.form-input { cursor: pointer; -webkit-appearance: none; appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%238a9bb3' d='M6 8L0 0h12z'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 18px center; padding-right: 44px; }
+  select.form-input option { background: #0d1117; }
+  .form-row-two { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
+  .rating-wrap { display: flex; gap: 10px; flex-wrap: wrap; }
+  .r-btn { width: 46px; height: 46px; border-radius: 10px; background: rgba(0,0,0,0.3); border: 1px solid var(--glass-border); color: var(--text-muted); font-size: 14px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-family: 'DM Mono', monospace; transition: all 0.2s; user-select: none; }
+  .r-btn:hover { border-color: rgba(255,42,75,0.4); color: var(--primary-red); }
+  .r-btn.active { background: rgba(255,42,75,0.15); border-color: rgba(255,42,75,0.6); color: var(--primary-red); }
+  .submit-btn { width: 100%; padding: 17px; background: var(--primary-red); border: none; border-radius: 12px; color: white; font-size: 13px; font-weight: 600; cursor: pointer; letter-spacing: 3px; text-transform: uppercase; font-family: 'DM Mono', monospace; transition: all 0.3s; margin-top: 0.5rem; box-shadow: 0 0 20px rgba(255,42,75,0.3); }
+  .submit-btn:hover { background: #e01e3c; box-shadow: 0 0 30px rgba(255,42,75,0.5); transform: translateY(-2px); }
+  .submit-btn:active { transform: translateY(0); }
+  .submit-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+  .form-success { display: none; text-align: center; padding: 3rem 2rem; font-family: 'DM Mono', monospace; }
+  .success-icon-wrap { width: 80px; height: 80px; border-radius: 50%; background: rgba(0,230,118,0.1); border: 2px solid rgba(0,230,118,0.3); display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem; font-size: 2rem; box-shadow: 0 0 30px rgba(0,230,118,0.2); }
+  .success-title { color: var(--vital-green); font-size: 18px; letter-spacing: 4px; margin-bottom: 0.75rem; }
+  .success-sub { color: var(--text-muted); font-size: 12px; letter-spacing: 1px; line-height: 1.8; }
+
+  .footer { text-align: center; font-family: 'DM Mono', monospace; font-size: 12px; letter-spacing: 5px; padding: 2rem 0 1rem; }
+  .blink-footer { color: var(--primary-red); text-shadow: 0 0 10px var(--primary-red-glow); animation: neonBlinking 2.5s infinite; }
+  .bg-text { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); font-family: 'Bebas Neue', sans-serif; font-size: clamp(8rem, 20vw, 25rem); color: transparent; -webkit-text-stroke: 2px rgba(255,255,255,0.02); white-space: nowrap; z-index: 0; pointer-events: none; animation: bg-text-pulse 6s infinite alternate ease-in-out; }
+  @keyframes bg-text-pulse { 0% { transform: translate(-50%,-50%) scale(1); opacity: 0.3; -webkit-text-stroke: 2px rgba(255,42,75,0.03); } 100% { transform: translate(-50%,-50%) scale(1.05); opacity: 1; -webkit-text-stroke: 3px rgba(255,42,75,0.15); } }
+
+  /* =============================================
+     ACLS OVERLAY STYLES
+  ============================================= */
+  .acls-overlay {
+    display: none;
+    position: fixed; inset: 0; z-index: 9999;
+    background: rgba(0,0,0,0.85);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    overflow-y: auto;
+    animation: overlayIn 0.3s ease;
+  }
+  .acls-overlay.active { display: block; }
+  @keyframes overlayIn { from { opacity: 0; } to { opacity: 1; } }
+
+  .acls-container {
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 20px;
+    min-height: 100vh;
+  }
+
+  /* Close bar */
+  .acls-topbar {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 14px 0 10px;
+    margin-bottom: 12px;
+    border-bottom: 1px solid rgba(255,42,75,0.2);
+  }
+  .acls-topbar-title {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px; letter-spacing: 4px; color: var(--primary-red);
+    text-transform: uppercase;
+  }
+  .close-btn {
+    width: 40px; height: 40px; border-radius: 50%;
+    background: rgba(255,42,75,0.1); border: 1px solid rgba(255,42,75,0.3);
+    color: var(--primary-red); font-size: 18px; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s; font-family: monospace;
+  }
+  .close-btn:hover { background: rgba(255,42,75,0.25); transform: rotate(90deg); }
+
+  /* Section A button */
+  .acls-landing {
+    display: flex; flex-direction: column; align-items: center;
+    padding: 3rem 1rem; text-align: center;
+    animation: slideUp 0.4s ease;
+  }
+  @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+  .acls-landing-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 4rem; letter-spacing: 8px;
+    color: var(--text-main); margin-bottom: 0.5rem;
+  }
+  .acls-landing-title span { color: var(--primary-red); }
+  .acls-landing-sub {
+    font-family: 'DM Mono', monospace; font-size: 12px;
+    color: var(--text-muted); letter-spacing: 3px; margin-bottom: 3rem;
+  }
+
+  .acls-sections-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px; width: 100%; max-width: 720px;
+  }
+  .acls-section-card {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 16px; padding: 24px 20px;
+    cursor: pointer; transition: all 0.25s;
+    text-align: center; position: relative; overflow: hidden;
+  }
+  .acls-section-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    background: var(--card-accent, var(--primary-red));
+    border-radius: 16px 16px 0 0;
+  }
+  .acls-section-card:hover {
+    border-color: rgba(255,42,75,0.3);
+    background: rgba(255,42,75,0.06);
+    transform: translateY(-4px);
+    box-shadow: 0 12px 30px rgba(255,42,75,0.15);
+  }
+  .acls-section-card .card-icon { font-size: 2rem; margin-bottom: 12px; display: block; }
+  .acls-section-card .card-letter {
+    font-family: 'Bebas Neue', sans-serif; font-size: 3rem;
+    color: var(--primary-red); line-height: 1;
+    text-shadow: 0 0 20px rgba(255,42,75,0.4);
+  }
+  .acls-section-card .card-name {
+    font-family: 'DM Mono', monospace; font-size: 11px;
+    color: var(--text-muted); letter-spacing: 2px; text-transform: uppercase;
+    margin-top: 6px;
+  }
+
+  /* Notes area inside overlay */
+  .acls-notes-area { display: none; animation: slideUp 0.35s ease; }
+  .acls-notes-area.active { display: block; }
+
+  /* Back button */
+  .back-btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border);
+    color: var(--text-muted); font-family: 'DM Mono', monospace;
+    font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
+    padding: 8px 18px; border-radius: 20px; cursor: pointer;
+    transition: all 0.2s; margin-bottom: 16px;
+  }
+  .back-btn:hover { border-color: rgba(255,42,75,0.4); color: var(--primary-red); background: rgba(255,42,75,0.05); }
+
+  /* =============================================
+     NOTES STYLES (inside dark overlay)
+  ============================================= */
+  .notes-header {
+    background: linear-gradient(135deg, #1a0a10 0%, #16213e 60%, #0f3460 100%);
+    border: 1px solid rgba(255,42,75,0.2);
+    border-radius: 16px; padding: 20px 24px; margin-bottom: 16px;
+  }
+  .notes-header h2 { font-family: 'Bebas Neue', sans-serif; font-size: 1.8rem; letter-spacing: 3px; color: white; }
+  .notes-header p { font-size: 12px; color: rgba(255,255,255,0.5); margin-top: 4px; }
+  .notes-header-badges { display: flex; gap: 6px; margin-top: 10px; flex-wrap: wrap; }
+  .notes-header-badge { background: rgba(255,255,255,0.08); padding: 2px 10px; border-radius: 20px; font-size: 10px; color: rgba(255,255,255,0.6); border: 1px solid rgba(255,255,255,0.12); cursor: pointer; transition: all 0.2s; font-family: 'DM Mono', monospace; letter-spacing: 1px; }
+  .notes-header-badge:hover { background: rgba(255,42,75,0.15); border-color: rgba(255,42,75,0.4); color: #ff8a9b; }
+  .notes-header-badge.active-tab { background: rgba(255,42,75,0.2); border-color: rgba(255,42,75,0.5); color: #ff8a9b; }
+
+  /* Notes tabs */
+  .notes-tab-bar {
+    display: flex; flex-wrap: wrap; gap: 6px;
+    margin-bottom: 16px;
+  }
+  .notes-tab {
+    padding: 8px 16px; font-size: 12px; font-weight: 500; cursor: pointer;
+    border: 1px solid rgba(255,255,255,0.1); border-radius: 20px;
+    background: rgba(255,255,255,0.03); color: var(--text-muted);
+    font-family: 'DM Mono', monospace; letter-spacing: 1px;
+    transition: all 0.2s; white-space: nowrap;
+  }
+  .notes-tab:hover { border-color: rgba(255,42,75,0.4); color: #ff8a9b; }
+  .notes-tab.active { background: rgba(255,42,75,0.15); border-color: rgba(255,42,75,0.5); color: #ff8a9b; }
+
+  /* Panel */
+  .notes-panel { display: none; }
+  .notes-panel.active { display: block; }
+
+  /* Cards in dark theme */
+  .n-card {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 12px; padding: 16px; margin-bottom: 12px;
+  }
+  .n-card-title {
+    font-size: 13px; font-weight: 600; margin-bottom: 12px;
+    display: flex; align-items: center; gap: 7px; padding-bottom: 8px;
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+    font-family: 'DM Sans', sans-serif;
+  }
+  .n-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .n-grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+  @media(max-width:640px) { .n-grid-2, .n-grid-3 { grid-template-columns: 1fr; } }
+
+  .n-hbox { border-radius: 8px; padding: 10px 14px; font-size: 12px; margin: 6px 0; border-left: 4px solid; color: rgba(255,255,255,0.8); }
+  .n-hbox b { display: block; margin-bottom: 3px; font-size: 12px; }
+  .n-flow { display: flex; flex-direction: column; gap: 0; }
+  .n-flow-item { display: flex; align-items: flex-start; gap: 10px; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.07); color: rgba(255,255,255,0.8); font-size: 13px; }
+  .n-flow-item:last-child { border-bottom: none; }
+  .n-step-circle { width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; flex-shrink: 0; margin-top: 1px; }
+  .n-pill { display: inline-block; padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 600; margin: 2px; }
+  .n-badge { display: inline-block; padding: 2px 8px; border-radius: 6px; font-size: 11px; font-weight: 600; }
+  .n-tbl { width: 100%; border-collapse: collapse; font-size: 12px; color: rgba(255,255,255,0.8); }
+  .n-tbl th { padding: 7px 10px; font-weight: 600; text-align: left; font-size: 11px; border-bottom: 1px solid rgba(255,255,255,0.1); color: rgba(255,255,255,0.6); }
+  .n-tbl td { padding: 7px 10px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+  .n-tbl tr:last-child td { border-bottom: none; }
+  .n-tbl tr:hover td { background: rgba(255,255,255,0.03); }
+  .n-step-box { border-radius: 8px; padding: 10px 14px; font-size: 12px; border-left: 4px solid; margin-bottom: 8px; color: rgba(255,255,255,0.8); }
+  .n-step-box b { font-size: 12px; display: block; margin-bottom: 3px; }
+  .n-split { display: flex; gap: 10px; }
+  .n-split-col { flex: 1; border-radius: 10px; padding: 12px; }
+  @media(max-width:600px) { .n-split { flex-direction: column; } }
+
+  /* Rhythm row */
+  .n-rhythm-row { display: flex; align-items: center; gap: 12px; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.06); font-size: 12px; color: rgba(255,255,255,0.8); }
+  .n-rhythm-row:last-child { border-bottom: none; }
+
+  /* Color helpers */
+  .c-red { color: #ff6b7a; } .c-red-b { color: #ff2a4b; }
+  .c-orange { color: #ffb347; } .c-orange-b { color: #e88b30; }
+  .c-blue { color: #64b5f6; } .c-blue-b { color: #1D7DC7; }
+  .c-green { color: #69f0ae; } .c-green-b { color: #1D9E75; }
+  .c-purple { color: #b39ddb; } .c-purple-b { color: #7F77DD; }
+  .bg-red-d { background: rgba(255,42,75,0.12); border-color: rgba(255,42,75,0.4); }
+  .bg-orange-d { background: rgba(232,139,48,0.12); border-color: rgba(232,139,48,0.4); }
+  .bg-blue-d { background: rgba(29,125,199,0.12); border-color: rgba(29,125,199,0.4); }
+  .bg-green-d { background: rgba(29,158,117,0.12); border-color: rgba(29,158,117,0.4); }
+  .bg-purple-d { background: rgba(127,119,221,0.12); border-color: rgba(127,119,221,0.4); }
+  .bg-gray-d { background: rgba(255,255,255,0.04); border-color: rgba(255,255,255,0.1); }
+
+  /* Notes footer */
+  .notes-footer { text-align: center; padding: 16px 0 8px; font-size: 10px; color: rgba(255,255,255,0.2); font-family: 'DM Mono', monospace; letter-spacing: 3px; }
+
+  @media (max-width: 850px) {
+    .content { padding: 1.5rem 1rem; }
+    .glass-panel { padding: 1.5rem; }
+    h1 { font-size: 3.5rem; }
+    .vital { min-width: 40%; border-bottom: 1px solid var(--glass-border); }
+    .vital:nth-child(even) { border-right: none; }
+    .form-row-two { grid-template-columns: 1fr; }
+    .acls-container { padding: 12px; }
+    .acls-landing-title { font-size: 2.5rem; }
+  }
+  @media (max-width: 600px) {
+    .info-grid { grid-template-columns: 1fr; }
+  }
+  /* ── SEPSIS GUIDELINES SCOPED STYLES ──────────────────────────────── */
+  #sepsisOverlay {
+    --bg:#f6f8fc;--surface:#ffffff;--surface-2:#f0f4fb;--surface-3:#e7edf8;
+    --border:rgba(60,80,160,.12);
+    --text:#1a1f36;--text-muted:#4a5170;--text-faint:#8892b0;
+    --primary:#2055d8;--primary-lt:#dce8ff;
+    --red:#c0392b;--red-lt:#fde8e6;
+    --orange:#d4680a;--orange-lt:#fef0e0;
+    --green:#1a7a4a;--green-lt:#d7f5e5;
+    --purple:#6d28d9;--purple-lt:#ede9fe;
+    --teal:#0a7a7a;--teal-lt:#d6f5f5;
+    --yellow:#b7860b;--yellow-lt:#fef9e0;
+    --font-body:'DM Sans',sans-serif;
+    --font-display:'Instrument Serif',serif;
+    --shadow-sm:0 1px 3px rgba(30,50,120,.08);
+    --shadow-md:0 4px 16px rgba(30,50,120,.10);
+    --shadow-lg:0 8px 32px rgba(30,50,120,.13);
+    --r:0.75rem;
+    color: var(--text);
+    line-height: 1.65;
+  }
+  #sepsisOverlay[data-theme="dark"] {
+    --bg:#0f1221;--surface:#181d30;--surface-2:#1e2440;--surface-3:#242b4a;
+    --border:rgba(120,150,255,.13);
+    --text:#e4e8f5;--text-muted:#8892cc;--text-faint:#4a5480;
+    --primary:#5b8bff;--primary-lt:#1a2860;
+    --red:#ff6b6b;--red-lt:#2a1218;
+    --orange:#ffaa55;--orange-lt:#2a1a08;
+    --green:#4fcea2;--green-lt:#0a2018;
+    --purple:#b07aff;--purple-lt:#20133a;
+    --teal:#38d9d9;--teal-lt:#0a2020;
+    --yellow:#f0c040;--yellow-lt:#201800;
+  }
+  #sepsisOverlay .sepsis-content-wrap { 
+    background: var(--bg); 
+    border-radius: var(--r); 
+    overflow-y: auto; 
+    flex: 1; 
+    position: relative; 
+    -webkit-overflow-scrolling: touch;
+    will-change: transform;
+    transform: translate3d(0,0,0);
+  }
+  #sepsisOverlay.active {
+    animation: sepsisFadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  @keyframes sepsisFadeIn {
+    from { opacity: 0; transform: scale(0.98); }
+    to { opacity: 1; transform: scale(1); }
+  }
+  #sepsisOverlay h1, #sepsisOverlay h2, #sepsisOverlay h3, #sepsisOverlay h4 { font-family: var(--font-display); line-height: 1.2; text-wrap: balance; }
+  #sepsisOverlay p, #sepsisOverlay li { text-wrap: pretty; max-width: 74ch; }
+  
+  /* Header */
+  #sepsisOverlay .site-header { position: sticky; top: 0; z-index: 100; background: var(--surface); border-bottom: 1px solid var(--border); box-shadow: var(--shadow-sm); padding: .75rem 1.5rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+  #sepsisOverlay .logo-area { display: flex; align-items: center; gap: .75rem; }
+  #sepsisOverlay .logo-title { font-family: var(--font-display); font-size: 1.1rem; font-weight: 400; color: var(--text); line-height: 1.2; text-align: left; }
+  #sepsisOverlay .logo-sub { font-size: .72rem; color: var(--text-muted); letter-spacing: .04em; text-transform: uppercase; font-family: var(--font-body); }
+  #sepsisOverlay .theme-btn { width: 38px; height: 38px; border-radius: 50%; border: 1px solid var(--border); background: var(--surface-2); color: var(--text-muted); cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background .2s, color .2s; }
+  #sepsisOverlay .badge-year { font-size: .7rem; font-weight: 600; background: var(--primary); color: #fff; padding: .2rem .55rem; border-radius: 999px; letter-spacing: .06em; }
+
+  /* Hero */
+  #sepsisOverlay .hero { background: linear-gradient(135deg,#1a3a8f 0%,#2055d8 45%,#0a7a7a 100%); color: #fff; padding: 3.5rem 1.5rem 3rem; text-align: center; position: relative; overflow: hidden; }
+  #sepsisOverlay .hero-inner { position: relative; max-width: 820px; margin: 0 auto; }
+  #sepsisOverlay .hero h1 { font-size: clamp(2rem, 5vw, 3.2rem); margin-bottom: 1rem; color: #fff; }
+  #sepsisOverlay .hero p { font-size: 1.05rem; opacity: .88; max-width: 62ch; margin: 0 auto 1.5rem; line-height: 1.6; color: #fff; }
+  #sepsisOverlay .hero-tags { display: flex; flex-wrap: wrap; gap: .5rem; justify-content: center; }
+  #sepsisOverlay .hero-tag { font-size: .72rem; padding: .25rem .7rem; border-radius: 999px; background: rgba(255,255,255,.15); border: 1px solid rgba(255,255,255,.25); letter-spacing: .04em; font-weight: 500; color: #fff; }
+
+  /* Layout */
+  #sepsisOverlay .page-wrap { max-width: 1100px; margin: 0 auto; padding: 2.5rem 1.5rem 5rem; text-align: left; }
+  #sepsisOverlay .two-col { display: grid; grid-template-columns: 220px 1fr; gap: 2rem; align-items: start; }
+
+  @media(max-width:768px){
+    #sepsisOverlay .two-col { grid-template-columns: 1fr; gap: 1.5rem; }
+    #sepsisOverlay .sidebar { 
+      position: sticky; 
+      top: 60px; 
+      z-index: 90; 
+      display: block; 
+      padding: 0.75rem; 
+      margin-bottom: 1rem;
+      background: var(--surface);
+      border-radius: 0;
+      border-left: none;
+      border-right: none;
+      box-shadow: var(--shadow-sm);
+    }
+    #sepsisOverlay .sidebar-title { display: none; }
+    #sepsisOverlay .nav-list { 
+      flex-direction: row; 
+      overflow-x: auto; 
+      padding-bottom: 0.5rem;
+      scrollbar-width: none; 
+      gap: 0.75rem;
+    }
+    #sepsisOverlay .nav-list::-webkit-scrollbar { display: none; }
+    #sepsisOverlay .nav-list li { flex-shrink: 0; }
+    #sepsisOverlay .nav-list a { 
+      font-size: 0.75rem; 
+      padding: 0.5rem 1rem; 
+      background: var(--surface-2); 
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      white-space: nowrap;
+    }
+    #sepsisOverlay .nav-list a:hover, #sepsisOverlay .nav-list a:active {
+      background: var(--primary);
+      color: #fff;
+    }
+    #sepsisOverlay .hero { padding: 2.5rem 1rem 2rem; }
+    #sepsisOverlay .hero h1 { font-size: 1.8rem; }
+    #sepsisOverlay .page-wrap { padding: 1rem 1rem 4rem; }
+    #sepsisOverlay .acls-topbar { justify-content: space-between; padding: 0 5px; }
+    #sepsisOverlay .acls-topbar-title { font-size: 0.8rem; text-align: center; flex: 1; }
+    #sepsisOverlay .close-btn { width: 35px; height: 35px; font-size: 1.2rem; }
+  }
+
+  /* Sidebar */
+  #sepsisOverlay .sidebar { position: sticky; top: 72px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--r); padding: 1.25rem; box-shadow: var(--shadow-sm); }
+  #sepsisOverlay .sidebar-title { font-size: .65rem; letter-spacing: .1em; text-transform: uppercase; color: var(--text-faint); font-weight: 600; margin-bottom: .75rem; padding-bottom: .5rem; border-bottom: 1px solid var(--border); }
+  #sepsisOverlay .nav-list { list-style: none; display: flex; flex-direction: column; gap: .15rem; }
+  #sepsisOverlay .nav-list a { display: flex; align-items: center; gap: .5rem; font-size: .82rem; color: var(--text-muted); text-decoration: none; padding: .3rem .4rem; border-radius: .4rem; transition: background .15s, color .15s; }
+  #sepsisOverlay .nav-list a:hover { background: var(--primary-lt); color: var(--primary); }
+  #sepsisOverlay .nav-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+
+  /* Section */
+  #sepsisOverlay .section { margin-bottom: 2.5rem; }
+  #sepsisOverlay .section-header { display: flex; align-items: center; gap: .75rem; margin-bottom: 1.25rem; padding-bottom: .75rem; border-bottom: 2px solid var(--border); }
+  #sepsisOverlay .section-icon { width: 38px; height: 38px; border-radius: .6rem; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 1.1rem; }
+  #sepsisOverlay .section-header h2 { font-size: 1.4rem; color: var(--text); }
+
+  /* Cards */
+  #sepsisOverlay .card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(300px, 100%), 1fr)); gap: 1rem; }
+  #sepsisOverlay .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r); padding: 1.25rem; box-shadow: var(--shadow-sm); transition: box-shadow .2s, transform .2s; margin-bottom: 0; text-align: left; }
+  #sepsisOverlay .card-label { font-size: .65rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; margin-bottom: .5rem; padding: .2rem .55rem; border-radius: 999px; display: inline-block; }
+  #sepsisOverlay .card h3 { font-size: 1rem; font-family: var(--font-body); font-weight: 600; margin-bottom: .5rem; line-height: 1.35; color: var(--text); }
+  #sepsisOverlay .card p, #sepsisOverlay .card li { font-size: .875rem; color: var(--text-muted); line-height: 1.6; }
+  #sepsisOverlay .card ul { padding-left: 1.1rem; margin-top: .35rem; }
+
+  /* Recommendations */
+  #sepsisOverlay .rec-box { border-radius: var(--r); padding: 1.1rem 1.25rem; margin-bottom: .85rem; border-left: 4px solid; position: relative; text-align: left; }
+  #sepsisOverlay .rec-type { font-size: .65rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; margin-bottom: .35rem; display: block; }
+  #sepsisOverlay .rec-box.strong { background: var(--green-lt); border-color: var(--green); }
+  #sepsisOverlay .rec-box.strong .rec-type { color: var(--green); }
+  #sepsisOverlay .rec-box.conditional { background: var(--yellow-lt); border-color: var(--yellow); }
+  #sepsisOverlay .rec-box.conditional .rec-type { color: var(--yellow); }
+  #sepsisOverlay .rec-box.gps { background: var(--teal-lt); border-color: var(--teal); }
+  #sepsisOverlay .rec-box.gps .rec-type { color: var(--teal); }
+
+  /* Tables */
+  #sepsisOverlay .tbl-wrap { overflow-x: auto; border-radius: var(--r); border: 1px solid var(--border); margin-bottom: 1rem; }
+  #sepsisOverlay table { width: 100%; border-collapse: collapse; font-size: .85rem; background: var(--surface); }
+  #sepsisOverlay thead { background: var(--surface-3); }
+  #sepsisOverlay th { text-align: left; padding: .65rem .9rem; font-size: .72rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--text-muted); border-bottom: 1px solid var(--border); }
+  #sepsisOverlay td { padding: .6rem .9rem; border-bottom: 1px solid var(--border); vertical-align: top; line-height: 1.5; color: var(--text); }
+
+  /* Callouts */
+  #sepsisOverlay .callout { border-radius: var(--r); padding: 1rem 1.25rem; margin-bottom: 1rem; display: flex; gap: .75rem; align-items: flex-start; border: 1px solid var(--border); text-align: left; }
+  #sepsisOverlay .callout.blue { background: var(--primary-lt); border-color: rgba(32,85,216,.2); }
+  #sepsisOverlay .callout.red { background: var(--red-lt); border-color: rgba(192,57,43,.2); }
+
+  /* Legend & Pills */
+  #sepsisOverlay .legend { display: flex; flex-wrap: wrap; gap: .5rem; margin-bottom: 1.5rem; }
+  #sepsisOverlay .legend-item { display: flex; align-items: center; gap: .35rem; font-size: .75rem; color: var(--text-muted); }
+  #sepsisOverlay .legend-swatch { width: 12px; height: 12px; border-radius: 3px; flex-shrink: 0; }
+  #sepsisOverlay .pill { font-size: .68rem; font-weight: 700; padding: .18rem .55rem; border-radius: 999px; display: inline-block; vertical-align: middle; letter-spacing: .04em; }
+  #sepsisOverlay .pill-green { background: var(--green-lt); color: var(--green); }
+  #sepsisOverlay .pill-red { background: var(--red-lt); color: var(--red); }
+  #sepsisOverlay .pill-blue { background: var(--primary-lt); color: var(--primary); }
+
+  #sepsisOverlay footer { background: var(--surface); border-top: 1px solid var(--border); padding: 1.5rem; text-align: center; font-size: 0.78rem; color: var(--text-faint); margin-top: 2rem; }
+  #sepsisOverlay footer span { color: var(--primary); }
+
+  /* Smooth scrolling for inner container */
+  #sepsisOverlay .sepsis-content-wrap {
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Interactive feedback */
+  #sepsisOverlay .card, #sepsisOverlay .info-block {
+    transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.2s ease, background 0.2s ease;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+  #sepsisOverlay .card:hover {
+    background: var(--surface-2);
+    border-color: var(--primary);
+  }
+  #sepsisOverlay .card:active { transform: scale(0.97); }
+  
+  /* Section Spacing */
+  #sepsisOverlay .section {
+    background: var(--surface);
+    padding: 1.5rem;
+    border-radius: var(--r);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-sm);
+  }
+  @media(max-width:768px) {
+    #sepsisOverlay .section { padding: 1rem; border-radius: 0.5rem; }
+  }
+  
+  /* Modern Typography adjustments */
+  #sepsisOverlay .hero p { text-wrap: balance; }
+  #sepsisOverlay .logo-title { font-weight: 600; letter-spacing: -0.02em; }
+</style>
+</head>
+<body>
+
+<!-- =============================================
+     ACLS OVERLAY
+============================================= -->
+<div class="acls-overlay" id="aclsOverlay">
+  <div class="acls-container">
+
+    <!-- Top bar -->
+    <div class="acls-topbar">
+      <span class="acls-topbar-title">// ACLS Reference Module</span>
+      <button class="close-btn" onclick="closeACLS()">✕</button>
+    </div>
+
+    <!-- Landing: Section selector -->
+    <div class="acls-landing" id="aclsLanding">
+      <div class="acls-landing-title">ACLS <span>PROTOCOLS</span></div>
+      <div class="acls-landing-sub">Select a section to access clinical reference notes</div>
+      <div class="acls-sections-grid">
+        <div class="acls-section-card" style="--card-accent:#ff2a4b" onclick="openSection('A')">
+          <span class="card-icon">💓</span>
+          <div class="card-letter">A</div>
+          <div class="card-name">CPR &amp; Cardiac Arrest</div>
+        </div>
+        <div class="acls-section-card" style="--card-accent:#e88b30" onclick="openSection('B')">
+          <span class="card-icon">📈</span>
+          <div class="card-letter">B</div>
+          <div class="card-name">ECG Rhythms</div>
+        </div>
+        <div class="acls-section-card" style="--card-accent:#1D7DC7" onclick="openSection('C')">
+          <span class="card-icon">⚡</span>
+          <div class="card-letter">C</div>
+          <div class="card-name">ACLS Algorithms</div>
+        </div>
+        <div class="acls-section-card" style="--card-accent:#1D9E75" onclick="openSection('D')">
+          <span class="card-icon">❤️</span>
+          <div class="card-letter">D</div>
+          <div class="card-name">ACS &amp; STEMI</div>
+        </div>
+        <div class="acls-section-card" style="--card-accent:#7F77DD" onclick="openSection('E')">
+          <span class="card-icon">🌡️</span>
+          <div class="card-letter">E</div>
+          <div class="card-name">Special Cases</div>
+        </div>
+        <div class="acls-section-card" style="--card-accent:#ff6b7a" onclick="openSection('F')">
+          <span class="card-icon">💊</span>
+          <div class="card-letter">F</div>
+          <div class="card-name">Drug Reference</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Notes area -->
+    <div class="acls-notes-area" id="aclsNotesArea">
+      <button class="back-btn" onclick="goBack()">← Back to Sections</button>
+
+      <!-- Notes header with tab pills -->
+      <div class="notes-header">
+        <h2 id="notesTitle">🚨 Emergency &amp; Critical Care Notes</h2>
+        <p>8th Edition — ACLS Version | Quick Reference</p>
+        <div class="notes-header-badges" id="notesHeaderBadges"></div>
+      </div>
+
+      <!-- Tab bar -->
+      <div class="notes-tab-bar" id="notesTabBar"></div>
+
+      <!-- ===== SECTION A: CPR & ARREST ===== -->
+      <div class="notes-panel" id="notes-cpr">
+        <div class="n-card">
+          <div class="n-card-title c-red">💓 CPR — Universal Steps (Adult / Child / Infant)</div>
+          <div class="n-flow">
+            <div class="n-flow-item"><div class="n-step-circle" style="background:rgba(255,42,75,0.15);color:#ff6b7a">1</div><div><b>Unresponsive?</b> Not breathing or only gasping → Shout for help, send someone for AED/defibrillator</div></div>
+            <div class="n-flow-item"><div class="n-step-circle" style="background:rgba(255,42,75,0.15);color:#ff6b7a">2</div><div><b>Check pulse within 10 seconds.</b> If present → Give 1 breath every 5–6 sec; check pulse every 2 min</div></div>
+            <div class="n-flow-item"><div class="n-step-circle" style="background:rgba(255,42,75,0.8);color:white">3</div><div><b class="c-red">IF NO PULSE →</b> Position supine on hard flat surface. Begin <b>30:2</b> compressions, push hard &amp; fast ≥100/min, allow full chest recoil — minimise interruptions</div></div>
+            <div class="n-flow-item"><div class="n-step-circle" style="background:rgba(255,42,75,0.15);color:#ff6b7a">4</div><div>Open airway: <b>head-tilt / chin-lift</b>, ventilate ×2 (avoid excessive ventilations)</div></div>
+            <div class="n-flow-item"><div class="n-step-circle" style="background:rgba(255,42,75,0.15);color:#ff6b7a">5</div><div>Attach AED (adult + child &gt;1 yr). <b>Shockable?</b><br>
+              <span class="n-pill" style="background:rgba(255,42,75,0.15);color:#ff6b7a">YES → Shock ×1, resume CPR 2 min</span>
+              <span class="n-pill" style="background:rgba(29,125,199,0.15);color:#64b5f6">NO → CPR 2 min + ALS interventions</span>
+            </div></div>
+          </div>
+        </div>
+        <div class="n-grid-2">
+          <div class="n-card">
+            <div class="n-card-title c-red">📋 CPR Parameters</div>
+            <table class="n-tbl">
+              <thead><tr style="background:rgba(255,42,75,0.1)"><th>Patient</th><th>Ratio</th><th>Rate</th><th>Depth</th><th>Pulse</th></tr></thead>
+              <tbody>
+                <tr><td>Adult 1-person</td><td>30:2</td><td>100</td><td>&gt;2 in</td><td>Carotid</td></tr>
+                <tr><td>Adult 2-person</td><td>30:2</td><td>100</td><td>&gt;2 in</td><td>Carotid</td></tr>
+                <tr><td>Child 1-person</td><td>30:2</td><td>100</td><td>2 in</td><td>Carotid</td></tr>
+                <tr><td>Child 2-person</td><td>15:2</td><td>100</td><td>2 in</td><td>Carotid</td></tr>
+                <tr><td>Infant 1-person</td><td>30:2</td><td>100</td><td>⅓ cx</td><td>Brachial</td></tr>
+                <tr><td>Infant 2-person</td><td>15:2</td><td>100</td><td>⅓ cx</td><td>Brachial</td></tr>
+                <tr><td>Newborn 2-person</td><td>3:1</td><td>100</td><td>⅓ cx</td><td>Brachial</td></tr>
+              </tbody>
+            </table>
+            <div style="font-size:11px;color:rgba(255,255,255,0.3);margin-top:6px">*Advanced airway → ventilate 8–10 breaths/min</div>
+          </div>
+          <div class="n-card">
+            <div class="n-card-title c-red">🔑 10 Reversible Causes — Hs &amp; Ts</div>
+            <div style="display:flex;gap:8px">
+              <div style="flex:1">
+                <div class="n-pill" style="background:rgba(255,42,75,0.12);color:#ff8a9b;display:block;margin-bottom:4px">H — Hypoxia</div>
+                <div class="n-pill" style="background:rgba(255,42,75,0.12);color:#ff8a9b;display:block;margin-bottom:4px">H — Hypovolemia</div>
+                <div class="n-pill" style="background:rgba(255,42,75,0.12);color:#ff8a9b;display:block;margin-bottom:4px">H — Acidosis (H⁺)</div>
+                <div class="n-pill" style="background:rgba(255,42,75,0.12);color:#ff8a9b;display:block;margin-bottom:4px">H — Hyper/Hypokalemia</div>
+                <div class="n-pill" style="background:rgba(255,42,75,0.12);color:#ff8a9b;display:block;margin-bottom:4px">H — Hypothermia</div>
+              </div>
+              <div style="flex:1">
+                <div class="n-pill" style="background:rgba(29,125,199,0.12);color:#64b5f6;display:block;margin-bottom:4px">T — Tension Pneumo</div>
+                <div class="n-pill" style="background:rgba(29,125,199,0.12);color:#64b5f6;display:block;margin-bottom:4px">T — Tamponade</div>
+                <div class="n-pill" style="background:rgba(29,125,199,0.12);color:#64b5f6;display:block;margin-bottom:4px">T — Toxins</div>
+                <div class="n-pill" style="background:rgba(29,125,199,0.12);color:#64b5f6;display:block;margin-bottom:4px">T — Thrombosis (coronary)</div>
+                <div class="n-pill" style="background:rgba(29,125,199,0.12);color:#64b5f6;display:block;margin-bottom:4px">T — Thrombosis (PE)</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== SECTION B: ECG ===== -->
+      <div class="notes-panel" id="notes-ecg">
+        <div class="n-card">
+          <div class="n-card-title c-orange">📡 Cardiac Arrest Rhythms</div>
+          <div class="n-rhythm-row">
+            <svg width="90" height="32" viewBox="0 0 90 32"><path d="M0,16 Q5,5 10,22 Q15,3 20,26 Q25,5 30,20 Q35,2 40,24 Q45,7 50,18 Q55,3 60,22 Q65,8 70,16 L90,16" fill="none" stroke="#ff6b7a" stroke-width="2"/></svg>
+            <div><b class="c-red">Coarse VF</b> — Chaotic irregular activity <span class="n-badge" style="background:rgba(255,42,75,0.15);color:#ff6b7a">→ SHOCK</span></div>
+          </div>
+          <div class="n-rhythm-row">
+            <svg width="90" height="32" viewBox="0 0 90 32"><path d="M0,16 Q5,12 10,20 Q15,11 20,21 Q25,12 30,20 Q35,12 40,20 Q45,13 50,19 Q55,12 60,20 L90,16" fill="none" stroke="#ffb347" stroke-width="2"/></svg>
+            <div><b class="c-orange">Fine VF</b> — Low-amplitude irregular <span class="n-badge" style="background:rgba(232,139,48,0.15);color:#ffb347">→ SHOCK</span></div>
+          </div>
+          <div class="n-rhythm-row">
+            <svg width="90" height="32" viewBox="0 0 90 32"><path d="M0,16 L7,16 L9,4 L13,28 L17,16 L24,16 L26,4 L30,28 L34,16 L41,16 L43,4 L47,28 L51,16 L58,16 L60,4 L64,28 L68,16 L90,16" fill="none" stroke="#ff8a9b" stroke-width="2"/></svg>
+            <div><b class="c-red">Ventricular Tachycardia (VT)</b> — Rapid wide complexes <span class="n-badge" style="background:rgba(255,42,75,0.15);color:#ff6b7a">→ SHOCK if pulseless</span></div>
+          </div>
+          <div class="n-rhythm-row">
+            <svg width="90" height="32" viewBox="0 0 90 32"><line x1="0" y1="16" x2="90" y2="16" stroke="#666" stroke-width="2"/></svg>
+            <div><b style="color:#aaa">Asystole</b> — Flat line, no activity <span class="n-badge" style="background:rgba(255,255,255,0.06);color:#aaa">→ CPR only</span></div>
+          </div>
+          <div class="n-rhythm-row">
+            <svg width="90" height="32" viewBox="0 0 90 32"><path d="M0,16 L9,16 L11,5 L15,16 L19,13 L21,16 L31,16 L33,5 L37,16 L41,13 L43,16 L53,16 L55,5 L59,16 L63,13 L65,16 L90,16" fill="none" stroke="#64b5f6" stroke-width="2"/></svg>
+            <div><b class="c-blue">PEA</b> — Organised ECG but NO pulse <span class="n-badge" style="background:rgba(29,125,199,0.15);color:#64b5f6">→ CPR only</span></div>
+          </div>
+        </div>
+        <div class="n-card">
+          <div class="n-card-title c-orange">📊 Common ECG Rhythms</div>
+          <div class="n-grid-2" style="gap:8px">
+            <div class="n-hbox bg-green-d"><b class="c-green">✅ Normal Sinus Rhythm</b>Regular PQRST • PR 0.12–0.20s • QRS &lt;0.12s • Rate 60–100</div>
+            <div class="n-hbox bg-orange-d"><b class="c-orange">〰️ Atrial Fibrillation</b>Irregular rate • fibrillatory waves • no distinct P waves</div>
+            <div class="n-hbox bg-purple-d"><b class="c-purple">⚡ SVT</b>Rapid narrow QRS • rate 150–250 • may have retrograde P</div>
+            <div class="n-hbox bg-blue-d"><b class="c-blue">1° AV Block</b>PR interval &gt;0.20 sec • all P waves conduct • benign</div>
+            <div class="n-hbox bg-orange-d"><b class="c-orange">2° Mobitz I (Wenckebach)</b>PR progressively lengthens → dropped QRS</div>
+            <div class="n-hbox bg-red-d"><b class="c-red">⚠️ 2° Mobitz II</b>Fixed PR, sudden dropped QRS — more dangerous</div>
+            <div class="n-hbox bg-red-d"><b class="c-red">🚨 3° Complete Heart Block</b>P waves dissociated from QRS — requires pacing</div>
+            <div class="n-hbox bg-purple-d"><b class="c-purple">Bundle Branch Block</b>Wide QRS &gt;0.12 sec • LBBB confounds AMI Dx</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== SECTION C: ACLS ALGORITHMS ===== -->
+      <div class="notes-panel" id="notes-acls">
+        <div class="n-card">
+          <div class="n-card-title c-blue">⚡ Cardiac Arrest Algorithm</div>
+          <div style="background:rgba(255,255,255,0.04);border-radius:8px;padding:10px 14px;margin-bottom:12px;font-size:12px;text-align:center;color:rgba(255,255,255,0.7)">
+            <b>Shout for help → CPR (30:2, ≥100/min) → O₂ → ECG → IV/IO</b>
+          </div>
+          <div class="n-split">
+            <div class="n-split-col" style="background:rgba(255,42,75,0.08);border:1px solid rgba(255,42,75,0.25)">
+              <div style="font-weight:700;font-size:13px;color:#ff6b7a;margin-bottom:10px;text-align:center">🔴 SHOCKABLE (VF/VT)</div>
+              <div class="n-flow-item" style="border-color:rgba(255,42,75,0.2)"><div class="n-step-circle" style="background:#ff2a4b;color:white;font-size:10px">1</div><div style="font-size:12px">Defibrillate: <b>120–200J biphasic</b> (360J mono)</div></div>
+              <div class="n-flow-item" style="border-color:rgba(255,42,75,0.2)"><div class="n-step-circle" style="background:#ff2a4b;color:white;font-size:10px">2</div><div style="font-size:12px">Resume CPR ×2 min, start IV/IO</div></div>
+              <div class="n-flow-item" style="border-color:rgba(255,42,75,0.2)"><div class="n-step-circle" style="background:#ff2a4b;color:white;font-size:10px">3</div><div style="font-size:12px">Epi 1mg IV/IO q3–5min OR Vasopressin 40U IV</div></div>
+              <div class="n-flow-item" style="border-color:rgba(255,42,75,0.2)"><div class="n-step-circle" style="background:#ff2a4b;color:white;font-size:10px">4</div><div style="font-size:12px">Advanced airway → ventilate 8–10/min</div></div>
+              <div class="n-flow-item" style="border-bottom:none"><div class="n-step-circle" style="background:#ff2a4b;color:white;font-size:10px">5</div><div style="font-size:12px"><b>3rd cycle:</b> Amiodarone 300mg IV/IO (repeat 150mg)</div></div>
+            </div>
+            <div class="n-split-col" style="background:rgba(29,125,199,0.08);border:1px solid rgba(29,125,199,0.25)">
+              <div style="font-weight:700;font-size:13px;color:#64b5f6;margin-bottom:10px;text-align:center">🔵 NON-SHOCKABLE (Asystole/PEA)</div>
+              <div class="n-flow-item" style="border-color:rgba(29,125,199,0.2)"><div class="n-step-circle" style="background:#1D7DC7;color:white;font-size:10px">1</div><div style="font-size:12px">CPR ×2 min, start IV/IO</div></div>
+              <div class="n-flow-item" style="border-color:rgba(29,125,199,0.2)"><div class="n-step-circle" style="background:#1D7DC7;color:white;font-size:10px">2</div><div style="font-size:12px">Epi 1mg IV/IO q3–5min OR Vasopressin 40U IV</div></div>
+              <div class="n-flow-item" style="border-color:rgba(29,125,199,0.2)"><div class="n-step-circle" style="background:#1D7DC7;color:white;font-size:10px">3</div><div style="font-size:12px">Advanced airway → 8–10 ventilations/min</div></div>
+              <div class="n-flow-item" style="border-color:rgba(29,125,199,0.2)"><div class="n-step-circle" style="background:#1D7DC7;color:white;font-size:10px">4</div><div style="font-size:12px">PETCO₂ &lt;15 → improve CPR quality</div></div>
+              <div class="n-flow-item" style="border-bottom:none"><div class="n-step-circle" style="background:#1D7DC7;color:white;font-size:10px">5</div><div style="font-size:12px">Treat reversible causes (Hs &amp; Ts)</div></div>
+            </div>
+          </div>
+          <div class="n-hbox bg-green-d" style="margin-top:12px"><b class="c-green">✅ ROSC: PETCO₂ ≥40 or pulse returns</b>Ventilate 10–12/min • SaO₂ ≥94% • BP ≥90 mmHg • IV fluids • 12-lead ECG • Consider hypothermia if not following commands</div>
+        </div>
+        <div class="n-grid-2">
+          <div class="n-card">
+            <div class="n-card-title c-blue">⚡ Tachycardia — Unstable</div>
+            <div class="n-hbox bg-red-d"><b class="c-red">Unstable signs:</b> HR ≥150 • Chest pain • Dyspnoea • ↓LOC • ↓BP • Shock • Heart failure</div>
+            <div style="margin-top:10px;font-size:13px;font-weight:600;color:#64b5f6">→ Synchronised Cardioversion</div>
+            <div style="margin:8px 0;font-size:11px;color:rgba(255,255,255,0.4)">Initial energy:</div>
+            <span class="n-pill" style="background:rgba(127,119,221,0.15);color:#b39ddb">Narrow/Regular: 50–100J</span>
+            <span class="n-pill" style="background:rgba(127,119,221,0.15);color:#b39ddb">Narrow/Irregular: 120–200J</span>
+            <span class="n-pill" style="background:rgba(255,42,75,0.15);color:#ff8a9b">Wide/Regular: 100J</span>
+            <span class="n-pill" style="background:rgba(255,42,75,0.15);color:#ff8a9b">Wide/Irregular: Defibrillate</span>
+          </div>
+          <div class="n-card">
+            <div class="n-card-title c-blue">🐢 Bradycardia — Symptomatic</div>
+            <div style="font-size:12px;margin-bottom:8px;color:rgba(255,255,255,0.4)">HR &lt;60 with haemodynamic compromise</div>
+            <div class="n-step-box bg-green-d"><b class="c-green">1st Line</b>Atropine 0.5 mg IV, repeat q3–5min (max 3 mg)</div>
+            <div class="n-step-box bg-orange-d"><b class="c-orange">2nd Line</b>Transcutaneous pacing OR Dopamine 2–10 mcg/kg/min OR Epi 2–10 mcg/min</div>
+            <div class="n-step-box bg-blue-d"><b class="c-blue">Definitive</b>Transvenous pacing if refractory</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== SECTION D: ACS ===== -->
+      <div class="notes-panel" id="notes-acs">
+        <div class="n-card">
+          <div class="n-card-title c-green">❤️ ACS Initial Management — MONA</div>
+          <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px">
+            <div style="background:rgba(29,158,117,0.12);border:1px solid rgba(29,158,117,0.3);border-radius:8px;padding:8px 14px;font-size:12px"><div style="font-weight:700;color:#69f0ae">M — Morphine</div>2–5 mg IV if pain not relieved by NTG</div>
+            <div style="background:rgba(29,125,199,0.12);border:1px solid rgba(29,125,199,0.3);border-radius:8px;padding:8px 14px;font-size:12px"><div style="font-weight:700;color:#64b5f6">O — Oxygen</div>4 L/min → SaO₂ ≥94%</div>
+            <div style="background:rgba(127,119,221,0.12);border:1px solid rgba(127,119,221,0.3);border-radius:8px;padding:8px 14px;font-size:12px"><div style="font-weight:700;color:#b39ddb">N — Nitroglycerin</div>0.4 mg SL × up to 3 doses</div>
+            <div style="background:rgba(255,42,75,0.12);border:1px solid rgba(255,42,75,0.3);border-radius:8px;padding:8px 14px;font-size:12px"><div style="font-weight:700;color:#ff8a9b">A — Aspirin</div>160–325 mg chewable</div>
+          </div>
+          <div class="n-hbox bg-blue-d"><b class="c-blue">Also:</b> 12-lead ECG immediately • 2 IV catheters • Notify hospital for STEMI • Continuous monitoring</div>
+        </div>
+        <div class="n-card">
+          <div class="n-card-title c-green">📍 AMI Location by ECG Leads</div>
+          <table class="n-tbl">
+            <thead><tr style="background:rgba(29,158,117,0.1)"><th>Location</th><th>ST Elevation</th><th>Reciprocal</th><th>Artery</th></tr></thead>
+            <tbody>
+              <tr><td class="c-red"><b>Anterior</b></td><td>V1–V4</td><td>II, III, aVF</td><td>LAD</td></tr>
+              <tr><td class="c-orange"><b>Inferior</b></td><td>II, III, aVF</td><td>I, aVL, V2–V4</td><td>RCA 80%</td></tr>
+              <tr><td class="c-blue"><b>Lateral</b></td><td>I, aVL, V5–V6</td><td>V1–V2</td><td>LCx</td></tr>
+              <tr><td class="c-purple"><b>Posterior</b></td><td>Tall R V1–V2</td><td>V1–V3 ST↓</td><td>RCA/LCx</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="n-card">
+          <div class="n-card-title c-red">⛔ Fibrinolytic Contraindications (All must be "No")</div>
+          <div class="n-grid-2" style="gap:6px">
+            <div class="n-pill" style="background:rgba(255,42,75,0.12);color:#ff8a9b;display:block;padding:5px 10px">❌ SBP &gt;180–200 or DBP &gt;100–110 mmHg</div>
+            <div class="n-pill" style="background:rgba(255,42,75,0.12);color:#ff8a9b;display:block;padding:5px 10px">❌ Stroke &gt;3h or &lt;3 months</div>
+            <div class="n-pill" style="background:rgba(255,42,75,0.12);color:#ff8a9b;display:block;padding:5px 10px">❌ Hx intracranial haemorrhage</div>
+            <div class="n-pill" style="background:rgba(255,42,75,0.12);color:#ff8a9b;display:block;padding:5px 10px">❌ Head/facial trauma &lt;3 weeks</div>
+            <div class="n-pill" style="background:rgba(255,42,75,0.12);color:#ff8a9b;display:block;padding:5px 10px">❌ Major surgery/bleed &lt;4 weeks</div>
+            <div class="n-pill" style="background:rgba(255,42,75,0.12);color:#ff8a9b;display:block;padding:5px 10px">❌ Pregnancy</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== SECTION E: SPECIAL ===== -->
+      <div class="notes-panel" id="notes-special">
+        <div class="n-grid-2">
+          <div class="n-card">
+            <div class="n-card-title c-blue">🥶 Hypothermia</div>
+            <div class="n-step-box bg-blue-d"><b class="c-blue">Mild 34–36°C</b>Passive rewarming — dry, blankets, warm room</div>
+            <div class="n-step-box bg-purple-d"><b class="c-purple">Moderate 30–34°C</b>Active external — forced-air warming devices</div>
+            <div class="n-step-box bg-red-d"><b class="c-red">Severe &lt;30°C</b>Core rewarming: CPB, thoracic lavage, extracorporeal • Warm IV NS 43°C • Warm O₂ 42–46°C</div>
+            <div class="n-hbox bg-green-d"><b class="c-green">If Arrest:</b> CPR + defibrillate. <b>Continue until rewarmed.</b> Post-ROSC: rewarm to 32–34°C</div>
+          </div>
+          <div class="n-card">
+            <div class="n-card-title c-green">🫁 PE &amp; Trauma Arrest</div>
+            <div class="n-hbox bg-orange-d" style="margin-bottom:10px"><b class="c-orange">PE Arrest:</b> PEA is common. Standard ACLS + echo + consider fibrinolytic + consult for thrombectomy</div>
+            <div class="n-flow">
+              <div class="n-flow-item"><div class="n-step-circle" style="background:rgba(255,42,75,0.15);color:#ff6b7a">1</div><div style="font-size:12px">Stabilise C-spine • Jaw thrust</div></div>
+              <div class="n-flow-item"><div class="n-step-circle" style="background:rgba(255,42,75,0.15);color:#ff6b7a">2</div><div style="font-size:12px">Direct pressure for haemorrhage</div></div>
+              <div class="n-flow-item"><div class="n-step-circle" style="background:rgba(255,42,75,0.15);color:#ff6b7a">3</div><div style="font-size:12px">Standard CPR + defibrillation + IV fluids</div></div>
+              <div class="n-flow-item" style="border-bottom:none"><div class="n-step-circle" style="background:#ff2a4b;color:white">4</div><div style="font-size:12px"><b>Consider resuscitative thoracotomy.</b> Cricothyrotomy if airway impossible.</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== SECTION F: DRUGS ===== -->
+      <div class="notes-panel" id="notes-drugs">
+        <div class="n-card">
+          <div class="n-card-title c-red">💊 ACLS Drug Quick Reference</div>
+          <table class="n-tbl">
+            <thead><tr style="background:rgba(232,139,48,0.1)"><th>Drug</th><th>Indication</th><th>Dose</th><th>Route</th></tr></thead>
+            <tbody>
+              <tr><td class="c-red"><b>Epinephrine</b></td><td>Cardiac arrest</td><td>1 mg q3–5 min</td><td>IV/IO</td></tr>
+              <tr><td class="c-orange"><b>Vasopressin</b></td><td>Arrest (alt. to Epi)</td><td>40 units once</td><td>IV/IO</td></tr>
+              <tr><td class="c-orange"><b>Amiodarone</b></td><td>VF/VT (3rd cycle)</td><td>300mg, then 150mg</td><td>IV/IO</td></tr>
+              <tr><td class="c-green"><b>Atropine</b></td><td>Symptomatic bradycardia</td><td>0.5 mg (max 3 mg)</td><td>IV</td></tr>
+              <tr><td class="c-purple"><b>Adenosine</b></td><td>SVT</td><td>6 mg IVP, then 12mg ×2</td><td>IV rapid push</td></tr>
+              <tr><td class="c-blue"><b>Dopamine</b></td><td>Post-arrest BP / brady</td><td>5–10 mcg/kg/min</td><td>IV infusion</td></tr>
+              <tr><td class="c-blue"><b>Norepinephrine</b></td><td>Post-arrest hypotension</td><td>0.1–0.5 mcg/kg/min</td><td>IV infusion</td></tr>
+              <tr><td class="c-blue"><b>Aspirin</b></td><td>ACS</td><td>160–325 mg chewable</td><td>PO</td></tr>
+              <tr><td class="c-purple"><b>Nitroglycerin</b></td><td>ACS / pulm. oedema</td><td>0.4 mg SL ×3</td><td>SL</td></tr>
+              <tr><td class="c-orange"><b>Morphine</b></td><td>ACS chest pain</td><td>2–5 mg IV</td><td>IV</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="n-grid-2">
+          <div class="n-card">
+            <div class="n-card-title c-green">✅ Clinical Pearls</div>
+            <div class="n-hbox bg-green-d"><b class="c-green">CPR Quality:</b> Push hard ≥2 in, ≥100/min, full recoil, &lt;10s interruptions. Rotate q2min.</div>
+            <div class="n-hbox bg-blue-d"><b class="c-blue">Capnography:</b> PETCO₂ &lt;10 = poor CPR. Sudden rise ≥40 = ROSC. Target 35–40 post-arrest.</div>
+            <div class="n-hbox bg-orange-d"><b class="c-orange">Defibrillation:</b> Resume CPR immediately after shock — don't check pulse first.</div>
+          </div>
+          <div class="n-card">
+            <div class="n-card-title c-red">🚨 Critical Reminders</div>
+            <div class="n-hbox bg-red-d"><b class="c-red">"Time is muscle" — STEMI:</b> PCI &lt;90 min. Fibrinolytic &lt;30 min.</div>
+            <div class="n-hbox bg-red-d"><b class="c-red">Treat the PATIENT, not the ECG.</b></div>
+            <div class="n-hbox bg-orange-d"><b class="c-orange">No hypothermic patient is dead until warm and dead.</b></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="notes-footer">EMERGENCY &amp; CRITICAL CARE — 8TH EDITION // FOR EDUCATIONAL USE ONLY</div>
+    </div>
+
+  </div>
+</div>
+<!-- END ACLS OVERLAY -->
+
+<!-- =============================================
+     SEPSIS OVERLAY
+============================================= -->
+<div class="acls-overlay" id="sepsisOverlay" style="overflow: hidden;">
+  <div class="acls-container" style="display: flex; flex-direction: column; height: 100vh; padding: 20px 20px 0 20px; max-width: 1200px;">
+    
+    <!-- Top bar -->
+    <div class="acls-topbar" style="flex-shrink: 0; margin-bottom: 10px;">
+      <span class="acls-topbar-title">// SSC 2026 Guidelines</span>
+      <button class="close-btn" onclick="closeSepsis()">✕</button>
+    </div>
+
+    <div class="sepsis-content-wrap">
+      <!-- HEADER -->
+      <header class="site-header">
+        <div class="logo-area">
+          <svg class="logo-svg" width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="36" height="36" rx="8" fill="#2055d8"/>
+            <path d="M18 8v20M8 18h20" stroke="white" stroke-width="3.5" stroke-linecap="round"/>
+            <circle cx="18" cy="18" r="5" fill="none" stroke="white" stroke-width="2"/>
+          </svg>
+          <div>
+            <div class="logo-title">Surviving Sepsis Campaign</div>
+            <div class="logo-sub">2026 Clinical Practice Guidelines</div>
+          </div>
+        </div>
+        <div class="header-actions">
+          <span class="badge-year">SSC 2026</span>
+          <button class="theme-btn" onclick="toggleSepsisTheme()" aria-label="Toggle dark mode">
+            <svg id="sepsis-theme-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          </button>
+        </div>
+      </header>
+
+      <!-- HERO -->
+      <div class="hero">
+        <div class="hero-inner">
+          <div class="hero-eyebrow">Critical Care Medicine · ESICM · SCCM</div>
+          <h1>Surviving Sepsis Campaign<br><em>2026 Guidelines</em></h1>
+          <p>Comprehensive clinical practice guidelines for the management of sepsis and septic shock in adults — developed by a 69-person international committee across 23 countries using GRADE methodology.</p>
+          <div class="hero-tags">
+            <span class="hero-tag">📋 Evidence-Based</span>
+            <span class="hero-tag">🌍 23 Countries</span>
+            <span class="hero-tag">👥 69 Experts</span>
+            <span class="hero-tag">⚕️ GRADE Methodology</span>
+            <span class="hero-tag">🔬 PICO Framework</span>
+            <span class="hero-tag">🏥 ICU Practice</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- MAIN -->
+      <div class="page-wrap">
+        <div class="two-col">
+          <!-- SIDEBAR NAV -->
+          <nav class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-title">Contents</div>
+            <ul class="nav-list">
+              <li><a href="#overview"><span class="nav-dot" style="background:#2055d8"></span>Overview</a></li>
+              <li><a href="#definitions"><span class="nav-dot" style="background:#0a7a7a"></span>Definitions</a></li>
+              <li><a href="#screening"><span class="nav-dot" style="background:#1a7a4a"></span>Screening</a></li>
+              <li><a href="#infection"><span class="nav-dot" style="background:#d4680a"></span>Infection</a></li>
+              <li><a href="#hemodynamics"><span class="nav-dot" style="background:#c0392b"></span>Hemodynamics</a></li>
+              <li><a href="#fluids"><span class="nav-dot" style="background:#b7860b"></span>Fluids</a></li>
+              <li><a href="#respiratory"><span class="nav-dot" style="background:#2055d8"></span>Respiratory</a></li>
+              <li><a href="#adjunctive"><span class="nav-dot" style="background:#6d28d9"></span>Adjunctive</a></li>
+              <li><a href="#recs-summary"><span class="nav-dot" style="background:#1a7a4a"></span>Quick Reference</a></li>
+            </ul>
+          </nav>
+
+          <!-- CONTENT -->
+          <main id="main-content">
+            <!-- LEGEND -->
+            <div class="legend">
+              <div class="legend-item"><div class="legend-swatch" style="background:#1a7a4a"></div>Strong Recommendation</div>
+              <div class="legend-item"><div class="legend-swatch" style="background:#b7860b"></div>Conditional Recommendation</div>
+              <div class="legend-item"><div class="legend-swatch" style="background:#0a7a7a"></div>Good Practice Statement</div>
+            </div>
+
+            <!-- ── SECTION 1: OVERVIEW ── -->
+            <section class="section" id="overview">
+              <div class="section-header">
+                <div class="section-icon" style="background:#dce8ff;color:#2055d8">📊</div>
+                <h2>Overview & Background</h2>
+              </div>
+              <div class="info-row">
+                <div class="info-block">
+                  <div class="num" style="color:#2055d8">69</div>
+                  <div class="lbl">Committee Members</div>
+                </div>
+                <div class="info-block">
+                  <div class="num" style="color:#1a7a4a">23</div>
+                  <div class="lbl">Countries Represented</div>
+                </div>
+                <div class="info-block">
+                  <div class="num" style="color:#6d28d9">38%</div>
+                  <div class="lbl">Panelists from LMICs</div>
+                </div>
+              </div>
+              <div class="callout blue">
+                <p><strong>Funding & Independence:</strong> Fully funded by SCCM and ESICM. <strong>No industry support.</strong> Patient values were incorporated throughout development.</p>
+              </div>
+              <div class="card-grid">
+                <div class="card">
+                  <span class="card-label" style="background:#dce8ff;color:#2055d8">Organization</span>
+                  <h3>6 Clinical Subgroups</h3>
+                  <ul>
+                    <li>Screening & Early Management</li>
+                    <li>Infection</li>
+                    <li>Hemodynamics</li>
+                    <li>Respiratory Support</li>
+                    <li>Adjunctive Therapies</li>
+                    <li>Goals of Care & Long-term Outcomes</li>
+                  </ul>
+                </div>
+              </div>
+            </section>
+
+            <!-- ── SECTION 2: DEFINITIONS ── -->
+            <section class="section" id="definitions">
+              <div class="section-header">
+                <div class="section-icon" style="background:#d6f5f5;color:#0a7a7a">📖</div>
+                <h2>Sepsis Definitions (Sepsis-3)</h2>
+              </div>
+              <div class="callout blue">
+                <p><strong>Sepsis:</strong> Life-threatening acute organ dysfunction due to a dysregulated host response to infection.</p>
+              </div>
+              <div class="callout red">
+                <p><strong>Septic Shock:</strong> subset of sepsis with circulatory dysfunction — defined by vasopressor requirement for MAP ≥65 mmHg AND lactate >2 mmol/L despite adequate fluids.</p>
+              </div>
+              <div class="tbl-wrap">
+                <table>
+                  <thead><tr><th>Level</th><th>Description</th></tr></thead>
+                  <tbody>
+                    <tr><td>Definite Sepsis</td><td>Confirmed by history, clinical exam & diagnostics. Alternative diagnosis unlikely.</td></tr>
+                    <tr><td>Probable Sepsis</td><td>High suspicion; sepsis most likely.</td></tr>
+                    <tr><td>Possible Sepsis</td><td>Moderate suspicion; alternative diagnosis also likely.</td></tr>
+                    <tr><td>Unlikely Sepsis</td><td>Low suspicion.</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </section>
+
+            <!-- ── SECTION 3: SCREENING ── -->
+            <section class="section" id="screening">
+              <div class="section-header">
+                <div class="section-icon" style="background:#d7f5e5;color:#1a7a4a">🔍</div>
+                <h2>Screening & Early Management</h2>
+              </div>
+              <div class="rec-box strong">
+                <span class="rec-type">✅ Strong Recommendation</span>
+                <p><strong>Rec #1 — Performance Improvement:</strong> Hospitals should use a performance improvement program including sepsis screening for high-risk patients.</p>
+              </div>
+              <div class="rec-box strong">
+                <span class="rec-type">✅ Strong Recommendation</span>
+                <p><strong>Rec #4 — In-Hospital Screening:</strong> Recommend using <strong>NEWS, NEWS2, MEWS, or SIRS</strong> over qSOFA as a single screening tool.</p>
+              </div>
+            </section>
+
+            <!-- ── SECTION 4: INFECTION ── -->
+            <section class="section" id="infection">
+              <div class="section-header">
+                <div class="section-icon" style="background:#fef0e0;color:#d4680a">🦠</div>
+                <h2>Infection Management</h2>
+              </div>
+              <div class="rec-box strong">
+                <span class="rec-type">✅ Strong Recommendation</span>
+                <p><strong>Rec #7 — Blood Cultures:</strong> Collect blood cultures <strong>as soon as possible and ideally before antimicrobial therapy</strong>.</p>
+              </div>
+              <div class="card-grid">
+                <div class="card">
+                  <h3>Antibiotic Duration</h3>
+                  <p><strong>Rec #39:</strong> Suggest shorter over longer courses with adequate source control. (BALANCE trial support).</p>
+                </div>
+                <div class="card">
+                  <h3>Procalcitonin</h3>
+                  <p><strong>Rec #40:</strong> Suggest using procalcitonin AND clinical evaluation to decide when to discontinue antimicrobials.</p>
+                </div>
+              </div>
+            </section>
+
+            <!-- ── SECTION 5: HEMODYNAMICS ── -->
+            <section class="section" id="hemodynamics">
+              <div class="section-header">
+                <div class="section-icon" style="background:#fde8e6;color:#c0392b">❤️</div>
+                <h2>Hemodynamics</h2>
+              </div>
+              <div class="rec-box gps">
+                <span class="rec-type">✔ Good Practice Statement</span>
+                <p><strong>Rec #9:</strong> Treatment and resuscitation must begin immediately upon recognition of sepsis or septic shock.</p>
+              </div>
+              <div class="rec-box conditional">
+                <span class="rec-type">💛 Conditional Recommendation</span>
+                <p><strong>Rec #12 — Peripheral Vasopressors:</strong> Suggest starting vasopressors peripherally rather than delaying initiation until central access is secured.</p>
+              </div>
+            </section>
+
+            <!-- ── SECTION 6: FLUIDS ── -->
+            <section class="section" id="fluids">
+              <div class="section-header">
+                <div class="section-icon" style="background:#fef9e0;color:#b7860b">💧</div>
+                <h2>Fluid Resuscitation</h2>
+              </div>
+              <div class="rec-box conditional">
+                <span class="rec-type">💛 Conditional Recommendation</span>
+                <p><strong>Rec #10 — Initial Volume:</strong> Administer <strong>at least 30 mL/kg IV crystalloid</strong> in the first 3 hours for sepsis-induced hypoperfusion.</p>
+              </div>
+              <div class="card-grid">
+                <div class="card">
+                  <h3>Crystalloids Preferred</h3>
+                  <p>Balanced solutions (Lactated Ringer's) preferred over 0.9% saline to reduce hyperchloremic acidosis risk.</p>
+                </div>
+                <div class="card">
+                  <span class="card-label" style="background:#fde8e6;color:#c0392b">Against</span>
+                  <h3>Starches</h3>
+                  <p>Do NOT use hydroxyethyl starch (HES) for resuscitation in sepsis or septic shock.</p>
+                </div>
+              </div>
+            </section>
+
+            <!-- ── SECTION 7: RESPIRATORY ── -->
+            <section class="section" id="respiratory">
+              <div class="section-header">
+                <div class="section-icon" style="background:#dce8ff;color:#2055d8">🫁</div>
+                <h2>Respiratory Support</h2>
+              </div>
+              <div class="rec-box conditional">
+                <span class="rec-type">💛 Conditional Recommendation</span>
+                <p><strong>Rec #67:</strong> Suggest High-Flow Nasal Cannula (HFNC) over conventional oxygen therapy for adults with acute hypoxemic respiratory failure.</p>
+              </div>
+              <div class="rec-box conditional">
+                <span class="rec-type">💛 Conditional Recommendation</span>
+                <p><strong>Rec #68:</strong> Suggest HFNC as initial therapy over non-invasive positive pressure ventilation (NIPPV).</p>
+              </div>
+            </section>
+
+            <!-- ── SECTION 8: ADJUNCTIVE ── -->
+            <section class="section" id="adjunctive">
+              <div class="section-header">
+                <div class="section-icon" style="background:#ede9fe;color:#6d28d9">💊</div>
+                <h2>Adjunctive Therapy</h2>
+              </div>
+              <div class="card">
+                <h3>Selective Digestive Decontamination</h3>
+                <p><strong>Rec #41:</strong> Suggest SDD in mechanically ventilated adults with sepsis in units with low antimicrobial resistance.</p>
+              </div>
+            </section>
+
+            <!-- ── SECTION 9: QUICK REFERENCE ── -->
+            <section class="section" id="recs-summary">
+              <div class="section-header">
+                <div class="section-icon" style="background:#d7f5e5;color:#1a7a4a">⚡</div>
+                <h2>Quick Reference Summary</h2>
+              </div>
+              <div class="tbl-wrap">
+                <table>
+                  <thead>
+                    <tr><th>#</th><th>Recommendation</th><th>Strength</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr><td>1</td><td>Performance improvement program</td><td><span class="pill pill-green">STRONG</span></td></tr>
+                    <tr><td>4</td><td>NEWS/NEWS2/MEWS/SIRS over qSOFA</td><td><span class="pill pill-green">STRONG</span></td></tr>
+                    <tr><td>7</td><td>Blood cultures before antibiotics</td><td><span class="pill pill-green">STRONG</span></td></tr>
+                    <tr><td>10</td><td>≥30 mL/kg IV crystalloid in first 3h</td><td><span class="pill pill-blue">COND</span></td></tr>
+                    <tr><td>12</td><td>Peripheral vasopressors to avoid delay</td><td><span class="pill pill-blue">COND</span></td></tr>
+                    <tr><td>46</td><td>Against starches for resuscitation</td><td><span class="pill pill-green">STRONG</span></td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </section>
+          </main>
+        </div>
+      </div>
+
+      <footer>
+        <p>Notes compiled from: <span>Surviving Sepsis Campaign Guidelines 2026</span> · SCCM & ESICM</p>
+        <p style="margin-top:.4rem">Educational use only. Refer to original guidelines for clinical decision-making.</p>
+      </footer>
+    </div>
+
+  </div>
+</div>
+<!-- END SEPSIS OVERLAY -->
+
+<!-- =============================================
+     PORTFOLIO PAGE
+============================================= -->
+<div class="bg-elements">
+  <div class="bgrid"></div>
+  <div class="bg-text">CRITICAL CARE</div>
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+</div>
+
+<div class="content">
+
+  <!-- Hero -->
+  <div>
+    <div class="badge"><span class="badge-dot"></span>CURRENTLY ON CALL</div>
+    <h1>JR <span>6013</span> 283</h1>
+    <div class="role">Emergency Medicine Resident</div>
+
+    <div class="glass-panel" style="padding: 2rem; margin-top: 2rem;">
+      <div class="dashboard">
+        <div class="vitals">
+          <div class="vital"><div class="v-val" id="hr-val">112</div><div class="v-label">HR bpm</div></div>
+          <div class="vital"><div class="v-val" id="bp-val">102/65</div><div class="v-label">BP mmHg</div></div>
+          <div class="vital"><div class="v-val" id="spo2-val">89%</div><div class="v-label">SpO2</div></div>
+          <div class="vital"><div class="v-val" id="temp-val">27.2°</div><div class="v-label">Temp °C</div></div>
+        </div>
+        <div class="stats-col">
+          <div class="stat"><div class="num" id="patient-val">22000+</div><div class="label">Patients Seen</div></div>
+        </div>
+      </div>
+      <div class="ecg-wrap">
+        <div class="ecg-fade"></div>
+        <svg class="ecg-svg" viewBox="0 0 1300 70" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+          <defs>
+            <linearGradient id="eg" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stop-color="#ff2a4b" stop-opacity="0"/>
+              <stop offset="10%" stop-color="#ff2a4b" stop-opacity="1"/>
+              <stop offset="90%" stop-color="#ff2a4b" stop-opacity="1"/>
+              <stop offset="100%" stop-color="#ff2a4b" stop-opacity="0"/>
+            </linearGradient>
+            <filter id="glow"><feGaussianBlur stdDeviation="3" result="coloredBlur"/><feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+          </defs>
+          <polyline filter="url(#glow)" points="0,45 20,45 30,35 40,45 45,45 50,55 55,5 60,65 65,20 85,20 100,15 120,45 150,45 170,45 180,35 190,45 195,45 200,55 205,5 210,65 215,20 235,20 250,15 270,45 300,45 320,45 330,35 340,45 345,45 350,55 355,5 360,65 365,20 385,20 400,15 420,45 450,45 470,45 480,35 490,45 495,45 500,55 505,5 510,65 515,20 535,20 550,15 570,45 600,45 620,45 630,35 640,45 645,45 650,55 655,5 660,65 665,20 685,20 700,15 720,45 750,45 770,45 780,35 790,45 795,45 800,55 805,5 810,65 815,20 835,20 850,15 870,45 900,45 920,45 930,35 940,45 945,45 950,55 955,5 960,65 965,20 985,20 1000,15 1020,45 1050,45 1070,45 1080,35 1090,45 1095,45 1100,55 1105,5 1110,65 1115,20 1135,20 1150,15 1170,45 1200,45 1220,45 1230,35 1240,45 1245,45 1250,55 1255,5 1260,65 1265,20 1285,20 1300,15" fill="none" stroke="url(#eg)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <!-- Coming Soon -->
+  <div class="cs-section">
+    <div class="cs-tag">// Status Update</div>
+    <div class="cs-big">COMING<br><span>SOON</span></div>
+    <p class="cs-sub">A complete professional portfolio is currently under resuscitation. Gathering case studies, clinical experiences, and late-night coffee stats. Stay tuned!</p>
+    <div class="progress-wrap">
+      <div class="progress-label"><span>SYSTEM REBOOT</span><span>~45%</span></div>
+      <div class="progress-bar"><div class="progress-fill"></div></div>
+    </div>
+  </div>
+
+  <!-- Info Grid -->
+  <div class="info-grid">
+    <div>
+      <div class="sec-title">About Me</div>
+      <p class="about-text">Emergency Medicine resident passionate about critical care, trauma management, and rapid resuscitation. Calming chaos is my specialty. Delivering high-quality, evidence-based care in high-pressure situations is my daily mission.</p>
+      <div class="contact-wrap">
+        <div class="contact-item"></div>
+        <div class="contact-item">
+          <span class="c-label">Department</span>
+          <span class="c-val">Emergency Med</span>
+        </div>
+        <div class="contact-item">
+          <span class="c-label">Availability</span>
+          <span class="c-val">24/7 Response</span>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="sec-title">Core Skills</div>
+      <div class="skills-wrap">
+        <!-- ACLS chip: clicking opens overlay -->
+        <div class="skill-chip acls-chip" onclick="openACLS()">
+          <span>⚡</span> ACLS &amp; Resus
+          <span style="font-size:10px;color:rgba(255,42,75,0.7);margin-left:4px">↗</span>
+        </div>
+        <div class="skill-chip"><span>🩺</span> Trauma Assess</div>
+        <div class="skill-chip procedural-chip" onclick="openProcedural()">
+          <span>💉</span> Procedural
+          <span style="font-size:10px;color:rgba(0,245,212,0.7);margin-left:4px">↗</span>
+        </div>
+        <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  
+  <style>
+    .platform-launch-chip {
+      background: linear-gradient(135deg, rgba(26,86,219,0.15), rgba(8,145,178,0.15));
+      border: 1px solid rgba(26,86,219,0.5);
+      border-radius: 12px;
+      padding: 14px 22px;
+      font-size: 14px;
+      color: #60a5fa;
+      font-family: 'DM Mono', monospace;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .platform-launch-chip:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 25px rgba(26,86,219,0.4);
+      color: white;
+      border-color: rgba(26,86,219,0.9);
+    }
+
+    /* Blinking Dot */
+    .plc-pulse {
+      width: 9px;
+      height: 9px;
+      background: #3b82f6;
+      border-radius: 50%;
+      box-shadow: 0 0 12px #3b82f6;
+      animation: blinkPulse 1.4s infinite ease-in-out;
+    }
+
+    @keyframes blinkPulse {
+      0%, 100% { 
+        opacity: 1; 
+        transform: scale(1); 
+      }
+      50% { 
+        opacity: 0.3; 
+        transform: scale(0.6); 
+      }
+    }
+  </style>
+</head>
+<body style="background:#03060d; padding:50px; font-family:sans-serif;">
+
+  <h2 style="color:white; margin-bottom:20px;"></h2>
+
+  <!-- Yeh Wali Chip -->
+  <div class="platform-launch-chip" onclick=<Med Learning Platform.html>
+    <div class="plc-pulse"></div>
+    <span style="font-size:16px">🎓</span>
+    <span>Med Learning Platform</span>
+    <span style="font-size:11px; opacity:0.8">↗ Open</span>
+  </div>
+
+</body>
+</html>
+        <div class="skill-chip"><span>🧠</span> Neuro Emerg</div>
+        <div class="skill-chip"><span>🩻</span> POCUS Eval</div>
+        <div class="skill-chip"><span>🌡️</span> Toxicology</div>
+        <div class="skill-chip" onclick="openPedsER()">
+          <span>👶</span> Peds ER
+          <span style="font-size:10px;color:rgba(0,245,212,0.7);margin-left:4px">↗</span>
+        </div>
+        <div class="skill-chip sepsis-chip" onclick="openSepsis()">
+          <span>📊</span> Critical Care
+          <span style="font-size:10px;color:rgba(29,125,199,0.7);margin-left:4px">↗</span>
+        </div>
+      </div>
+      <div style="margin-top:12px;font-family:'DM Mono',monospace;font-size:11px;color:rgba(0, 245, 212, 0.5);letter-spacing:1px">
+        ↗ Click "ACLS &amp; Resus", "Procedural", "Critical Care", or "Peds ER" for clinical reference notes
+      </div>
+    </div>
+  </div>
+
+  <!-- Feedback Form -->
+  <div class="glass-panel">
+    <div class="sec-title">Send Feedback</div>
+    <form id="feedback-form" action="https://formspree.io/f/xgorojlv" method="POST">
+      <div class="form-row-two">
+        <div class="form-field-group">
+          <label class="form-field-label">Your Name *</label>
+          <input type="text" name="name" class="form-input" placeholder="Sam" required />
+        </div>
+        <div class="form-field-group">
+          <label class="form-field-label">Email</label>
+          <input type="email" name="email" class="form-input" placeholder="you@example.com" />
+        </div>
+      </div>
+      <div class="form-field-group">
+        <label class="form-field-label">Feedback Type</label>
+        <select name="feedback_type" class="form-input">
+          <option value="" disabled selected>Select type...</option>
+          <option value="General Feedback">General Feedback</option>
+          <option value="Clinical Interaction">Clinical Interaction</option>
+          <option value="Emergency Care">Emergency Care</option>
+        </select>
+      </div>
+      <div class="form-field-group">
+        <label class="form-field-label">Overall Rating</label>
+        <div class="rating-wrap" id="rating-group">
+          <input type="hidden" name="rating" id="rating-val" value="Not rated" />
+          <div class="r-btn" onclick="selectRating(this, 1)">1</div>
+          <div class="r-btn" onclick="selectRating(this, 2)">2</div>
+          <div class="r-btn" onclick="selectRating(this, 3)">3</div>
+          <div class="r-btn" onclick="selectRating(this, 4)">4</div>
+          <div class="r-btn" onclick="selectRating(this, 5)">5</div>
+        </div>
+      </div>
+      <div class="form-field-group">
+        <label class="form-field-label">Your Message *</label>
+        <textarea name="message" class="form-input" placeholder="Share your experience, thoughts, or inquiry..." required></textarea>
+      </div>
+      <button type="submit" class="submit-btn" id="submit-btn">SUBMIT FEEDBACK</button>
+    </form>
+    <div class="form-success" id="form-success">
+      <div class="success-icon-wrap">✅</div>
+      <div class="success-title">FEEDBACK RECEIVED</div>
+      <div class="success-sub">Thank you! Your message has been sent to Dr. Mehta..<br>Expect a response at the earliest convenience.</div>
+    </div>
+  </div>
+
+  <div class="footer"><span class="blink-footer">EMERGENCY MEDICINE &nbsp;//&nbsp; FIRST DO NO HARM</span></div>
+</div>
+
+<script>
+  // ===== VITALS ANIMATION =====
+  const hrEl = document.getElementById('hr-val');
+  const bpEl = document.getElementById('bp-val');
+  const spo2El = document.getElementById('spo2-val');
+  const tempEl = document.getElementById('temp-val');
+
+  setInterval(() => {
+    hrEl.innerText = Math.floor(Math.random() * 11) + 108;
+    hrEl.style.color = '#fff';
+    setTimeout(() => { hrEl.style.color = 'var(--vital-green)'; }, 150);
+  }, 2000);
+  setInterval(() => { bpEl.innerText = (Math.floor(Math.random()*11)+95) + '/' + (Math.floor(Math.random()*11)+60); }, 4500);
+  setInterval(() => { spo2El.innerText = (Math.floor(Math.random()*6)+88) + '%'; }, 5000);
+  setInterval(() => { tempEl.innerText = '27.' + Math.floor(Math.random()*6) + '°'; }, 10000);
+
+  // ===== PATIENT COUNT ANIMATION =====
+  let currentPatients = 22000;
+  const patEl = document.getElementById('patient-val');
+  function dropPatients() {
+    if (currentPatients > 1300) {
+      let d = Math.max(1, Math.floor((currentPatients - 1300) * 0.05));
+      if (d > 500) d = Math.floor(Math.random()*200+400);
+      else if (d > 100) d = Math.floor(Math.random()*50+50);
+      else if (d > 10) d = Math.floor(Math.random()*5+5);
+      currentPatients = Math.max(1300, currentPatients - d);
+      patEl.innerText = currentPatients + '+';
+      let p = 1 - ((currentPatients-1300)/(22000-1300));
+      setTimeout(dropPatients, 10 + p*150);
+    }
+  }
+  setTimeout(dropPatients, 500);
+
+  // ===== FEEDBACK FORM =====
+  function selectRating(btn, val) {
+    document.getElementById('rating-val').value = val + ' / 5';
+    document.querySelectorAll('.r-btn').forEach((b, i) => b.classList.toggle('active', i < val));
+  }
+  document.getElementById('feedback-form').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const sb = document.getElementById('submit-btn');
+    sb.innerText = 'SENDING...'; sb.disabled = true;
+    try {
+      const res = await fetch('https://formspree.io/f/xgorojlv', { method: 'POST', body: new FormData(this), headers: { 'Accept': 'application/json' } });
+      if (res.ok) { document.getElementById('feedback-form').style.display = 'none'; document.getElementById('form-success').style.display = 'block'; }
+      else { sb.innerText = 'TRY AGAIN'; sb.disabled = false; alert('Something went wrong. Please try again!'); }
+    } catch { sb.innerText = 'TRY AGAIN'; sb.disabled = false; alert('Network error. Please check your connection.'); }
+  });
+
+  // =============================================
+  // ACLS OVERLAY LOGIC
+  // =============================================
+
+  const sectionMap = {
+    A: { panelId: 'notes-cpr',     label: '💓 CPR & Arrest' },
+    B: { panelId: 'notes-ecg',     label: '📈 ECG Rhythms' },
+    C: { panelId: 'notes-acls',    label: '⚡ ACLS Algorithms' },
+    D: { panelId: 'notes-acs',     label: '❤️ ACS & STEMI' },
+    E: { panelId: 'notes-special', label: '🌡️ Special Cases' },
+    F: { panelId: 'notes-drugs',   label: '💊 Drug Reference' }
+  };
+
+  let currentSection = null;
+
+  function openACLS() {
+    document.getElementById('aclsOverlay').classList.add('active');
+    document.body.style.overflow = 'hidden';
+    showLanding();
+  }
+
+  function closeACLS() {
+    document.getElementById('aclsOverlay').classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  function showLanding() {
+    document.getElementById('aclsLanding').style.display = 'flex';
+    document.getElementById('aclsNotesArea').classList.remove('active');
+    currentSection = null;
+  }
+
+  function goBack() {
+    showLanding();
+  }
+
+  function openSection(letter) {
+    currentSection = letter;
+    const map = sectionMap[letter];
+
+    // Hide landing, show notes
+    document.getElementById('aclsLanding').style.display = 'none';
+    document.getElementById('aclsNotesArea').classList.add('active');
+
+    // Update title
+    document.getElementById('notesTitle').textContent = '🚨 Emergency & Critical Care Notes';
+
+    // Build tab bar
+    const tabBar = document.getElementById('notesTabBar');
+    tabBar.innerHTML = '';
+    Object.entries(sectionMap).forEach(([ltr, info]) => {
+      const btn = document.createElement('button');
+      btn.className = 'notes-tab' + (ltr === letter ? ' active' : '');
+      btn.textContent = ltr + ' — ' + info.label.replace(/[^\w\s&]/gu, '').trim();
+      btn.setAttribute('data-letter', ltr);
+      btn.onclick = () => switchTab(ltr);
+      tabBar.appendChild(btn);
+    });
+
+    // Build header badges
+    const badges = document.getElementById('notesHeaderBadges');
+    badges.innerHTML = '';
+    Object.entries(sectionMap).forEach(([ltr, info]) => {
+      const b = document.createElement('span');
+      b.className = 'notes-header-badge' + (ltr === letter ? ' active-tab' : '');
+      b.textContent = info.label;
+      b.onclick = () => switchTab(ltr);
+      badges.appendChild(b);
+    });
+
+    // Show correct panel
+    showPanel(map.panelId);
+
+    // Scroll to top of notes
+    document.getElementById('aclsOverlay').scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function switchTab(letter) {
+    currentSection = letter;
+    const map = sectionMap[letter];
+    document.querySelectorAll('.notes-tab').forEach(t => t.classList.toggle('active', t.getAttribute('data-letter') === letter));
+    document.querySelectorAll('.notes-header-badge').forEach((b, i) => {
+      const ltr = Object.keys(sectionMap)[i];
+      b.classList.toggle('active-tab', ltr === letter);
+    });
+    showPanel(map.panelId);
+    document.getElementById('aclsOverlay').scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function showPanel(panelId) {
+    document.querySelectorAll('.notes-panel').forEach(p => p.classList.remove('active'));
+    document.getElementById(panelId).classList.add('active');
+  }
+
+  // Close overlay on background click
+  document.getElementById('aclsOverlay').addEventListener('click', function(e) {
+    if (e.target === this) closeACLS();
+  });
+
+  // =============================================
+  // SEPSIS OVERLAY LOGIC
+  // =============================================
+
+  function openSepsis() {
+    document.getElementById('sepsisOverlay').classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeSepsis() {
+    document.getElementById('sepsisOverlay').classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  // Close Sepsis overlay on background click
+  document.getElementById('sepsisOverlay').addEventListener('click', function(e) {
+    if (e.target === this || e.target.classList.contains('acls-container')) closeSepsis();
+  });
+
+  // Global keydown events (like Escape to close overlays)
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+      closeACLS();
+      closeSepsis();
+      if(typeof closeProcedural === 'function') closeProcedural();
+      if(typeof closePedsER === 'function') closePedsER();
+    }
+  });
+function toggleSepsisTheme() {
+  const overlay = document.getElementById('sepsisOverlay');
+  const icon = document.getElementById('sepsis-theme-icon');
+  const isDark = overlay.getAttribute('data-theme') === 'dark';
+  const newTheme = isDark ? 'light' : 'dark';
+  overlay.setAttribute('data-theme', newTheme);
+  
+  if (newTheme === 'dark') {
+    icon.innerHTML = '<circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>';
+  } else {
+    icon.innerHTML = '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>';
+  }
+}
+</script>
+<!-- =============================================
+     PROCEDURAL OVERLAY
+============================================= -->
+<div class="acls-overlay" id="proceduralOverlay" data-theme="dark">
+  <style>
+    /* Scoped Procedural Styles */
+    #proceduralOverlay {
+      --p-primary: #00f5d4;
+      --p-primary-rgb: 0, 245, 212;
+      --p-bg: #03060d;
+      --p-surface: #0a0f1a;
+      --p-surface-2: #141b2d;
+      --p-text: #f0f4f8;
+      --p-text-muted: #8a9bb3;
+      --p-border: rgba(255, 255, 255, 0.08);
+      --p-font-body: 'Inter', sans-serif;
+      --p-font-display: 'Outfit', sans-serif;
+    }
+    #proceduralOverlay[data-theme="light"] {
+      --p-bg: #f8fafc; --p-surface: #ffffff; --p-surface-2: #f1f5f9; --p-text: #1e293b; --p-text-muted: #64748b; --p-border: rgba(0, 0, 0, 0.08);
+    }
+    #proceduralOverlay .procedural-guide-area {
+      display: flex; height: calc(100vh - 120px); background: var(--p-bg); color: var(--p-text);
+      font-family: var(--p-font-body); border-radius: 20px; overflow: hidden; border: 1px solid var(--p-border); margin-top: 10px;
+    }
+    #proceduralOverlay .sidebar { width: 300px; background: var(--p-surface); border-right: 1px solid var(--p-border); display: flex; flex-direction: column; flex-shrink: 0; }
+    #proceduralOverlay .sidebar-header { padding: 1.5rem; border-bottom: 1px solid var(--p-border); }
+    #proceduralOverlay .sidebar-title { font-family: var(--p-font-display); font-size: 1.25rem; font-weight: 700; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.75rem; color: var(--p-primary); }
+    #proceduralOverlay .search-box { position: relative; }
+    #proceduralOverlay .search-input { width: 100%; background: var(--p-surface-2); border: 1px solid var(--p-border); border-radius: 12px; padding: 0.75rem 1rem 0.75rem 2.5rem; color: var(--p-text); font-size: 0.875rem; outline: none; }
+    #proceduralOverlay .search-icon { position: absolute; left: 0.875rem; top: 50%; transform: translateY(-50%); color: var(--p-text-muted); pointer-events: none; }
+    #proceduralOverlay .chapter-list { flex: 1; overflow-y: auto; padding: 1rem; }
+    #proceduralOverlay .chapter-item { padding: 0.875rem 1rem; border-radius: 12px; cursor: pointer; transition: all 0.2s; margin-bottom: 0.5rem; border: 1px solid transparent; display: flex; align-items: center; gap: 0.75rem; }
+    #proceduralOverlay .chapter-item:hover { background: var(--p-surface-2); }
+    #proceduralOverlay .chapter-item.active { background: rgba(var(--p-primary-rgb), 0.1); border-color: rgba(var(--p-primary-rgb), 0.2); color: var(--p-primary); }
+    #proceduralOverlay .chapter-num { font-size: 0.75rem; opacity: 0.5; font-family: 'DM Mono', monospace; }
+    #proceduralOverlay .main-content { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+    #proceduralOverlay .content-header { padding: 1.25rem 2rem; background: var(--p-surface); border-bottom: 1px solid var(--p-border); display: flex; align-items: center; justify-content: space-between; }
+    #proceduralOverlay .breadcrumb { display: flex; align-items: center; gap: 0.5rem; font-size: 0.75rem; color: var(--p-text-muted); font-weight: 600; text-transform: uppercase; }
+    #proceduralOverlay .content-body { flex: 1; overflow-y: auto; padding: 3rem; }
+    #proceduralOverlay .guide-content h1 { font-family: var(--p-font-display); font-size: 2.2rem; margin-bottom: 1rem; color: var(--p-text); }
+    #proceduralOverlay .guide-content h2 { font-family: var(--p-font-display); font-size: 1.4rem; color: var(--p-primary); margin-top: 2rem; margin-bottom: 0.8rem; border-bottom: 1px solid var(--p-border); padding-bottom: 5px; }
+    #proceduralOverlay .guide-content p { line-height: 1.7; color: var(--p-text-muted); margin-bottom: 1rem; }
+    #proceduralOverlay .step-item { display: flex; gap: 15px; margin-bottom: 12px; }
+    #proceduralOverlay .step-num { width: 24px; height: 24px; background: var(--p-primary); color: #000; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; flex-shrink: 0; font-size: 12px; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    @media (max-width: 768px) { #proceduralOverlay .procedural-guide-area { flex-direction: column; } #proceduralOverlay .sidebar { width: 100%; height: 250px; } }
+  </style>
+
+  <div class="acls-container" style="max-width: 1200px; display: flex; flex-direction: column; height: 100vh; padding: 20px;">
+    <div class="acls-topbar">
+      <span class="acls-topbar-title">// Clinical Procedures Guide</span>
+      <button class="close-btn" onclick="closeProcedural()">✕</button>
+    </div>
+
+    <!-- Procedural Landing View -->
+    <!-- Section A - Direct Link (No 404) -->
+<div class="acls-landing">
+  <div class="acls-landing-title">PROCEDURAL <span>STATION</span></div>
+  <div class="acls-landing-sub">SECTION A: ESSENTIAL PROCEDURAL SKILLS // 40 MODULES</div>
+  
+  <div class="acls-sections-grid" style="justify-content: center;">
+    <a href="neuro-emergency.html" 
+       class="acls-section-card" 
+       style="--card-accent: #00f5d4; max-width: 300px; text-decoration: none; color: inherit; display: block;">
+      <span class="card-icon">💉</span>
+      <span class="card-letter">SECTION A</span>
+      <span class="card-name">Interactive Modules</span>
+    </a>
+  </div>
+</div>
+
+    <!-- Guide View (Iframe based) -->
+    <div class="procedural-guide-area" id="proc-iframe-container" style="display: none; flex: 1; position: relative; background: #000; border-radius: 16px; overflow: hidden; border: 1px solid rgba(255,255,255,0.1); margin-top: 10px;">
+      <div id="proc-loading" style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background: #03060d; z-index: 5; flex-direction: column; gap: 1rem;">
+        <div style="width: 40px; height: 40px; border: 3px solid rgba(0,245,212,0.1); border-top-color: #00f5d4; border-radius: 50%; animation: spin 1s linear infinite;"></div>
+        <div style="font-family: 'DM Mono', monospace; font-size: 11px; color: #8a9bb3; letter-spacing: 2px;">SYNCHRONIZING MODULES...</div>
+      </div>
+      <iframe id="proc-iframe" src="about:blank" style="width: 100%; height: 100%; border: none; opacity: 0; transition: opacity 0.5s ease;"></iframe>
+    </div>
+  </div>
+</div>
+
+<script>
+  // PROCEDURAL LOGIC
+  function openProcedural() {
+    document.getElementById('proceduralOverlay').classList.add('active');
+    document.body.style.overflow = 'hidden';
+    // Reset to landing if needed
+    document.querySelector('.procedural-landing').style.display = 'flex';
+    document.getElementById('proc-iframe-container').style.display = 'none';
+  }
+  
+  function closeProcedural() {
+    document.getElementById('proceduralOverlay').classList.remove('active');
+    document.body.style.overflow = '';
+    // Optional: clear iframe to save memory
+    // document.getElementById('proc-iframe').src = 'about:blank';
+  }
+
+  function startProceduralGuide() {
+    const landing = document.querySelector('.procedural-landing');
+    const container = document.getElementById('proc-iframe-container');
+    const iframe = document.getElementById('proc-iframe');
+    const loading = document.getElementById('proc-loading');
+
+    landing.style.display = 'none';
+    container.style.display = 'flex';
+    loading.style.display = 'flex';
+    iframe.style.opacity = '0';
+
+    // Set source
+    iframe.src = 'procedures.html';
+
+    iframe.onload = function() {
+      loading.style.display = 'none';
+      iframe.style.opacity = '1';
+    };
+    
+    iframe.onerror = function() {
+      loading.innerHTML = '<div style="color:#ff2a4b">ERROR LOADING MODULES</div>';
+    };
+  }
+
+  // Close Procedural overlay on background click
+  document.getElementById('proceduralOverlay').addEventListener('click', function(e) {
+    if (e.target === this || e.target.classList.contains('acls-container')) closeProcedural();
+  });
+
+  // PROCEDURAL logic (legacy/simplified for brevity in prev version, now handled by iframe)
+
+  // PEDS ER LOGIC
+  function openPedsER() {
+    document.getElementById('pedsEROverlay').classList.add('active');
+    document.body.style.overflow = 'hidden';
+    document.getElementById('pedsLanding').style.display = 'flex';
+    document.getElementById('pedsNotesArea').classList.remove('active');
+  }
+  function closePedsER() {
+    document.getElementById('pedsEROverlay').classList.remove('active');
+    document.body.style.overflow = '';
+  }
+  function openPedsSectionA() {
+    document.getElementById('pedsLanding').style.display = 'none';
+    document.getElementById('pedsNotesArea').classList.add('active');
+  }
+  function goBackPeds() {
+    document.getElementById('pedsLanding').style.display = 'flex';
+    document.getElementById('pedsNotesArea').classList.remove('active');
+  }
+
+  // Close Peds ER overlay on background click
+  document.getElementById('pedsEROverlay').addEventListener('click', function(e) {
+    if (e.target === this || e.target.classList.contains('acls-container')) closePedsER();
+  });
+</script>
+
+<!-- =============================================
+     PEDS ER OVERLAY
+============================================= -->
+<div class="acls-overlay" id="pedsEROverlay" data-theme="dark">
+  <style>
+    #pedsEROverlay {
+      --p-primary: #00f5d4;
+      --p-bg: #03060d;
+      --p-surface: #0a0f1a;
+      --p-text: #f0f4f8;
+      --p-text-muted: #8a9bb3;
+      --p-border: rgba(255,255,255,0.08);
+    }
+    #pedsEROverlay .acls-landing {
+      padding: 5rem 1rem;
+      text-align: center;
+      animation: slideUp 0.4s ease;
+    }
+    #pedsEROverlay .acls-landing-title {
+      font-size: 3.8rem;
+      letter-spacing: 8px;
+      margin-bottom: 1rem;
+    }
+    #pedsEROverlay .acls-landing-sub {
+      font-size: 14px;
+      color: var(--p-text-muted);
+      letter-spacing: 3px;
+    }
+    #pedsEROverlay .peds-notes-area {
+      display: none;
+      animation: slideUp 0.35s ease;
+      padding-top: 1rem;
+    }
+    #pedsEROverlay .peds-notes-area.active {
+      display: block;
+    }
+    #pedsEROverlay .notes-header {
+      background: linear-gradient(135deg, #0f2027 0%, #203a43 60%, #2c5364 100%);
+      border: 1px solid rgba(0,245,212,0.2);
+      border-radius: 16px; padding: 20px 24px; margin-bottom: 16px;
+    }
+    #pedsEROverlay .notes-header h2 { font-family: 'Bebas Neue', sans-serif; font-size: 1.8rem; letter-spacing: 3px; color: white; }
+    #pedsEROverlay .notes-header p { font-size: 12px; color: rgba(255,255,255,0.5); margin-top: 4px; }
+  </style>
+
+  <div class="acls-container" style="max-width: 1100px; padding: 20px; display: flex; flex-direction: column; height: 100vh;">
+    
+    <div class="acls-topbar">
+      <span class="acls-topbar-title">// PEDIATRIC EMERGENCY GUIDE</span>
+      <button class="close-btn" onclick="closePedsER()" style="color: #00f5d4; border-color: rgba(0,245,212,0.3); background: rgba(0,245,212,0.1);">✕</button>
+    </div>
+
+   <!-- Section A - Direct Link (No 404) -->
+<div class="acls-landing">
+  <div class="acls-landing-title">👶Peds ER <span>STATION</span></div>
+  <div class="acls-landing-sub">SECTION A: 👶SECTION A Core Pediatric Emergencies // 40 MODULES</div>
+  
+  <div class="acls-sections-grid" style="justify-content: center;">
+    <a href="Peds Eicu-emergency.html" 
+       class="acls-section-card" 
+       style="--card-accent: #00f5d4; max-width: 300px; text-decoration: none; color: inherit; display: block;">
+      <span class="card-icon">💉</span>
+      <span class="card-letter">SECTION A</span>
+      <span class="card-name">Interactive Modules</span>
+    </a>
+  </div>
+</div>
+
+  </div>
+</div>
+</body>
+</html>
