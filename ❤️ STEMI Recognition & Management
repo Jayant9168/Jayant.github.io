@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>STEMI Masterclass | ECG Changes & Management</title>
+    <!-- Google Fonts + Font Awesome + Chart.js -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: radial-gradient(circle at 20% 30%, #030614, #000000);
+            color: #f0f4ff;
+            line-height: 1.5;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* animated premium background */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1200" opacity="0.08"><path fill="none" stroke="%23e31b23" stroke-width="1.5" d="M0,400 L200,350 L400,380 L600,300 L800,420 L1000,370 L1200,450 L1200,0 L0,0 Z"/><path d="M100,800 L300,750 L500,820 L700,780 L900,840 L1100,790" stroke="%23ff6b6b" stroke-width="1" fill="none"/><circle cx="300" cy="200" r="2" fill="%23ff9999"/><circle cx="800" cy="500" r="3" fill="%23ff5252"/><circle cx="500" cy="900" r="2" fill="%23ff7b7b"/></svg>');
+            background-repeat: repeat;
+            background-size: 200px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .dashboard {
+            max-width: 1500px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+            padding: 2rem 1.8rem;
+        }
+
+        /* glassmorphic hero */
+        .hero {
+            text-align: center;
+            margin-bottom: 3rem;
+            background: rgba(10, 20, 40, 0.45);
+            backdrop-filter: blur(12px);
+            border-radius: 70px;
+            padding: 1.5rem 2rem;
+            border: 1px solid rgba(227, 27, 35, 0.4);
+            box-shadow: 0 20px 35px -15px black;
+        }
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            background: linear-gradient(130deg, #ffffff, #ffa5a5, #ff6b6b);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .hero h1 i {
+            background: none;
+            -webkit-background-clip: unset;
+            color: #e31b23;
+            margin-right: 12px;
+        }
+        .hero-badge {
+            display: inline-block;
+            background: rgba(227,27,35,0.25);
+            border-radius: 40px;
+            padding: 0.4rem 1rem;
+            margin: 0.5rem 0.8rem;
+            font-weight: 600;
+            font-size: 0.85rem;
+            backdrop-filter: blur(5px);
+        }
+
+        /* grid premium */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        .card-gloss {
+            background: rgba(12, 22, 38, 0.6);
+            backdrop-filter: blur(16px);
+            border-radius: 36px;
+            border: 1px solid rgba(255, 80, 80, 0.25);
+            transition: all 0.3s;
+            overflow: hidden;
+            box-shadow: 0 20px 32px -12px rgba(0,0,0,0.4);
+        }
+        .card-gloss:hover {
+            border-color: #e31b23;
+            transform: translateY(-4px);
+            background: rgba(18, 28, 48, 0.7);
+        }
+        .card-header {
+            padding: 1.2rem 1.8rem;
+            background: linear-gradient(95deg, rgba(227,27,35,0.2), rgba(0,0,0,0.2));
+            border-bottom: 1px solid #e31b2360;
+            font-weight: 700;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .card-header i {
+            font-size: 1.6rem;
+            color: #ff6b6b;
+        }
+        .card-body {
+            padding: 1.6rem 1.8rem;
+        }
+
+        /* tables */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+        }
+        .data-table th {
+            background: #1a2642;
+            color: #ffd9d9;
+            padding: 10px 8px;
+            text-align: left;
+        }
+        .data-table td {
+            padding: 9px 8px;
+            border-bottom: 1px solid rgba(100, 140, 190, 0.3);
+        }
+
+        .ecg-strip-svg {
+            background: #030712;
+            border-radius: 28px;
+            padding: 12px;
+            margin: 15px 0;
+        }
+
+        .badge-critical {
+            background: #b91c1c;
+            padding: 0.2rem 0.8rem;
+            border-radius: 40px;
+            font-size: 0.7rem;
+            font-weight: 700;
+        }
+
+        .metric-highlight {
+            background: linear-gradient(125deg, #121e34, #071020);
+            border-left: 6px solid #e31b23;
+            padding: 1rem;
+            border-radius: 24px;
+            margin: 1rem 0;
+        }
+        .stat-number {
+            font-size: 1.9rem;
+            font-weight: 800;
+            color: #ff9a9a;
+        }
+
+        .flow-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+        .flow-item {
+            background: #0e182c;
+            border-radius: 20px;
+            padding: 0.7rem 1rem;
+            border-left: 4px solid #e31b23;
+        }
+
+        hr {
+            border-color: #2f4270;
+            margin: 1rem 0;
+        }
+
+        .canvas-container {
+            background: #0a1022;
+            border-radius: 24px;
+            padding: 0.8rem;
+            margin-top: 1rem;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 2rem;
+            padding: 1rem;
+            background: rgba(0,0,0,0.5);
+            border-radius: 50px;
+            font-size: 0.8rem;
+            backdrop-filter: blur(4px);
+        }
+
+        @media (max-width: 900px) {
+            .dashboard { padding: 1rem; }
+            .hero h1 { font-size: 2rem; }
+            .grid { grid-template-columns: 1fr; }
+        }
+        .tooltip-icon {
+            border-bottom: 1px dashed #ff8a8a;
+            cursor: help;
+        }
+        i.fa, i.far {
+            margin-right: 6px;
+        }
+    </style>
+</head>
+<body>
+<div class="dashboard">
+    <div class="hero">
+        <h1><i class="fas fa-heartbeat"></i> STEMI Recognition & Management</h1>
+        <div>
+            <span class="hero-badge"><i class="fas fa-clock"></i> Door-to-Balloon ≤90 min</span>
+            <span class="hero-badge"><i class="fas fa-chart-line"></i> Time is Myocardium</span>
+            <span class="hero-badge"><i class="fas fa-ecg"></i> 12-Lead ECG Mastery</span>
+        </div>
+        <p style="margin-top: 8px; opacity:0.8;">Evidence-based 2026 guidelines · Reciprocal changes · Culprit localization</p>
+    </div>
+
+    <!-- ROW 1: ECG CHANGES BY TERRITORY + DETAILED RECIPROCAL TABLE -->
+    <div class="grid">
+        <!-- Anterior / Inferior / Lateral detailed ECG changes -->
+        <div class="card-gloss">
+            <div class="card-header"><i class="fas fa-waveform"></i> ECG Changes by Coronary Territory</div>
+            <div class="card-body">
+                <table class="data-table">
+                    <thead><tr><th>Infarct zone</th><th>Lead ST ↑</th><th>Reciprocal STD ↓</th><th>ECG signature</th></tr></thead>
+                    <tbody>
+                        <tr><td><span class="badge-critical">Anterior (LAD)</span></td><td>V1–V4 (± I, aVL)</td><td>II, III, aVF</td><td>Poor R-wave progression, hyperacute T, QS in V2-V3</td></tr>
+                        <tr><td><span class="badge-critical">Inferior (RCA/LCx)</span></td><td>II, III, aVF</td><td>I, aVL, V2-V3 (often)</td><td>Often associated with RV infarct → check V4R</td></tr>
+                        <tr><td><span class="badge-critical">Lateral (LCx)</span></td><td>I, aVL, V5-V6</td><td>V1–V3 (posterior mirror)</td><td>Subtle STE, may need posterior leads</td></tr>
+                        <tr><td><span class="badge-critical">Posterior (LCx/RCA)</span></td><td>V7-V9 STE ≥0.5mm</td><td>V1-V3: tall R, ST depression</td><td>Horizontal STD V1-V3 + upright T</td></tr>
+                    </tbody>
+                </table>
+                <div class="ecg-strip-svg">
+                    <svg viewBox="0 0 580 80" style="width:100%; background:#010101; border-radius:20px;">
+                        <polyline points="10,40 40,40 45,38 48,15 52,65 56,38 65,40 90,40 100,39 104,18 108,70 112,42 120,40 140,40 150,42 155,23 160,68 164,40 175,40 200,40 210,38 215,60 219,30 224,50 228,42 235,40 260,40 280,40 290,42 295,25 300,72 304,45 310,40 330,40 350,38 360,40 370,40 380,38 385,58 389,28 394,64 398,42 410,40 430,40 450,40 470,40 490,40 510,40 530,40 550,40 570,40" stroke="#ff4d4d" stroke-width="2.2" fill="none"/>
+                        <text x="20" y="20" fill="#99b8ff" font-size="8">Anterior STEMI: V2-V4 tombstoning</text>
+                    </svg>
+                    <div style="display: flex; justify-content: space-between; margin-top: 8px; gap:8px;">
+                        <div><i class="fas fa-arrow-up"></i> <strong>LAD occlusion:</strong> ST↑ V2-V4 >2mm</div>
+                        <div><i class="fas fa-arrow-down"></i> <strong>Reciprocal:</strong> STD inferior leads</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Reciprocal changes + detailed STEMI mimics / nuance -->
+        <div class="card-gloss">
+            <div class="card-header"><i class="fas fa-charging-station"></i> Reciprocal ST Depression & High-risk Mimics</div>
+            <div class="card-body">
+                <div class="metric-highlight">
+                    <i class="fas fa-chart-line"></i> <strong>Reciprocal change = specificity >90% for STEMI</strong><br>
+                    <span>Inferior STEMI → STD I, aVL (mirror). Anterior STEMI → STD II, III, aVF.</span>
+                </div>
+                <table class="data-table">
+                    <thead><tr><th>Mimic</th><th>Differentiating ECG</th><th>Reciprocal? / Clue</th></tr></thead>
+                    <tbody>
+                        <tr><td>Early Repolarization</td><td>Concave ST, notched J-wave, "fish-hook"</td><td>No reciprocal changes; stable over time</td></tr>
+                        <tr><td>Pericarditis</td><td>Diffuse ST elevation, PR depression</td><td>No mirror image, PR↑ in aVR</td></tr>
+                        <tr><td>LVH with strain</td><td>Deep asymmetric T inversion, ST depression lateral leads</td><td>Voltage criteria, no dynamic evolution</td></tr>
+                        <tr><td>Takotsubo</td><td>Apical ballooning, STE less than 2mm</td><td>Low biomarker rise, preceding stress</td></tr>
+                    </tbody>
+                </table>
+                <div class="ecg-strip-svg" style="margin-top: 12px;">
+                    <i class="fas fa-heart" style="color:#e31b23"></i> <strong>Sgarbossa criteria for LBBB:</strong> Concordant STE ≥1mm (5pts) + Concordant STD V1-V3 (3pts) → Score ≥3 = STEMI-equivalent.
+                </div>
+            </div>
+        </div>
+
+        <!-- Culprit artery + RV infarct lead placement diagram -->
+        <div class="card-gloss">
+            <div class="card-header"><i class="fas fa-heart-circle-exclamation"></i> Culprit Artery & Right-sided ECG</div>
+            <div class="card-body">
+                <table class="data-table">
+                    <thead><tr><th>Artery</th><th>ECG leads</th><th>Additional ECG maneuver</th><th>Hemodynamic pitfall</th></tr></thead>
+                    <tbody>
+                        <tr><td>LAD prox</td><td>V1-V4 + aVL</td><td>Consider V7-V9 for posterior extension</td><td>LV failure, Killip class ≥II</td></tr>
+                        <tr><td>RCA dominant</td><td>II, III, aVF</td><td><span class="tooltip-icon" title="Place V4R in right 5th ICS">V4R ST↑ ≥1mm</span></td><td>RV infarct → avoid nitrates & diuretics</td></tr>
+                        <tr><td>LCx</td><td>I, aVL, V5-V6</td><td>Posterior leads V7-V9</td><td>Often lateral, hypotension less common</td></tr>
+                    </tbody>
+                </table>
+                <div class="metric-highlight">
+                    <i class="fas fa-stethoscope"></i> <strong>Right ventricular infarction management:</strong><br>
+                    - 12-lead with right-sided leads (V4R).<br>
+                    - Give 20ml/kg isotonic fluids, norepinephrine if refractory.<br>
+                    - Maintain AV synchrony, avoid vasodilators.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ROW 2: Time-to-Treatment Graphs + Management Algorithm + Performance -->
+    <div class="grid">
+        <div class="card-gloss">
+            <div class="card-header"><i class="fas fa-chart-simple"></i> Golden Timeline & Mortality Impact</div>
+            <div class="card-body">
+                <div class="metric-highlight"><span>Door-to-ECG </span><span class="stat-number">≤10 min</span> <span class="badge-critical">Class I</span></div>
+                <div class="metric-highlight"><span>Door-to-Balloon (Primary PCI) </span><span class="stat-number">≤90 min</span> <span class="badge-critical">target</span></div>
+                <div class="metric-highlight"><span>Fibrinolysis door-to-needle </span><span class="stat-number">≤30 min</span></div>
+                <div class="canvas-container">
+                    <canvas id="mortalityDelayCurve" height="170"></canvas>
+                    <p style="font-size:0.7rem;">Relative mortality increase per 30-min delay (Adapted from NCDR)</p>
+                </div>
+                <div class="canvas-container">
+                    <canvas id="d2bImprovement" height="140"></canvas>
+                    <p style="font-size:0.7rem;">Median Door-to-Balloon: before vs STEMI protocol (minutes)</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="card-gloss">
+            <div class="card-header"><i class="fas fa-diagram-project"></i> STEMI Management Algorithm (Immediate)</div>
+            <div class="card-body">
+                <div class="flow-list">
+                    <div class="flow-item"><strong>1. Recognition</strong> – 12-lead ECG within 10 min of arrival, identify STE or new LBBB.</div>
+                    <div class="flow-item"><strong>2. Activation</strong> – One-call Cath Lab activation, no delay for troponin.</div>
+                    <div class="flow-item"><strong>3. Dual antiplatelet</strong> – Aspirin 324mg chewed + Ticagrelor 180mg (or clopidogrel 600mg).</div>
+                    <div class="flow-item"><strong>4. Anticoagulation</strong> – UFH 60U/kg bolus (max 4000U) or Enoxaparin 30mg IV.</div>
+                    <div class="flow-item"><strong>5. Reperfusion decision</strong> – Primary PCI if D2B ≤90min; if non-PCI centre & transfer >120min, give fibrinolytic.</div>
+                    <div class="flow-item"><strong>6. Adjunctive</strong> – Beta-blocker within 24h, high-intensity statin, monitor for arrhythmias.</div>
+                </div>
+                <hr>
+                <div class="tooltip-icon"><i class="fas fa-tablets"></i> <strong>Contraindications for fibrinolysis:</strong> active bleeding, recent stroke, intracranial neoplasm.</div>
+            </div>
+        </div>
+
+        <div class="card-gloss">
+            <div class="card-header"><i class="fas fa-chart-line"></i> Special Subsets & Risk Scores</div>
+            <div class="card-body">
+                <div><i class="fas fa-calculator"></i> <strong>TIMI STEMI Risk Score (in-hospital mortality)</strong></div>
+                <table class="data-table">
+                    <tr><th>Risk factor</th><th>Points</th></tr>
+                    <tr><td>Age ≥75y</td><td>2</td></tr>
+                    <tr><td>Killip II-IV</td><td>2</td></tr>
+                    <tr><td>SBP <100 mmHg</td><td>3</td></tr>
+                    <tr><td>HR >100 bpm</td><td>2</td></tr>
+                    <tr><td>Anterior STEMI</td><td>1</td></tr>
+                    <tr><td>DM/HTN</td><td>1</td></tr>
+                </table>
+                <div class="metric-highlight" style="margin-top:12px;">
+                    <i class="fas fa-waveform"></i> <strong>LBBB & Paced rhythm:</strong> Use modified Sgarbossa criteria. Any concordant ST elevation = STEMI until proven otherwise.
+                </div>
+                <div class="metric-highlight">
+                    <i class="fas fa-heart-crack"></i> <strong>Cardiogenic shock:</strong> Early revascularization, temporary MCS (Impella/ECMO) in experienced centers.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ROW 3: Fibrinolysis checklist, Complications, secondary prevention -->
+    <div class="grid">
+        <div class="card-gloss">
+            <div class="card-header"><i class="fas fa-list-check"></i> Fibrinolysis Protocol & Rescue PCI</div>
+            <div class="card-body">
+                <div class="flow-item"><i class="fas fa-check-circle"></i> Indication: Symptom onset <12h, PCI delay >120 min, no contraindications</div>
+                <div class="flow-item"><i class="fas fa-syringe"></i> Tenecteplase (TNK) weight-based: <60kg: 30mg; 60-69kg: 35mg; 70-79kg: 40mg; 80-89kg: 45mg; ≥90kg: 50mg</div>
+                <div class="flow-item"><i class="fas fa-arrow-right"></i> Adjunctive: Enoxaparin 30mg IV bolus then 1mg/kg SC or UFH 60U/kg.</div>
+                <div class="metric-highlight"><i class="fas fa-chart-line"></i> <strong>Failed lysis (persistent pain, <50% ST resolution at 60min)</strong> → Immediate rescue PCI.</div>
+                <div><i class="fas fa-ambulance"></i> Routine transfer to PCI-capable center within 3-24h post-fibrinolysis.</div>
+            </div>
+        </div>
+
+        <div class="card-gloss">
+            <div class="card-header"><i class="fas fa-triangle-exclamation"></i> Mechanical Complications post-STEMI</div>
+            <div class="card-body">
+                <table class="data-table">
+                    <thead><tr><th>Complication</th><th>Time</th><th>Signs</th><th>Emergency action</th></tr></thead>
+                    <tbody>
+                        <tr><td>Ventricular septal rupture</td><td>3-7d</td><td>Harsh holosystolic murmur, thrill</td><td>Afterload reduction, IABP, surgical closure</td></tr>
+                        <tr><td>Papillary muscle rupture</td><td>2-7d</td><td>Acute pulmonary edema, new MR murmur</td><td>Vasodilators, emergent mitral surgery</td></tr>
+                        <tr><td>Free wall rupture</td><td>1-5d</td><td>Electromechanical dissociation</td><td>Pericardiocentesis, surgery</td></tr>
+                        <tr><td>Dressler's syndrome</td><td>Weeks</td><td>Fever, pericarditis, effusion</td><td>NSAIDs, colchicine</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="card-gloss">
+            <div class="card-header"><i class="fas fa-chart-simple"></i> Secondary Prevention & Quality Metrics</div>
+            <div class="card-body">
+                <div class="canvas-container">
+                    <canvas id="mortalityReduction" height="150"></canvas>
+                    <p style="font-size:0.7rem;">30-day mortality: Primary PCI vs fibrinolysis (NRMI registry)</p>
+                </div>
+                <div class="metric-highlight">
+                    <strong><i class="fas fa-pills"></i> Guideline-directed medical therapy:</strong><br>
+                    - High-intensity statin (Atorvastatin 80mg)<br>
+                    - DAPT for 12 months (Aspirin + Ticagrelor)<br>
+                    - ACEi/ARB (especially if LVEF <40%)<br>
+                    - Beta-blocker (Carvedilol/Metoprolol)<br>
+                    - Eplerenone if LVEF ≤40% + HF or DM
+                </div>
+                <div><i class="fas fa-chart-column"></i> <strong>ACC Chest Pain–MI Registry benchmarks:</strong> EMS-to-ECG transmission ≥70%, P2Y12 prior to arrival >85%.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Additional row: ECG changes visualized more: reciprocal example SVG -->
+    <div class="grid">
+        <div class="card-gloss">
+            <div class="card-header"><i class="fas fa-microscope"></i> Dynamic ECG Changes: Hyperacute T & Reciprocal Pattern</div>
+            <div class="card-body">
+                <div style="display: flex; flex-wrap: wrap; gap: 1rem;">
+                    <div style="flex:1; background:#030b17; border-radius: 24px; padding: 12px;">
+                        <i class="fas fa-arrow-up-wide-short"></i> <strong>Hyperacute T waves</strong> (first 30 min): broad, symmetric, >50% of R wave.
+                        <div style="height: 40px; background:#000; margin:10px 0; border-radius:12px;"><svg width="100%" height="40" viewBox="0 0 200 40"><polyline points="10,20 50,20 58,16 62,8 68,32 74,20 80,20 120,20 130,20 135,14 139,6 145,34 150,22 160,20 190,20" stroke="#ff8888" fill="none" stroke-width="2"/></svg></div>
+                    </div>
+                    <div style="flex:1; background:#030b17; border-radius: 24px; padding: 12px;">
+                        <i class="fas fa-exchange-alt"></i> <strong>Reciprocal STD</strong> – Mirror image of injury current.
+                        <div style="height: 40px; background:#000; margin:10px 0; border-radius:12px;"><svg width="100%" height="40" viewBox="0 0 200 40"><polyline points="10,20 50,20 58,24 62,32 68,8 74,20 80,20 120,20 130,22 135,28 139,36 145,4 150,18 160,20 190,20" stroke="#6ea8fe" fill="none" stroke-width="2"/></svg></div>
+                    </div>
+                </div>
+                <div class="metric-highlight" style="margin-top: 10px;">
+                    <i class="fas fa-notes-medical"></i> <strong>Emergent action:</strong> Any patient with STE + typical chest pain should bypass the ED for cath lab activation. “Call before completing full assessment.”
+                </div>
+            </div>
+        </div>
+        <div class="card-gloss">
+            <div class="card-header"><i class="fas fa-phone-alt"></i> STEMI Systems of Care – Activation Checklist</div>
+            <div class="card-body">
+                <div class="flow-item"><i class="fas fa-check-square"></i> EMS: Prehospital 12-lead ECG and transmission</div>
+                <div class="flow-item"><i class="fas fa-check-square"></i> ED: ECG within 10 minutes, senior review</div>
+                <div class="flow-item"><i class="fas fa-check-square"></i> Aspirin + P2Y12 + anticoagulation given BEFORE cath lab arrival</div>
+                <div class="flow-item"><i class="fas fa-check-square"></i> Single-call activation, interventional cardiologist notified</div>
+                <div class="flow-item"><i class="fas fa-check-square"></i> Data entry: door-to-balloon, door-to-ECG dashboard</div>
+                <div class="badge-critical" style="margin-top:12px; display:inline-block;">Target: </div> First medical contact-to-device <90 min.
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <i class="fas fa-heartbeat"></i> Based on 2026 ESC/ACC STEMI Guidelines · Time is Muscle · Every 30 min delay increases mortality by 7.5% <br>
+        <i class="fas fa-ecg"></i> Prompt recognition of ECG patterns and reciprocal changes saves lives.
+    </footer>
+</div>
+
+<script>
+    // Mortality delay curve
+    const ctxMortality = document.getElementById('mortalityDelayCurve').getContext('2d');
+    new Chart(ctxMortality, {
+        type: 'line', data: { labels: ['0', '30', '60', '90', '120', '150', '180'], datasets: [{ label: 'Mortality increase (%)', data: [0, 8, 16, 24, 33, 42, 52], borderColor: '#e63946', backgroundColor: 'rgba(230,57,70,0.1)', fill: true, tension: 0.2, pointRadius: 5 }] },
+        options: { responsive: true, maintainAspectRatio: true, plugins: { legend: { labels: { color: '#f0f0f0' } } }, scales: { y: { grid: { color: '#2f4470' }, ticks: { color: '#bbb' } }, x: { ticks: { color: '#bbb' } } } }
+    });
+    // Door-to-balloon improvement
+    const ctxD2B = document.getElementById('d2bImprovement').getContext('2d');
+    new Chart(ctxD2B, { type: 'bar', data: { labels: ['Before protocol', 'Post-protocol'], datasets: [{ label: 'Median Door-to-Balloon (min)', data: [112, 73], backgroundColor: ['#b33a3a', '#e31b23'], borderRadius: 12 }] }, options: { responsive: true, plugins: { legend: { labels: { color: '#fff' } } }, scales: { y: { ticks: { color: '#fff' } }, x: { ticks: { color: '#fff' } } } } });
+    // Mortality reduction PCI vs lysis
+    const ctxMortalityComp = document.getElementById('mortalityReduction').getContext('2d');
+    new Chart(ctxMortalityComp, { type: 'bar', data: { labels: ['Primary PCI (≤90min)', 'Fibrinolysis'], datasets: [{ label: '30-day mortality (%)', data: [5.1, 9.6], backgroundColor: ['#2a9d8f', '#e76f51'], borderRadius: 10 }] }, options: { responsive: true, plugins: { legend: { labels: { color: '#fff' } } }, scales: { y: { ticks: { color: '#fff' } }, x: { ticks: { color: '#fff' } } } } });
+</script>
+</body>
+</html>
