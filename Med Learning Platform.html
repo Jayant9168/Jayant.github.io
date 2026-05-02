@@ -709,7 +709,7 @@ document.getElementById('notes-grid').innerHTML=notes.map(n=>`
 
 // ── MEDIA DATA ──
 const media=[
-  {icon:'📊',bg:'linear-gradient(135deg,#eff4ff,#dbeafe)',format:'PPT',fBg:'#eff4ff',fC:'#1a56db',title:'ACLS Update 2026',meta:'32 slides · Dr. Mehta · 2026'},
+  {icon:'📊',bg:'linear-gradient(135deg,#eff4ff,#dbeafe)',format:'PPT',fBg:'#eff4ff',fC:'#1a56db',title:'ACLS Update 2026',meta:'32 slides · Dr. Mehta · 2026',link:'ACLS_Update_2026_DrMehta.pptx - Google Slides.pdf'},
   {icon:'🫀',bg:'linear-gradient(135deg,#fef2f2,#fee2e2)',format:'ePoster',fBg:'#fef2f2',fC:'#dc2626',title:'STEMI Recognition & Management',meta:'1 page · A0 format · 2025'},
   {icon:'💉',bg:'linear-gradient(135deg,#ecfdf5,#d1fae5)',format:'PPT',fBg:'#ecfdf5',fC:'#059669',title:'Sepsis Bundles Simplified',meta:'24 slides · Evidence-based · 2026'},
   {icon:'🧠',bg:'linear-gradient(135deg,#f5f3ff,#ede9fe)',format:'ePoster',fBg:'#f5f3ff',fC:'#7c3aed',title:'Stroke Fast Track Protocol',meta:'1 page · Infographic · 2025'},
@@ -717,7 +717,7 @@ const media=[
   {icon:'📋',bg:'linear-gradient(135deg,#fffbeb,#fef3c7)',format:'PDF',fBg:'#fffbeb',fC:'#d97706',title:'EM Procedure Quick Cards',meta:'8 pages · Laminate-ready · 2026'},
 ];
 document.getElementById('media-grid').innerHTML=media.map(m=>`
-  <div class="media-card" onclick="alert('Opening ' + '${m.format}' + ': ' + '${m.title}')">
+  <div class="media-card" onclick="${m.link ? `window.open('${m.link}', '_blank')` : `alert('Opening ' + '${m.format}' + ': ' + '${m.title}')`}">
     <div class="media-thumb" style="background:${m.bg}">
       ${m.icon}
       <span class="media-format" style="background:${m.fBg};color:${m.fC}">${m.format}</span>
@@ -726,7 +726,7 @@ document.getElementById('media-grid').innerHTML=media.map(m=>`
       <div class="media-title">${m.title}</div>
       <div class="media-meta">${m.meta}</div>
       <div class="media-btn-row">
-        <button class="media-btn" onclick="event.stopPropagation(); alert('Previewing ' + '${m.title}')">👁 Preview</button>
+        <button class="media-btn" onclick="event.stopPropagation(); ${m.link ? `window.open('${m.link}', '_blank')` : `alert('Previewing ' + '${m.title}')`}">👁 Preview</button>
         <button class="media-btn dl" onclick="event.stopPropagation(); alert('Downloading ' + '${m.title}')">⬇ Download</button>
       </div>
     </div>
@@ -735,9 +735,9 @@ document.getElementById('media-grid').innerHTML=media.map(m=>`
 
 // ── LEADERBOARD ──
 const lbData=[
-  {name:'Jr. 6013.',score:'2,840',badge:'🏆',badgeBg:'#fffbeb',badgeC:'#d97706',avatarBg:'#fffbeb',avatarC:'#d97706',init:'JR'},
-  {name:'Dr. Rohin M.',score:'2,710',badge:'🥈',badgeBg:'#f1f5f9',badgeC:'#64748b',avatarBg:'#f1f5f9',avatarC:'#475569',init:'RM'},
-  {name:'Dr. Pallavi S. ',score:'2,580',badge:'🥉',badgeBg:'#fef2f2',badgeC:'#dc2626',avatarBg:'#fef2f2',avatarC:'#dc2626',init:'PS'},
+  {name:'Dr. Aisha K.',score:'2,840',badge:'🏆',badgeBg:'#fffbeb',badgeC:'#d97706',avatarBg:'#fffbeb',avatarC:'#d97706',init:'AK'},
+  {name:'Dr. Rohan M.',score:'2,710',badge:'🥈',badgeBg:'#f1f5f9',badgeC:'#64748b',avatarBg:'#f1f5f9',avatarC:'#475569',init:'RM'},
+  {name:'Jr. 6013',score:'2,580',badge:'🥉',badgeBg:'#fef2f2',badgeC:'#dc2626',avatarBg:'#fef2f2',avatarC:'#dc2626',init:'JR'},
 ];
 const lbMore=[
   {rank:4,name:'Dr. Priya S.',score:'2,420',init:'PS',avatarBg:'#eff4ff',avatarC:'#1a56db'},
