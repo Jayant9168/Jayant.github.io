@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+  <title>Surviving Sepsis Campaign Guidelines 2026 — Comprehensive Clinical Reference</title>
+  <style>
+    :root{
+      --bg:#f6f8fb;
+      --surface:#ffffff;
+      --text:#0f172a;
+      --heading:#0b3d91;
+      --muted:#475569;
+      --line:#e2e8f0;
+      --accent:#0056d2;
+      --accent-2:#047857;
+      --warn:#b45309;
+      --danger:#dc2626;
+      --soft-blue:#eff6ff;
+      --soft-green:#ecfdf5;
+      --soft-amber:#fffbeb;
+      --soft-red:#fef2f2;
+      --radius:16px;
+      --shadow:0 1px 3px rgba(0,0,0,.08), 0 8px 24px rgba(0,0,0,.06);
+      --max:1280px;
+    }
+
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth; -webkit-text-size-adjust:100%}
+    body{
+      margin:0;
+      font-family:Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background:var(--bg);
+      color:var(--text);
+      line-height:1.65;
+      overflow-x:hidden;
+      word-wrap:break-word;
+    }
+
+    a{color:var(--accent); text-decoration:none}
+    a:hover{text-decoration:underline}
+
+    .wrap{
+      width:min(100% - 24px, var(--max));
+      margin:0 auto;
+    }
+
+    header.site{
+      background:linear-gradient(135deg, #ffffff 0%, #f0f5ff 100%);
+      border-bottom:1px solid var(--line);
+      position:sticky;
+      top:0;
+      z-index:50;
+      backdrop-filter:blur(8px);
+    }
+
+    .site-inner{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding:14px 0;
+      gap:12px;
+    }
+
+    .brand{
+      font-weight:800;
+      color:var(--heading);
+      font-size:1.1rem;
+      letter-spacing:.2px;
+    }
+
+    .nav-pills{
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+    }
+
+    .nav-pills a{
+      padding:7px 12px;
+      border-radius:999px;
+      background:#fff;
+      border:1px solid var(--line);
+      font-size:.88rem;
+      font-weight:500;
+      color:var(--muted);
+      white-space:nowrap;
+    }
+
+    .nav-pills a:hover{
+      border-color:var(--accent);
+      color:var(--accent);
+      text-decoration:none;
+    }
+
+    .hero{
+      padding:36px 0 24px;
+    }
+
+    .hero-card{
+      background:var(--surface);
+      border:1px solid var(--line);
+      box-shadow:var(--shadow);
+      border-radius:24px;
+      padding:32px;
+      position:relative;
+      overflow:hidden;
+    }
+
+    .hero-card::before{
+      content:"";
+      position:absolute;
+      top:-60px; right:-60px;
+      width:220px; height:220px;
+      border-radius:50%;
+      background:radial-gradient(circle, rgba(0,86,210,.08), transparent 70%);
+      pointer-events:none;
+    }
+
+    h1,h2,h3,h4{
+      margin:0 0 10px;
+      line-height:1.25;
+      color:var(--heading);
+    }
+
+    h1{font-size:clamp(1.7rem, 3.6vw, 2.6rem)}
+    h2{font-size:clamp(1.25rem, 2.4vw, 1.7rem); margin-top:28px}
+    h3{font-size:1.1rem; color:#1e40af}
+    h4{font-size:1rem; color:#334155}
+
+    p{margin:10px 0}
+    .lead{color:var(--muted); max-width:960px; font-size:1.05rem}
+
+    .badges{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin-top:18px;
+    }
+
+    .badge{
+      padding:8px 14px;
+      border-radius:999px;
+      font-size:.9rem;
+      font-weight:600;
+      border:1px solid transparent;
+    }
+
+    .badge-blue{background:var(--soft-blue); color:#1e3a8a; border-color:#bfdbfe}
+    .badge-green{background:var(--soft-green); color:#065f46; border-color:#a7f3d0}
+    .badge-amber{background:var(--soft-amber); color:#92400e; border-color:#fde68a}
+    .badge-red{background:var(--soft-red); color:#991b1b; border-color:#fecaca}
+
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(12,1fr);
+      gap:18px;
+      margin:18px 0 28px;
+    }
+
+    .card{
+      grid-column:span 12;
+      background:var(--surface);
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      padding:24px;
+      min-width:0;
+    }
+
+    .cols-6{grid-column:span 6}
+    .cols-4{grid-column:span 4}
+    .cols-8{grid-column:span 8}
+    .cols-3{grid-column:span 3}
+
+    .section-title{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      margin-bottom:12px;
+      flex-wrap:wrap;
+    }
+
+    .muted{color:var(--muted)}
+    .small{font-size:.95rem}
+    .tiny{font-size:.85rem}
+
+    ul, ol{
+      margin:10px 0 0 20px;
+      padding:0;
+    }
+
+    li{margin:8px 0}
+
+    .table-wrap{
+      width:100%;
+      overflow-x:auto;
+      border-radius:14px;
+      border:1px solid var(--line);
+      background:#fff;
+      -webkit-overflow-scrolling:touch;
+      margin:12px 0;
+    }
+
+    table{
+      width:100%;
+      border-collapse:collapse;
+      min-width:900px;
+    }
+
+    th,td{
+      text-align:left;
+      vertical-align:top;
+      padding:13px 12px;
+      border-bottom:1px solid var(--line);
+      font-size:.95rem;
+    }
+
+    th{
+      background:#f8fafc;
+      color:#0f172a;
+      font-weight:700;
+      font-size:.92rem;
+      position:sticky;
+      top:0;
+      z-index:1;
+      white-space:nowrap;
+    }
+
+    tr:nth-child(even) td{background:#fafbfc}
+
+    .pill{
+      display:inline-block;
+      padding:4px 10px;
+      border-radius:999px;
+      font-size:.78rem;
+      font-weight:700;
+      border:1px solid transparent;
+      white-space:nowrap;
+    }
+
+    .new-pill{background:var(--soft-green); color:#065f46; border-color:#a7f3d0}
+    .updated-pill{background:var(--soft-blue); color:#1e3a8a; border-color:#bfdbfe}
+    .carry-pill{background:var(--soft-amber); color:#92400e; border-color:#fde68a}
+    .removed-pill{background:var(--soft-red); color:#991b1b; border-color:#fecaca}
+
+    .timeline{
+      display:grid;
+      gap:12px;
+    }
+
+    .time-item{
+      display:grid;
+      grid-template-columns:110px 1fr;
+      gap:14px;
+      align-items:start;
+      padding:14px;
+      border:1px solid var(--line);
+      border-radius:14px;
+      background:#fff;
+    }
+
+    .year{
+      font-weight:800;
+      font-size:1.05rem;
+      color:var(--accent);
+    }
+
+    .ref-list{
+      margin:0;
+      padding-left:18px;
+    }
+
+    .ref-list li{
+      margin:10px 0;
+      overflow-wrap:anywhere;
+      font-size:.95rem;
+    }
+
+    .footer{
+      color:var(--muted);
+      padding:6px 0 40px;
+    }
+
+    .highlight-box{
+      padding:14px 16px;
+      border-left:4px solid var(--accent);
+      background:var(--soft-blue);
+      border-radius:10px;
+      margin:12px 0;
+    }
+
+    .warning-box{
+      padding:14px 16px;
+      border-left:4px solid var(--warn);
+      background:var(--soft-amber);
+      border-radius:10px;
+      margin:12px 0;
+    }
+
+    .danger-box{
+      padding:14px 16px;
+      border-left:4px solid var(--danger);
+      background:var(--soft-red);
+      border-radius:10px;
+      margin:12px 0;
+    }
+
+    .success-box{
+      padding:14px 16px;
+      border-left:4px solid var(--accent-2);
+      background:var(--soft-green);
+      border-radius:10px;
+      margin:12px 0;
+    }
+
+    .two-col-list{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:8px 24px;
+    }
+
+    .two-col-list ul{margin:0; padding-left:18px}
+
+    @media (max-width: 980px){
+      .cols-6,.cols-4,.cols-8,.cols-3{grid-column:span 12}
+      .two-col-list{grid-template-columns:1fr}
+      .time-item{grid-template-columns:1fr}
+    }
+
+    @media (max-width: 640px){
+      body{font-size:15px}
+      .wrap{width:min(100% - 14px, var(--max))}
+      .card{padding:16px}
+      .hero-card{padding:20px}
+      th,td{padding:11px 10px; font-size:.9rem}
+      .nav-pills a{font-size:.82rem; padding:6px 10px}
+      .site-inner{padding:10px 0}
+    }
+
+    @media print{
+      body{background:#fff; color:#000}
+      .card,.hero-card,.table-wrap{box-shadow:none; border:1px solid #ddd}
+      a{color:#000}
+      th{background:#f0f0f0}
+      header.site{position:static}
+    }
+  </style>
+</head>
+<body>
+
+  <header class="site">
+    <div class="wrap site-inner">
+      <div class="brand">Sepsis Guidelines 2026</div>
+      <nav class="nav-pills">
+        <a href="#overview">Overview</a>
+        <a href="#new2026">What's New</a>
+        <a href="#comparison">Comparison</a>
+        <a href="#bundles">Bundles</a>
+        <a href="#history">History</a>
+        <a href="#references">References</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="wrap">
+    <section class="hero" id="overview">
+      <div class="hero-card">
+        <h1>Surviving Sepsis Campaign 2026</h1>
+        <h2 style="color:var(--muted); font-weight:500;">Comprehensive Adult Clinical Reference</h2>
+        <p class="lead">
+          The 2026 adult Surviving Sepsis Campaign (SSC) guideline was published on <strong>March 23, 2026</strong>, updating the 2021 edition. It contains <strong>129 statements</strong> (46 new), developed by <strong>69 experts from 23 countries</strong>, and endorsed by <strong>24 professional societies</strong>. The guideline sharpens clinical decision-making across hospital, prehospital, and post-hospital settings. [web:2][page:2]
+        </p>
+        <div class="badges">
+          <span class="badge badge-blue">Published: March 23, 2026</span>
+          <span class="badge badge-green">129 total statements</span>
+          <span class="badge badge-green">46 new recommendations</span>
+          <span class="badge badge-amber">69 experts, 23 countries</span>
+          <span class="badge badge-blue">Endorsed by 24 societies</span>
+          <span class="badge badge-red">Replaces 2021 adult guideline</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="grid">
+      <article class="card cols-8" id="new2026">
+        <div class="section-title">
+          <h3>Major new and revised recommendations in 2026</h3>
+          <span class="pill new-pill">2026 Updates</span>
+        </div>
+
+        <div class="success-box small">
+          <strong>Prehospital care:</strong> The 2026 guideline adds prehospital recommendations for the first time in this detail, including a standard screening tool during ambulance or flight transport, and prehospital antibiotics in selected septic shock cases when hospital evaluation will be delayed over 60 minutes. [web:2]
+        </div>
+
+        <ul>
+          <li><strong>Screening:</strong> Use NEWS, NEWS2, MEWS, or SIRS over qSOFA as a single screening tool in hospitalized adults. qSOFA alone is not recommended as the sole screen. [page:2]</li>
+          <li><strong>Code Sepsis / Sepsis Huddle:</strong> New conditional recommendation for “code sepsis” or “sepsis huddle” protocols to expedite recognition and treatment. [page:2]</li>
+          <li><strong>Performance improvement:</strong> Recommends sepsis quality improvement programs with feedback, protocolization, and regular audit. [page:2]</li>
+          <li><strong>Fluid type:</strong> Suggests balanced crystalloids over 0.9% saline for initial resuscitation. [page:2]</li>
+          <li><strong>Albumin:</strong> Suggests crystalloids alone over crystalloids plus albumin for fluid resuscitation; albumin may be considered after large crystalloid volumes or in patients with cirrhosis. This is a shift from 2021. [page:2]</li>
+          <li><strong>Post-30 mL/kg fluid strategy:</strong> Suggests either liberal or restrictive further fluid strategy based on patient and system factors after initial resuscitation. [page:2]</li>
+          <li><strong>Active fluid removal:</strong> New recommendation to suggest active fluid removal after the acute resuscitation phase in septic shock. [page:2]</li>
+          <li><strong>Peripheral vasopressors:</strong> Suggests starting vasopressors peripherally rather than delaying until central venous access is secured. [page:2]</li>
+          <li><strong>MAP targets:</strong> Initial MAP target remains 65 mmHg; for adults aged 65 years or older, suggests a target of 60–65 mmHg. [page:2]</li>
+          <li><strong>Anaerobic coverage:</strong> New guidance to avoid empiric anaerobic coverage when no risk factors exist, and to use it when risk factors are present. [page:2]</li>
+          <li><strong>Beta-lactam infusion:</strong> Upgraded to a recommendation (stronger than 2021) for prolonged infusion after an initial loading dose. [page:2]</li>
+          <li><strong>Lactate:</strong> Suggests serial lactate measurements to guide resuscitation, but emphasizes fluids should be individualized and not continued solely to normalize lactate. [page:2]</li>
+          <li><strong>Post-discharge:</strong> Expanded framework for discharge planning, medication reconciliation, patient/family education, physical rehabilitation, and mental health support. [page:2]</li>
+        </ul>
+      </article>
+
+      <article class="card cols-4">
+        <div class="section-title">
+          <h3>Key numbers</h3>
+          <span class="pill updated-pill">At a glance</span>
+        </div>
+        <ul>
+          <li><strong>Publication date:</strong> March 23, 2026</li>
+          <li><strong>Journals:</strong> <em>Intensive Care Medicine</em> and <em>Critical Care Medicine</em></li>
+          <li><strong>Panel:</strong> 69 experts from 23 countries</li>
+          <li><strong>Patient/family reps:</strong> Included</li>
+          <li><strong>Total statements:</strong> 129</li>
+          <li><strong>New statements:</strong> 46</li>
+          <li><strong>Endorsing societies:</strong> 24</li>
+          <li><strong>Cochairs:</strong> Hallie Prescott (USA) and Massimo Antonelli (Italy)</li>
+          <li><strong>Prior adult guideline:</strong> 2021 (published October 2021)</li>
+          <li><strong>First SSC guideline:</strong> 2004</li>
+        </ul>
+
+        <div class="highlight-box small" style="margin-top:14px;">
+          <strong>Tip:</strong> Save this file as <code>sepsis-guidelines-2026.html</code> and open it in any browser. It is designed to work on desktop, tablet, and mobile without text clipping.
+        </div>
+      </article>
+    </section>
+
+    <section class="card" id="comparison">
+      <div class="section-title">
+        <h3>Detailed comparison across guideline years</h3>
+        <span class="pill updated-pill">2026 vs 2021 vs 2016 vs 2012 vs 2004</span>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Topic</th>
+              <th>2026</th>
+              <th>2021</th>
+              <th>2016</th>
+              <th>2012 / 2008 / 2004</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Definition alignment</td>
+              <td>Sepsis-3 (2016) definitions for sepsis and septic shock</td>
+              <td>Sepsis-3 definitions</td>
+              <td>Aligned with Sepsis-3 (new definitions published 2016)</td>
+              <td>2004/2008/2012 used older severe sepsis/septic shock definitions before Sepsis-3</td>
+            </tr>
+            <tr>
+              <td>Screening tool</td>
+              <td>NEWS/NEWS2/MEWS/SIRS over qSOFA as single screening tool in hospitalized adults</td>
+              <td>Recommended against qSOFA as single screening tool; preferred SIRS, NEWS, or MEWS</td>
+              <td>Quick SOFA (qSOFA) introduced as bedside prompt; not intended as single screen</td>
+              <td>SIRS criteria were central to recognition in 2004/2008/2012</td>
+            </tr>
+            <tr>
+              <td>Code Sepsis / Sepsis Huddle</td>
+              <td><span class="pill new-pill">New</span> Suggests “code sepsis” or “sepsis huddle” protocols</td>
+              <td>Not specifically addressed</td>
+              <td>Not specifically addressed</td>
+              <td>Not specifically addressed</td>
+            </tr>
+            <tr>
+              <td>Prehospital care</td>
+              <td><span class="pill new-pill">New</span> Standard screening during transport; prehospital antibiotics if hospital delay &gt;60 min in selected septic shock</td>
+              <td>Not a formal SSC adult recommendation area</td>
+              <td>Not a formal SSC adult recommendation area</td>
+              <td>Not addressed</td>
+            </tr>
+            <tr>
+              <td>Initial fluid volume</td>
+              <td>At least 30 mL/kg IV crystalloid within first 3 hours; reassess frequently and individualize</td>
+              <td>At least 30 mL/kg IV crystalloid within first 3 hours</td>
+              <td>At least 30 mL/kg IV crystalloid within first 3 hours</td>
+              <td>2004/2008/2012: initial fluid resuscitation emphasized but exact 30 mL/kg crystalloid bundle formalized later</td>
+            </tr>
+            <tr>
+              <td>Fluid type</td>
+              <td>Balanced crystalloids over 0.9% saline</td>
+              <td>Balanced crystalloids instead of normal saline</td>
+              <td>Normal saline or balanced crystalloids acceptable (less specific)</td>
+              <td>Normal saline commonly used; balanced solutions less emphasized</td>
+            </tr>
+            <tr>
+              <td>Albumin use</td>
+              <td>Crystalloids alone over crystalloids + albumin; consider albumin after large crystalloid volumes or with cirrhosis</td>
+              <td>Suggested albumin in patients who had received large volumes of crystalloids</td>
+              <td>Albumin when substantial crystalloids required</td>
+              <td>Albumin considered in selected patients with severe sepsis/septic shock</td>
+            </tr>
+            <tr>
+              <td>Post-initial fluid strategy</td>
+              <td>Liberal or restrictive further fluids based on patient/system factors after 30 mL/kg</td>
+              <td>Insufficient evidence for restrictive vs liberal in first 24 hours after initial resuscitation</td>
+              <td>Dynamic assessment guided further fluids</td>
+              <td>Less granular guidance on restrictive vs liberal strategies</td>
+            </tr>
+            <tr>
+              <td>Active fluid removal</td>
+              <td><span class="pill new-pill">New</span> Suggests active fluid removal after acute resuscitation in septic shock</td>
+              <td>Not a formal recommendation</td>
+              <td>Not a formal recommendation</td>
+              <td>Not addressed</td>
+            </tr>
+            <tr>
+              <td>Vasopressor access</td>
+              <td>Start peripherally rather than delay for central access</td>
+              <td>Suggested peripheral initiation for short-term use</td>
+              <td>Central access preferred for vasopressors</td>
+              <td>Central access preferred for vasopressors</td>
+            </tr>
+            <tr>
+              <td>First-line vasopressor</td>
+              <td>Norepinephrine</td>
+              <td>Norepinephrine</td>
+              <td>Norepinephrine</td>
+              <td>Norepinephrine (dopamine acceptable alternative in 2008/2012)</td>
+            </tr>
+            <tr>
+              <td>MAP target</td>
+              <td>65 mmHg; 60–65 mmHg for adults ≥65 years</td>
+              <td>65 mmHg over higher targets</td>
+              <td>65 mmHg</td>
+              <td>65 mmHg (higher targets considered in some patients in 2012)</td>
+            </tr>
+            <tr>
+              <td>Antibiotic timing</td>
+              <td>Immediate ideally within 1 hour for septic shock; for probable/definite sepsis without shock; rapid workup and antibiotics within 3 hours if only possible sepsis without shock and concern persists</td>
+              <td>Immediate ideally within 1 hour for possible septic shock or high likelihood sepsis; rapid assessment and possible antibiotics within 3 hours for possible sepsis without shock</td>
+              <td>Within 1 hour of recognition for sepsis/septic shock</td>
+              <td>2004/2008/2012: early antibiotics emphasized; “1-hour bundle” formalized later</td>
+            </tr>
+            <tr>
+              <td>Blood cultures</td>
+              <td>Obtain before antibiotics if this does not substantially delay antibiotic administration</td>
+              <td>Obtain before antibiotics if this does not substantially delay antibiotic administration</td>
+              <td>Obtain before antibiotics if this does not substantially delay antibiotic administration</td>
+              <td>Obtain before antibiotics when feasible</td>
+            </tr>
+            <tr>
+              <td>Anaerobic coverage</td>
+              <td><span class="pill new-pill">New</span> Avoid empiric anaerobic coverage without risk factors; use when risk factors present</td>
+              <td>Not specifically addressed this way</td>
+              <td>Not specifically addressed this way</td>
+              <td>Not specifically addressed this way</td>
+            </tr>
+            <tr>
+              <td>Beta-lactam infusion</td>
+              <td><span class="pill updated-pill">Upgraded</span> Recommend prolonged infusion after initial loading dose</td>
+              <td>Suggested prolonged infusion after initial bolus</td>
+              <td>Continuous or prolonged infusion not strongly recommended over intermittent</td>
+              <td>Intermittent bolus standard</td>
+            </tr>
+            <tr>
+              <td>Corticosteroids</td>
+              <td>IV corticosteroids for septic shock with ongoing vasopressor requirement</td>
+              <td>IV corticosteroids for septic shock with ongoing vasopressor requirement</td>
+              <td>IV hydrocortisone if hemodynamics not restored with fluids/vasopressors</td>
+              <td>2008: steroids considered; 2012: hydrocortisone if fluids/vasopressors inadequate</td>
+            </tr>
+            <tr>
+              <td>Lactate guidance</td>
+              <td>Serial lactate to guide resuscitation; fluids individualized, not continued solely to normalize lactate</td>
+              <td>Guide resuscitation to decrease lactate with clinical context</td>
+              <td>Remeasure lactate if initial elevated to guide resuscitation</td>
+              <td>Lactate clearance emphasized increasingly from 2012 onward</td>
+            </tr>
+            <tr>
+              <td>Source control</td>
+              <td>Source control as soon as practical after resuscitation started</td>
+              <td>Source control as soon as practical</td>
+              <td>Source control as soon as practical</td>
+              <td>Source control emphasized across all eras</td>
+            </tr>
+            <tr>
+              <td>Post-discharge / Survivorship</td>
+              <td><span class="pill updated-pill">Expanded</span> Broader framework: discharge planning, medication reconciliation, education, physical rehab, mental health</td>
+              <td>Increased emphasis on post-ICU, discharge planning, shared decision-making, education, follow-up</td>
+              <td>Post-ICU sequelae acknowledged; less structured guidance</td>
+              <td>Minimal post-discharge guidance in 2004/2008/2012</td>
+            </tr>
+            <tr>
+              <td>Performance improvement</td>
+              <td><span class="pill new-pill">New</span> Recommends sepsis QI programs with feedback and audit</td>
+              <td>Recommended performance improvement and patient safety programs</td>
+              <td>Recommended hospital-based performance improvement efforts</td>
+              <td>Bundle compliance and performance improvement introduced in 2004/2005</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="grid" id="bundles">
+      <article class="card cols-6">
+        <div class="section-title">
+          <h3>2026 Resuscitation & hemodynamic bundle</h3>
+          <span class="pill updated-pill">Core care</span>
+        </div>
+        <ul>
+          <li><strong>Recognize early:</strong> Use NEWS/NEWS2/MEWS/SIRS in hospitalized adults. Consider “code sepsis” or “sepsis huddle” activation.</li>
+          <li><strong>Cultures:</strong> Obtain blood cultures (and other relevant cultures) before antibiotics if this does not substantially delay antibiotic administration.</li>
+          <li><strong>Antibiotics:</strong> Administer immediate, effective IV antibiotics ideally within 1 hour for septic shock and for probable/definite sepsis without shock. If only possible sepsis without shock, rapid workup and antibiotics within 3 hours if concern persists.</li>
+          <li><strong>Fluids:</strong> Give at least 30 mL/kg IV crystalloid for septic hypoperfusion or septic shock within the first 3 hours. Use balanced crystalloids over 0.9% saline. Reassess frequently and individualize.</li>
+          <li><strong>Vasopressors:</strong> Start norepinephrine first-line to maintain MAP ≥65 mmHg (or 60–65 mmHg if age ≥65). Peripheral initiation is acceptable to avoid delay.</li>
+          <li><strong>Dynamic assessment:</strong> Use dynamic measures to assess fluid responsiveness rather than static measures alone.</li>
+          <li><strong>Lactate:</strong> Measure serial lactate to guide resuscitation, but do not continue fluids solely to normalize lactate.</li>
+          <li><strong>Active fluid removal:</strong> Consider after acute resuscitation in septic shock.</li>
+        </ul>
+      </article>
+
+      <article class="card cols-6">
+        <div class="section-title">
+          <h3>2026 Infection management details</h3>
+          <span class="pill updated-pill">Antimicrobial</span>
+        </div>
+        <ul>
+          <li><strong>Empiric therapy:</strong> Use broad-spectrum agents covering all likely pathogens; de-escalate once susceptibilities known.</li>
+          <li><strong>Anaerobes:</strong> Avoid empiric anaerobic coverage when no risk factors for anaerobic infection are present. Use anaerobic coverage when risk factors exist.</li>
+          <li><strong>Beta-lactams:</strong> Recommend prolonged infusion after an initial loading dose to optimize pharmacokinetics.</li>
+          <li><strong>Combination therapy:</strong> For septic shock, combination empiric therapy may be considered depending on local resistance patterns and patient risk factors.</li>
+          <li><strong>Duration:</strong> Shortest effective duration; typically 7–10 days if clinically appropriate. Longer courses for slow response, undrainable foci, or immunologic deficiencies.</li>
+          <li><strong>Source control:</strong> Pursue as soon as practical after resuscitation is initiated.</li>
+          <li><strong>Biomarkers:</strong> Procalcitonin may be used to support shortening antibiotic duration, but should not be used alone to decide initiation.</li>
+        </ul>
+      </article>
+    </section>
+
+    <section class="grid">
+      <article class="card cols-4">
+        <div class="section-title">
+          <h3>Adjunctive therapies</h3>
+          <span class="pill carry-pill">Supportive</span>
+        </div>
+        <ul>
+          <li><strong>Corticosteroids:</strong> IV corticosteroids for septic shock with ongoing vasopressor requirement.</li>
+          <li><strong>Glucose:</strong> Target &lt;180 mg/dL using a protocolized approach.</li>
+          <li><strong>Transfusion:</strong> Transfuse RBCs only when hemoglobin &lt;7 g/dL (unless extenuating circumstances).</li>
+          <li><strong>Mechanical ventilation:</strong> Lung-protective strategy if ARDS develops.</li>
+          <li><strong>Sedation:</strong> Minimize continuous sedation; use protocolized, targeted light sedation.</li>
+          <li><strong>VTE prophylaxis:</strong> Pharmacologic prophylaxis unless contraindicated.</li>
+          <li><strong>Stress ulcer:</strong> Use GI bleeding prophylaxis for patients with GI bleeding risk factors.</li>
+          <li><strong>Nutrition:</strong> Enteral nutrition preferred over parenteral when feasible.</li>
+        </ul>
+      </article>
+
+      <article class="card cols-4">
+        <div class="section-title">
+          <h3>Hemodynamic targets</h3>
+          <span class="pill updated-pill">Targets</span>
+        </div>
+        <div class="highlight-box small">
+          <strong>MAP:</strong> 65 mmHg for most adults.<br>
+          <strong>Older adults (≥65):</strong> 60–65 mmHg suggested.
+        </div>
+        <ul>
+          <li>Dynamic measures (e.g., passive leg raise, stroke volume variation) preferred over static measures for fluid responsiveness.</li>
+          <li>Peripheral vasopressors acceptable to avoid treatment delays.</li>
+          <li>Add vasopressin if norepinephrine inadequate; epinephrine as alternative.</li>
+          <li>Dobutamine for myocardial dysfunction or ongoing hypoperfusion despite adequate volume and MAP.</li>
+        </ul>
+      </article>
+
+      <article class="card cols-4">
+        <div class="section-title">
+          <h3>Post-hospital & survivorship</h3>
+          <span class="pill new-pill">Expanded</span>
+        </div>
+        <div class="success-box small">
+          The 2026 guideline significantly expands post-discharge recommendations, reflecting growing recognition of post-sepsis morbidity.
+        </div>
+        <ul>
+          <li>Structured discharge planning with medication reconciliation.</li>
+          <li>Patient and family education on sepsis, warning signs, and when to seek care.</li>
+          <li>Physical rehabilitation and functional assessment.</li>
+          <li>Mental health screening and support (anxiety, depression, PTSD).</li>
+          <li>Follow-up appointments with primary care and relevant specialists.</li>
+          <li>Consideration of post-ICU clinics or survivorship programs.</li>
+        </ul>
+      </article>
+    </section>
+
+    <section class="grid" id="history">
+      <article class="card cols-6">
+        <div class="section-title">
+          <h3>Historical timeline of SSC adult guidelines</h3>
+          <span class="pill carry-pill">Evolution</span>
+        </div>
+        <div class="timeline">
+          <div class="time-item">
+            <div class="year">2004</div>
+            <div><strong>First SSC guideline.</strong> Introduced the concept of bundled care for severe sepsis and septic shock. Focus on early recognition, antibiotics, fluids, and source control. [web:10]</div>
+          </div>
+          <div class="time-item">
+            <div class="year">2008</div>
+            <div><strong>Second major update.</strong> Refined bundles and incorporated new evidence on corticosteroids, glucose control, and recombinant human activated protein C. [web:10]</div>
+          </div>
+          <div class="time-item">
+            <div class="year">2012 / 2013</div>
+            <div><strong>2012 SSC guideline.</strong> Revision of 2008 guidance accepted in 2012 and published in 2013. Emphasized protocolized care, sepsis bundles, and performance improvement. [web:10]</div>
+          </div>
+          <div class="time-item">
+            <div class="year">2016</div>
+            <div><strong>Fourth major era.</strong> Aligned with Sepsis-3 definitions (published 2016 by SCCM/ESICM), shifting from SIRS-based to organ dysfunction-based recognition. qSOFA introduced as bedside prompt. [web:7]</div>
+          </div>
+          <div class="time-item">
+            <div class="year">2021</div>
+            <div><strong>2021 update.</strong> Strengthened recommendations on balanced crystalloids, peripheral vasopressors, and expanded post-ICU/survivorship planning. 90 statements with updated evidence. [page:1]</div>
+          </div>
+          <div class="time-item">
+            <div class="year">2026</div>
+            <div><strong>Current guideline.</strong> 129 statements, 46 new. Adds prehospital care, code sepsis protocols, refined MAP targets for older adults, active fluid removal, anaerobic stewardship, and broader post-discharge care. [web:2][page:2]</div>
+          </div>
+        </div>
+      </article>
+
+      <article class="card cols-6">
+        <div class="section-title">
+          <h3>How definitions changed over time</h3>
+          <span class="pill carry-pill">Sepsis-3</span>
+        </div>
+        <div class="warning-box small">
+          <strong>Pre-2016:</strong> Sepsis was defined as infection + SIRS criteria. Severe sepsis = sepsis + organ dysfunction. Septic shock = sepsis + hypotension despite fluids.
+        </div>
+        <div class="highlight-box small">
+          <strong>Sepsis-3 (2016):</strong> Sepsis is life-threatening organ dysfunction caused by a dysregulated host response to infection. Septic shock = sepsis + persisting hypotension requiring vasopressors to maintain MAP ≥65 mmHg + serum lactate &gt;2 mmol/L despite adequate volume resuscitation.
+        </div>
+        <ul>
+          <li>The 2016, 2021, and 2026 SSC guidelines all use Sepsis-3 definitions.</li>
+          <li>qSOFA (≥2 of: altered mentation, SBP ≤100 mmHg, RR ≥22) was introduced in 2016 as a bedside prompt for organ dysfunction, not as a diagnostic test.</li>
+          <li>The 2021 and 2026 guidelines explicitly recommend against using qSOFA as the sole screening tool, favoring NEWS/NEWS2/MEWS/SIRS for hospitalized adults.</li>
+        </ul>
+      </article>
+    </section>
+
+    <section class="card" id="references">
+      <div class="section-title">
+        <h3>References & official sources</h3>
+      </div>
+      <ol class="ref-list">
+        <li>
+          Prescott HC, Antonelli M, Alhazzani W, et al. <em>Surviving Sepsis Campaign: International guidelines for management of sepsis and septic shock 2026.</em> Crit Care Med. 2026; forthcoming. DOI: <a href="https://doi.org/10.1097/CCM.0000000000007075" target="_blank" rel="noopener">10.1097/CCM.0000000000007075</a>
+        </li>
+        <li>
+          SCCM. <em>Surviving Sepsis Campaign: International Guidelines for Management of Sepsis and Septic Shock 2026.</em> Official page: <a href="https://www.sccm.org/clinical-resources/guidelines/guidelines/surviving-sepsis-campaign-international-guidelines-for-management-of-sepsis-and-septic-shock-2026" target="_blank" rel="noopener">sccm.org/.../2026</a>
+        </li>
+        <li>
+          Evans L, Rhodes A, Alhazzani W, et al. <em>Surviving Sepsis Campaign: international guidelines for management of sepsis and septic shock 2021.</em> Crit Care Med. 2021;49(11):e1063-e1143.
+        </li>
+        <li>
+          SCCM. <em>Surviving Sepsis Campaign Guidelines 2021.</em> Official page: <a href="https://www.sccm.org/clinical-resources/guidelines/guidelines/surviving-sepsis-guidelines-2021" target="_blank" rel="noopener">sccm.org/.../2021</a>
+        </li>
+        <li>
+          SCCM. <em>History of the Surviving Sepsis Campaign.</em> <a href="https://www.sccm.org/survivingsepsiscampaign/history-of-sepsis" target="_blank" rel="noopener">sccm.org/.../history-of-sepsis</a>
+        </li>
+        <li>
+          Singer M, Deutschman CS, Seymour CW, et al. <em>The Third International Consensus Definitions for Sepsis and Septic Shock (Sepsis-3).</em> JAMA. 2016;315(8):801-810.
+        </li>
+        <li>
+          Dellinger RP, Levy MM, Rhodes A, et al. <em>Surviving Sepsis Campaign: international guidelines for management of severe sepsis and septic shock, 2012.</em> Crit Care Med. 2013;41(2):580-637.
+        </li>
+        <li>
+          Dellinger RP, Carlet JM, Masur H, et al. <em>Surviving Sepsis Campaign guidelines for management of severe sepsis and septic shock.</em> Crit Care Med. 2004;32(3):858-873.
+        </li>
+        <li>
+          ESICM. <em>The 2026 Surviving Sepsis Campaign Guidelines have just been released.</em> March 23, 2026. <a href="https://www.esicm.org/2026-surviving-sepsis-campaing-guidelines/" target="_blank" rel="noopener">esicm.org/2026-guidelines</a>
+        </li>
+        <li>
+          SCCM. <em>2026 SSC Guideline Updates: What Clinicians Need to Know.</em> <a href="https://sccm.org/survivingsepsiscampaign/guidelines-and-resources/2026-ssc-guideline-updates" target="_blank" rel="noopener">sccm.org/.../2026-updates</a>
+        </li>
+      </ol>
+    </section>
+
+    <section class="card">
+      <div class="section-title">
+        <h3>Quick bedside reminders (2026)</h3>
+        <span class="pill updated-pill">Print-friendly</span>
+      </div>
+      <div class="two-col-list">
+        <ul>
+          <li>Screen with NEWS/NEWS2/MEWS/SIRS — not qSOFA alone</li>
+          <li>Consider “code sepsis” or sepsis huddle activation</li>
+          <li>Cultures before antibiotics when feasible</li>
+          <li>Antibiotics within 1 hour for shock / probable sepsis</li>
+          <li>30 mL/kg balanced crystalloid in first 3 hours</li>
+          <li>Reassess dynamically — don’t chase lactate alone</li>
+        </ul>
+        <ul>
+          <li>Norepinephrine first-line; peripheral start OK</li>
+          <li>MAP 65 mmHg (60–65 if age ≥65)</li>
+          <li>Active fluid removal after acute resuscitation</li>
+          <li>Prolonged beta-lactam infusion after loading dose</li>
+          <li>Don’t give empiric anaerobes without risk factors</li>
+          <li>Plan discharge, rehab, and mental health follow-up</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="footer tiny">
+      <p>
+        This page is an educational summary for professional presentation. Always apply local protocols, patient-specific clinical judgment, and the full official guideline documents. The 2026 guideline supersedes the 2021 adult SSC guideline.
+      </p>
+    </section>
+  </div>
+</body>
+</html>
