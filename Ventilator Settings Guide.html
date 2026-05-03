@@ -1,0 +1,1427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <meta name="theme-color" content="#ffffff">
+    <title>Mechanical Ventilation Basics &middot; ICU Clinical Reference 2026</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0f4c81;
+            --primary-light: #e8f1f8;
+            --secondary: #00a896;
+            --accent: #e74c3c;
+            --text: #1a1a2e;
+            --text-light: #4a5568;
+            --border: #e2e8f0;
+            --bg: #ffffff;
+            --bg-warm: #fafbfc;
+            --shadow: 0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -1px rgba(0,0,0,0.03);
+            --shadow-lg: 0 20px 25px -5px rgba(0,0,0,0.08), 0 10px 10px -5px rgba(0,0,0,0.02);
+            --radius: 12px;
+            --radius-sm: 8px;
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        html { scroll-behavior: smooth; font-size: 16px; }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.65;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+        
+        /* Typography */
+        h1, h2, h3, h4 { font-family: 'Crimson Pro', Georgia, serif; font-weight: 600; line-height: 1.2; }
+        h1 { font-size: clamp(2rem, 5vw, 3.2rem); }
+        h2 { font-size: clamp(1.5rem, 3vw, 2.2rem); margin-top: 2.5rem; margin-bottom: 1rem; color: var(--primary); }
+        h3 { font-size: clamp(1.2rem, 2vw, 1.5rem); margin-top: 2rem; margin-bottom: 0.75rem; }
+        h4 { font-size: 1.1rem; margin-top: 1.5rem; margin-bottom: 0.5rem; color: var(--text-light); }
+        
+        p { margin-bottom: 1rem; color: var(--text-light); }
+        
+        /* Layout */
+        .container { width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; }
+        
+        /* Header */
+        header {
+            background: linear-gradient(135deg, var(--primary) 0%, #1a5f9e 100%);
+            color: white;
+            padding: 3rem 0 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        header::before {
+            content: '';
+            position: absolute;
+            top: -50%; right: -10%;
+            width: 600px; height: 600px;
+            background: rgba(255,255,255,0.03);
+            border-radius: 50%;
+        }
+        
+        .header-content { position: relative; z-index: 1; }
+        .badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(10px);
+            padding: 0.4rem 1rem;
+            border-radius: 100px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        
+        .subtitle {
+            font-size: 1.25rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin-top: 0.5rem;
+            font-weight: 300;
+        }
+        
+        /* Navigation */
+        .toc {
+            background: var(--bg);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--shadow);
+        }
+        
+        .toc-inner {
+            display: flex;
+            gap: 0.5rem;
+            overflow-x: auto;
+            padding: 1rem 0;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+        
+        .toc-inner::-webkit-scrollbar { display: none; }
+        
+        .toc a {
+            white-space: nowrap;
+            padding: 0.5rem 1rem;
+            border-radius: 100px;
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--text-light);
+            transition: all 0.2s;
+            border: 1px solid transparent;
+        }
+        
+        .toc a:hover, .toc a.active {
+            background: var(--primary-light);
+            color: var(--primary);
+            border-color: var(--primary);
+        }
+        
+        /* Cards */
+        .card {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .card:hover {
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-2px);
+        }
+        
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--primary-light);
+        }
+        
+        .card-icon {
+            width: 40px; height: 40px;
+            background: var(--primary-light);
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            font-size: 1.2rem;
+        }
+        
+        /* Tables */
+        .table-wrap { overflow-x: auto; border-radius: var(--radius-sm); border: 1px solid var(--border); margin: 1.5rem 0; }
+        table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+        th { background: var(--primary-light); color: var(--primary); font-weight: 600; text-align: left; padding: 1rem; white-space: nowrap; }
+        td { padding: 0.875rem 1rem; border-bottom: 1px solid var(--border); color: var(--text-light); }
+        tr:hover td { background: var(--bg-warm); }
+        tr:last-child td { border-bottom: none; }
+        
+        /* Timeline */
+        .timeline { position: relative; padding-left: 2rem; }
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0.5rem; top: 0; bottom: 0;
+            width: 2px;
+            background: linear-gradient(to bottom, var(--primary), var(--secondary));
+        }
+        .timeline-item { position: relative; margin-bottom: 2rem; padding-left: 1.5rem; }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -1.75rem; top: 0.4rem;
+            width: 12px; height: 12px;
+            background: var(--bg);
+            border: 3px solid var(--primary);
+            border-radius: 50%;
+        }
+        .timeline-year {
+            display: inline-block;
+            background: var(--primary);
+            color: white;
+            padding: 0.2rem 0.6rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        
+        /* Guidelines Grid */
+        .guideline-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .guideline-card {
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            background: var(--bg);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .guideline-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 4px;
+        }
+        
+        .guideline-card.new::before { background: var(--secondary); }
+        .guideline-card.classic::before { background: var(--primary); }
+        .guideline-card.caution::before { background: var(--accent); }
+        
+        .guideline-tag {
+            display: inline-block;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            margin-bottom: 0.75rem;
+        }
+        .tag-new { background: #d1fae5; color: #065f46; }
+        .tag-classic { background: var(--primary-light); color: var(--primary); }
+        .tag-caution { background: #fee2e2; color: #991b1b; }
+        
+        /* Charts */
+        .chart-container {
+            position: relative;
+            height: 350px;
+            margin: 2rem 0;
+            padding: 1rem;
+            background: var(--bg-warm);
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+        }
+        
+        /* SVG Diagrams */
+        .diagram-container {
+            background: var(--bg-warm);
+            border-radius: var(--radius);
+            padding: 2rem;
+            margin: 1.5rem 0;
+            border: 1px solid var(--border);
+            overflow-x: auto;
+        }
+        
+        /* Formula boxes */
+        .formula {
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            border-left: 4px solid var(--secondary);
+            padding: 1.25rem 1.5rem;
+            border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+            margin: 1.5rem 0;
+            font-family: 'Crimson Pro', serif;
+            font-size: 1.1rem;
+        }
+        
+        /* Alert boxes */
+        .alert {
+            padding: 1.25rem 1.5rem;
+            border-radius: var(--radius-sm);
+            margin: 1.5rem 0;
+            display: flex;
+            gap: 1rem;
+            align-items: flex-start;
+        }
+        .alert-icon { font-size: 1.25rem; flex-shrink: 0; margin-top: 0.1rem; }
+        .alert-strong { background: #fef2f2; border: 1px solid #fecaca; color: #991b1b; }
+        .alert-info { background: #eff6ff; border: 1px solid #bfdbfe; color: #1e40af; }
+        .alert-success { background: #f0fdf4; border: 1px solid #bbf7d0; color: #166534; }
+        
+        /* Flowchart */
+        .flowchart { display: flex; flex-direction: column; gap: 0; align-items: center; }
+        .flow-node {
+            background: var(--bg);
+            border: 2px solid var(--primary);
+            border-radius: var(--radius);
+            padding: 1rem 2rem;
+            text-align: center;
+            font-weight: 600;
+            color: var(--primary);
+            max-width: 320px;
+            width: 100%;
+            position: relative;
+        }
+        .flow-node.decision { border-radius: 50px; border-color: var(--secondary); color: var(--secondary); }
+        .flow-node.action { background: var(--primary); color: white; border-color: var(--primary); }
+        .flow-arrow {
+            width: 2px; height: 2rem;
+            background: var(--border);
+            position: relative;
+        }
+        .flow-arrow::after {
+            content: '▼';
+            position: absolute;
+            bottom: -0.5rem;
+            left: 50%;
+            transform: translateX(-50%);
+            color: var(--border);
+            font-size: 0.7rem;
+        }
+        .flow-branch { display: flex; gap: 2rem; justify-content: center; width: 100%; max-width: 600px; }
+        .flow-label { font-size: 0.8rem; color: var(--text-light); font-style: italic; margin-top: 0.25rem; }
+        
+        /* References */
+        .references { background: var(--bg-warm); padding: 3rem 0; margin-top: 4rem; border-top: 1px solid var(--border); }
+        .ref-list { list-style: none; counter-reset: ref; }
+        .ref-list li { 
+            counter-increment: ref; 
+            padding: 0.75rem 0 0.75rem 2.5rem; 
+            border-bottom: 1px solid var(--border);
+            position: relative;
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+        .ref-list li::before {
+            content: '[' counter(ref) ']';
+            position: absolute;
+            left: 0;
+            color: var(--primary);
+            font-weight: 700;
+        }
+        
+        /* Two column */
+        .two-col { display: grid; grid-template-columns: 1fr; gap: 2rem; }
+        @media (min-width: 768px) { .two-col { grid-template-columns: 1fr 1fr; } }
+        
+        /* Grid 3 */
+        .grid-3 { display: grid; grid-template-columns: 1fr; gap: 1.5rem; }
+        @media (min-width: 640px) { .grid-3 { grid-template-columns: repeat(2, 1fr); } }
+        @media (min-width: 1024px) { .grid-3 { grid-template-columns: repeat(3, 1fr); } }
+        
+        /* Print */
+        @media print {
+            .toc, header { position: static; }
+            .card { break-inside: avoid; box-shadow: none; border: 1px solid #ccc; }
+            body { font-size: 12pt; }
+        }
+        
+        /* Mobile optimizations */
+        @media (max-width: 640px) {
+            .container { padding: 0 1rem; }
+            .card { padding: 1.25rem; }
+            .chart-container { height: 280px; padding: 0.5rem; }
+            .diagram-container { padding: 1rem; }
+            th, td { padding: 0.625rem; font-size: 0.8rem; }
+        }
+        
+        /* Scroll margin for anchors */
+        section { scroll-margin-top: 80px; }
+        
+        /* Utility */
+        .text-center { text-align: center; }
+        .mb-0 { margin-bottom: 0; }
+        .mt-2 { margin-top: 2rem; }
+        .font-mono { font-family: 'SF Mono', Monaco, monospace; font-size: 0.9em; }
+    </style>
+<base target="_blank">
+</head>
+<body>
+
+<header>
+    <div class="container header-content">
+        <div class="badge">ICU Clinical Reference &middot; 2026 Edition</div>
+        <h1>Mechanical Ventilation Basics</h1>
+        <p class="subtitle">Evidence-based guidelines, protocols, and clinical decision support for invasive and non-invasive ventilatory support in critical care.</p>
+    </div>
+</header>
+
+<nav class="toc">
+    <div class="container">
+        <div class="toc-inner">
+            <a href="#history" class="active">History</a>
+            <a href="#lpv">Lung Protection</a>
+            <a href="#ardsnet">ARDSNet</a>
+            <a href="#modes">Modes</a>
+            <a href="#ards">ARDS 2026</a>
+            <a href="#monitoring">Monitoring</a>
+            <a href="#weaning">Weaning</a>
+            <a href="#guidelines">Guidelines</a>
+            <a href="#references">References</a>
+        </div>
+    </div>
+</nav>
+
+<main class="container" style="padding-top: 2rem; padding-bottom: 4rem;">
+
+    <!-- INTRODUCTION -->
+    <section id="intro">
+        <div class="card">
+            <div class="card-header">
+                <div class="card-icon">&#9432;</div>
+                <div>
+                    <h3 style="margin:0">Scope &amp; Purpose</h3>
+                    <p style="margin:0; font-size:0.9rem">Rapid bedside reference for intensivists, residents, and respiratory therapists</p>
+                </div>
+            </div>
+            <p>This document synthesizes landmark trials, international society guidelines, and emerging 2026 recommendations for mechanical ventilation in adult ICU patients. Content spans from the foundational 1960s physiology through the 2000 ARDSNet revolution to contemporary precision-medicine approaches including driving pressure titration, esophageal manometry, and individualized PEEP strategies.</p>
+            <div class="two-col">
+                <div class="alert alert-info">
+                    <span class="alert-icon">&#128161;</span>
+                    <div><strong>Key Principle:</strong> Mechanical ventilation is supportive, not curative. The primary goal is to maintain adequate gas exchange while minimizing ventilator-induced lung injury (VILI) until the underlying process resolves.</div>
+                </div>
+                <div class="alert alert-success">
+                    <span class="alert-icon">&#9989;</span>
+                    <div><strong>Lung-Protective Paradigm:</strong> Low tidal volume (4–8 mL/kg PBW), plateau pressure &lt;30 cmH₂O, appropriate PEEP, and prone positioning for moderate-severe ARDS.</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- HISTORY TIMELINE -->
+    <section id="history">
+        <h2><span style="color:var(--primary)">&#9679;</span> Historical Evolution of Ventilation Strategy</h2>
+        
+        <div class="two-col">
+            <div>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <span class="timeline-year">1963</span>
+                        <h4 style="margin-top:0">Bendixen — The High-VT Era</h4>
+                        <p style="font-size:0.9rem">Bendixen demonstrated that tidal volumes of 10–15 mL/kg during anesthesia reduced atelectasis and improved oxygenation. This established the standard for the next 35 years.</p>
+                    </div>
+                    <div class="timeline-item">
+                        <span class="timeline-year">1967</span>
+                        <h4 style="margin-top:0">Ashbaugh et al. — ARDS Described</h4>
+                        <p style="font-size:0.9rem">First clinical description of acute respiratory distress syndrome in 12 patients with refractory hypoxemia, decreased compliance, and diffuse bilateral infiltrates.</p>
+                    </div>
+                    <div class="timeline-item">
+                        <span class="timeline-year">1990–1992</span>
+                        <h4 style="margin-top:0">Hickling — Permissive Hypercapnia</h4>
+                        <p style="font-size:0.9rem">Introduction of the concept that limiting airway pressure and accepting hypercapnia ("permissive hypercapnia") could improve survival in ARDS.</p>
+                    </div>
+                    <div class="timeline-item">
+                        <span class="timeline-year">1998</span>
+                        <h4 style="margin-top:0">Amato et al. — Protective Ventilation RCT</h4>
+                        <p style="font-size:0.9rem">Small RCT (n=53) suggesting mortality benefit from low tidal volume ventilation combined with PEEP above the lower inflection point.</p>
+                    </div>
+                    <div class="timeline-item">
+                        <span class="timeline-year">2000</span>
+                        <h4 style="margin-top:0">ARDSNet ARMA Trial</h4>
+                        <p style="font-size:0.9rem">Landmark multicenter RCT (n=861) establishing 6 mL/kg PBW as standard. In-hospital mortality reduced from 39.8% to 31.0% (P=0.007).</p>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <span class="timeline-year">2003</span>
+                        <h4 style="margin-top:0">Cochrane Review</h4>
+                        <p style="font-size:0.9rem">Systematic review confirming that lung-protective strategies (low tidal volume + limited pressure) improve survival in ARDS.</p>
+                    </div>
+                    <div class="timeline-item">
+                        <span class="timeline-year">2017</span>
+                        <h4 style="margin-top:0">ATS/ESICM/SCCM Guidelines</h4>
+                        <p style="font-size:0.9rem">Official clinical practice guideline strongly recommending low tidal volumes (4–8 mL/kg PBW), limiting plateau pressure, and prone positioning for severe ARDS (&gt;12 h/d).</p>
+                    </div>
+                    <div class="timeline-item">
+                        <span class="timeline-year">2018</span>
+                        <h4 style="margin-top:0">FICM/ICS ARDS Guideline (UK)</h4>
+                        <p style="font-size:0.9rem">UK guidance endorsing low tidal volumes (&lt;6 mL/kg), prone positioning, and conservative fluid management. Against routine HFOV.</p>
+                    </div>
+                    <div class="timeline-item">
+                        <span class="timeline-year">2023</span>
+                        <h4 style="margin-top:0">ESICM Practice Guidelines</h4>
+                        <p style="font-size:0.9rem">Strong recommendation for low VT ventilation. Against prolonged high-pressure recruitment maneuvers. Conditional recommendation for higher PEEP.</p>
+                    </div>
+                    <div class="timeline-item">
+                        <span class="timeline-year">2024–2026</span>
+                        <h4 style="margin-top:0">Precision Medicine Era</h4>
+                        <p style="font-size:0.9rem">ATS 2024 update on ARDS; ERS 2025 SPARC study on protective vs spontaneous breathing; SCCM 2026 NMBA guidelines emphasizing individualized care.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="chart-container">
+            <canvas id="mortalityChart"></canvas>
+        </div>
+        <p class="text-center" style="font-size:0.85rem; color:var(--text-light); margin-top:-1rem"><em>Figure 1. Mortality trends in landmark ARDS ventilation trials. Data synthesized from ARDSNet (2000), Amato (1998), and subsequent meta-analyses.</em></p>
+    </section>
+
+    <!-- LUNG PROTECTIVE VENTILATION -->
+    <section id="lpv">
+        <h2><span style="color:var(--primary)">&#9679;</span> Lung-Protective Ventilation Strategy</h2>
+        
+        <div class="card">
+            <div class="card-header">
+                <div class="card-icon">&#128170;</div>
+                <div>
+                    <h3 style="margin:0">Core Physiology: The Baby Lung</h3>
+                    <p style="margin:0; font-size:0.9rem">ARDS affects the lung heterogeneously — only a small fraction ("baby lung") remains aerated and participates in gas exchange.</p>
+                </div>
+            </div>
+            
+            <div class="diagram-container">
+                <svg viewBox="0 0 800 320" xmlns="http://www.w3.org/2000/svg" style="width:100%; height:auto; min-width:600px">
+                    <!-- Background -->
+                    <rect x="0" y="0" width="800" height="320" fill="#f8fafc" rx="8"/>
+                    
+                    <!-- Title -->
+                    <text x="400" y="30" text-anchor="middle" font-family="Inter" font-weight="600" font-size="16" fill="#0f4c81">Heterogeneous Lung Injury in ARDS</text>
+                    
+                    <!-- Normal Alveoli -->
+                    <g transform="translate(80, 70)">
+                        <text x="60" y="0" text-anchor="middle" font-family="Inter" font-size="12" fill="#00a896" font-weight="600">Normal Alveoli</text>
+                        <circle cx="30" cy="50" r="25" fill="#e6fffa" stroke="#00a896" stroke-width="2"/>
+                        <circle cx="90" cy="50" r="25" fill="#e6fffa" stroke="#00a896" stroke-width="2"/>
+                        <circle cx="30" cy="110" r="25" fill="#e6fffa" stroke="#00a896" stroke-width="2"/>
+                        <circle cx="90" cy="110" r="25" fill="#e6fffa" stroke="#00a896" stroke-width="2"/>
+                        <text x="60" y="160" text-anchor="middle" font-family="Inter" font-size="10" fill="#4a5568">Aerated, compliant</text>
+                        <text x="60" y="175" text-anchor="middle" font-family="Inter" font-size="10" fill="#4a5568">Safe for ventilation</text>
+                    </g>
+                    
+                    <!-- Injured / Recruitable -->
+                    <g transform="translate(300, 70)">
+                        <text x="60" y="0" text-anchor="middle" font-family="Inter" font-size="12" fill="#d69e2e" font-weight="600">Injured / Recruitable</text>
+                        <circle cx="30" cy="50" r="25" fill="#fffff0" stroke="#d69e2e" stroke-width="2" stroke-dasharray="4,2"/>
+                        <circle cx="90" cy="50" r="25" fill="#fffff0" stroke="#d69e2e" stroke-width="2" stroke-dasharray="4,2"/>
+                        <circle cx="30" cy="110" r="25" fill="#fffff0" stroke="#d69e2e" stroke-width="2" stroke-dasharray="4,2"/>
+                        <circle cx="90" cy="110" r="25" fill="#fffff0" stroke="#d69e2e" stroke-width="2" stroke-dasharray="4,2"/>
+                        <text x="60" y="160" text-anchor="middle" font-family="Inter" font-size="10" fill="#4a5568">Atelectasis, edema</text>
+                        <text x="60" y="175" text-anchor="middle" font-family="Inter" font-size="10" fill="#4a5568">Risk: Atelectrauma</text>
+                    </g>
+                    
+                    <!-- Consolidated -->
+                    <g transform="translate(520, 70)">
+                        <text x="60" y="0" text-anchor="middle" font-family="Inter" font-size="12" fill="#e74c3c" font-weight="600">Consolidated</text>
+                        <circle cx="30" cy="50" r="25" fill="#fef2f2" stroke="#e74c3c" stroke-width="2"/>
+                        <circle cx="90" cy="50" r="25" fill="#fef2f2" stroke="#e74c3c" stroke-width="2"/>
+                        <circle cx="30" cy="110" r="25" fill="#fef2f2" stroke="#e74c3c" stroke-width="2"/>
+                        <circle cx="90" cy="110" r="25" fill="#fef2f2" stroke="#e74c3c" stroke-width="2"/>
+                        <!-- Fluid fill -->
+                        <path d="M 10 70 Q 30 90 50 70 Q 70 90 90 70 L 90 130 L 10 130 Z" fill="#fecaca" opacity="0.5"/>
+                        <text x="60" y="160" text-anchor="middle" font-family="Inter" font-size="10" fill="#4a5568">No gas exchange</text>
+                        <text x="60" y="175" text-anchor="middle" font-family="Inter" font-size="10" fill="#4a5568">Fluid-filled / collapsed</text>
+                    </g>
+                    
+                    <!-- Baby Lung Concept -->
+                    <g transform="translate(680, 100)">
+                        <rect x="0" y="0" width="100" height="120" rx="8" fill="#e8f1f8" stroke="#0f4c81" stroke-width="2"/>
+                        <text x="50" y="30" text-anchor="middle" font-family="Inter" font-size="11" fill="#0f4c81" font-weight="600">Baby Lung</text>
+                        <text x="50" y="55" text-anchor="middle" font-family="Inter" font-size="10" fill="#4a5568">Functional lung</text>
+                        <text x="50" y="70" text-anchor="middle" font-family="Inter" font-size="10" fill="#4a5568">volume is</text>
+                        <text x="50" y="85" text-anchor="middle" font-family="Inter" font-size="10" fill="#4a5568">markedly</text>
+                        <text x="50" y="100" text-anchor="middle" font-family="Inter" font-size="10" fill="#4a5568">reduced</text>
+                    </g>
+                    
+                    <!-- Arrows -->
+                    <path d="M 200 130 L 280 130" stroke="#cbd5e0" stroke-width="2" marker-end="url(#arrowhead)"/>
+                    <path d="M 420 130 L 500 130" stroke="#cbd5e0" stroke-width="2" marker-end="url(#arrowhead)"/>
+                    <path d="M 640 130 L 670 130" stroke="#cbd5e0" stroke-width="2" marker-end="url(#arrowhead)"/>
+                    
+                    <defs>
+                        <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                            <polygon points="0 0, 10 3.5, 0 7" fill="#cbd5e0"/>
+                        </marker>
+                    </defs>
+                    
+                    <!-- Bottom annotation -->
+                    <text x="400" y="280" text-anchor="middle" font-family="Inter" font-size="11" fill="#4a5568">
+                        High tidal volumes overdistend normal units (volutrauma) while cyclic opening/closing injures recruitable units (atelectrauma)
+                    </text>
+                </svg>
+            </div>
+            
+            <div class="alert alert-strong">
+                <span class="alert-icon">&#9888;</span>
+                <div><strong>VILI Mechanisms:</strong> <strong>Volutrauma</strong> (overdistention), <strong>Barotrauma</strong> (alveolar rupture from pressure), <strong>Atelectrauma</strong> (cyclic recruitment-derecruitment), and <strong>Biotrauma</strong> (inflammatory mediator release). All are mitigated by lung-protective strategy.</div>
+            </div>
+        </div>
+        
+        <div class="grid-3">
+            <div class="card" style="border-top: 4px solid var(--primary)">
+                <h4 style="margin-top:0; color:var(--primary)">Tidal Volume</h4>
+                <div class="formula">
+                    Target: <strong>4–8 mL/kg PBW</strong><br>
+                    <span style="font-size:0.9rem; color:var(--text-light)">PBW Male = 50 + 0.91(height cm − 152.4)</span><br>
+                    <span style="font-size:0.9rem; color:var(--text-light)">PBW Female = 45.5 + 0.91(height cm − 152.4)</span>
+                </div>
+                <p style="font-size:0.9rem">ARDSNet target is 6 mL/kg PBW. May reduce to 4 mL/kg if plateau pressure &gt;30 cmH₂O. May increase to 8 mL/kg if Pplat &lt;25 and dyspnea is severe.</p>
+            </div>
+            
+            <div class="card" style="border-top: 4px solid var(--secondary)">
+                <h4 style="margin-top:0; color:var(--secondary)">Plateau Pressure</h4>
+                <div class="formula">
+                    Goal: <strong>≤30 cmH₂O</strong><br>
+                    <span style="font-size:0.9rem; color:var(--text-light)">Measure with 0.5s inspiratory pause</span><br>
+                    <span style="font-size:0.9rem; color:var(--text-light)">Check q4h and after PEEP/VT changes</span>
+                </div>
+                <p style="font-size:0.9rem">Plateau pressure is a surrogate for stress applied to the "baby lung." If &gt;30, decrease VT by 1 mL/kg steps (minimum 4 mL/kg). If &lt;25 and VT &lt;6, may increase VT.</p>
+            </div>
+            
+            <div class="card" style="border-top: 4px solid var(--accent)">
+                <h4 style="margin-top:0; color:var(--accent)">Driving Pressure</h4>
+                <div class="formula">
+                    ΔP = <strong>Pplat − PEEP</strong><br>
+                    <span style="font-size:0.9rem; color:var(--text-light)">Target: &lt;14 cmH₂O</span><br>
+                    <span style="font-size:0.9rem; color:var(--text-light)">Surrogate for lung strain / compliance</span>
+                </div>
+                <p style="font-size:0.9rem">Driving pressure (plateau minus PEEP) reflects the dynamic strain on functional lung tissue. Amato et al. (2015) showed driving pressure is the variable most strongly associated with survival.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ARDSNET PROTOCOL -->
+    <section id="ardsnet">
+        <h2><span style="color:var(--primary)">&#9679;</span> ARDSNet Ventilation Protocol</h2>
+        
+        <div class="card">
+            <div class="card-header">
+                <div class="card-icon">&#9878;</div>
+                <div>
+                    <h3 style="margin:0">Ventilator Setup &amp; Adjustment</h3>
+                    <p style="margin:0; font-size:0.9rem">Based on NIH ARDS Network ARMA trial (2000) and subsequent updates</p>
+                </div>
+            </div>
+            
+            <div class="two-col">
+                <div>
+                    <h4>Initial Settings</h4>
+                    <ol style="padding-left:1.25rem; color:var(--text-light); font-size:0.95rem">
+                        <li style="margin-bottom:0.5rem">Calculate <strong>PBW</strong> (not actual body weight)</li>
+                        <li style="margin-bottom:0.5rem">Select any mode (typically AC-VC or AC-PC)</li>
+                        <li style="margin-bottom:0.5rem">Set initial VT = <strong>8 mL/kg PBW</strong></li>
+                        <li style="margin-bottom:0.5rem">Reduce VT by 1 mL/kg q≤2h until <strong>6 mL/kg PBW</strong></li>
+                        <li style="margin-bottom:0.5rem">Set RR to approximate baseline MV (max 35/min)</li>
+                        <li style="margin-bottom:0.5rem">Set minimum PEEP = <strong>5 cmH₂O</strong></li>
+                    </ol>
+                    
+                    <h4>Oxygenation Goal</h4>
+                    <div class="alert alert-info" style="margin-top:0.5rem">
+                        <span class="alert-icon">&#127919;</span>
+                        <div>PaO₂ <strong>55–80 mmHg</strong> or SpO₂ <strong>88–95%</strong><br><span style="font-size:0.85rem">Avoid hyperoxemia; use lowest FiO₂ necessary</span></div>
+                    </div>
+                    
+                    <h4>pH Management</h4>
+                    <p style="font-size:0.9rem">Goal pH 7.30–7.45. Permissive hypercapnia is acceptable.</p>
+                    <ul style="padding-left:1.25rem; color:var(--text-light); font-size:0.9rem">
+                        <li>pH 7.15–7.30: Increase RR to 35</li>
+                        <li>pH &lt;7.15: Increase RR to 35; if still acidotic, increase VT in 1 mL/kg steps until pH &gt;7.15 (Pplat target may be exceeded temporarily)</li>
+                        <li>Consider NaHCO₃ if hemodynamically unstable</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4>PEEP / FiO₂ Table (Lower PEEP Strategy)</h4>
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr><th>FiO₂</th><th>PEEP (cmH₂O)</th><th>FiO₂</th><th>PEEP (cmH₂O)</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>0.3</td><td>5</td><td>0.7</td><td>10</td></tr>
+                                <tr><td>0.4</td><td>5</td><td>0.7</td><td>12</td></tr>
+                                <tr><td>0.4</td><td>8</td><td>0.7</td><td>14</td></tr>
+                                <tr><td>0.5</td><td>8</td><td>0.8</td><td>14</td></tr>
+                                <tr><td>0.5</td><td>10</td><td>0.9</td><td>14</td></tr>
+                                <tr><td>0.6</td><td>10</td><td>0.9</td><td>16</td></tr>
+                                <tr><td>0.7</td><td>10</td><td>0.9</td><td>18</td></tr>
+                                <tr><td>1.0</td><td>18–24</td><td colspan="2" style="text-align:center; font-size:0.8rem">Adjust based on recruitability &amp; hemodynamics</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <p style="font-size:0.85rem; color:var(--text-light); margin-top:-0.5rem"><em>Table 1. Lower PEEP / Higher FiO₂ strategy from ARDSNet protocol. Higher PEEP tables exist for patients with better recruitability.</em></p>
+                    
+                    <div class="alert alert-success">
+                        <span class="alert-icon">&#128161;</span>
+                        <div><strong>Weaning Criteria:</strong> FiO₂ &lt;0.40, PEEP &lt;8, acceptable breathing effort, SBP &gt;90 without pressors → proceed to spontaneous breathing trial (SBT).</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="chart-container">
+            <canvas id="peepChart"></canvas>
+        </div>
+        <p class="text-center" style="font-size:0.85rem; color:var(--text-light); margin-top:-1rem"><em>Figure 2. ARDSNet PEEP/FiO₂ ladder: lower vs higher PEEP strategies. Higher PEEP may allow lower FiO₂ but requires hemodynamic monitoring.</em></p>
+    </section>
+
+    <!-- VENTILATOR MODES -->
+    <section id="modes">
+        <h2><span style="color:var(--primary)">&#9679;</span> Ventilator Modes &amp; Waveforms</h2>
+        
+        <div class="guideline-grid">
+            <div class="guideline-card classic">
+                <span class="guideline-tag tag-classic">Controlled</span>
+                <h4 style="margin-top:0">Volume Control (VC-AC / VC-CMV)</h4>
+                <p style="font-size:0.9rem">Delivers preset tidal volume at set rate. Every triggered breath receives the full VT. Peak pressure varies with compliance/resistance.</p>
+                <ul style="font-size:0.85rem; color:var(--text-light); padding-left:1.2rem; margin-bottom:0">
+                    <li>VT: 4–8 mL/kg PBW</li>
+                    <li>RR: 12–35 (adjust for pH)</li>
+                    <li>Flow: 40–60 L/min</li>
+                    <li>I:E ratio: 1:2 to 1:3</li>
+                </ul>
+            </div>
+            
+            <div class="guideline-card classic">
+                <span class="guideline-tag tag-classic">Controlled</span>
+                <h4 style="margin-top:0">Pressure Control (PC-AC / PC-CMV)</h4>
+                <p style="font-size:0.9rem">Delivers preset inspiratory pressure. VT varies with compliance, resistance, and patient effort. Better gas distribution in non-homogeneous lungs.</p>
+                <ul style="font-size:0.85rem; color:var(--text-light); padding-left:1.2rem; margin-bottom:0">
+                    <li>Pi: 10–20 cmH₂O above PEEP</li>
+                    <li>Ti: ~1 second (I:E 1:2 to 1:3)</li>
+                    <li>Monitor VT closely</li>
+                    <li>Risk of hypoventilation if compliance falls</li>
+                </ul>
+            </div>
+            
+            <div class="guideline-card new">
+                <span class="guideline-tag tag-new">Dual</span>
+                <h4 style="margin-top:0">PRVC / VC+ / AutoFlow</h4>
+                <p style="font-size:0.9rem">Pressure-regulated volume control: targets set VT with lowest possible pressure. Adapts breath-by-breath to changing mechanics.</p>
+                <ul style="font-size:0.85rem; color:var(--text-light); padding-left:1.2rem; margin-bottom:0">
+                    <li>Set target VT and max pressure limit</li>
+                    <li>Ventilator adjusts inspiratory pressure</li>
+                    <li>Combines VT control with pressure benefits</li>
+                    <li>Good for varying compliance</li>
+                </ul>
+            </div>
+            
+            <div class="guideline-card classic">
+                <span class="guideline-tag tag-classic">Combined</span>
+                <h4 style="margin-top:0">SIMV + Pressure Support</h4>
+                <p style="font-size:0.9rem">Mandatory breaths at set rate synchronized to patient effort. Spontaneous breaths above the set rate receive pressure support.</p>
+                <ul style="font-size:0.85rem; color:var(--text-light); padding-left:1.2rem; margin-bottom:0">
+                    <li>Mandatory VT per control setting</li>
+                    <li>PS: 5–15 cmH₂O for spontaneous</li>
+                    <li>Useful for weaning</li>
+                    <li>Monitor spontaneous VT and RR</li>
+                </ul>
+            </div>
+            
+            <div class="guideline-card new">
+                <span class="guideline-tag tag-new">Spontaneous</span>
+                <h4 style="margin-top:0">Pressure Support (PSV) / CPAP</h4>
+                <p style="font-size:0.9rem">Patient initiates all breaths; ventilator delivers preset pressure above PEEP. Used for weaning and non-invasive ventilation.</p>
+                <ul style="font-size:0.85rem; color:var(--text-light); padding-left:1.2rem; margin-bottom:0">
+                    <li>PS: 5–15 cmH₂O (wean to 5–8)</li>
+                    <li>PEEP: 5 cmH₂O minimum</li>
+                    <li>No set RR (backup apnea ventilation)</li>
+                    <li>Monitor for respiratory fatigue</li>
+                </ul>
+            </div>
+            
+            <div class="guideline-card caution">
+                <span class="guideline-tag tag-caution">Rescue</span>
+                <h4 style="margin-top:0">APRV (Airway Pressure Release)</h4>
+                <p style="font-size:0.9rem">Spontaneous breathing at Phigh with brief releases to Plow. Maintains recruitment while allowing unrestricted spontaneous effort.</p>
+                <ul style="font-size:0.85rem; color:var(--text-light); padding-left:1.2rem; margin-bottom:0">
+                    <li>Phigh: ~20–30 cmH₂O</li>
+                    <li>Plow: 0 cmH₂O</li>
+                    <li>Thigh: 4–6 seconds; Tlow: 0.2–0.8s</li>
+                    <li>Contraindicated if intracranial hypertension</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="diagram-container">
+            <svg viewBox="0 0 900 400" xmlns="http://www.w3.org/2000/svg" style="width:100%; height:auto; min-width:700px">
+                <rect width="900" height="400" fill="#f8fafc" rx="8"/>
+                <text x="450" y="30" text-anchor="middle" font-family="Inter" font-weight="600" font-size="16" fill="#0f4c81">Airway Pressure Waveforms by Mode</text>
+                
+                <!-- VC Waveform -->
+                <g transform="translate(50, 60)">
+                    <text x="100" y="0" text-anchor="middle" font-family="Inter" font-size="12" font-weight="600" fill="#0f4c81">Volume Control (VC)</text>
+                    <path d="M 0 80 L 0 20 L 40 20 L 40 80 L 80 80 L 80 20 L 120 20 L 120 80 L 160 80 L 160 20 L 200 20 L 200 80" 
+                          fill="none" stroke="#0f4c81" stroke-width="2"/>
+                    <text x="100" y="100" text-anchor="middle" font-family="Inter" font-size="10" fill="#4a5568">Square pressure wave</text>
+                    <text x="100" y="115" text-anchor="middle" font-family="Inter" font-size="10" fill="#4a5568">VT guaranteed, Ppeak varies</text>
+                </g>
+                
+                <!-- PC Waveform -->
+                <g transform="translate(330, 60)">
+                    <text x="100" y="0" text-anchor="middle" font-family="Inter" font-size="12" font-weight="600" fill="#00a896">Pressure Control (PC)</text>
+                    <path d="M 0 80 L 0 60 Q 20 20 40 20 L 40 20 Q 60 20 80 60 L 80 80 L 80 60 Q 100 20 120 20 L 120 20 Q 140 20 160 60 L 160 80 L 160 60 Q 180 20 200 20 L 200 20" 
+                          fill="none" stroke="#00a896" stroke-width="2"/>
+                    <line x1="0" y1="80" x2="200" y2="80" stroke="#cbd5e0" stroke-width="1" stroke-dasharray="3,3"/>
+                    <text x="100" y="100" text-anchor="middle" font-family="Inter" font-size="10" fill="#4a5568">Decelerating flow</text>
+                    <text x="100" y="115" text-anchor="middle" font-family="Inter" font-size="10" fill="#4a5568">Pressure guaranteed, VT varies</text>
+                </g>
+                
+                <!-- PSV Waveform -->
+                <g transform="translate(610, 60)">
+                    <text x="100" y="0" text-anchor="middle" font-family="Inter" font-size="12" font-weight="600" fill="#d69e2e">Pressure Support (PSV)</text>
+                    <path d="M 20 80 Q 30 50 50 30 L 80 30 Q 100 30 110 60 L 120 80 M 140 80 Q 150 45 170 25 L 200 25 Q 220 25 230 55 L 240 80" 
+                          fill="none" stroke="#d69e2e" stroke-width="2"/>
+                    <text x="120" y="100" text-anchor="middle" font-family="Inter" font-size="10" fill="#4a5568">Patient-triggered, flow-cycled</text>
+                    <text x="120" y="115" text-anchor="middle" font-family="Inter" font-size="10" fill="#4a5568">Spontaneous RR, supported VT</text>
+                </g>
+                
+                <!-- APRV Waveform -->
+                <g transform="translate(180, 220)">
+                    <text x="200" y="0" text-anchor="middle" font-family="Inter" font-size="12" font-weight="600" fill="#e74c3c">APRV</text>
+                    <path d="M 0 100 L 0 20 L 120 20 L 120 80 L 140 80 L 140 20 L 260 20 L 260 80 L 280 80 L 280 20 L 400 20" 
+                          fill="none" stroke="#e74c3c" stroke-width="2"/>
+                    <!-- Spontaneous breaths -->
+                    <path d="M 30 20 Q 40 5 50 20 M 70 20 Q 80 5 90 20 M 170 20 Q 180 5 190 20 M 210 20 Q 220 5 230 20 M 310 20 Q 320 5 330 20" 
+                          fill="none" stroke="#e74c3c" stroke-width="1.5" opacity="0.7"/>
+                    <text x="200" y="130" text-anchor="middle" font-family="Inter" font-size="10" fill="#4a5568">Phigh maintained, brief release to Plow</text>
+                    <text x="200" y="145" text-anchor="middle" font-family="Inter" font-size="10" fill="#4a5568">Unrestricted spontaneous breathing at Phigh</text>
+                </g>
+            </svg>
+        </div>
+        <p class="text-center" style="font-size:0.85rem; color:var(--text-light); margin-top:-0.5rem"><em>Figure 3. Schematic airway pressure waveforms. VC shows square wave; PC shows decelerating ramp; PSV is patient-triggered; APRV maintains Phigh with brief releases.</em></p>
+    </section>
+
+    <!-- ARDS MANAGEMENT 2026 -->
+    <section id="ards">
+        <h2><span style="color:var(--primary)">&#9679;</span> ARDS Management: 2026 Updates</h2>
+        
+        <div class="card" style="border: 2px solid var(--secondary)">
+            <div class="card-header">
+                <div class="card-icon" style="background:#d1fae5; color:#065f46">&#127775;</div>
+                <div>
+                    <h3 style="margin:0">SCCM 2026 Guidelines: Neuromuscular Blockade in ARDS</h3>
+                    <p style="margin:0; font-size:0.9rem; color:var(--secondary)">Published April 2026 &middot; Critical Care Medicine</p>
+                </div>
+            </div>
+            <p>The Society of Critical Care Medicine released updated guidance on neuromuscular blocking agents (NMBAs) in adults with ARDS, shifting toward more individualized, conditional recommendations:</p>
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr><th>Recommendation</th><th>Strength</th><th>Evidence</th><th>Clinical Implication</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Use NMBAs</strong> in adults with ARDS (PaO₂/FiO₂ &lt;150) who are persistently hypoxemic and/or not achieving lung-protective targets on sedation optimization</td>
+                            <td>Conditional For</td>
+                            <td>Low</td>
+                            <td>Emphasize ventilator/sedation optimization <em>before</em> NMBA. Limit duration; do not routinely exceed 48 hours.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Fixed-dose vs titration-based</strong> NMBA strategy (monitoring depth with TOF)</td>
+                            <td>Conditional For</td>
+                            <td>Very Low</td>
+                            <td>Either strategy acceptable; institutional protocolization recommended.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Scale-based vs non-scale</strong> evaluation of analgesia/sedation depth before NMBA</td>
+                            <td>Conditional For</td>
+                            <td>Very Low</td>
+                            <td>RASS, SAS, or clinical assessment all reasonable.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Monitoring-based vs no monitoring</strong> of sedation depth during NMBA infusion</td>
+                            <td>Conditional For</td>
+                            <td>Very Low</td>
+                            <td>Consider EEG or clinical monitoring if paralyzed for &gt;24h.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>NMBA during proning</strong> — administer or withhold</td>
+                            <td>Conditional For either</td>
+                            <td>Very Low</td>
+                            <td>Individualize based on dyssynchrony, tolerance, and institutional practice.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="alert alert-info">
+                <span class="alert-icon">&#128161;</span>
+                <div><strong>Key Shift from 2017:</strong> The 2017 ATS guidelines strongly recommended against <em>routine</em> continuous NMBA infusion. The 2026 SCCM update suggests NMBAs may be beneficial in selected severely hypoxemic patients (P/F &lt;150) after sedation optimization, reflecting a nuanced, personalized approach.</div>
+            </div>
+        </div>
+        
+        <div class="two-col">
+            <div class="card">
+                <h4 style="margin-top:0; color:var(--primary)">ATS 2024 Update Highlights</h4>
+                <ul style="padding-left:1.25rem; color:var(--text-light); font-size:0.95rem">
+                    <li style="margin-bottom:0.75rem"><strong>PEEP strategy remains uncertain:</strong> No single optimal PEEP strategy; consider recruitability, hemodynamics, and driving pressure.</li>
+                    <li style="margin-bottom:0.75rem"><strong>Higher PEEP without recruitment maneuvers</strong> suggested in moderate-severe ARDS.</li>
+                    <li style="margin-bottom:0.75rem"><strong>Esophageal pressure monitoring</strong> and EIT may guide individualized PEEP.</li>
+                    <li style="margin-bottom:0.75rem"><strong>Prone positioning:</strong> Strong recommendation maintained for PaO₂/FiO₂ &lt;150, &gt;12–16 hours daily.</li>
+                    <li style="margin-bottom:0.75rem"><strong>Conservative fluid strategy</strong> suggested once shock resolved.</li>
+                </ul>
+            </div>
+            <div class="card">
+                <h4 style="margin-top:0; color:var(--secondary)">ERS 2025 — SPARC Study</h4>
+                <p style="font-size:0.95rem">Preclinical data presented at ERS Congress 2025 (Menga et al.) compared three strategies in ARDS:</p>
+                <ol style="padding-left:1.25rem; color:var(--text-light); font-size:0.95rem">
+                    <li style="margin-bottom:0.5rem"><strong>Unassisted spontaneous breathing</strong> (PSILI model)</li>
+                    <li style="margin-bottom:0.5rem"><strong>CPAP alone</strong></li>
+                    <li style="margin-bottom:0.5rem"><strong>Protective volume-control ventilation</strong></li>
+                </ol>
+                <p style="font-size:0.95rem">Findings suggest <strong>protective mechanical ventilation may be superior</strong> to both CPAP and unassisted breathing in severe lung injury, with histological injury markers strongest in the pleural region during spontaneous effort.</p>
+            </div>
+        </div>
+        
+        <div class="chart-container">
+            <canvas id="guidelineChart"></canvas>
+        </div>
+        <p class="text-center" style="font-size:0.85rem; color:var(--text-light); margin-top:-1rem"><em>Figure 4. Evolution of guideline recommendation strength for key ARDS interventions over time (Strong vs Conditional).</em></p>
+    </section>
+
+    <!-- MONITORING -->
+    <section id="monitoring">
+        <h2><span style="color:var(--primary)">&#9679;</span> Bedside Monitoring &amp; Targets</h2>
+        
+        <div class="grid-3">
+            <div class="card">
+                <div class="card-header" style="border-bottom-color:#fee2e2">
+                    <div class="card-icon" style="background:#fef2f2; color:#e74c3c">&#128200;</div>
+                    <h4 style="margin:0">Gas Exchange</h4>
+                </div>
+                <ul style="padding-left:1.25rem; color:var(--text-light); font-size:0.9rem; margin-bottom:0">
+                    <li style="margin-bottom:0.5rem">SpO₂: 88–95% (avoid &gt;96% hyperoxemia)</li>
+                    <li style="margin-bottom:0.5rem">PaO₂: 55–80 mmHg</li>
+                    <li style="margin-bottom:0.5rem">PaCO₂: Allow permissive hypercapnia</li>
+                    <li style="margin-bottom:0.5rem">pH: 7.30–7.45 (acceptable 7.15–7.30)</li>
+                    <li style="margin-bottom:0">EtCO₂: Trend monitoring; ABG correlation</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <div class="card-header" style="border-bottom-color:#dbeafe">
+                    <div class="card-icon" style="background:#eff6ff; color:#1e40af">&#128208;</div>
+                    <h4 style="margin:0">Mechanics</h4>
+                </div>
+                <ul style="padding-left:1.25rem; color:var(--text-light); font-size:0.9rem; margin-bottom:0">
+                    <li style="margin-bottom:0.5rem">Plateau Pressure: ≤30 cmH₂O</li>
+                    <li style="margin-bottom:0.5rem">Driving Pressure: &lt;14 cmH₂O</li>
+                    <li style="margin-bottom:0.5rem">PEEP: 5–24 cmH₂O (per ARDSNet)</li>
+                    <li style="margin-bottom:0.5rem">Respiratory System Compliance: Trend</li>
+                    <li style="margin-bottom:0">Mechanical Power: &lt;17 J/min (emerging)</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <div class="card-header" style="border-bottom-color:#d1fae5">
+                    <div class="card-icon" style="background:#f0fdf4; color:#166534">&#128170;</div>
+                    <h4 style="margin:0">Hemodynamics</h4>
+                </div>
+                <ul style="padding-left:1.25rem; color:var(--text-light); font-size:0.9rem; margin-bottom:0">
+                    <li style="margin-bottom:0.5rem">MAP &gt;65 mmHg (individualize)</li>
+                    <li style="margin-bottom:0.5rem">Right Ventricular function assessment</li>
+                    <li style="margin-bottom:0.5rem">Fluid responsiveness: PPV, SVV (caution with low VT)</li>
+                    <li style="margin-bottom:0.5rem">Lactate clearance</li>
+                    <li style="margin-bottom:0">Capillary refill time (microcirculation)</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="card">
+            <div class="card-header">
+                <div class="card-icon">&#128295;</div>
+                <div>
+                    <h3 style="margin:0">Advanced Monitoring: Driving Pressure &amp; Transpulmonary Pressure</h3>
+                    <p style="margin:0; font-size:0.9rem">Moving beyond simple plateau pressure toward precision medicine</p>
+                </div>
+            </div>
+            
+            <div class="two-col">
+                <div>
+                    <div class="formula">
+                        Driving Pressure (ΔP) = Pplat − PEEP<br>
+                        <span style="font-size:0.9rem">Normal &lt;10–12 cmH₂O &middot; ARDS Target &lt;14 cmH₂O</span>
+                    </div>
+                    <p style="font-size:0.95rem">Driving pressure is the tidal strain normalized to functional lung size (compliance). It is the strongest predictor of survival in ARDS, stronger than VT or plateau pressure alone. If ΔP &gt;14 despite VT 6 mL/kg, consider:</p>
+                    <ul style="padding-left:1.25rem; color:var(--text-light); font-size:0.9rem">
+                        <li>Prone positioning</li>
+                        <li>Recruitment maneuvers (brief, cautious)</li>
+                        <li>Esophageal manometry for transpulmonary pressure</li>
+                        <li>ECMO evaluation if refractory</li>
+                    </ul>
+                </div>
+                <div>
+                    <div class="formula" style="border-left-color:var(--primary)">
+                        Transpulmonary Pressure (P<sub>L</sub>) = P<sub>aw</sub> − P<sub>es</sub><br>
+                        <span style="font-size:0.9rem">End-inspiratory P<sub>L</sub> &lt;20–25 cmH₂O</span><br>
+                        <span style="font-size:0.9rem">End-expiratory P<sub>L</sub> 0–2 cmH₂O (avoid collapse)</span>
+                    </div>
+                    <p style="font-size:0.95rem">Esophageal manometry estimates pleural pressure (Pes), allowing calculation of actual lung-distending pressure. This is especially valuable in:</p>
+                    <ul style="padding-left:1.25rem; color:var(--text-light); font-size:0.9rem">
+                        <li>Obesity (elevated pleural pressure)</li>
+                        <li>Chest wall stiffness (burns, edema)</li>
+                        <li>Prone positioning optimization</li>
+                        <li>Setting PEEP to overcome collapse pressure</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="chart-container">
+            <canvas id="monitoringChart"></canvas>
+        </div>
+        <p class="text-center" style="font-size:0.85rem; color:var(--text-light); margin-top:-1rem"><em>Figure 5. Monitoring targets and alarm thresholds in lung-protective ventilation. Green = target zone; Yellow = caution; Red = danger.</em></p>
+    </section>
+
+    <!-- WEANING -->
+    <section id="weaning">
+        <h2><span style="color:var(--primary)">&#9679;</span> Weaning &amp; Ventilator Liberation</h2>
+        
+        <div class="card">
+            <div class="card-header">
+                <div class="card-icon">&#127942;</div>
+                <div>
+                    <h3 style="margin:0">ATS/CHEST 2017 Liberation Guidelines</h3>
+                    <p style="margin:0; font-size:0.9rem">Still the foundational framework for ventilator discontinuation</p>
+                </div>
+            </div>
+            
+            <div class="two-col">
+                <div>
+                    <h4>Readiness Criteria (Daily Assessment)</h4>
+                    <div class="alert alert-success" style="margin-top:0">
+                        <span class="alert-icon">&#9989;</span>
+                        <div style="font-size:0.9rem">
+                            <strong>Evidence of disease reversal</strong><br>
+                            PaO₂/FiO₂ &gt;150–200 on PEEP ≤5–8, FiO₂ ≤0.4–0.5<br>
+                            pH ≥7.25, Hemodynamic stability<br>
+                            Spontaneous inspiratory effort present
+                        </div>
+                    </div>
+                    <p style="font-size:0.9rem"><strong>Additional useful criteria:</strong> Afebrile, Hgb &gt;8–10 g/dL, adequate mentation, stable electrolytes, no significant acidosis.</p>
+                </div>
+                <div>
+                    <h4>Spontaneous Breathing Trial (SBT)</h4>
+                    <p style="font-size:0.9rem">For patients ventilated &gt;24 hours, initial SBT should use <strong>inspiratory pressure augmentation (5–8 cmH₂O)</strong> rather than T-piece or CPAP alone.</p>
+                    <ul style="padding-left:1.25rem; color:var(--text-light); font-size:0.9rem">
+                        <li style="margin-bottom:0.5rem">Duration: 30–120 minutes</li>
+                        <li style="margin-bottom:0.5rem">Assess: RR, HR, BP, SpO₂, accessory muscle use, diaphoresis, dyspnea</li>
+                        <li style="margin-bottom:0.5rem">Pass → Assess airway protection &amp; secretions → Extubate</li>
+                        <li style="margin-bottom:0">Fail → Identify cause → Comfortable support → Retry in 24h</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <h4 class="text-center" style="margin-top:2rem">Liberation Protocol Flowchart</h4>
+            <div class="diagram-container" style="display:flex; justify-content:center;">
+                <div class="flowchart" style="max-width:500px; width:100%">
+                    <div class="flow-node">Daily Sedation Interruption<br><span style="font-size:0.8rem; font-weight:400">+ Spontaneous Awakening Trial</span></div>
+                    <div class="flow-arrow"></div>
+                    <div class="flow-node decision">Readiness Assessment Passed?</div>
+                    <div class="flow-arrow"></div>
+                    <div class="flow-branch">
+                        <div style="text-align:center; flex:1">
+                            <div style="color:var(--accent); font-weight:600; font-size:0.85rem">NO</div>
+                            <div class="flow-arrow" style="height:1.5rem; background:var(--accent); margin:0.5rem auto"></div>
+                            <div class="flow-node" style="border-color:var(--accent); color:var(--accent); font-size:0.85rem; padding:0.75rem">Continue Support<br>Reassess 24h</div>
+                        </div>
+                        <div style="text-align:center; flex:1">
+                            <div style="color:var(--secondary); font-weight:600; font-size:0.85rem">YES</div>
+                            <div class="flow-arrow" style="height:1.5rem; background:var(--secondary); margin:0.5rem auto"></div>
+                            <div class="flow-node" style="border-color:var(--secondary); color:var(--secondary); font-size:0.85rem; padding:0.75rem">Spontaneous<br>Breathing Trial</div>
+                        </div>
+                    </div>
+                    <div class="flow-arrow"></div>
+                    <div class="flow-node decision">SBT Passed?</div>
+                    <div class="flow-arrow"></div>
+                    <div class="flow-branch">
+                        <div style="text-align:center; flex:1">
+                            <div style="color:var(--accent); font-weight:600; font-size:0.85rem">NO</div>
+                            <div class="flow-arrow" style="height:1.5rem; background:var(--accent); margin:0.5rem auto"></div>
+                            <div class="flow-node" style="border-color:var(--accent); color:var(--accent); font-size:0.85rem; padding:0.75rem">Identify Cause<br>Comfortable Support</div>
+                        </div>
+                        <div style="text-align:center; flex:1">
+                            <div style="color:var(--secondary); font-weight:600; font-size:0.85rem">YES</div>
+                            <div class="flow-arrow" style="height:1.5rem; background:var(--secondary); margin:0.5rem auto"></div>
+                            <div class="flow-node" style="border-color:var(--secondary); color:var(--secondary); font-size:0.85rem; padding:0.75rem">Airway & Secretion<br>Assessment</div>
+                        </div>
+                    </div>
+                    <div class="flow-arrow"></div>
+                    <div class="flow-node action">EXTUBATE<br><span style="font-size:0.8rem; font-weight:400">+ NIV if high-risk</span></div>
+                </div>
+            </div>
+            <p class="text-center" style="font-size:0.85rem; color:var(--text-light); margin-top:1rem"><em>Figure 6. Ventilator liberation protocol based on ATS/CHEST 2017 guidelines. High-risk patients should receive preventive NIV immediately after extubation.</em></p>
+        </div>
+        
+        <div class="alert alert-info">
+            <span class="alert-icon">&#128161;</span>
+            <div><strong>Post-Extubation NIV:</strong> For patients at high risk of extubation failure (elderly, COPD, CHF, obesity), strong recommendation to extubate directly to preventive non-invasive ventilation (bilevel or CPAP) to reduce reintubation and mortality.</div>
+        </div>
+    </section>
+
+    <!-- GUIDELINES COMPARISON -->
+    <section id="guidelines">
+        <h2><span style="color:var(--primary)">&#9679;</span> Guideline Comparison: Old vs. New</h2>
+        
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Topic</th>
+                        <th>Classic / Historical (2000–2017)</th>
+                        <th>Contemporary (2023–2026)</th>
+                        <th>Evidence Evolution</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Tidal Volume</strong></td>
+                        <td>12–15 mL/kg (pre-2000); 6 mL/kg PBW standard after ARDSNet</td>
+                        <td>4–8 mL/kg PBW; individualize by driving pressure &amp; compliance</td>
+                        <td>ARDSNet 2000; Amato 2015 driving pressure analysis; ESICM 2023</td>
+                    </tr>
+                    <tr>
+                        <td><strong>PEEP</strong></td>
+                        <td>Minimal PEEP (≤5) or empirical tables</td>
+                        <td>Higher PEEP without routine recruitment; EIT/esophageal guidance</td>
+                        <td>ALVEOLI 2004; ART 2017 (harm from aggressive RM); ATS 2024</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Recruitment</strong></td>
+                        <td>Encouraged in some protocols</td>
+                        <td>Against prolonged high-pressure RMs; brief RMs conditional</td>
+                        <td>ART 2017; ESICM 2023 strong recommendation against prolonged RM</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Prone Position</strong></td>
+                        <td>Used sporadically; PROSEVA 2013 established benefit</td>
+                        <td>Strong recommendation &gt;12–16 h/d for P/F &lt;150; early application</td>
+                        <td>PROSEVA 2013; ATS/ESICM/SCCM 2017; ESICM 2023</td>
+                    </tr>
+                    <tr>
+                        <td><strong>NMBAs</strong></td>
+                        <td>Routine cisatracurium for 48h in severe ARDS (ACURASYS)</td>
+                        <td>Conditional use only if P/F &lt;150 and targets not met on sedation; limit ≤48h</td>
+                        <td>ACURASYS 2010; ROSE 2019 (negative); SCCM 2026</td>
+                    </tr>
+                    <tr>
+                        <td><strong>HFOV</strong></td>
+                        <td>Investigational rescue therapy</td>
+                        <td>Strong recommendation <em>against</em> routine use</td>
+                        <td>OSCILLATE 2013; OSCAR 2013; ATS 2017</td>
+                    </tr>
+                    <tr>
+                        <td><strong>ECMO</strong></td>
+                        <td>Rescue only; CESAR 2009 suggested benefit</td>
+                        <td>Refer to ECMO center for very severe ARDS; EOLIA showed feasibility</td>
+                        <td>CESAR 2009; EOLIA 2018; ESICM 2023</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Weaning</strong></td>
+                        <td>Physician-directed; T-piece trials common</td>
+                        <td>Protocolized liberation; pressure-augmented SBT; preventive NIV</td>
+                        <td>ATS/CHEST 2017; AARC 2024 SBT guideline</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Spontaneous Breathing</strong></td>
+                        <td>Encouraged early; P-SILI concept emerging</td>
+                        <td>Cautious in severe ARDS; ERS 2025 SPARC suggests protective MV superior to CPAP in severe injury</td>
+                        <td>SPARC 2025; growing awareness of P-SILI</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Monitoring</strong></td>
+                        <td>ABG, plateau pressure, basic pulse oximetry</td>
+                        <td>Driving pressure, esophageal manometry, EIT, automated ABG, mechanical power</td>
+                        <td>Amato 2015; Beitler 2019; Springer 2026 review</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <p class="text-center" style="font-size:0.85rem; color:var(--text-light)"><em>Table 2. Evolution of mechanical ventilation recommendations from historical standards to 2026 precision-medicine approaches.</em></p>
+    </section>
+
+    <!-- QUICK REFERENCE -->
+    <section id="quickref">
+        <h2><span style="color:var(--primary)">&#9679;</span> Quick Reference: Ventilator Settings</h2>
+        
+        <div class="grid-3">
+            <div class="card" style="background:linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%)">
+                <h4 style="margin-top:0; color:#0369a1">Initial ARDS Setup</h4>
+                <div style="font-size:0.9rem; color:var(--text-light); line-height:1.8">
+                    <strong>Mode:</strong> AC-VC or AC-PC<br>
+                    <strong>VT:</strong> 6 mL/kg PBW<br>
+                    <strong>RR:</strong> ~20–35 (match MV)<br>
+                    <strong>PEEP:</strong> 5 cmH₂O min<br>
+                    <strong>FiO₂:</strong> 1.0 → titrate to SpO₂ 88–95%<br>
+                    <strong>I:E:</strong> 1:2 to 1:3<br>
+                    <strong>Plateau:</strong> ≤30 cmH₂O<br>
+                    <strong>Driving P:</strong> &lt;14 cmH₂O
+                </div>
+            </div>
+            
+            <div class="card" style="background:linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%)">
+                <h4 style="margin-top:0; color:#166534">Troubleshooting Hypoxemia</h4>
+                <div style="font-size:0.9rem; color:var(--text-light); line-height:1.8">
+                    1. Check tube position / secretions<br>
+                    2. Increase PEEP per table<br>
+                    3. Prone if P/F &lt;150<br>
+                    4. Consider recruitment (brief)<br>
+                    5. Inhaled NO (rescue)<br>
+                    6. Evaluate for pneumothorax<br>
+                    7. ECMO consult if refractory<br>
+                    <span style="color:var(--accent); font-weight:600">Avoid:</span> High VT, high Pplat, routine HFOV
+                </div>
+            </div>
+            
+            <div class="card" style="background:linear-gradient(135deg, #fefce8 0%, #fef9c3 100%)">
+                <h4 style="margin-top:0; color:#854d0e">Troubleshooting Hypercapnia</h4>
+                <div style="font-size:0.9rem; color:var(--text-light); line-height:1.8">
+                    1. Increase RR (max 35)<br>
+                    2. Check for circuit leaks<br>
+                    3. Reduce dead space if possible<br>
+                    4. Accept permissive hypercapnia<br>
+                    5. If pH &lt;7.15: increase VT in 1 mL/kg steps even if Pplat &gt;30 temporarily<br>
+                    6. Consider NaHCO₃ if unstable<br>
+                    7. Evaluate for mucus plugging
+                </div>
+            </div>
+        </div>
+    </section>
+
+</main>
+
+<!-- REFERENCES -->
+<section id="references" class="references">
+    <div class="container">
+        <h2 style="margin-top:0">References &amp; Guideline Sources</h2>
+        <ol class="ref-list">
+            <li>Ashbaugh DG, Bigelow DB, Petty TL, et al. Acute respiratory distress in adults. <em>Lancet</em>. 1967;2(7511):319-323.</li>
+            <li>Bendixen HH, Hedley-Whyte J, Laver MB. Impaired oxygenation in surgical patients during general anesthesia with controlled ventilation. <em>N Engl J Med</em>. 1963;269:991-996.</li>
+            <li>Hickling KG, Henderson SJ, Jackson R. Low mortality associated with low volume pressure limited ventilation with permissive hypercapnia in severe adult respiratory distress syndrome. <em>Intensive Care Med</em>. 1990;16(6):372-377.</li>
+            <li>Amato MB, Barbas CS, Medeiros DM, et al. Effect of a protective-ventilation strategy on mortality in the acute respiratory distress syndrome. <em>N Engl J Med</em>. 1998;338(6):347-354.</li>
+            <li>The Acute Respiratory Distress Syndrome Network. Ventilation with lower tidal volumes as compared with traditional tidal volumes for acute lung injury and the acute respiratory distress syndrome. <em>N Engl J Med</em>. 2000;342(18):1301-1308.</li>
+            <li>Petrucci N, De Feo C. Lung protective ventilation strategy for the acute respiratory distress syndrome. <em>Cochrane Database Syst Rev</em>. 2003;(3):CD003844. Updated 2018.</li>
+            <li>Amato MB, Meade MO, Slutsky AS, et al. Driving pressure and survival in the acute respiratory distress syndrome. <em>N Engl J Med</em>. 2015;372(8):747-755.</li>
+            <li>Papazian L, Forel JM, Gacouin A, et al. Neuromuscular blockers in early acute respiratory distress syndrome. <em>N Engl J Med</em>. 2010;363(12):1107-1116. (ACURASYS)</li>
+            <li>Guérin C, Reignier J, Richard JC, et al. Prone positioning in severe acute respiratory distress syndrome. <em>N Engl J Med</em>. 2013;368(23):2159-2168. (PROSEVA)</li>
+            <li>Ferguson ND, Cook DJ, Guyatt GH, et al. High-frequency oscillation in early acute respiratory distress syndrome. <em>N Engl J Med</em>. 2013;368(9):795-805. (OSCILLATE)</li>
+            <li>Young D, Lamb SE, Shah S, et al. High-frequency oscillation for acute respiratory distress syndrome. <em>N Engl J Med</em>. 2013;368(9):806-813. (OSCAR)</li>
+            <li>Combes A, Hajage D, Capellier G, et al. Extracorporeal membrane oxygenation for severe acute respiratory distress syndrome. <em>N Engl J Med</em>. 2018;378(21):1965-1975. (EOLIA)</li>
+            <li>National Heart, Lung, and Blood Institute PETAL Clinical Trials Network, Moss M, et al. Early neuromuscular blockade in the acute respiratory distress syndrome. <em>N Engl J Med</em>. 2019;380(21):1997-2008. (ROSE)</li>
+            <li>Beitler JR, Sarge T, Banner-Goodspeed VM, et al. Effect of titrating positive end-expiratory pressure (PEEP) with an esophageal pressure-guided strategy vs an empirical high PEEP-Fio₂ strategy on death and days free from mechanical ventilation in patients with acute respiratory distress syndrome: a randomized clinical trial. <em>JAMA</em>. 2019;321(9):846-857. (EPVent-2)</li>
+            <li>ATS/ESICM/SCCM. Mechanical ventilation in adult patients with acute respiratory distress syndrome. <em>Am J Respir Crit Care Med</em>. 2017;195(9):1253-1263.</li>
+            <li>FICM/ICS. Guideline for the management of adult acute respiratory distress syndrome. 2018. Supported by British Thoracic Society.</li>
+            <li>Girard TD, Alhazzani W, Kress JP, et al. An official American Thoracic Society/American College of Chest Physicians clinical practice guideline: liberation from mechanical ventilation in critically ill adults. <em>Am J Respir Crit Care Med</em>. 2017;195(1):120-133.</li>
+            <li>Ouellette DR, Patel S, Girard TD, et al. Liberation from mechanical ventilation in critically ill adults: an official American College of Chest Physician/American Thoracic Society clinical practice guideline: inspiratory pressure augmentation during spontaneous breathing trials, protocols minimizing sedation, and noninvasive ventilation immediately after extubation. <em>Chest</em>. 2017;151(1):166-180.</li>
+            <li>ESICM. 2023 Practice Guidelines for the management of adult patients with ARDS. <em>Intensive Care Med</em>. 2023.</li>
+            <li>Schmidt GA, Girard TD, Kress JP, et al. Official executive summary of an American Thoracic Society/American College of Chest Physicians clinical practice guideline: liberation from mechanical ventilation in critically ill adults. <em>Am J Respir Crit Care Med</em>. 2017;195(1):115-119.</li>
+            <li>AARC Clinical Practice Guideline: Spontaneous Breathing Trials for Liberation From Adult Mechanical Ventilation. 2024.</li>
+            <li>ATS Update on Management of ARDS. <em>Am J Respir Crit Care Med</em>. 2024.</li>
+            <li>Menga L, et al. Effects of Spontaneous Breathing, Positive Airway Pressure, and Protective Mechanical Ventilation in a Preclinical Model of Acute Lung Injury (SPARC Study). Presented at ERS Congress 2025.</li>
+            <li>Society of Critical Care Medicine. Guidelines for the Use of Neuromuscular Blocking Agents in Adult Patients with Acute Respiratory Distress Syndrome. <em>Crit Care Med</em>. 2026;54(3):eXXX. Published April 2026.</li>
+            <li>Springer Link. Mechanical ventilation in ARDS: navigating the fine line with real-time monitoring. <em>Critical Care</em>. 2026;30:58.</li>
+            <li>Vollman D. ARDS &amp; Mechanical Ventilation 2025. Educational slide deck. ATS &amp; SCCM Guidelines summary.</li>
+            <li>Pruitt B. Developments in ARF and ARDS Treatment. <em>Respiratory Therapy</em>. 2025.</li>
+            <li>Litton E, et al. Quality improvement project to improve adherence to lung protective ventilation guidelines. <em>BMJ Open Quality</em>. 2026;13(2):e002638.</li>
+        </ol>
+        
+        <div style="margin-top:3rem; padding-top:2rem; border-top:1px solid var(--border); text-align:center; color:var(--text-light); font-size:0.85rem">
+            <p><strong>Disclaimer:</strong> This educational reference is intended for qualified healthcare professionals. Always adapt ventilator management to individual patient physiology, institutional protocols, and current best evidence. Not a substitute for clinical judgment.</p>
+            <p style="margin-top:1rem">&copy; 2026 ICU Clinical Reference &middot; Mechanical Ventilation Basics &middot; Compiled from peer-reviewed guidelines and trials</p>
+        </div>
+    </div>
+</section>
+
+<script>
+// Sticky TOC active state
+const sections = document.querySelectorAll('section[id]');
+const tocLinks = document.querySelectorAll('.toc a');
+
+window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(section => {
+        const sectionTop = section.offsetTop;
+        if (scrollY >= sectionTop - 100) {
+            current = section.getAttribute('id');
+        }
+    });
+    
+    tocLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href') === '#' + current) {
+            link.classList.add('active');
+        }
+    });
+});
+
+// Chart 1: Mortality Trends
+const ctx1 = document.getElementById('mortalityChart').getContext('2d');
+new Chart(ctx1, {
+    type: 'bar',
+    data: {
+        labels: ['Pre-2000\\n(High VT)', 'ARDSNet\\nControl (12mL/kg)', 'ARDSNet\\nIntervention (6mL/kg)', 'Amato 1998\\n(Protective)', 'Current Era\\n(LPV Standard)'],
+        datasets: [{
+            label: 'Hospital Mortality (%)',
+            data: [52, 39.8, 31.0, 38, 35],
+            backgroundColor: ['#cbd5e0', '#94a3b8', '#0f4c81', '#00a896', '#d69e2e'],
+            borderRadius: 6,
+            barPercentage: 0.6
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: { display: false },
+            title: { display: true, text: 'Hospital Mortality in Landmark ARDS Ventilation Trials', font: { family: 'Inter', size: 14 } }
+        },
+        scales: {
+            y: { beginAtZero: true, max: 60, title: { display: true, text: 'Mortality (%)' } },
+            x: { grid: { display: false } }
+        }
+    }
+});
+
+// Chart 2: PEEP/FiO2 Ladder
+const ctx2 = document.getElementById('peepChart').getContext('2d');
+new Chart(ctx2, {
+    type: 'line',
+    data: {
+        labels: ['0.3', '0.4', '0.5', '0.6', '0.7', '0.8', '0.9', '1.0'],
+        datasets: [{
+            label: 'Lower PEEP Strategy',
+            data: [5, 5, 8, 10, 12, 14, 16, 18],
+            borderColor: '#0f4c81',
+            backgroundColor: '#0f4c81',
+            tension: 0.3,
+            pointRadius: 5
+        }, {
+            label: 'Higher PEEP Strategy',
+            data: [5, 8, 12, 14, 16, 18, 20, 22],
+            borderColor: '#00a896',
+            backgroundColor: '#00a896',
+            tension: 0.3,
+            pointRadius: 5
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            title: { display: true, text: 'ARDSNet PEEP/FiO₂ Ladder Comparison', font: { family: 'Inter', size: 14 } }
+        },
+        scales: {
+            y: { beginAtZero: true, max: 25, title: { display: true, text: 'PEEP (cmH₂O)' } },
+            x: { title: { display: true, text: 'FiO₂' } }
+        }
+    }
+});
+
+// Chart 3: Guideline Evolution
+const ctx3 = document.getElementById('guidelineChart').getContext('2d');
+new Chart(ctx3, {
+    type: 'bar',
+    data: {
+        labels: ['Low VT', 'Higher PEEP', 'Prone Position', 'NMBAs', 'HFOV', 'ECMO Referral'],
+        datasets: [{
+            label: '2017 Guideline Strength',
+            data: [100, 50, 100, 0, 0, 50],
+            backgroundColor: '#94a3b8',
+            borderRadius: 4
+        }, {
+            label: '2023-2026 Guideline Strength',
+            data: [100, 50, 100, 50, 0, 75],
+            backgroundColor: '#0f4c81',
+            borderRadius: 4
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        indexAxis: 'y',
+        plugins: {
+            title: { display: true, text: 'Guideline Recommendation Strength Over Time (% endorsement)', font: { family: 'Inter', size: 14 } },
+            legend: { position: 'bottom' }
+        },
+        scales: {
+            x: { beginAtZero: true, max: 100, title: { display: true, text: 'Strength of Endorsement' } }
+        }
+    }
+});
+
+// Chart 4: Monitoring Targets
+const ctx4 = document.getElementById('monitoringChart').getContext('2d');
+new Chart(ctx4, {
+    type: 'radar',
+    data: {
+        labels: ['SpO₂ (high)', 'PaO₂', 'Plateau Pressure', 'Driving Pressure', 'PEEP', 'pH (acidosis)', 'RR'],
+        datasets: [{
+            label: 'Target Zone',
+            data: [95, 80, 30, 14, 15, 7.30, 35],
+            borderColor: '#00a896',
+            backgroundColor: 'rgba(0, 168, 150, 0.1)',
+            pointBackgroundColor: '#00a896',
+            pointRadius: 4
+        }, {
+            label: 'Danger Threshold',
+            data: [100, 100, 35, 20, 24, 7.15, 45],
+            borderColor: '#e74c3c',
+            backgroundColor: 'rgba(231, 76, 60, 0.05)',
+            pointBackgroundColor: '#e74c3c',
+            pointRadius: 4,
+            borderDash: [5, 5]
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            title: { display: true, text: 'Monitoring Parameters: Target vs Danger Zones', font: { family: 'Inter', size: 14 } }
+        },
+        scales: {
+            r: {
+                beginAtZero: true,
+                pointLabels: { font: { family: 'Inter', size: 11 } }
+            }
+        }
+    }
+});
+</script>
+
+</body>
+</html>
