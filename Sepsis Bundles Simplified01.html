@@ -1,0 +1,1502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sepsis Bundles Simplified — Evidence-Based Clinical Reference 2026</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@700;800;900&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+  <style>
+    :root {
+      --primary: #1a5f7a;
+      --primary-light: #2c8da8;
+      --primary-dark: #0d3d4d;
+      --accent: #c84b31;
+      --accent-light: #e85d40;
+      --warning: #f4a261;
+      --success: #2a9d8f;
+      --danger: #e63946;
+      --text: #1d3557;
+      --text-light: #457b9d;
+      --bg: #f8f9fa;
+      --card: #ffffff;
+      --border: #e0e6ed;
+      --shadow: 0 4px 24px rgba(29, 53, 87, 0.08);
+      --shadow-hover: 0 8px 40px rgba(29, 53, 87, 0.14);
+      --gradient: linear-gradient(135deg, #1a5f7a 0%, #2c8da8 50%, #2a9d8f 100%);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* Header / Hero */
+    .hero {
+      background: var(--gradient);
+      color: white;
+      padding: 60px 20px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255,255,255,0.06) 1px, transparent 1px);
+      background-size: 40px 40px;
+      opacity: 0.5;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      background: rgba(255,255,255,0.2);
+      backdrop-filter: blur(10px);
+      padding: 6px 18px;
+      border-radius: 100px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+      border: 1px solid rgba(255,255,255,0.25);
+    }
+
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.4rem, 5vw, 4.2rem);
+      font-weight: 900;
+      line-height: 1.1;
+      margin-bottom: 16px;
+      text-shadow: 0 2px 20px rgba(0,0,0,0.2);
+    }
+
+    .hero-subtitle {
+      font-size: clamp(1rem, 2vw, 1.3rem);
+      font-weight: 300;
+      opacity: 0.92;
+      max-width: 700px;
+      margin: 0 auto 30px;
+    }
+
+    .hero-stats {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      flex-wrap: wrap;
+      margin-top: 30px;
+    }
+
+    .hero-stat {
+      text-align: center;
+    }
+
+    .hero-stat-value {
+      font-size: 2rem;
+      font-weight: 800;
+      display: block;
+    }
+
+    .hero-stat-label {
+      font-size: 0.75rem;
+      opacity: 0.85;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    /* Poster Grid Layout */
+    .poster-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+
+    .section {
+      background: var(--card);
+      border-radius: 16px;
+      padding: 32px;
+      margin-bottom: 32px;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--border);
+      transition: box-shadow 0.3s ease;
+    }
+
+    .section:hover {
+      box-shadow: var(--shadow-hover);
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 2px solid var(--border);
+    }
+
+    .section-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: var(--gradient);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 1.3rem;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: var(--primary-dark);
+    }
+
+    .section-badge {
+      margin-left: auto;
+      background: var(--accent);
+      color: white;
+      font-size: 0.65rem;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    /* Grid Layouts */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 24px;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 20px;
+    }
+
+    .grid-4 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+    }
+
+    /* Cards */
+    .card {
+      background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px;
+      transition: all 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 30px rgba(29,53,87,0.1);
+      border-color: var(--primary-light);
+    }
+
+    .card-header {
+      font-weight: 700;
+      font-size: 1.05rem;
+      color: var(--primary-dark);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .card-body {
+      font-size: 0.9rem;
+      color: var(--text);
+    }
+
+    /* Tables */
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.88rem;
+      margin-top: 12px;
+    }
+
+    .data-table th {
+      background: var(--gradient);
+      color: white;
+      padding: 12px 14px;
+      text-align: left;
+      font-weight: 600;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .data-table td {
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .data-table tr:hover td {
+      background: #f1f7f9;
+    }
+
+    .data-table .highlight-row {
+      background: #fff8f0 !important;
+      font-weight: 600;
+    }
+
+    .data-table .strong-rec {
+      border-left: 3px solid var(--success);
+    }
+
+    .data-table .conditional-rec {
+      border-left: 3px solid var(--warning);
+    }
+
+    /* Algorithm / Flow Diagrams */
+    .algorithm-container {
+      background: #f8fafc;
+      border-radius: 12px;
+      padding: 24px;
+      overflow-x: auto;
+    }
+
+    .flow-step {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 14px;
+      position: relative;
+    }
+
+    .flow-number {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: var(--primary);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.85rem;
+      flex-shrink: 0;
+    }
+
+    .flow-content {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px 18px;
+      flex: 1;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    }
+
+    .flow-title {
+      font-weight: 700;
+      color: var(--primary-dark);
+      margin-bottom: 4px;
+      font-size: 0.95rem;
+    }
+
+    .flow-detail {
+      font-size: 0.82rem;
+      color: var(--text-light);
+    }
+
+    .flow-arrow {
+      text-align: center;
+      color: var(--primary-light);
+      font-size: 1.4rem;
+      margin: -4px 0;
+    }
+
+    .flow-branch {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-left: 48px;
+    }
+
+    /* SVG Diagram Styles */
+    .svg-diagram {
+      max-width: 100%;
+      height: auto;
+    }
+
+    /* Charts */
+    .chart-container {
+      position: relative;
+      height: 300px;
+      width: 100%;
+      margin-top: 16px;
+    }
+
+    /* Highlight Boxes */
+    .alert-box {
+      background: linear-gradient(135deg, #fff5f5 0%, #fff 100%);
+      border-left: 4px solid var(--danger);
+      padding: 18px 22px;
+      border-radius: 0 12px 12px 0;
+      margin: 16px 0;
+      font-size: 0.9rem;
+    }
+
+    .alert-box strong {
+      color: var(--danger);
+    }
+
+    .info-box {
+      background: linear-gradient(135deg, #f0f9ff 0%, #fff 100%);
+      border-left: 4px solid var(--primary);
+      padding: 18px 22px;
+      border-radius: 0 12px 12px 0;
+      margin: 16px 0;
+      font-size: 0.9rem;
+    }
+
+    .success-box {
+      background: linear-gradient(135deg, #f0fdf4 0%, #fff 100%);
+      border-left: 4px solid var(--success);
+      padding: 18px 22px;
+      border-radius: 0 12px 12px 0;
+      margin: 16px 0;
+      font-size: 0.9rem;
+    }
+
+    .warning-box {
+      background: linear-gradient(135deg, #fffbeb 0%, #fff 100%);
+      border-left: 4px solid var(--warning);
+      padding: 18px 22px;
+      border-radius: 0 12px 12px 0;
+      margin: 16px 0;
+      font-size: 0.9rem;
+    }
+
+    /* Timeline */
+    .timeline {
+      position: relative;
+      padding-left: 30px;
+    }
+
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 10px;
+      top: 0;
+      bottom: 0;
+      width: 3px;
+      background: var(--gradient);
+      border-radius: 3px;
+    }
+
+    .timeline-item {
+      position: relative;
+      margin-bottom: 24px;
+    }
+
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      left: -26px;
+      top: 6px;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: var(--card);
+      border: 3px solid var(--primary);
+    }
+
+    .timeline-time {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--primary);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 4px;
+    }
+
+    .timeline-content {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 16px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+    }
+
+    /* Tags */
+    .tag {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 100px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      margin-right: 6px;
+      margin-top: 6px;
+    }
+
+    .tag-strong {
+      background: #d4edda;
+      color: #155724;
+    }
+
+    .tag-conditional {
+      background: #fff3cd;
+      color: #856404;
+    }
+
+    .tag-weak {
+      background: #f8d7da;
+      color: #721c24;
+    }
+
+    /* Print */
+    @media print {
+      .hero {
+        padding: 30px 20px;
+      }
+      .section {
+        break-inside: avoid;
+        box-shadow: none;
+        border: 1px solid #ddd;
+      }
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .section {
+        padding: 20px;
+      }
+      .grid-2, .grid-3, .grid-4 {
+        grid-template-columns: 1fr;
+      }
+      .flow-branch {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Navigation */
+    .nav-tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+    }
+
+    .nav-tab {
+      padding: 8px 16px;
+      border-radius: 8px;
+      background: #edf2f7;
+      color: var(--text-light);
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      transition: all 0.2s;
+    }
+
+    .nav-tab.active {
+      background: var(--primary);
+      color: white;
+    }
+
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+      animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* References */
+    .references {
+      font-size: 0.8rem;
+      line-height: 1.8;
+      color: var(--text-light);
+    }
+
+    .references li {
+      margin-bottom: 8px;
+    }
+
+    /* Micro-interactions */
+    .pulse {
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 rgba(200, 75, 49, 0.4); }
+      70% { box-shadow: 0 0 0 12px rgba(200, 75, 49, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(200, 75, 49, 0); }
+    }
+  </style>
+<base target="_blank">
+</head>
+<body>
+
+  <!-- HERO SECTION -->
+  <header class="hero">
+    <div class="hero-badge">Surviving Sepsis Campaign 2026 Update</div>
+    <h1>Sepsis Bundles<br/>Simplified</h1>
+    <p class="hero-subtitle">Evidence-Based Hour-1 Resuscitation, Hemodynamic Management & Antimicrobial Stewardship — A Clinical Reference</p>
+    <p style="font-size:0.85rem; opacity:0.8; margin-top:8px;">Prepared by <strong>Dr. Mehta</strong> · Emergency Medicine</p>
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <span class="hero-stat-value">48.9M</span>
+        <span class="hero-stat-label">Global Cases / Year</span>
+      </div>
+      <div class="hero-stat">
+        <span class="hero-stat-value">11M</span>
+        <span class="hero-stat-label">Global Deaths / Year</span>
+      </div>
+      <div class="hero-stat">
+        <span class="hero-stat-value">30-40%</span>
+        <span class="hero-stat-label">Septic Shock Mortality</span>
+      </div>
+      <div class="hero-stat">
+        <span class="hero-stat-value">&lt;1hr</span>
+        <span class="hero-stat-label">Target Bundle Time</span>
+      </div>
+    </div>
+  </header>
+
+  <div class="poster-container">
+
+    <!-- SECTION 1: DEFINITIONS & PATHOPHYSIOLOGY -->
+    <section class="section">
+      <div class="section-header">
+        <div class="section-icon">01</div>
+        <h2 class="section-title">Definitions & Pathophysiology</h2>
+        <span class="section-badge">Sepsis-3 Consensus</span>
+      </div>
+
+      <div class="grid-2">
+        <div>
+          <div class="card">
+            <div class="card-header">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+              Sepsis
+            </div>
+            <div class="card-body">
+              <p><strong>Life-threatening organ dysfunction</strong> caused by a dysregulated host response to infection. Defined by an acute change in SOFA score ≥2 points consequent to infection.</p>
+            </div>
+          </div>
+          <div class="card" style="margin-top:16px;">
+            <div class="card-header">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+              Septic Shock
+            </div>
+            <div class="card-body">
+              <p>A subset of sepsis with <strong>circulatory and cellular/metabolic dysfunction</strong> associated with a higher risk of mortality. Clinically: persisting hypotension requiring vasopressors to maintain MAP ≥65 mmHg AND serum lactate >2 mmol/L despite adequate volume resuscitation.</p>
+            </div>
+          </div>
+        </div>
+        <div>
+          <p style="font-weight:600; margin-bottom:12px; color:var(--primary-dark);">Pathophysiology Cascade</p>
+          <svg class="svg-diagram" viewBox="0 0 500 280" xmlns="http://www.w3.org/2000/svg">
+            <!-- Infection -->
+            <rect x="180" y="10" width="140" height="40" rx="8" fill="#1a5f7a" />
+            <text x="250" y="35" text-anchor="middle" fill="white" font-size="13" font-weight="600">Infection / Pathogen</text>
+            <line x1="250" y1="50" x2="250" y2="65" stroke="#1a5f7a" stroke-width="2" marker-end="url(#arrow)" />
+
+            <!-- Dysregulated Host Response -->
+            <rect x="130" y="70" width="240" height="40" rx="8" fill="#c84b31" />
+            <text x="250" y="95" text-anchor="middle" fill="white" font-size="13" font-weight="600">Dysregulated Host Immune Response</text>
+            <line x1="250" y1="110" x2="250" y2="125" stroke="#c84b31" stroke-width="2" marker-end="url(#arrow)" />
+
+            <!-- Cytokine Storm -->
+            <rect x="150" y="130" width="200" height="40" rx="8" fill="#f4a261" />
+            <text x="250" y="155" text-anchor="middle" fill="white" font-size="13" font-weight="600">Cytokine Storm / Endothelial Injury</text>
+
+            <!-- Branching arrows -->
+            <line x1="250" y1="170" x2="250" y2="180" stroke="#f4a261" stroke-width="2" />
+            <line x1="250" y1="180" x2="100" y2="180" stroke="#f4a261" stroke-width="2" />
+            <line x1="250" y1="180" x2="400" y2="180" stroke="#f4a261" stroke-width="2" />
+            <line x1="100" y1="180" x2="100" y2="195" stroke="#f4a261" stroke-width="2" marker-end="url(#arrow)" />
+            <line x1="250" y1="180" x2="250" y2="195" stroke="#f4a261" stroke-width="2" marker-end="url(#arrow)" />
+            <line x1="400" y1="180" x2="400" y2="195" stroke="#f4a261" stroke-width="2" marker-end="url(#arrow)" />
+
+            <!-- Outcomes -->
+            <rect x="20" y="200" width="160" height="40" rx="8" fill="#2a9d8f" />
+            <text x="100" y="225" text-anchor="middle" fill="white" font-size="12" font-weight="600">Tissue Hypoperfusion</text>
+
+            <rect x="190" y="200" width="120" height="40" rx="8" fill="#2a9d8f" />
+            <text x="250" y="225" text-anchor="middle" fill="white" font-size="12" font-weight="600">Organ Dysfunction</text>
+
+            <rect x="330" y="200" width="150" height="40" rx="8" fill="#e63946" />
+            <text x="405" y="225" text-anchor="middle" fill="white" font-size="12" font-weight="600">Septic Shock / Death</text>
+
+            <defs>
+              <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+                <path d="M0,0 L0,6 L9,3 z" fill="#1d3557" />
+              </marker>
+            </defs>
+          </svg>
+          <div class="info-box" style="margin-top:12px;">
+            <strong>Clinical Pearl:</strong> Sepsis is NOT ruled in or out using a single biomarker. Diagnosis requires clinical evaluation of infection source + organ dysfunction (SOFA ≥2) — 2026 SSC Good Practice Statement.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 2: SCREENING TOOLS COMPARISON -->
+    <section class="section">
+      <div class="section-header">
+        <div class="section-icon">02</div>
+        <h2 class="section-title">Screening Tools: Comparative Analysis</h2>
+        <span class="section-badge">2026 SSC Update</span>
+      </div>
+
+      <p style="margin-bottom:16px; font-size:0.92rem;">The 2026 SSC Guidelines <strong>recommend</strong> using NEWS, NEWS2, MEWS, or SIRS <strong>over qSOFA</strong> as a single screening tool for sepsis. No scoring system has both high sensitivity and specificity.</p>
+
+      <div class="grid-2">
+        <div>
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Tool</th>
+                <th>Sensitivity</th>
+                <th>Specificity</th>
+                <th>AUC</th>
+                <th>Best Use</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="highlight-row strong-rec">
+                <td><strong>SIRS</strong></td>
+                <td>0.82 (0.78–0.85)</td>
+                <td>0.24 (0.19–0.29)</td>
+                <td>0.63</td>
+                <td>Screening (high sensitivity)</td>
+              </tr>
+              <tr class="strong-rec">
+                <td><strong>NEWS / NEWS2</strong></td>
+                <td>0.73 (0.63–0.81)</td>
+                <td>0.52 (0.39–0.65)</td>
+                <td>0.69</td>
+                <td>General deterioration</td>
+              </tr>
+              <tr class="conditional-rec">
+                <td><strong>qSOFA</strong></td>
+                <td>0.46 (0.39–0.53)</td>
+                <td>0.82 (0.76–0.86)</td>
+                <td>0.69</td>
+                <td>Mortality risk (high specificity)</td>
+              </tr>
+              <tr>
+                <td><strong>SOFA</strong></td>
+                <td colspan="3">Organ dysfunction quantification; limited for initial ED screening (requires ABG, bilirubin)</td>
+                <td>Prognosis / ICU</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="warning-box" style="margin-top:14px;">
+            <strong>2026 Key Update:</strong> The panel suggests <strong>NEWS/NEWS2 over qSOFA</strong> for inpatient sepsis screening. For patients en route via ambulance/flight, a standard sepsis screening tool is suggested. Sepsis is a <em>clinical diagnosis</em> — not a single biomarker.
+          </div>
+        </div>
+        <div>
+          <div class="chart-container">
+            <canvas id="screeningChart"></canvas>
+          </div>
+          <p style="font-size:0.78rem; color:var(--text-light); text-align:center; margin-top:8px;">Meta-analysis of 62,338 patients from 26 studies (PMC 2022)</p>
+        </div>
+      </div>
+
+      <div class="grid-4" style="margin-top:20px;">
+        <div class="card">
+          <div class="card-header">qSOFA (≥2)</div>
+          <div class="card-body">
+            RR ≥22/min<br/>Altered mentation<br/>SBP ≤100 mmHg
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header">SIRS (≥2)</div>
+          <div class="card-body">
+            Temp >38.3°C or <36°C<br/>HR >90<br/>RR >20 or PaCO2 <32<br/>WBC >12K or <4K or >10% bands
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header">NEWS (≥5)</div>
+          <div class="card-body">
+            Resp rate, SpO2, Temp, Systolic BP, HR, AVPU, Supplemental O2
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header">SOFA</div>
+          <div class="card-body">
+            Respiration, Coagulation, Liver, Cardiovascular, CNS, Renal — Δ≥2 from baseline
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 3: THE HOUR-1 BUNDLE -->
+    <section class="section">
+      <div class="section-header">
+        <div class="section-icon">03</div>
+        <h2 class="section-title">The Hour-1 Bundle: Immediate Resuscitation</h2>
+        <span class="section-badge" style="background:var(--danger);">Critical Time</span>
+      </div>
+
+      <div class="alert-box pulse">
+        <strong>2026 SSC Update:</strong> For adults with septic shock, administer antimicrobial therapy <strong>immediately, ideally within 1 hour of recognition</strong>. For sepsis without shock: immediate antibiotics, ideally within 1 hour. For low-risk patients without shock: consider deferring while monitoring closely.
+      </div>
+
+      <div class="algorithm-container">
+        <svg class="svg-diagram" viewBox="0 0 800 340" xmlns="http://www.w3.org/2000/svg">
+          <!-- Title -->
+          <text x="400" y="24" text-anchor="middle" font-size="16" font-weight="800" fill="#1d3557">HOUR-1 BUNDLE ALGORITHM (2026 SSC)</text>
+
+          <!-- Step 1 -->
+          <rect x="20" y="45" width="140" height="55" rx="10" fill="#1a5f7a" />
+          <text x="90" y="68" text-anchor="middle" fill="white" font-size="11" font-weight="600">1. Measure Lactate</text>
+          <text x="90" y="85" text-anchor="middle" fill="white" font-size="9">Remeasure if >2 mmol/L</text>
+
+          <line x1="160" y1="72" x2="190" y2="72" stroke="#1a5f7a" stroke-width="2" marker-end="url(#arr)" />
+
+          <!-- Step 2 -->
+          <rect x="195" y="45" width="155" height="55" rx="10" fill="#1a5f7a" />
+          <text x="272" y="68" text-anchor="middle" fill="white" font-size="11" font-weight="600">2. Blood Cultures</text>
+          <text x="272" y="85" text-anchor="middle" fill="white" font-size="9">BEFORE antibiotics</text>
+
+          <line x1="350" y1="72" x2="380" y2="72" stroke="#1a5f7a" stroke-width="2" marker-end="url(#arr)" />
+
+          <!-- Step 3 -->
+          <rect x="385" y="45" width="155" height="55" rx="10" fill="#c84b31" />
+          <text x="462" y="68" text-anchor="middle" fill="white" font-size="11" font-weight="600">3. Broad Antibiotics</text>
+          <text x="462" y="85" text-anchor="middle" fill="white" font-size="9">Within 1 hour of recognition</text>
+
+          <line x1="540" y1="72" x2="570" y2="72" stroke="#c84b31" stroke-width="2" marker-end="url(#arr)" />
+
+          <!-- Step 4 -->
+          <rect x="575" y="45" width="205" height="55" rx="10" fill="#f4a261" />
+          <text x="677" y="68" text-anchor="middle" fill="white" font-size="11" font-weight="600">4. Fluid Resuscitation</text>
+          <text x="677" y="85" text-anchor="middle" fill="white" font-size="9">30 mL/kg crystalloid if hypotension</text>
+          <text x="677" y="96" text-anchor="middle" fill="white" font-size="9">or lactate ≥4 mmol/L</text>
+
+          <!-- Decision diamond -->
+          <polygon points="400,150 480,185 400,220 320,185" fill="#e63946" opacity="0.15" stroke="#e63946" stroke-width="2" />
+          <text x="400" y="180" text-anchor="middle" font-size="11" font-weight="700" fill="#e63946">Persistent</text>
+          <text x="400" y="194" text-anchor="middle" font-size="11" font-weight="700" fill="#e63946">Hypotension?</text>
+
+          <!-- Lines to decision -->
+          <line x1="677" y1="100" x2="677" y2="150" stroke="#f4a261" stroke-width="2" />
+          <line x1="677" y1="150" x2="480" y2="150" stroke="#f4a261" stroke-width="2" />
+          <line x1="480" y1="150" x2="480" y2="185" stroke="#f4a261" stroke-width="2" marker-end="url(#arr)" />
+
+          <!-- No branch -->
+          <line x1="320" y1="185" x2="200" y2="185" stroke="#2a9d8f" stroke-width="2" />
+          <line x1="200" y1="185" x2="200" y2="230" stroke="#2a9d8f" stroke-width="2" marker-end="url(#arr)" />
+          <rect x="120" y="230" width="160" height="45" rx="8" fill="#2a9d8f" />
+          <text x="200" y="252" text-anchor="middle" fill="white" font-size="11" font-weight="600">Continue Monitoring</text>
+          <text x="200" y="266" text-anchor="middle" fill="white" font-size="9">Reassess q15-30min</text>
+
+          <!-- Yes branch -->
+          <line x1="480" y1="185" x2="600" y2="185" stroke="#e63946" stroke-width="2" />
+          <line x1="600" y1="185" x2="600" y2="230" stroke="#e63946" stroke-width="2" marker-end="url(#arr)" />
+          <rect x="510" y="230" width="180" height="45" rx="8" fill="#e63946" />
+          <text x="600" y="252" text-anchor="middle" fill="white" font-size="11" font-weight="600">5. Vasopressors</text>
+          <text x="600" y="266" text-anchor="middle" fill="white" font-size="9">MAP ≥65 mmHg (60–65 if age ≥65)</text>
+
+          <!-- Reassess -->
+          <line x1="200" y1="275" x2="200" y2="300" stroke="#1d3557" stroke-width="2" />
+          <line x1="600" y1="275" x2="600" y2="300" stroke="#1d3557" stroke-width="2" />
+          <line x1="200" y1="300" x2="600" y2="300" stroke="#1d3557" stroke-width="2" />
+          <line x1="400" y1="300" x2="400" y2="320" stroke="#1d3557" stroke-width="2" marker-end="url(#arr)" />
+          <rect x="300" y="320" width="200" height="30" rx="6" fill="#1d3557" />
+          <text x="400" y="339" text-anchor="middle" fill="white" font-size="10" font-weight="600">Reassess Perfusion: CRT, Lactate, Urine Output</text>
+
+          <defs>
+            <marker id="arr" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+              <path d="M0,0 L0,8 L8,4 z" fill="#1d3557" />
+            </marker>
+          </defs>
+        </svg>
+      </div>
+
+      <div class="grid-3" style="margin-top:20px;">
+        <div class="card">
+          <div class="card-header">Lactate Management</div>
+          <div class="card-body">
+            <ul style="padding-left:18px; margin:0;">
+              <li>Measure immediately at presentation</li>
+              <li>Remeasure within 6 hr if initial >2 mmol/L</li>
+              <li>Serial lactate measurements <strong>suggested</strong> to guide resuscitation</li>
+              <li>Capillary refill time (CRT) <strong>suggested</strong> as adjunct to lactate</li>
+            </ul>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header">Blood Cultures</div>
+          <div class="card-body">
+            <ul style="padding-left:18px; margin:0;">
+              <li>Obtain <strong>prior</strong> to antimicrobial therapy</li>
+              <li>Minimum 2 sets (aerobic + anaerobic)</li>
+              <li>Do NOT delay antibiotics >45 min for cultures</li>
+              <li>Consider source-specific cultures (urine, CSF, wound)</li>
+            </ul>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header">Fluid Resuscitation Details</div>
+          <div class="card-body">
+            <ul style="padding-left:18px; margin:0;">
+              <li>At least <strong>30 mL/kg IV crystalloid</strong> in first 3 hours</li>
+              <li><strong>Balanced crystalloids</strong> (LR, Plasmalyte) suggested over NS</li>
+              <li>Crystalloids alone suggested vs crystalloids + albumin</li>
+              <li>Frequent reassessment to avoid fluid overload</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 4: ANTIMICROBIAL STEWARDSHIP -->
+    <section class="section">
+      <div class="section-header">
+        <div class="section-icon">04</div>
+        <h2 class="section-title">Antimicrobial Therapy & Stewardship</h2>
+        <span class="section-badge">2026 New</span>
+      </div>
+
+      <div class="grid-2">
+        <div>
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th colspan="2" style="text-align:center;">2026 SSC Antimicrobial Recommendations</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="strong-rec">
+                <td><strong>Septic Shock</strong></td>
+                <td>Immediate antibiotics, <strong>ideally within 1 hour</strong> — Strong recommendation</td>
+              </tr>
+              <tr class="strong-rec">
+                <td><strong>Sepsis without Shock</strong></td>
+                <td>Immediate antibiotics, <strong>ideally within 1 hour</strong> — Strong recommendation</td>
+              </tr>
+              <tr class="conditional-rec">
+                <td><strong>Possible Sepsis (low risk, no shock)</strong></td>
+                <td>Time-limited rapid investigation; if concern persists, antibiotics within <strong>3 hours</strong> — Suggest</td>
+              </tr>
+              <tr class="conditional-rec">
+                <td><strong>Prehospital (ambulance/flight) >60 min to hospital</strong></td>
+                <td>Administer antibiotics en route if definite/probable septic shock — Suggest</td>
+              </tr>
+              <tr class="strong-rec">
+                <td><strong>Beta-lactam Infusion</strong></td>
+                <td>Prolonged infusion after loading dose <strong>recommended</strong> over bolus — Moderate certainty</td>
+              </tr>
+              <tr class="strong-rec">
+                <td><strong>De-escalation</strong></td>
+                <td><strong>Recommended</strong> when microbiologic diagnosis confirmed — Very low certainty</td>
+              </tr>
+              <tr class="conditional-rec">
+                <td><strong>MDR Risk</strong></td>
+                <td>Empiric MDR coverage suggested if high risk; against if low risk — Suggest</td>
+              </tr>
+              <tr class="conditional-rec">
+                <td><strong>Duration (adequate source control)</strong></td>
+                <td>Shorter duration <strong>suggested</strong> over longer; consider PCT + clinical evaluation</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div>
+          <div class="chart-container">
+            <canvas id="timingChart"></canvas>
+          </div>
+          <p style="font-size:0.78rem; color:var(--text-light); text-align:center; margin-top:8px;">Mortality increases significantly with each hour of antibiotic delay in septic shock</p>
+        </div>
+      </div>
+
+      <div class="success-box" style="margin-top:16px;">
+        <strong>Antimicrobial Stewardship Principles (2026):</strong> (1) Collect cultures before antibiotics when feasible. (2) Use local resistance patterns to guide empiric selection. (3) De-escalate to narrowest effective agent within 48–72 hr when susceptibilities return. (4) Use therapeutic drug monitoring (TDM) for selected patients. (5) Avoid Candida biomarkers to guide antifungal initiation/discontinuation.
+      </div>
+    </section>
+
+    <!-- SECTION 5: HEMODYNAMIC & VASOPRESSOR MANAGEMENT -->
+    <section class="section">
+      <div class="section-header">
+        <div class="section-icon">05</div>
+        <h2 class="section-title">Hemodynamic Management & Vasopressors</h2>
+        <span class="section-badge">Algorithm</span>
+      </div>
+
+      <div class="algorithm-container">
+        <svg class="svg-diagram" viewBox="0 0 850 420" xmlns="http://www.w3.org/2000/svg">
+          <text x="425" y="24" text-anchor="middle" font-size="16" font-weight="800" fill="#1d3557">VASOPRESSOR ESCALATION ALGORITHM (2026 SSC)</text>
+
+          <!-- Step 1 -->
+          <rect x="300" y="40" width="250" height="50" rx="10" fill="#1a5f7a" />
+          <text x="425" y="62" text-anchor="middle" fill="white" font-size="12" font-weight="600">Septic Shock + Hypotension after Fluids</text>
+          <text x="425" y="78" text-anchor="middle" fill="white" font-size="10">Target MAP ≥65 mmHg (60–65 if age ≥65)</text>
+
+          <!-- Norepinephrine -->
+          <line x1="425" y1="90" x2="425" y2="110" stroke="#1a5f7a" stroke-width="2" marker-end="url(#ar2)" />
+          <rect x="310" y="110" width="230" height="55" rx="10" fill="#2a9d8f" />
+          <text x="425" y="132" text-anchor="middle" fill="white" font-size="12" font-weight="700">FIRST-LINE: Norepinephrine</text>
+          <text x="425" y="148" text-anchor="middle" fill="white" font-size="10">0.01–3 mcg/kg/min — Start 0.05 mcg/kg/min</text>
+          <text x="425" y="160" text-anchor="middle" fill="white" font-size="10">Preferred: tachyarrhythmia risk</text>
+
+          <!-- Decision -->
+          <line x1="425" y1="165" x2="425" y2="185" stroke="#2a9d8f" stroke-width="2" marker-end="url(#ar2)" />
+          <polygon points="425,195 470,215 425,235 380,215" fill="#f4a261" opacity="0.2" stroke="#f4a261" stroke-width="2" />
+          <text x="425" y="212" text-anchor="middle" font-size="11" font-weight="700" fill="#f4a261">MAP Still</text>
+          <text x="425" y="226" text-anchor="middle" font-size="11" font-weight="700" fill="#f4a261">Inadequate?</text>
+
+          <!-- Add Vasopressin -->
+          <line x1="470" y1="215" x2="600" y2="215" stroke="#f4a261" stroke-width="2" marker-end="url(#ar2)" />
+          <rect x="605" y="190" width="220" height="55" rx="10" fill="#f4a261" />
+          <text x="715" y="212" text-anchor="middle" fill="white" font-size="12" font-weight="700">ADD: Vasopressin</text>
+          <text x="715" y="228" text-anchor="middle" fill="white" font-size="10">0.03 units/min (fixed dose)</text>
+          <text x="715" y="240" text-anchor="middle" fill="white" font-size="10">Instead of escalating NE dose</text>
+
+          <!-- Add Epinephrine -->
+          <line x1="715" y1="245" x2="715" y2="265" stroke="#f4a261" stroke-width="2" />
+          <line x1="715" y1="265" x2="715" y2="275" stroke="#c84b31" stroke-width="2" marker-end="url(#ar2)" />
+          <rect x="605" y="275" width="220" height="50" rx="10" fill="#c84b31" />
+          <text x="715" y="297" text-anchor="middle" fill="white" font-size="12" font-weight="700">ADD: Epinephrine</text>
+          <text x="715" y="315" text-anchor="middle" fill="white" font-size="10">If MAP still inadequate despite NE + AVP</text>
+
+          <!-- Cardiac dysfunction branch -->
+          <line x1="380" y1="215" x2="250" y2="215" stroke="#f4a261" stroke-width="2" marker-end="url(#ar2)" />
+          <rect x="30" y="190" width="215" height="55" rx="10" fill="#e63946" />
+          <text x="137" y="212" text-anchor="middle" fill="white" font-size="11" font-weight="700">Concomitant Cardiac Dysfunction</text>
+          <text x="137" y="228" text-anchor="middle" fill="white" font-size="10">Persistent hypoperfusion despite</text>
+          <text x="137" y="240" text-anchor="middle" fill="white" font-size="10">adequate volume & BP</text>
+
+          <line x1="137" y1="245" x2="137" y2="265" stroke="#e63946" stroke-width="2" marker-end="url(#ar2)" />
+          <rect x="30" y="265" width="215" height="55" rx="10" fill="#e63946" opacity="0.85" />
+          <text x="137" y="287" text-anchor="middle" fill="white" font-size="11" font-weight="700">Norepinephrine OR Epinephrine</text>
+          <text x="137" y="303" text-anchor="middle" fill="white" font-size="10">Epinephrine preferred if bradycardia</text>
+          <text x="137" y="315" text-anchor="middle" fill="white" font-size="10">NE preferred if tachyarrhythmia</text>
+
+          <!-- Inotropes -->
+          <line x1="137" y1="320" x2="137" y2="340" stroke="#e63946" stroke-width="2" marker-end="url(#ar2)" />
+          <rect x="30" y="340" width="215" height="40" rx="8" fill="#1d3557" />
+          <text x="137" y="365" text-anchor="middle" fill="white" font-size="10" font-weight="600">ADD Dobutamine to NE or use Epinephrine alone</text>
+
+          <!-- Steroids -->
+          <rect x="605" y="340" width="220" height="40" rx="8" fill="#1a5f7a" opacity="0.8" />
+          <text x="715" y="365" text-anchor="middle" fill="white" font-size="10" font-weight="600">Consider IV Corticosteroids for Septic Shock</text>
+
+          <defs>
+            <marker id="ar2" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+              <path d="M0,0 L0,8 L8,4 z" fill="#1d3557" />
+            </marker>
+          </defs>
+        </svg>
+      </div>
+
+      <div class="grid-3" style="margin-top:20px;">
+        <div class="card">
+          <div class="card-header">MAP Targets (2026 Update)</div>
+          <div class="card-body">
+            <strong>General:</strong> MAP ≥65 mmHg — <span class="tag tag-strong">Strong</span><br/>
+            <strong>Age ≥65:</strong> MAP 60–65 mmHg suggested — <span class="tag tag-conditional">Conditional</span><br/>
+            <span style="font-size:0.8rem; color:var(--text-light);">Lower targets in older adults may reduce vasopressor burden and arrhythmias while maintaining perfusion.</span>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header">Peripheral Vasopressors</div>
+          <div class="card-body">
+            <strong>Suggested:</strong> Start vasopressors peripherally to restore MAP rather than delaying for central access — <span class="tag tag-conditional">Conditional</span><br/>
+            <span style="font-size:0.8rem; color:var(--text-light);">Safe for &lt;6 hours via proximal large-bore IV (antecubital/external jugular) with close extravasation monitoring. Use 18G or larger catheter.</span>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header">Not Recommended</div>
+          <div class="card-body">
+            • Terlipressin — against<br/>
+            • Routine beta-blockers — against<br/>
+            • Levosimendan — against<br/>
+            • Methylene blue — insufficient evidence<br/>
+            • Oral midodrine — insufficient evidence<br/>
+            • Dobutamine alone without vasopressor
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 6: FLUID CHOICE & RESPIRATORY -->
+    <section class="section">
+      <div class="section-header">
+        <div class="section-icon">06</div>
+        <h2 class="section-title">Fluid Selection & Respiratory Support</h2>
+        <span class="section-badge">Supportive Care</span>
+      </div>
+
+      <div class="grid-2">
+        <div>
+          <p style="font-weight:700; margin-bottom:10px; color:var(--primary-dark);">Crystalloid Composition Comparison</p>
+          <table class="data-table" style="font-size:0.82rem;">
+            <thead>
+              <tr>
+                <th>Fluid</th>
+                <th>Na+</th>
+                <th>Cl-</th>
+                <th>K+</th>
+                <th>Lactate/Other</th>
+                <th>SSC 2026</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Plasma</strong></td>
+                <td>135–145</td>
+                <td>94–111</td>
+                <td>4.5–5.0</td>
+                <td>HCO3 23–27</td>
+                <td>—</td>
+              </tr>
+              <tr class="highlight-row">
+                <td><strong>Balanced Crystalloids</strong></td>
+                <td>130–140</td>
+                <td>98–111</td>
+                <td>4–5.4</td>
+                <td>Acetate/Gluconate</td>
+                <td><span class="tag tag-conditional">Suggested</span></td>
+              </tr>
+              <tr>
+                <td>Lactated Ringer's</td>
+                <td>130</td>
+                <td>109</td>
+                <td>4.0</td>
+                <td>Lactate 28</td>
+                <td>Preferred</td>
+              </tr>
+              <tr>
+                <td>Plasmalyte</td>
+                <td>140</td>
+                <td>98</td>
+                <td>5.0</td>
+                <td>Acetate 27, Gluconate 23</td>
+                <td>Preferred</td>
+              </tr>
+              <tr>
+                <td>0.9% Saline</td>
+                <td>154</td>
+                <td>154</td>
+                <td>—</td>
+                <td>—</td>
+                <td>Acceptable</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="info-box" style="margin-top:12px;">
+            <strong>Myth Busted:</strong> Lactated Ringer's contains <em>sodium lactate</em> (NOT lactic acid) and does NOT increase serum lactate. LR is preferred over normal saline to reduce hyperchloremic metabolic acidosis and acute kidney injury.
+          </div>
+        </div>
+        <div>
+          <p style="font-weight:700; margin-bottom:10px; color:var(--primary-dark);">Respiratory Support (2026)</p>
+          <div class="card">
+            <div class="card-header">Oxygenation Strategy</div>
+            <div class="card-body">
+              Measure SpO2 or SaO2 with clinical exam — <span class="tag tag-conditional">Suggest</span><br/>
+              Titrate FiO2 to individualized targets (conservative vs liberal) — <span class="tag tag-conditional">Suggest</span>
+            </div>
+          </div>
+          <div class="card" style="margin-top:10px;">
+            <div class="card-header">HFNC First for Hypoxemic Failure</div>
+            <div class="card-body">
+              <strong>HFNC preferred</strong> over conventional oxygen — <span class="tag tag-conditional">Suggest</span><br/>
+              HFNC as initial therapy over NIV — <span class="tag tag-conditional">Suggest</span><br/>
+              Awake proning may be considered — <span class="tag tag-conditional">Suggest</span>
+            </div>
+          </div>
+          <div class="card" style="margin-top:10px;">
+            <div class="card-header">Mechanical Ventilation</div>
+            <div class="card-body">
+              Sepsis with ARDS: VT 6 mL/kg IBW, Pplat ≤30 — <span class="tag tag-strong">Strong</span><br/>
+              Sepsis without ARDS: VT 6–8 mL/kg IBW — <span class="tag tag-conditional">Suggest</span><br/>
+              Moderate-severe ARDS: prone >12 hr/day — <span class="tag tag-conditional">Suggest</span><br/>
+              Severe ARDS: venovenous ECMO in experienced centers — <span class="tag tag-conditional">Suggest</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 7: BUNDLE COMPLIANCE & OUTCOMES -->
+    <section class="section">
+      <div class="section-header">
+        <div class="section-icon">07</div>
+        <h2 class="section-title">Bundle Compliance & Clinical Outcomes</h2>
+        <span class="section-badge">Data-Driven</span>
+      </div>
+
+      <div class="grid-2">
+        <div>
+          <div class="chart-container" style="height:260px;">
+            <canvas id="complianceChart"></canvas>
+          </div>
+          <p style="font-size:0.78rem; color:var(--text-light); text-align:center; margin-top:6px;">Impact of Code Sepsis implementation on bundle compliance (n=118)</p>
+        </div>
+        <div>
+          <div class="chart-container" style="height:260px;">
+            <canvas id="mortalityChart"></canvas>
+          </div>
+          <p style="font-size:0.78rem; color:var(--text-light); text-align:center; margin-top:6px;">Sepsis-associated in-hospital mortality by region and severity</p>
+        </div>
+      </div>
+
+      <div class="grid-3" style="margin-top:20px;">
+        <div class="card">
+          <div class="card-header">Hour-1 Compliance Impact</div>
+          <div class="card-body">
+            Hour-1 bundle compliance improved from <strong>10% to 24%</strong> (p=0.03) after Code Sepsis protocol implementation. IV fluid bolus completion improved from 42% to 82% (p=0.001). Median hospital LOS reduced from 8.1 to 5.1 days (p=0.009).
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header">SEP-1 Bundle Performance</div>
+          <div class="card-body">
+            Top reasons for bundle failure: (1) Fluid volume not administered 31%, (2) Repeat lactate not obtained 19.6%, (3) Antibiotics delayed >3 hr 16.5%. EHR-embedded sepsis tools achieved <strong>98.6%</strong> 6-hour bundle pass rate vs 14.2% without tool use.
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header">Global Mortality Disparity</div>
+          <div class="card-body">
+            High-income countries: 15–25% in-hospital mortality (sepsis), 30–40% (septic shock). Low/middle-income countries: 33.9% pooled case fatality. Every hour of antibiotic delay in septic shock increases mortality risk substantially.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 8: 2026 KEY UPDATES SUMMARY -->
+    <section class="section">
+      <div class="section-header">
+        <div class="section-icon">08</div>
+        <h2 class="section-title">2026 SSC Guidelines: 46 New Statements</h2>
+        <span class="section-badge">Highlights</span>
+      </div>
+
+      <div class="grid-2">
+        <div>
+          <div class="timeline">
+            <div class="timeline-item">
+              <div class="timeline-time">Screening & Recognition</div>
+              <div class="timeline-content">
+                <strong>Recommend</strong> performance improvement programs with sepsis screening, SOPs, and quality improvement strategies. <strong>Suggest</strong> "Code Sepsis" or "sepsis huddle" protocols. <strong>Suggest</strong> prehospital screening tools for acutely ill patients in transit.
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-time">Antibiotic Optimization</div>
+              <div class="timeline-content">
+                <strong>Recommend</strong> prolonged beta-lactam infusion after loading dose. <strong>Recommend</strong> de-escalation when microbiologic diagnosis confirmed. <strong>Suggest</strong> TDM on case-by-case basis. <strong>Suggest</strong> shorter antimicrobial duration with adequate source control.
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-time">Hemodynamics</div>
+              <div class="timeline-content">
+                <strong>Suggest</strong> MAP 60–65 mmHg for adults ≥65 years (vs higher targets). <strong>Suggest</strong> active fluid removal after acute resuscitation phase. <strong>Suggest</strong> capillary refill time to guide resuscitation. Balanced crystalloids suggested over 0.9% saline.
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-time">Adjunctive Therapies</div>
+              <div class="timeline-content">
+                <strong>Suggest</strong> IV corticosteroids for septic shock. <strong>Suggest against</strong> routine antipyretics to improve outcomes. <strong>Suggest against</strong> IV vitamin C, IV immunoglobulins, vitamin D, probiotics, beta-blockers, blood purification. Stress ulcer prophylaxis with PPIs suggested for GI bleed risk.
+              </div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="timeline">
+            <div class="timeline-item">
+              <div class="timeline-time">Respiratory Support</div>
+              <div class="timeline-content">
+                <strong>Suggest</strong> HFNC over conventional O2 for acute hypoxemic respiratory failure. <strong>Suggest</strong> HFNC over NIV as initial therapy. <strong>Suggest</strong> awake proning trial in non-intubated patients. Higher tidal volumes (6–8 mL/kg) acceptable without ARDS.
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-time">Source Control</div>
+              <div class="timeline-content">
+                Rapidly evaluate for anatomical source requiring emergent source control. <strong>Suggest against</strong> using Candida biomarkers to guide antifungal initiation. In low-resistance units, <strong>suggest</strong> selective digestive decontamination (controversial — ecological harm concern).
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-time">Post-Discharge Care</div>
+              <div class="timeline-content">
+                <strong>Suggest</strong> offering post-critical illness follow-up services. <strong>Suggest</strong> mental health support services after discharge. Good practice statement: comprehensive medication reconciliation at transitions. Health systems should implement sepsis survivorship strategies.
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-time">Pediatric Update</div>
+              <div class="timeline-content">
+                New data-driven pediatric sepsis definition. 20 new topics including POCUS guidance for resuscitation. 30–40% of pediatric sepsis survivors face long-term morbidity. Long-term follow-up now formally recommended.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="success-box" style="margin-top:20px;">
+        <strong>Good Practice Statements (Not GRADEd):</strong> Sepsis is a clinical diagnosis not ruled in/out by a single biomarker. Blood cultures ASAP, ideally before antibiotics. Health systems should ensure patients and families have adequate information for hospital transition. Clinicians should discuss goals of care and prognosis with patients/families.
+      </div>
+    </section>
+
+    <!-- SECTION 9: QUICK REFERENCE TABLES -->
+    <section class="section">
+      <div class="section-header">
+        <div class="section-icon">09</div>
+        <h2 class="section-title">Quick Reference: Sepsis Bundle Checklist</h2>
+        <span class="section-badge">Bedside</span>
+      </div>
+
+      <div class="grid-2">
+        <div>
+          <table class="data-table">
+            <thead>
+              <tr><th colspan="2">Hour-1 Bundle Checklist</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><input type="checkbox" style="accent-color:var(--primary); width:16px; height:16px;" /> Lactate measured</td>
+                <td>Remeasure within 6 hr if >2 mmol/L</td>
+              </tr>
+              <tr>
+                <td><input type="checkbox" style="accent-color:var(--primary); width:16px; height:16px;" /> Blood cultures obtained</td>
+                <td>Before antibiotics; ≥2 sets</td>
+              </tr>
+              <tr>
+                <td><input type="checkbox" style="accent-color:var(--primary); width:16px; height:16px;" /> Broad-spectrum antibiotics</td>
+                <td>Within 1 hr for shock/sepsis</td>
+              </tr>
+              <tr>
+                <td><input type="checkbox" style="accent-color:var(--primary); width:16px; height:16px;" /> Fluid resuscitation initiated</td>
+                <td>30 mL/kg if hypotension or lactate ≥4</td>
+              </tr>
+              <tr>
+                <td><input type="checkbox" style="accent-color:var(--primary); width:16px; height:16px;" /> Vasopressors if needed</td>
+                <td>Target MAP ≥65 (60–65 if ≥65 yr)</td>
+              </tr>
+              <tr>
+                <td><input type="checkbox" style="accent-color:var(--primary); width:16px; height:16px;" /> Reassess perfusion</td>
+                <td>CRT, urine output, repeat lactate</td>
+              </tr>
+              <tr>
+                <td><input type="checkbox" style="accent-color:var(--primary); width:16px; height:16px;" /> Source control evaluation</td>
+                <td>Drainage, debridement, removal</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div>
+          <table class="data-table">
+            <thead>
+              <tr><th colspan="2">Common Antibiotic Regimens by Source (Empiric)</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><strong>Unknown / Community</strong></td><td>Piperacillin-tazobactam OR Cefepime + Metronidazole ± Vancomycin</td></tr>
+              <tr><td><strong>Abdominal</strong></td><td>Piperacillin-tazobactam OR Cefepime + Metronidazole ± Fluconazole (high risk)</td></tr>
+              <tr><td><strong>Respiratory (CAP)</strong></td><td>Cefepime or Piperacillin-tazobactam + Azithromycin OR Respiratory FQ</td></tr>
+              <tr><td><strong>Urinary (complicated)</strong></td><td>Cefepime or Piperacillin-tazobactam ± Vancomycin (enterococcus risk)</td></tr>
+              <tr><td><strong>Skin/Soft Tissue (necrotizing)</strong></td><td>Vancomycin + Piperacillin-tazobactam + Clindamycin (toxin suppression)</td></tr>
+              <tr><td><strong>Line-Associated</strong></td><td>Vancomycin + Cefepime or Piperacillin-tazobactam; remove line</td></tr>
+              <tr><td><strong>MRSA Risk / Prior MRSA</strong></td><td>Add Vancomycin or Linezolid to above</td></tr>
+              <tr><td><strong>Pseudomonas Risk</strong></td><td>Use anti-pseudomonal beta-lactam; add 2 agents if high risk</td></tr>
+            </tbody>
+          </table>
+          <p style="font-size:0.75rem; color:var(--text-light); margin-top:8px;">Adjust per local antibiogram, patient allergies, renal function, and culture results. De-escalate within 48–72 hours.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 10: REFERENCES -->
+    <section class="section">
+      <div class="section-header">
+        <div class="section-icon">10</div>
+        <h2 class="section-title">References & Evidence Base</h2>
+        <span class="section-badge">Literature</span>
+      </div>
+      <ol class="references">
+        <li><strong>Surviving Sepsis Campaign 2026 Adult Guidelines:</strong> Evans L, et al. Surviving Sepsis Campaign: International Guidelines for Management of Sepsis and Septic Shock 2026. <em>Intensive Care Medicine</em> & <em>Critical Care Medicine</em>. 2026;129 statements, 46 new. Endorsed by 24 professional societies. <a href="https://www.sccm.org/clinical-resources/guidelines/guidelines/surviving-sepsis-campaign-international-guidelines-for-management-of-sepsis-and-septic-shock-2026">SCCM Link</a></li>
+        <li><strong>SSC 2021 Original Guidelines:</strong> Evans L, Rhodes A, Alhazzani W, et al. Surviving Sepsis Campaign: International Guidelines for Management of Sepsis and Septic Shock 2021. <em>Intensive Care Medicine</em>. 2021;47(11):1181-1247. doi:10.1007/s00134-021-06506-y. PMID: 34599691; PMCID: PMC8486643.</li>
+        <li><strong>Global Epidemiology 2025:</strong> The Global Impact of Sepsis: Epidemiology, Recognition, Management, and Health System Challenges. <em>PMC</em>. 2025;12921907. GBD 2017: 48.9 million cases, 11.0 million deaths (19.7% of all global deaths). HIC mortality 15–25%; LMIC 33.9%.</li>
+        <li><strong>Sepsis Bundle Compliance Study:</strong> Sepsis Bundle Compliance Before and After Code Sepsis Implementation. <em>PMC</em>. Hour-1 compliance improved 10% to 24% (p=0.03); fluid bolus 42% to 82% (p=0.001); LOS reduced 8.1 to 5.1 days (p=0.009).</li>
+        <li><strong>SEP-1 Complex Presentations:</strong> JAMA Network Open. 2025;Complex Sepsis Presentations, SEP-1 Compliance, and Outcomes. 590 patients; 56.8% SEP-1 compliant. Top failure reasons: fluids 31%, repeat lactate 19.6%, antibiotics 16.5%.</li>
+        <li><strong>qSOFA vs SIRS vs NEWS Meta-Analysis:</strong> A comparison of qSOFA, SIRS and NEWS in predicting mortality in suspected sepsis. <em>PMC 2022</em>; 62,338 patients, 26 studies. qSOFA: Sens 0.46, Spec 0.82, AUC 0.69. SIRS: Sens 0.82, Spec 0.24. NEWS: Sens 0.73, Spec 0.52.</li>
+        <li><strong>Balanced Crystalloids vs Saline:</strong> Balanced Crystalloids versus Normal Saline in Adults with Sepsis: A Comprehensive Systematic Review and Meta-Analysis. <em>JCM</em>. 2022;11(7):1971. SMART RCT 2018: BC associated with lower 30-day mortality in sepsis cohort (OR 0.90, 95% CI 0.67–0.94).</li>
+        <li><strong>Fluid Resuscitation Controversy:</strong> The Surviving Sepsis Campaign: Fluid Resuscitation and Volumes. <em>CCM</em>. 2021. No prospective studies compare initial fluid volumes. U-shaped response curve: best outcomes 15–45 mL/kg. Delay in fluids not associated with increased mortality in database analyses.</li>
+        <li><strong>Antimicrobial Stewardship in Sepsis:</strong> Antimicrobial stewardship programs in sepsis treatment. <em>PMC</em>. 2025. Prospective audit-and-feedback reduces unnecessary anti-pseudomonal use, increases de-escalation, improves adjusted ICU mortality.</li>
+        <li><strong>2026 Practical Application:</strong> Azevedo LCP, Myatra SN, Hammond N. Using the 2026 Surviving Sepsis Campaign Guidelines in Practice. <em>Critical Care Science</em>. 2026;38:e20260036.</li>
+        <li><strong>SSC Hour-1 Bundle 2018:</strong> Levy MM, Evans LE, Rhodes A. The Surviving Sepsis Campaign Bundle: 2018 Update. <em>Intensive Care Medicine</em>. 2018;44(6):925-928. Combined 3-h and 6-h bundles into single Hour-1 Bundle.</li>
+        <li><strong>CMS SEP-1 Specification Manual:</strong> Centers for Medicare & Medicaid Services. Severe Sepsis and Septic Shock Early Management Bundle (SEP-1). v5.0–v5.10 specifications. Balanced crystalloids (LR, Plasmalyte, Normosol) accepted.</li>
+        <li><strong>Post-Sepsis Syndrome:</strong> 30–40% cognitive deficits; PTSD, depression, anxiety common. 25–30% one-year mortality in survivors. Need for survivorship programs and post-discharge surveillance.</li>
+      </ol>
+    </section>
+
+    <!-- FOOTER -->
+    <footer style="text-align:center; padding:30px; color:var(--text-light); font-size:0.8rem;">
+      <p><strong>Sepsis Bundles Simplified — Clinical Reference Poster 2026</strong></p>
+      <p>Based on the 2026 Surviving Sepsis Campaign Guidelines | <strong>Dr. Mehta</strong> | Always verify with current institutional protocols</p>
+      <p style="margin-top:8px;">Evidence-based · Updated May 2026 · GRADE Methodology</p>
+    </footer>
+
+  </div>
+
+  <script>
+    // Screening Tools Chart
+    const ctx1 = document.getElementById('screeningChart').getContext('2d');
+    new Chart(ctx1, {
+      type: 'bar',
+      data: {
+        labels: ['SIRS', 'NEWS', 'qSOFA'],
+        datasets: [
+          {
+            label: 'Sensitivity',
+            data: [0.82, 0.73, 0.46],
+            backgroundColor: 'rgba(42, 157, 143, 0.7)',
+            borderColor: '#2a9d8f',
+            borderWidth: 1
+          },
+          {
+            label: 'Specificity',
+            data: [0.24, 0.52, 0.82],
+            backgroundColor: 'rgba(26, 95, 122, 0.7)',
+            borderColor: '#1a5f7a',
+            borderWidth: 1
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { position: 'top' },
+          title: { display: true, text: 'Screening Tool Performance: Sensitivity vs Specificity', font: { size: 13 } }
+        },
+        scales: {
+          y: { beginAtZero: true, max: 1, title: { display: true, text: 'Proportion (0-1)' } }
+        }
+      }
+    });
+
+    // Timing Chart
+    const ctx2 = document.getElementById('timingChart').getContext('2d');
+    new Chart(ctx2, {
+      type: 'line',
+      data: {
+        labels: ['0-1 hr', '1-2 hr', '2-3 hr', '3-4 hr', '4-5 hr', '>5 hr'],
+        datasets: [{
+          label: 'Relative Mortality Risk (Septic Shock)',
+          data: [1.0, 1.12, 1.25, 1.42, 1.58, 1.78],
+          borderColor: '#c84b31',
+          backgroundColor: 'rgba(200, 75, 49, 0.1)',
+          fill: true,
+          tension: 0.4,
+          pointRadius: 5,
+          pointBackgroundColor: '#c84b31'
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false },
+          title: { display: true, text: 'Mortality Risk by Antibiotic Timing in Septic Shock', font: { size: 13 } }
+        },
+        scales: {
+          y: { beginAtZero: false, title: { display: true, text: 'Odds Ratio' } }
+        }
+      }
+    });
+
+    // Compliance Chart
+    const ctx3 = document.getElementById('complianceChart').getContext('2d');
+    new Chart(ctx3, {
+      type: 'bar',
+      data: {
+        labels: ['Hour-1 Bundle', 'Hour-3 Bundle', 'Hour-6 Bundle', 'Fluid Bolus', 'Appropriate ABX'],
+        datasets: [
+          {
+            label: 'Pre-Code Sepsis',
+            data: [10, 25, 51, 42, 93],
+            backgroundColor: 'rgba(200, 75, 49, 0.7)',
+            borderColor: '#c84b31',
+            borderWidth: 1
+          },
+          {
+            label: 'Post-Code Sepsis',
+            data: [24, 41, 64, 82, 92],
+            backgroundColor: 'rgba(42, 157, 143, 0.7)',
+            borderColor: '#2a9d8f',
+            borderWidth: 1
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { position: 'top' },
+          title: { display: true, text: 'Bundle Compliance: Pre vs Post Implementation (%)', font: { size: 13 } }
+        },
+        scales: {
+          y: { beginAtZero: true, max: 100, title: { display: true, text: 'Compliance %' } }
+        }
+      }
+    });
+
+    // Mortality Chart
+    const ctx4 = document.getElementById('mortalityChart').getContext('2d');
+    new Chart(ctx4, {
+      type: 'doughnut',
+      data: {
+        labels: ['HIC Sepsis (15-25%)', 'HIC Septic Shock (30-40%)', 'LMIC Sepsis (33.9%)', 'Pediatric Under-5 (variable)', 'Elderly >65 (up to 35%)'],
+        datasets: [{
+          data: [20, 35, 34, 6, 5],
+          backgroundColor: [
+            '#1a5f7a',
+            '#c84b31',
+            '#f4a261',
+            '#2a9d8f',
+            '#457b9d'
+          ],
+          borderWidth: 2,
+          borderColor: '#ffffff'
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { position: 'right', labels: { boxWidth: 14, font: { size: 11 } } },
+          title: { display: true, text: 'Global Sepsis Mortality Distribution', font: { size: 13 } }
+        }
+      }
+    });
+  </script>
+</body>
+</html>
