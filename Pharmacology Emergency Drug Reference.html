@@ -11,8 +11,8 @@
       --muted:#61708a;
       --dark:#0f172a;
       --dark2:#1e293b;
-      --glass:rgba(255,255,255,.16);
-      --shadow:0 18px 40px rgba(15, 23, 42, 0.12);
+      --glass:rgba(255,255,255,.22);
+      --shadow:0 18px 40px rgba(15,23,42,.12);
       --radius:24px;
       --c1:linear-gradient(135deg,#5b8cff,#7b61ff);
       --c2:linear-gradient(135deg,#00c6a7,#00e0ff);
@@ -28,6 +28,7 @@
       color:var(--text);
       line-height:1.5;
       padding:28px 16px 48px;
+      -webkit-tap-highlight-color:transparent;
     }
     .container{max-width:1400px;margin:0 auto}
     .hero{
@@ -71,49 +72,53 @@
       gap:22px;
       margin-top:22px;
     }
+
+    /* ── Card shell ── */
     .flip-card{
-      background:transparent;
       perspective:1200px;
       min-height:305px;
+      cursor:pointer;
+      -webkit-user-select:none;
+      user-select:none;
     }
     .flip-inner{
       position:relative;
       width:100%;
       height:100%;
       min-height:305px;
-      transition:transform .75s ease;
+      transition:transform .7s ease;
       transform-style:preserve-3d;
+      -webkit-transform-style:preserve-3d;
+      will-change:transform;
     }
-    .flip-card:hover .flip-inner,
-    .flip-card:focus-within .flip-inner,
-    .flip-card.flipped .flip-inner{
+    .flip-card.flipped .flip-inner,
+    .flip-card:focus-within .flip-inner{
       transform:rotateY(180deg);
     }
+
+    /* ── Faces ── NO overflow:hidden, NO backdrop-filter, NO ::before ── */
     .face{
       position:absolute;
-      inset:0;
+      top:0;left:0;right:0;bottom:0;
       border-radius:var(--radius);
       padding:22px;
       box-shadow:var(--shadow);
       backface-visibility:hidden;
       -webkit-backface-visibility:hidden;
-      overflow:hidden;
       display:flex;
       flex-direction:column;
       justify-content:space-between;
-    }
-    .face::before{
-      content:"";
-      position:absolute;
-      inset:0;
-      background:rgba(255,255,255,.06);
-      pointer-events:none;
+      /* Force GPU layer so iOS renders each face independently */
+      -webkit-transform:translateZ(0);
+      transform:translateZ(0);
     }
     .front{color:#fff}
     .back{
       color:#fff;
       background:linear-gradient(160deg,var(--dark),var(--dark2));
       transform:rotateY(180deg);
+      -webkit-transform:rotateY(180deg) translateZ(0);
+      transform:rotateY(180deg) translateZ(0);
     }
     .g1{background:var(--c1)}
     .g2{background:var(--c2)}
@@ -121,42 +126,37 @@
     .g4{background:var(--c4)}
     .g5{background:var(--c5)}
     .g6{background:var(--c6)}
+
     .row{
       display:flex;
       justify-content:space-between;
       align-items:center;
       gap:10px;
-      position:relative;
       z-index:1;
     }
+    /* Solid rgba pill — NO backdrop-filter (breaks iOS 3D) */
     .tag,.num{
       padding:7px 11px;
       border-radius:999px;
       background:var(--glass);
-      border:1px solid rgba(255,255,255,.18);
-      backdrop-filter:blur(8px);
+      border:1px solid rgba(255,255,255,.2);
       font-size:12px;
       font-weight:800;
       letter-spacing:.35px;
     }
     .q{
-      position:relative;
-      z-index:1;
       margin-top:14px;
       font-size:1.1rem;
       font-weight:800;
+      z-index:1;
     }
     .hint{
-      position:relative;
-      z-index:1;
       font-size:.95rem;
       opacity:.95;
       margin-top:10px;
-    }
-    .a{
-      position:relative;
       z-index:1;
     }
+    .a{z-index:1}
     .a h3{
       font-size:1rem;
       color:#93c5fd;
@@ -174,11 +174,12 @@
       font-size:14px;
     }
     .footer strong{color:#7b61ff}
-    @media (max-width:640px){
+    @media(max-width:640px){
       body{padding:18px 12px 34px}
       .hero{padding:24px 16px;border-radius:22px}
       .face{padding:18px}
       .flip-card,.flip-inner{min-height:280px}
+      .grid{gap:16px}
     }
   </style>
 </head>
@@ -194,11 +195,11 @@
 
     <section class="grid">
 
-      <article class="flip-card" onclick="this.classList.toggle('flipped')" tabindex="0">
+      <article class="flip-card" tabindex="0">
         <div class="flip-inner">
           <div class="face front g1">
             <div class="row"><span class="tag">ACLS</span><span class="num">Card 01</span></div>
-            <div><div class="q">What is the ACLS adult cardiac arrest dose of epinephrine?</div><div class="hint">Tap or hover to flip.</div></div>
+            <div><div class="q">What is the ACLS adult cardiac arrest dose of epinephrine?</div><div class="hint">Tap to flip.</div></div>
           </div>
           <div class="face back">
             <div class="row"><span class="tag">Epinephrine</span><span class="num">Dr. Mehta</span></div>
@@ -207,11 +208,11 @@
         </div>
       </article>
 
-      <article class="flip-card" onclick="this.classList.toggle('flipped')" tabindex="0">
+      <article class="flip-card" tabindex="0">
         <div class="flip-inner">
           <div class="face front g2">
             <div class="row"><span class="tag">Vasopressor</span><span class="num">Card 02</span></div>
-            <div><div class="q">When is an epinephrine infusion used outside pulseless arrest?</div><div class="hint">Tap or hover to flip.</div></div>
+            <div><div class="q">When is an epinephrine infusion used outside pulseless arrest?</div><div class="hint">Tap to flip.</div></div>
           </div>
           <div class="face back">
             <div class="row"><span class="tag">Epinephrine</span><span class="num">Dr. Mehta</span></div>
@@ -220,11 +221,11 @@
         </div>
       </article>
 
-      <article class="flip-card" onclick="this.classList.toggle('flipped')" tabindex="0">
+      <article class="flip-card" tabindex="0">
         <div class="flip-inner">
           <div class="face front g3">
             <div class="row"><span class="tag">Antiarrhythmic</span><span class="num">Card 03</span></div>
-            <div><div class="q">What is the amiodarone dose for refractory VF or pulseless VT?</div><div class="hint">Tap or hover to flip.</div></div>
+            <div><div class="q">What is the amiodarone dose for refractory VF or pulseless VT?</div><div class="hint">Tap to flip.</div></div>
           </div>
           <div class="face back">
             <div class="row"><span class="tag">Amiodarone</span><span class="num">Dr. Mehta</span></div>
@@ -233,11 +234,11 @@
         </div>
       </article>
 
-      <article class="flip-card" onclick="this.classList.toggle('flipped')" tabindex="0">
+      <article class="flip-card" tabindex="0">
         <div class="flip-inner">
           <div class="face front g4">
             <div class="row"><span class="tag">Tachycardia</span><span class="num">Card 04</span></div>
-            <div><div class="q">What is one important amiodarone contraindication or caution point?</div><div class="hint">Tap or hover to flip.</div></div>
+            <div><div class="q">What is one important amiodarone contraindication or caution point?</div><div class="hint">Tap to flip.</div></div>
           </div>
           <div class="face back">
             <div class="row"><span class="tag">Amiodarone</span><span class="num">Dr. Mehta</span></div>
@@ -246,11 +247,11 @@
         </div>
       </article>
 
-      <article class="flip-card" onclick="this.classList.toggle('flipped')" tabindex="0">
+      <article class="flip-card" tabindex="0">
         <div class="flip-inner">
           <div class="face front g5">
             <div class="row"><span class="tag">Bradycardia</span><span class="num">Card 05</span></div>
-            <div><div class="q">What is the adult atropine dose for symptomatic bradycardia?</div><div class="hint">Tap or hover to flip.</div></div>
+            <div><div class="q">What is the adult atropine dose for symptomatic bradycardia?</div><div class="hint">Tap to flip.</div></div>
           </div>
           <div class="face back">
             <div class="row"><span class="tag">Atropine</span><span class="num">Dr. Mehta</span></div>
@@ -259,11 +260,11 @@
         </div>
       </article>
 
-      <article class="flip-card" onclick="this.classList.toggle('flipped')" tabindex="0">
+      <article class="flip-card" tabindex="0">
         <div class="flip-inner">
           <div class="face front g6">
             <div class="row"><span class="tag">Atropine</span><span class="num">Card 06</span></div>
-            <div><div class="q">Why should very small atropine doses be avoided?</div><div class="hint">Tap or hover to flip.</div></div>
+            <div><div class="q">Why should very small atropine doses be avoided?</div><div class="hint">Tap to flip.</div></div>
           </div>
           <div class="face back">
             <div class="row"><span class="tag">Atropine</span><span class="num">Dr. Mehta</span></div>
@@ -272,11 +273,11 @@
         </div>
       </article>
 
-      <article class="flip-card" onclick="this.classList.toggle('flipped')" tabindex="0">
+      <article class="flip-card" tabindex="0">
         <div class="flip-inner">
           <div class="face front g1">
             <div class="row"><span class="tag">SVT</span><span class="num">Card 07</span></div>
-            <div><div class="q">What is the adenosine sequence for regular narrow-complex SVT?</div><div class="hint">Tap or hover to flip.</div></div>
+            <div><div class="q">What is the adenosine sequence for regular narrow-complex SVT?</div><div class="hint">Tap to flip.</div></div>
           </div>
           <div class="face back">
             <div class="row"><span class="tag">Adenosine</span><span class="num">Dr. Mehta</span></div>
@@ -285,11 +286,11 @@
         </div>
       </article>
 
-      <article class="flip-card" onclick="this.classList.toggle('flipped')" tabindex="0">
+      <article class="flip-card" tabindex="0">
         <div class="flip-inner">
           <div class="face front g2">
             <div class="row"><span class="tag">Adenosine</span><span class="num">Card 08</span></div>
-            <div><div class="q">When should adenosine be avoided or used with extreme caution?</div><div class="hint">Tap or hover to flip.</div></div>
+            <div><div class="q">When should adenosine be avoided or used with extreme caution?</div><div class="hint">Tap to flip.</div></div>
           </div>
           <div class="face back">
             <div class="row"><span class="tag">Adenosine</span><span class="num">Dr. Mehta</span></div>
@@ -298,11 +299,11 @@
         </div>
       </article>
 
-      <article class="flip-card" onclick="this.classList.toggle('flipped')" tabindex="0">
+      <article class="flip-card" tabindex="0">
         <div class="flip-inner">
           <div class="face front g3">
             <div class="row"><span class="tag">Shock</span><span class="num">Card 09</span></div>
-            <div><div class="q">What dopamine infusion range is commonly used for bradycardia or shock support?</div><div class="hint">Tap or hover to flip.</div></div>
+            <div><div class="q">What dopamine infusion range is commonly used for bradycardia or shock support?</div><div class="hint">Tap to flip.</div></div>
           </div>
           <div class="face back">
             <div class="row"><span class="tag">Dopamine</span><span class="num">Dr. Mehta</span></div>
@@ -311,11 +312,11 @@
         </div>
       </article>
 
-      <article class="flip-card" onclick="this.classList.toggle('flipped')" tabindex="0">
+      <article class="flip-card" tabindex="0">
         <div class="flip-inner">
           <div class="face front g4">
             <div class="row"><span class="tag">Pressor</span><span class="num">Card 10</span></div>
-            <div><div class="q">What is a major risk when titrating dopamine infusions?</div><div class="hint">Tap or hover to flip.</div></div>
+            <div><div class="q">What is a major risk when titrating dopamine infusions?</div><div class="hint">Tap to flip.</div></div>
           </div>
           <div class="face back">
             <div class="row"><span class="tag">Dopamine</span><span class="num">Dr. Mehta</span></div>
@@ -324,11 +325,11 @@
         </div>
       </article>
 
-      <article class="flip-card" onclick="this.classList.toggle('flipped')" tabindex="0">
+      <article class="flip-card" tabindex="0">
         <div class="flip-inner">
           <div class="face front g5">
             <div class="row"><span class="tag">Vasopressor</span><span class="num">Card 11</span></div>
-            <div><div class="q">When is norepinephrine commonly used in emergency medicine?</div><div class="hint">Tap or hover to flip.</div></div>
+            <div><div class="q">When is norepinephrine commonly used in emergency medicine?</div><div class="hint">Tap to flip.</div></div>
           </div>
           <div class="face back">
             <div class="row"><span class="tag">Norepinephrine</span><span class="num">Dr. Mehta</span></div>
@@ -337,11 +338,11 @@
         </div>
       </article>
 
-      <article class="flip-card" onclick="this.classList.toggle('flipped')" tabindex="0">
+      <article class="flip-card" tabindex="0">
         <div class="flip-inner">
           <div class="face front g6">
             <div class="row"><span class="tag">Antiarrhythmic</span><span class="num">Card 12</span></div>
-            <div><div class="q">What is the lidocaine adult bolus dose in refractory VF or pulseless VT?</div><div class="hint">Tap or hover to flip.</div></div>
+            <div><div class="q">What is the lidocaine adult bolus dose in refractory VF or pulseless VT?</div><div class="hint">Tap to flip.</div></div>
           </div>
           <div class="face back">
             <div class="row"><span class="tag">Lidocaine</span><span class="num">Dr. Mehta</span></div>
@@ -350,11 +351,11 @@
         </div>
       </article>
 
-      <article class="flip-card" onclick="this.classList.toggle('flipped')" tabindex="0">
+      <article class="flip-card" tabindex="0">
         <div class="flip-inner">
           <div class="face front g1">
             <div class="row"><span class="tag">Lidocaine</span><span class="num">Card 13</span></div>
-            <div><div class="q">What toxicity clues can appear with excessive lidocaine exposure?</div><div class="hint">Tap or hover to flip.</div></div>
+            <div><div class="q">What toxicity clues can appear with excessive lidocaine exposure?</div><div class="hint">Tap to flip.</div></div>
           </div>
           <div class="face back">
             <div class="row"><span class="tag">Lidocaine</span><span class="num">Dr. Mehta</span></div>
@@ -363,11 +364,11 @@
         </div>
       </article>
 
-      <article class="flip-card" onclick="this.classList.toggle('flipped')" tabindex="0">
+      <article class="flip-card" tabindex="0">
         <div class="flip-inner">
           <div class="face front g2">
             <div class="row"><span class="tag">Torsades</span><span class="num">Card 14</span></div>
-            <div><div class="q">What is the adult magnesium sulfate dose commonly used for torsades de pointes?</div><div class="hint">Tap or hover to flip.</div></div>
+            <div><div class="q">What is the adult magnesium sulfate dose commonly used for torsades de pointes?</div><div class="hint">Tap to flip.</div></div>
           </div>
           <div class="face back">
             <div class="row"><span class="tag">Magnesium</span><span class="num">Dr. Mehta</span></div>
@@ -376,11 +377,11 @@
         </div>
       </article>
 
-      <article class="flip-card" onclick="this.classList.toggle('flipped')" tabindex="0">
+      <article class="flip-card" tabindex="0">
         <div class="flip-inner">
           <div class="face front g3">
             <div class="row"><span class="tag">Magnesium</span><span class="num">Card 15</span></div>
-            <div><div class="q">What is a pediatric magnesium sulfate maximum dose often cited in resuscitation references?</div><div class="hint">Tap or hover to flip.</div></div>
+            <div><div class="q">What is a pediatric magnesium sulfate maximum dose often cited in resuscitation references?</div><div class="hint">Tap to flip.</div></div>
           </div>
           <div class="face back">
             <div class="row"><span class="tag">Magnesium</span><span class="num">Dr. Mehta</span></div>
@@ -389,11 +390,11 @@
         </div>
       </article>
 
-      <article class="flip-card" onclick="this.classList.toggle('flipped')" tabindex="0">
+      <article class="flip-card" tabindex="0">
         <div class="flip-inner">
           <div class="face front g4">
             <div class="row"><span class="tag">Metabolic</span><span class="num">Card 16</span></div>
-            <div><div class="q">What are accepted emergency indications for sodium bicarbonate?</div><div class="hint">Tap or hover to flip.</div></div>
+            <div><div class="q">What are accepted emergency indications for sodium bicarbonate?</div><div class="hint">Tap to flip.</div></div>
           </div>
           <div class="face back">
             <div class="row"><span class="tag">Sodium Bicarb</span><span class="num">Dr. Mehta</span></div>
@@ -402,11 +403,11 @@
         </div>
       </article>
 
-      <article class="flip-card" onclick="this.classList.toggle('flipped')" tabindex="0">
+      <article class="flip-card" tabindex="0">
         <div class="flip-inner">
           <div class="face front g5">
             <div class="row"><span class="tag">Buffer</span><span class="num">Card 17</span></div>
-            <div><div class="q">What is a common adult sodium bicarbonate bolus dose in resuscitation references?</div><div class="hint">Tap or hover to flip.</div></div>
+            <div><div class="q">What is a common adult sodium bicarbonate bolus dose in resuscitation references?</div><div class="hint">Tap to flip.</div></div>
           </div>
           <div class="face back">
             <div class="row"><span class="tag">Sodium Bicarb</span><span class="num">Dr. Mehta</span></div>
@@ -415,11 +416,11 @@
         </div>
       </article>
 
-      <article class="flip-card" onclick="this.classList.toggle('flipped')" tabindex="0">
+      <article class="flip-card" tabindex="0">
         <div class="flip-inner">
           <div class="face front g6">
             <div class="row"><span class="tag">Electrolyte</span><span class="num">Card 18</span></div>
-            <div><div class="q">When is calcium especially important in emergency pharmacology?</div><div class="hint">Tap or hover to flip.</div></div>
+            <div><div class="q">When is calcium especially important in emergency pharmacology?</div><div class="hint">Tap to flip.</div></div>
           </div>
           <div class="face back">
             <div class="row"><span class="tag">Calcium</span><span class="num">Dr. Mehta</span></div>
@@ -428,11 +429,11 @@
         </div>
       </article>
 
-      <article class="flip-card" onclick="this.classList.toggle('flipped')" tabindex="0">
+      <article class="flip-card" tabindex="0">
         <div class="flip-inner">
           <div class="face front g1">
             <div class="row"><span class="tag">Calcium</span><span class="num">Card 19</span></div>
-            <div><div class="q">What adult calcium gluconate dose appears in common resuscitation references?</div><div class="hint">Tap or hover to flip.</div></div>
+            <div><div class="q">What adult calcium gluconate dose appears in common resuscitation references?</div><div class="hint">Tap to flip.</div></div>
           </div>
           <div class="face back">
             <div class="row"><span class="tag">Calcium</span><span class="num">Dr. Mehta</span></div>
@@ -441,11 +442,11 @@
         </div>
       </article>
 
-      <article class="flip-card" onclick="this.classList.toggle('flipped')" tabindex="0">
+      <article class="flip-card" tabindex="0">
         <div class="flip-inner">
           <div class="face front g2">
             <div class="row"><span class="tag">Tachycardia</span><span class="num">Card 20</span></div>
-            <div><div class="q">What procainamide infusion approach is used for stable wide-complex tachycardia?</div><div class="hint">Tap or hover to flip.</div></div>
+            <div><div class="q">What procainamide infusion approach is used for stable wide-complex tachycardia?</div><div class="hint">Tap to flip.</div></div>
           </div>
           <div class="face back">
             <div class="row"><span class="tag">Procainamide</span><span class="num">Dr. Mehta</span></div>
@@ -454,11 +455,11 @@
         </div>
       </article>
 
-      <article class="flip-card" onclick="this.classList.toggle('flipped')" tabindex="0">
+      <article class="flip-card" tabindex="0">
         <div class="flip-inner">
           <div class="face front g3">
             <div class="row"><span class="tag">AV Nodal</span><span class="num">Card 21</span></div>
-            <div><div class="q">When is diltiazem commonly used in emergency medicine?</div><div class="hint">Tap or hover to flip.</div></div>
+            <div><div class="q">When is diltiazem commonly used in emergency medicine?</div><div class="hint">Tap to flip.</div></div>
           </div>
           <div class="face back">
             <div class="row"><span class="tag">Diltiazem</span><span class="num">Dr. Mehta</span></div>
@@ -467,11 +468,11 @@
         </div>
       </article>
 
-      <article class="flip-card" onclick="this.classList.toggle('flipped')" tabindex="0">
+      <article class="flip-card" tabindex="0">
         <div class="flip-inner">
           <div class="face front g4">
             <div class="row"><span class="tag">Rate control</span><span class="num">Card 22</span></div>
-            <div><div class="q">What beta-blocker caution matters in unstable tachyarrhythmia management?</div><div class="hint">Tap or hover to flip.</div></div>
+            <div><div class="q">What beta-blocker caution matters in unstable tachyarrhythmia management?</div><div class="hint">Tap to flip.</div></div>
           </div>
           <div class="face back">
             <div class="row"><span class="tag">Beta-blockers</span><span class="num">Dr. Mehta</span></div>
@@ -480,11 +481,11 @@
         </div>
       </article>
 
-      <article class="flip-card" onclick="this.classList.toggle('flipped')" tabindex="0">
+      <article class="flip-card" tabindex="0">
         <div class="flip-inner">
           <div class="face front g5">
             <div class="row"><span class="tag">Bradycardia</span><span class="num">Card 23</span></div>
-            <div><div class="q">What important exception is noted for atropine in heart transplant patients?</div><div class="hint">Tap or hover to flip.</div></div>
+            <div><div class="q">What important exception is noted for atropine in heart transplant patients?</div><div class="hint">Tap to flip.</div></div>
           </div>
           <div class="face back">
             <div class="row"><span class="tag">Heart transplant</span><span class="num">Dr. Mehta</span></div>
@@ -493,11 +494,11 @@
         </div>
       </article>
 
-      <article class="flip-card" onclick="this.classList.toggle('flipped')" tabindex="0">
+      <article class="flip-card" tabindex="0">
         <div class="flip-inner">
           <div class="face front g6">
             <div class="row"><span class="tag">Airway</span><span class="num">Card 24</span></div>
-            <div><div class="q">Why is proximal IV access and a flush important for adenosine?</div><div class="hint">Tap or hover to flip.</div></div>
+            <div><div class="q">Why is proximal IV access and a flush important for adenosine?</div><div class="hint">Tap to flip.</div></div>
           </div>
           <div class="face back">
             <div class="row"><span class="tag">Adenosine</span><span class="num">Dr. Mehta</span></div>
@@ -506,11 +507,11 @@
         </div>
       </article>
 
-      <article class="flip-card" onclick="this.classList.toggle('flipped')" tabindex="0">
+      <article class="flip-card" tabindex="0">
         <div class="flip-inner">
           <div class="face front g1">
             <div class="row"><span class="tag">Pediatrics</span><span class="num">Card 25</span></div>
-            <div><div class="q">What pediatric sodium bicarbonate dose is commonly listed in resuscitation tables?</div><div class="hint">Tap or hover to flip.</div></div>
+            <div><div class="q">What pediatric sodium bicarbonate dose is commonly listed in resuscitation tables?</div><div class="hint">Tap to flip.</div></div>
           </div>
           <div class="face back">
             <div class="row"><span class="tag">Pediatric</span><span class="num">Dr. Mehta</span></div>
@@ -519,11 +520,11 @@
         </div>
       </article>
 
-      <article class="flip-card" onclick="this.classList.toggle('flipped')" tabindex="0">
+      <article class="flip-card" tabindex="0">
         <div class="flip-inner">
           <div class="face front g2">
             <div class="row"><span class="tag">Rhythm care</span><span class="num">Card 26</span></div>
-            <div><div class="q">Which two antiarrhythmics require special attention to QT prolongation?</div><div class="hint">Tap or hover to flip.</div></div>
+            <div><div class="q">Which two antiarrhythmics require special attention to QT prolongation?</div><div class="hint">Tap to flip.</div></div>
           </div>
           <div class="face back">
             <div class="row"><span class="tag">QT risk</span><span class="num">Dr. Mehta</span></div>
@@ -532,11 +533,11 @@
         </div>
       </article>
 
-      <article class="flip-card" onclick="this.classList.toggle('flipped')" tabindex="0">
+      <article class="flip-card" tabindex="0">
         <div class="flip-inner">
           <div class="face front g3">
             <div class="row"><span class="tag">Infusion</span><span class="num">Card 27</span></div>
-            <div><div class="q">What is the dobutamine infusion range shown in common resuscitation tables?</div><div class="hint">Tap or hover to flip.</div></div>
+            <div><div class="q">What is the dobutamine infusion range shown in common resuscitation tables?</div><div class="hint">Tap to flip.</div></div>
           </div>
           <div class="face back">
             <div class="row"><span class="tag">Dobutamine</span><span class="num">Dr. Mehta</span></div>
@@ -545,11 +546,11 @@
         </div>
       </article>
 
-      <article class="flip-card" onclick="this.classList.toggle('flipped')" tabindex="0">
+      <article class="flip-card" tabindex="0">
         <div class="flip-inner">
           <div class="face front g4">
             <div class="row"><span class="tag">Rhythm strategy</span><span class="num">Card 28</span></div>
-            <div><div class="q">When should AV nodal blockers be avoided in tachycardia management?</div><div class="hint">Tap or hover to flip.</div></div>
+            <div><div class="q">When should AV nodal blockers be avoided in tachycardia management?</div><div class="hint">Tap to flip.</div></div>
           </div>
           <div class="face back">
             <div class="row"><span class="tag">Avoidance</span><span class="num">Dr. Mehta</span></div>
@@ -558,11 +559,11 @@
         </div>
       </article>
 
-      <article class="flip-card" onclick="this.classList.toggle('flipped')" tabindex="0">
+      <article class="flip-card" tabindex="0">
         <div class="flip-inner">
           <div class="face front g5">
             <div class="row"><span class="tag">Shockable arrest</span><span class="num">Card 29</span></div>
-            <div><div class="q">Which antiarrhythmic is preferred first in many ACLS teaching references for refractory VF/pulseless VT?</div><div class="hint">Tap or hover to flip.</div></div>
+            <div><div class="q">Which antiarrhythmic is preferred first in many ACLS teaching references for refractory VF/pulseless VT?</div><div class="hint">Tap to flip.</div></div>
           </div>
           <div class="face back">
             <div class="row"><span class="tag">Choice</span><span class="num">Dr. Mehta</span></div>
@@ -571,11 +572,11 @@
         </div>
       </article>
 
-      <article class="flip-card" onclick="this.classList.toggle('flipped')" tabindex="0">
+      <article class="flip-card" tabindex="0">
         <div class="flip-inner">
           <div class="face front g6">
             <div class="row"><span class="tag">Safety</span><span class="num">Card 30</span></div>
-            <div><div class="q">What recurring safety principle applies to most ACLS and EM drug administration?</div><div class="hint">Tap or hover to flip.</div></div>
+            <div><div class="q">What recurring safety principle applies to most ACLS and EM drug administration?</div><div class="hint">Tap to flip.</div></div>
           </div>
           <div class="face back">
             <div class="row"><span class="tag">Core principle</span><span class="num">Dr. Mehta</span></div>
@@ -592,12 +593,19 @@
   </div>
 
   <script>
-    document.addEventListener("keydown", function(e){
-      if(e.key === "Enter" || e.key === " "){
-        const active = document.activeElement;
-        if(active && active.classList.contains("flip-card")){
+    document.querySelectorAll('.flip-card').forEach(function(card) {
+      card.addEventListener('click', function(e) {
+        e.preventDefault();
+        this.classList.toggle('flipped');
+      });
+    });
+
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' || e.key === ' ') {
+        var active = document.activeElement;
+        if (active && active.classList.contains('flip-card')) {
           e.preventDefault();
-          active.classList.toggle("flipped");
+          active.classList.toggle('flipped');
         }
       }
     });
