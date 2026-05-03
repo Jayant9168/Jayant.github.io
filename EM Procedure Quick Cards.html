@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EM Quick Cards 2026 — Dr. Mehta</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Outfit:wght@300;400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --red:    #C0392B; --red-lt:  #FDF2F1; --red-md: #FBDED9;
+    --blue:   #1A6BAF; --blue-lt: #EEF5FB; --blue-md: #C5DDEF;
+    --teal:   #0F7A5A; --teal-lt: #EAF5F0; --teal-md: #B4DECE;
+    --amber:  #A05C00; --amber-lt:#FDF5E8; --amber-md:#F5D8A0;
+    --coral:  #B84020; --coral-lt:#FDF0EA; --coral-md:#F5C8B5;
+    --purple: #5845AD; --purple-lt:#F0EEFB; --purple-md:#C8C2EE;
+    --pink:   #A3335E; --pink-lt: #FBF0F5; --pink-md: #EFC3D5;
+    --ink:    #1A1F2E;
+    --ink2:   #3D4558;
+    --ink3:   #6B7591;
+    --rule:   #E4E7F0;
+    --bg:     #F7F8FC;
+    --white:  #FFFFFF;
+    --shadow: 0 2px 12px rgba(26,31,46,0.07), 0 1px 3px rgba(26,31,46,0.05);
+    --shadow-lg: 0 8px 32px rgba(26,31,46,0.10), 0 2px 8px rgba(26,31,46,0.06);
+  }
+
+  html { font-size: 15px; }
+
+  body {
+    font-family: 'Outfit', sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── MASTHEAD ── */
+  .masthead {
+    background: var(--white);
+    border-bottom: 1px solid var(--rule);
+    position: sticky; top: 0; z-index: 200;
+    box-shadow: 0 1px 8px rgba(26,31,46,0.06);
+  }
+
+  .masthead-inner {
+    max-width: 960px; margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  .masthead-top {
+    display: flex; align-items: center; gap: 16px;
+    padding: 14px 0 10px;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .logo {
+    display: flex; align-items: center; gap: 12px;
+  }
+
+  .logo-mark {
+    width: 42px; height: 42px; border-radius: 10px;
+    background: var(--red); display: flex;
+    align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .logo-mark svg { width: 22px; height: 22px; fill: white; }
+
+  .logo-text { line-height: 1.15; }
+  .logo-title {
+    font-family: 'Playfair Display'; font-size: 17px;
+    font-weight: 700; color: var(--ink); letter-spacing: -0.2px;
+  }
+  .logo-meta {
+    font-size: 10.5px; color: var(--ink3); letter-spacing: 0.6px;
+    text-transform: uppercase; font-weight: 500;
+  }
+
+  .masthead-pills {
+    margin-left: auto; display: flex; gap: 6px; align-items: center;
+  }
+
+  .pill {
+    padding: 3px 10px; border-radius: 20px;
+    font-size: 10px; font-weight: 600; letter-spacing: 0.6px;
+    text-transform: uppercase; white-space: nowrap;
+  }
+  .pill-red    { background: var(--red-md);    color: var(--red);    border: 1px solid #EFBBB5; }
+  .pill-blue   { background: var(--blue-md);   color: var(--blue);   border: 1px solid #A8CCDF; }
+  .pill-teal   { background: var(--teal-md);   color: var(--teal);   border: 1px solid #90CCBA; }
+  .pill-amber  { background: var(--amber-md);  color: var(--amber);  border: 1px solid #E0C070; }
+
+  /* ── TAB NAV ── */
+  .tab-nav {
+    display: flex; gap: 0; overflow-x: auto;
+    scrollbar-width: none; padding: 0;
+  }
+  .tab-nav::-webkit-scrollbar { display: none; }
+
+  .tab-btn {
+    padding: 10px 15px 9px;
+    background: none; border: none; cursor: pointer;
+    font-family: 'Outfit'; font-size: 12px; font-weight: 500;
+    color: var(--ink3); white-space: nowrap;
+    position: relative; transition: color 0.15s;
+    letter-spacing: 0.1px;
+    border-bottom: 2px solid transparent;
+  }
+  .tab-btn:hover { color: var(--ink2); }
+  .tab-btn.active { color: var(--ink); border-bottom-color: var(--red); font-weight: 600; }
+
+  /* ── MAIN LAYOUT ── */
+  .main {
+    max-width: 960px; margin: 0 auto;
+    padding: 24px 24px 40px;
+  }
+
+  /* ── CARD SHELL ── */
+  .card-shell {
+    display: none;
+    background: var(--white);
+    border-radius: 16px;
+    border: 1px solid var(--rule);
+    box-shadow: var(--shadow-lg);
+    overflow: hidden;
+    animation: slideUp 0.22s cubic-bezier(0.22,0.68,0,1.2);
+  }
+  .card-shell.active { display: block; }
+
+  @keyframes slideUp {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── CARD HEADER ── */
+  .card-header {
+    padding: 22px 28px 18px;
+    display: flex; align-items: flex-start; gap: 16px;
+    border-bottom: 1px solid var(--rule);
+    position: relative; overflow: hidden;
+  }
+  .card-header::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    background: var(--accent-color);
+  }
+
+  .card-icon-wrap {
+    width: 48px; height: 48px; border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; margin-top: 2px;
+  }
+  .card-icon-wrap svg { width: 24px; height: 24px; }
+
+  .card-hd-body { flex: 1; }
+  .card-eyebrow {
+    font-size: 10px; font-weight: 600; letter-spacing: 1.2px;
+    text-transform: uppercase; margin-bottom: 3px;
+  }
+  .card-title {
+    font-family: 'Playfair Display'; font-size: 24px;
+    font-weight: 700; color: var(--ink); line-height: 1.15;
+    letter-spacing: -0.3px;
+  }
+  .card-subtitle {
+    font-size: 12.5px; color: var(--ink3); margin-top: 4px; font-weight: 400;
+  }
+
+  .card-badges {
+    display: flex; flex-direction: column; align-items: flex-end; gap: 5px;
+    margin-left: auto; flex-shrink: 0;
+  }
+  .card-badge-primary {
+    padding: 4px 12px; border-radius: 6px;
+    font-size: 10.5px; font-weight: 700; letter-spacing: 0.8px;
+    text-transform: uppercase;
+  }
+  .card-num {
+    font-size: 10px; color: var(--ink3); font-weight: 500;
+    letter-spacing: 0.3px;
+  }
+
+  /* ── CARD BODY ── */
+  .card-body { padding: 22px 28px; }
+
+  .section-head {
+    display: flex; align-items: center; gap: 8px;
+    margin: 0 0 10px;
+  }
+  .section-head-line {
+    flex: 1; height: 1px; background: var(--rule);
+  }
+  .section-label {
+    font-size: 9.5px; font-weight: 700; letter-spacing: 1.4px;
+    text-transform: uppercase; white-space: nowrap;
+  }
+
+  /* ── STEPS ── */
+  .steps { display: flex; flex-direction: column; gap: 7px; margin-bottom: 18px; }
+  .step { display: flex; gap: 12px; align-items: flex-start; }
+  .step-num {
+    width: 24px; height: 24px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 700; flex-shrink: 0; margin-top: 1px;
+    font-family: 'JetBrains Mono';
+  }
+  .step-text {
+    font-size: 13px; line-height: 1.55; color: var(--ink2); padding-top: 3px;
+  }
+  .step-text strong { color: var(--ink); font-weight: 600; }
+  .dose {
+    font-family: 'JetBrains Mono'; font-size: 11.5px;
+    background: var(--amber-lt); color: var(--amber);
+    padding: 1px 5px; border-radius: 4px; font-weight: 600;
+  }
+
+  /* ── ALERT BOXES ── */
+  .alerts { display: flex; flex-direction: column; gap: 8px; margin-top: 14px; }
+  .alert {
+    border-radius: 10px; padding: 11px 14px;
+    display: flex; gap: 10px; align-items: flex-start;
+    border-left: 3px solid;
+  }
+  .alert-icon { font-size: 14px; flex-shrink: 0; line-height: 1.4; }
+  .alert-body { font-size: 12px; line-height: 1.55; }
+  .alert-body strong {
+    display: block; font-weight: 600; font-size: 11px;
+    letter-spacing: 0.3px; text-transform: uppercase; margin-bottom: 2px;
+  }
+  .alert-red    { background: var(--red-lt);    border-color: var(--red);    color: #6B1A14; }
+  .alert-amber  { background: var(--amber-lt);  border-color: var(--amber);  color: #5A3300; }
+  .alert-teal   { background: var(--teal-lt);   border-color: var(--teal);   color: #0A4433; }
+  .alert-blue   { background: var(--blue-lt);   border-color: var(--blue);   color: #0E3C6A; }
+  .alert-purple { background: var(--purple-lt); border-color: var(--purple); color: #30216B; }
+  .alert-pink   { background: var(--pink-lt);   border-color: var(--pink);   color: #5A1030; }
+
+  /* ── DRUG TABLE ── */
+  .drug-wrap { border-radius: 10px; overflow: hidden; border: 1px solid var(--rule); margin-bottom: 16px; }
+  .drug-table { width: 100%; border-collapse: collapse; }
+  .drug-table thead { background: #F3F5FA; }
+  .drug-table th {
+    font-size: 9.5px; font-weight: 700; letter-spacing: 1.2px;
+    text-transform: uppercase; color: var(--ink3);
+    padding: 7px 12px; text-align: left;
+  }
+  .drug-table td {
+    font-size: 12.5px; padding: 8px 12px;
+    border-top: 1px solid var(--rule); color: var(--ink2);
+    line-height: 1.45; vertical-align: middle;
+  }
+  .drug-table tr:hover td { background: #FAFBFE; }
+  .drug-table td:first-child { font-weight: 600; color: var(--ink); }
+  .drug-table .mono {
+    font-family: 'JetBrains Mono'; font-size: 11px;
+    background: var(--amber-lt); color: var(--amber);
+    padding: 2px 6px; border-radius: 4px; font-weight: 600;
+    white-space: nowrap;
+  }
+
+  /* ── SCORE TABLE ── */
+  .score-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+  .score-box {
+    border: 1px solid var(--rule); border-radius: 10px; overflow: hidden;
+  }
+  .score-box-head {
+    padding: 7px 12px; font-size: 11px; font-weight: 600;
+    letter-spacing: 0.3px;
+  }
+  .score-row {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 5px 12px; border-top: 1px solid var(--rule);
+    font-size: 12px;
+  }
+  .score-row-label { color: var(--ink3); }
+  .score-row-val {
+    font-family: 'JetBrains Mono'; font-size: 11.5px; font-weight: 600;
+  }
+
+  /* ── VITALS STRIP ── */
+  .vitals-strip {
+    display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px;
+    margin-bottom: 16px;
+  }
+  .vital-cell {
+    background: var(--bg); border: 1px solid var(--rule); border-radius: 10px;
+    padding: 10px 6px; text-align: center;
+  }
+  .vital-val {
+    font-family: 'Playfair Display'; font-size: 18px; font-weight: 700;
+    line-height: 1;
+  }
+  .vital-label {
+    font-size: 9px; font-weight: 600; letter-spacing: 0.8px;
+    text-transform: uppercase; color: var(--ink3); margin-top: 3px;
+  }
+
+  /* ── TIMELINE ── */
+  .timeline {
+    position: relative; padding-left: 20px;
+    display: flex; flex-direction: column; gap: 10px;
+    margin-bottom: 16px;
+  }
+  .timeline::before {
+    content: ''; position: absolute; left: 7px; top: 8px; bottom: 8px;
+    width: 1px; background: var(--rule);
+  }
+  .tl-item { position: relative; }
+  .tl-dot {
+    position: absolute; left: -15px; top: 5px;
+    width: 9px; height: 9px; border-radius: 50%;
+    border: 2px solid var(--white);
+    box-shadow: 0 0 0 1px currentColor;
+  }
+  .tl-time {
+    font-family: 'JetBrains Mono'; font-size: 10.5px; font-weight: 600;
+    margin-bottom: 2px;
+  }
+  .tl-text { font-size: 12.5px; color: var(--ink2); line-height: 1.5; }
+
+  /* ── TWO COL ── */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-bottom: 16px; }
+
+  /* ── LIST ── */
+  .feat-list { display: flex; flex-direction: column; gap: 5px; }
+  .feat-item {
+    display: flex; gap: 8px; align-items: flex-start;
+    font-size: 12.5px; color: var(--ink2); line-height: 1.5;
+  }
+  .feat-bullet {
+    width: 16px; height: 16px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; margin-top: 2px; font-size: 8px; font-weight: 800;
+    color: white;
+  }
+
+  /* ── FOOTER ── */
+  .card-footer {
+    background: #F7F8FC; border-top: 1px solid var(--rule);
+    padding: 10px 28px;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .card-footer span { font-size: 10.5px; color: var(--ink3); font-weight: 500; }
+  .card-footer .doc { color: var(--ink2); font-weight: 600; }
+
+  /* ── PAGE FOOTER ── */
+  .page-footer {
+    text-align: center; padding: 20px 24px 32px;
+    font-size: 11px; color: var(--ink3); font-style: italic; letter-spacing: 0.3px;
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 600px) {
+    .card-body { padding: 16px 16px; }
+    .card-header { padding: 16px 16px 14px; }
+    .card-footer { padding: 8px 16px; }
+    .vitals-strip { grid-template-columns: repeat(3, 1fr); }
+    .score-grid { grid-template-columns: 1fr; }
+    .two-col { grid-template-columns: 1fr; }
+    .masthead-pills { display: none; }
+    .card-title { font-size: 20px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ══════════ MASTHEAD ══════════ -->
+<header class="masthead">
+  <div class="masthead-inner">
+    <div class="masthead-top">
+      <div class="logo">
+        <div class="logo-mark">
+          <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z"/><path d="M11 6h2v2h-2z" opacity="0"/></svg>
+        </div>
+        <div class="logo-text">
+          <div class="logo-title">EM Quick Cards 2026</div>
+          <div class="logo-meta">Emergency Medicine · Prepared by Dr. Mehta</div>
+        </div>
+      </div>
+      <div class="masthead-pills">
+        <span class="pill pill-red">8 Cards</span>
+        <span class="pill pill-blue">Laminate-Ready</span>
+        <span class="pill pill-teal">2026 Edition</span>
+        <span class="pill pill-amber">All Devices</span>
+      </div>
+    </div>
+
+    <nav class="tab-nav" id="tabNav"></nav>
+  </div>
+</header>
+
+<!-- ══════════ MAIN ══════════ -->
+<main class="main" id="main"></main>
+
+<footer class="page-footer">
+  EM Quick Cards 2026 · Prepared by Dr. Mehta · For clinical reference only — always verify doses with current institutional protocols and formularies
+</footer>
+
+<script>
+const CARDS = [
+  {
+    id:'acls', label:'ACLS Arrest',
+    accent:'var(--red)', accentLt:'var(--red-lt)', accentMd:'var(--red-md)',
+    iconColor:'#C0392B',
+    eyebrow:'Resuscitation',
+    title:'ACLS — Cardiac Arrest',
+    subtitle:'VF / pulseless VT · PEA · Asystole · H\'s &amp; T\'s',
+    badge:'Critical', badgeStyle:'background:var(--red-md);color:var(--red);border:1px solid #EFBBB5;',
+    html:`
+      <div class="section-head"><span class="section-label" style="color:var(--red)">VF / pulseless VT — sequence</span><div class="section-head-line"></div></div>
+      <div class="steps">
+        <div class="step"><div class="step-num" style="background:var(--red-md);color:var(--red)">1</div><div class="step-text">Call code · Begin CPR <strong>immediately</strong> · 100–120 compressions/min · 2-inch depth · Minimize interruptions</div></div>
+        <div class="step"><div class="step-num" style="background:var(--red-md);color:var(--red)">2</div><div class="step-text">Attach defibrillator → analyze rhythm → <strong>Shock if shockable</strong></div></div>
+        <div class="step"><div class="step-num" style="background:var(--red-md);color:var(--red)">3</div><div class="step-text">Defibrillation: <span class="dose">200 J biphasic</span> → resume CPR ×2 min immediately after</div></div>
+        <div class="step"><div class="step-num" style="background:var(--red-md);color:var(--red)">4</div><div class="step-text">IV/IO access → Epinephrine <span class="dose">1 mg IV/IO q3–5 min</span></div></div>
+        <div class="step"><div class="step-num" style="background:var(--red-md);color:var(--red)">5</div><div class="step-text">Amiodarone <span class="dose">300 mg IV</span> after 2nd shock → 2nd dose <span class="dose">150 mg</span> if needed</div></div>
+        <div class="step"><div class="step-num" style="background:var(--red-md);color:var(--red)">6</div><div class="step-text">Identify &amp; treat reversible causes — H's &amp; T's below</div></div>
+      </div>
+      <div class="two-col">
+        <div>
+          <div class="section-head"><span class="section-label" style="color:var(--ink3)">H's</span><div class="section-head-line"></div></div>
+          <div class="feat-list">
+            <div class="feat-item"><div class="feat-bullet" style="background:var(--red)">H</div>Hypovolemia</div>
+            <div class="feat-item"><div class="feat-bullet" style="background:var(--red)">H</div>Hypoxia</div>
+            <div class="feat-item"><div class="feat-bullet" style="background:var(--red)">H</div>Hydrogen ion (acidosis)</div>
+            <div class="feat-item"><div class="feat-bullet" style="background:var(--red)">H</div>Hypo/Hyperkalemia</div>
+            <div class="feat-item"><div class="feat-bullet" style="background:var(--red)">H</div>Hypothermia</div>
+          </div>
+        </div>
+        <div>
+          <div class="section-head"><span class="section-label" style="color:var(--ink3)">T's</span><div class="section-head-line"></div></div>
+          <div class="feat-list">
+            <div class="feat-item"><div class="feat-bullet" style="background:var(--blue)">T</div>Tension pneumothorax</div>
+            <div class="feat-item"><div class="feat-bullet" style="background:var(--blue)">T</div>Tamponade (cardiac)</div>
+            <div class="feat-item"><div class="feat-bullet" style="background:var(--blue)">T</div>Toxins / Overdose</div>
+            <div class="feat-item"><div class="feat-bullet" style="background:var(--blue)">T</div>Thrombosis — PE</div>
+            <div class="feat-item"><div class="feat-bullet" style="background:var(--blue)">T</div>Thrombosis — coronary</div>
+          </div>
+        </div>
+      </div>
+      <div class="alerts">
+        <div class="alert alert-amber"><span class="alert-icon">⚡</span><div class="alert-body"><strong>PEA / Asystole</strong>No shock indicated. Epinephrine 1 mg IV q3–5 min. Focus entirely on H's &amp; T's. Consider point-of-care echo to identify cause.</div></div>
+        <div class="alert alert-teal"><span class="alert-icon">✓</span><div class="alert-body"><strong>Post-ROSC Checklist</strong>12-lead ECG · Target SpO₂ 94–98% · Avoid hyperventilation (PaCO₂ 35–45) · Targeted temperature management if comatose (33–36°C)</div></div>
+      </div>`
+  },
+  {
+    id:'stroke', label:'Stroke / TIA',
+    accent:'var(--purple)', accentLt:'var(--purple-lt)', accentMd:'var(--purple-md)',
+    iconColor:'#5845AD',
+    eyebrow:'Neurology',
+    title:'Acute Stroke &amp; TIA',
+    subtitle:'Time is Brain · Door-to-Needle &lt;60 min · BE-FAST',
+    badge:'Time-Critical', badgeStyle:'background:var(--purple-lt);color:var(--purple);border:1px solid #C8C2EE;',
+    html:`
+      <div class="section-head"><span class="section-label" style="color:var(--purple)">BE-FAST stroke recognition</span><div class="section-head-line"></div></div>
+      <div class="vitals-strip">
+        <div class="vital-cell"><div class="vital-val" style="color:var(--red)">B</div><div class="vital-label">Balance</div></div>
+        <div class="vital-cell"><div class="vital-val" style="color:var(--red)">E</div><div class="vital-label">Eyes</div></div>
+        <div class="vital-cell"><div class="vital-val" style="color:var(--red)">F</div><div class="vital-label">Face</div></div>
+        <div class="vital-cell"><div class="vital-val" style="color:var(--red)">A</div><div class="vital-label">Arms</div></div>
+        <div class="vital-cell"><div class="vital-val" style="color:var(--red)">S</div><div class="vital-label">Speech</div></div>
+        <div class="vital-cell"><div class="vital-val" style="color:var(--red)">T</div><div class="vital-label">Time</div></div>
+      </div>
+      <div class="section-head"><span class="section-label" style="color:var(--purple)">Door-to-needle timeline</span><div class="section-head-line"></div></div>
+      <div class="timeline">
+        <div class="tl-item"><div class="tl-dot" style="color:var(--purple);background:var(--purple)"></div><div class="tl-time" style="color:var(--purple)">0 min — Door</div><div class="tl-text">Activate stroke team · Stroke alert overhead · Immediate triage</div></div>
+        <div class="tl-item"><div class="tl-dot" style="color:var(--blue);background:var(--blue)"></div><div class="tl-time" style="color:var(--blue)">≤10 min</div><div class="tl-text">Physician evaluation · Vitals · IV access ×2 · O₂ if SpO₂&lt;94%</div></div>
+        <div class="tl-item"><div class="tl-dot" style="color:var(--amber);background:var(--amber)"></div><div class="tl-time" style="color:var(--amber)">≤25 min</div><div class="tl-text">CT head (non-contrast) · Labs: CBC, BMP, coags, glucose, troponin</div></div>
+        <div class="tl-item"><div class="tl-dot" style="color:var(--teal);background:var(--teal)"></div><div class="tl-time" style="color:var(--teal)">≤45 min</div><div class="tl-text">CT interpreted · Neurology notified · tPA eligibility decision</div></div>
+        <div class="tl-item"><div class="tl-dot" style="color:var(--red);background:var(--red)"></div><div class="tl-time" style="color:var(--red)">≤60 min</div><div class="tl-text">tPA bolus if eligible · Admit to neuro ICU / stroke unit</div></div>
+      </div>
+      <div class="drug-wrap">
+        <table class="drug-table">
+          <thead><tr><th>Agent</th><th>Dose</th><th>Administration</th></tr></thead>
+          <tbody>
+            <tr><td>Alteplase (tPA)</td><td><span class="mono">0.9 mg/kg IV (max 90 mg)</span></td><td>10% bolus over 1 min · remainder over 60 min</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="alerts">
+        <div class="alert alert-red"><span class="alert-icon">✕</span><div class="alert-body"><strong>Key tPA exclusions</strong>BP &gt;185/110 despite Rx · Any intracranial hemorrhage · Recent surgery &lt;14d · INR &gt;1.7 · Platelets &lt;100k · Glucose &lt;50 or &gt;400 mg/dL</div></div>
+        <div class="alert alert-blue"><span class="alert-icon">ℹ</span><div class="alert-body"><strong>Large vessel occlusion (LVO)</strong>CT Angiography if NIHSS ≥6. Mechanical thrombectomy eligible up to 24h from last known well in selected patients.</div></div>
+      </div>`
+  },
+  {
+    id:'sepsis', label:'Sepsis Bundle',
+    accent:'var(--teal)', accentLt:'var(--teal-lt)', accentMd:'var(--teal-md)',
+    iconColor:'#0F7A5A',
+    eyebrow:'Infectious Disease',
+    title:'Sepsis — Hour-1 Bundle',
+    subtitle:'Sepsis-3 Criteria · SEP-1 Compliance · EGDT',
+    badge:'Urgent', badgeStyle:'background:var(--teal-md);color:var(--teal);border:1px solid #90CCBA;',
+    html:`
+      <div class="section-head"><span class="section-label" style="color:var(--teal)">Sepsis-3 & qSOFA criteria</span><div class="section-head-line"></div></div>
+      <div class="alert alert-teal" style="margin-bottom:14px"><span class="alert-icon">⬡</span><div class="alert-body"><strong>qSOFA ≥2 = suspect sepsis</strong>RR ≥22/min · Altered mentation (GCS &lt;15) · SBP ≤100 mmHg — Screen for organ dysfunction (SOFA score)</div></div>
+      <div class="section-head"><span class="section-label" style="color:var(--teal)">Hour-1 bundle — complete all 5</span><div class="section-head-line"></div></div>
+      <div class="steps">
+        <div class="step"><div class="step-num" style="background:var(--teal-md);color:var(--teal)">1</div><div class="step-text">Measure <strong>lactate level</strong> — Remeasure if initial lactate &gt;<span class="dose">2 mmol/L</span></div></div>
+        <div class="step"><div class="step-num" style="background:var(--teal-md);color:var(--teal)">2</div><div class="step-text"><strong>Blood cultures ×2 sets</strong> — Before antibiotics · Do not delay &gt;45 min</div></div>
+        <div class="step"><div class="step-num" style="background:var(--teal-md);color:var(--teal)">3</div><div class="step-text">Broad-spectrum <strong>antibiotics</strong> within <span class="dose">1 hour</span> of recognition</div></div>
+        <div class="step"><div class="step-num" style="background:var(--teal-md);color:var(--teal)">4</div><div class="step-text">IV fluids <span class="dose">30 mL/kg crystalloid</span> if MAP &lt;65 or lactate ≥4 mmol/L</div></div>
+        <div class="step"><div class="step-num" style="background:var(--teal-md);color:var(--teal)">5</div><div class="step-text">Vasopressors if MAP &lt;65 despite resuscitation → <strong>Norepinephrine first-line</strong></div></div>
+      </div>
+      <div class="drug-wrap">
+        <table class="drug-table">
+          <thead><tr><th>Agent</th><th>Dose/Rate</th><th>Notes</th></tr></thead>
+          <tbody>
+            <tr><td>Norepinephrine</td><td><span class="mono">0.01–3 mcg/kg/min</span></td><td>First-line vasopressor — titrate to MAP ≥65</td></tr>
+            <tr><td>Vasopressin</td><td><span class="mono">0.03–0.04 U/min</span></td><td>Add-on to NE — sparing effect</td></tr>
+            <tr><td>Pip/Tazo</td><td><span class="mono">4.5 g IV q6h</span></td><td>Broad empiric gram+ / gram−</td></tr>
+            <tr><td>Vancomycin</td><td><span class="mono">25–30 mg/kg load</span></td><td>MRSA · Adjust by levels</td></tr>
+            <tr><td>Meropenem</td><td><span class="mono">1–2 g IV q8h</span></td><td>Extended-spectrum / resistant organisms</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="alerts">
+        <div class="alert alert-amber"><span class="alert-icon">⚠</span><div class="alert-body"><strong>Resuscitation targets</strong>MAP ≥65 · UO ≥0.5 mL/kg/hr · Lactate clearance ≥10% in 2h · Reassess fluid responsiveness frequently</div></div>
+      </div>`
+  },
+  {
+    id:'airway', label:'RSI Airway',
+    accent:'var(--blue)', accentLt:'var(--blue-lt)', accentMd:'var(--blue-md)',
+    iconColor:'#1A6BAF',
+    eyebrow:'Airway Management',
+    title:'Rapid Sequence Intubation',
+    subtitle:'RSI Sequence · Difficult Airway · Surgical Airway Backup',
+    badge:'Airway', badgeStyle:'background:var(--blue-md);color:var(--blue);border:1px solid #A8CCDF;',
+    html:`
+      <div class="section-head"><span class="section-label" style="color:var(--blue)">HEAVEN — difficult airway predictors</span><div class="section-head-line"></div></div>
+      <div class="two-col" style="margin-bottom:16px">
+        <div class="feat-list">
+          <div class="feat-item"><div class="feat-bullet" style="background:var(--blue)">H</div><strong>H</strong>ypoxemia pre-intubation</div>
+          <div class="feat-item"><div class="feat-bullet" style="background:var(--blue)">E</div><strong>E</strong>xtremes of size / obesity</div>
+          <div class="feat-item"><div class="feat-bullet" style="background:var(--blue)">A</div><strong>A</strong>natomic difficulty (Mallampati)</div>
+          <div class="feat-item"><div class="feat-bullet" style="background:var(--blue)">V</div><strong>V</strong>omit / blood / secretions</div>
+        </div>
+        <div class="feat-list">
+          <div class="feat-item"><div class="feat-bullet" style="background:var(--blue)">E</div><strong>E</strong>xsanguination / hemodynamics</div>
+          <div class="feat-item"><div class="feat-bullet" style="background:var(--blue)">N</div><strong>N</strong>o prior intubation attempt</div>
+          <div class="feat-item"><div class="feat-bullet" style="background:var(--ink3)">→</div>Activate backup plan early</div>
+        </div>
+      </div>
+      <div class="section-head"><span class="section-label" style="color:var(--blue)">RSI — 7 P's</span><div class="section-head-line"></div></div>
+      <div class="steps">
+        <div class="step"><div class="step-num" style="background:var(--blue-md);color:var(--blue)">P</div><div class="step-text"><strong>Preparation</strong> — Position (sniffing), suction ready, video laryngoscope, BVM, ET tube ×2 sizes, bougie, cric kit</div></div>
+        <div class="step"><div class="step-num" style="background:var(--blue-md);color:var(--blue)">P</div><div class="step-text"><strong>Pre-oxygenation</strong> — 100% O₂ ×3–5 min · NRB + NC at 15L · BVM if SpO₂ &lt;93%</div></div>
+        <div class="step"><div class="step-num" style="background:var(--blue-md);color:var(--blue)">P</div><div class="step-text"><strong>Pre-treatment</strong> — Lidocaine <span class="dose">1.5 mg/kg</span> IV for elevated ICP · Fentanyl for HTN crisis</div></div>
+        <div class="step"><div class="step-num" style="background:var(--blue-md);color:var(--blue)">P</div><div class="step-text"><strong>Paralysis + Induction</strong> — Simultaneous push · Sedative then paralytic</div></div>
+        <div class="step"><div class="step-num" style="background:var(--blue-md);color:var(--blue)">P</div><div class="step-text"><strong>Pass the tube</strong> — Video laryngoscopy preferred · Bougie-assisted if view poor</div></div>
+        <div class="step"><div class="step-num" style="background:var(--blue-md);color:var(--blue)">P</div><div class="step-text"><strong>Proof of placement</strong> — Continuous ETCO₂ (gold standard) · Bilateral breath sounds · CXR</div></div>
+        <div class="step"><div class="step-num" style="background:var(--blue-md);color:var(--blue)">P</div><div class="step-text"><strong>Post-intubation</strong> — Sedation + analgesia · Vent settings · Secure tube</div></div>
+      </div>
+      <div class="drug-wrap">
+        <table class="drug-table">
+          <thead><tr><th>Drug</th><th>IV Dose</th><th>Onset</th></tr></thead>
+          <tbody>
+            <tr><td>Ketamine</td><td><span class="mono">1.5–2 mg/kg</span></td><td>60 sec · Preferred hemodynamically unstable</td></tr>
+            <tr><td>Etomidate</td><td><span class="mono">0.3 mg/kg</span></td><td>30 sec · Avoid in sepsis / adrenal insuff.</td></tr>
+            <tr><td>Propofol</td><td><span class="mono">1.5–3 mg/kg</span></td><td>30 sec · Caution: hypotension</td></tr>
+            <tr><td>Succinylcholine</td><td><span class="mono">1.5 mg/kg</span></td><td>45 sec · Depolarizing — see contraindications</td></tr>
+            <tr><td>Rocuronium</td><td><span class="mono">1.2 mg/kg</span></td><td>60 sec · Reverse with Sugammadex 16 mg/kg</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="alerts">
+        <div class="alert alert-red"><span class="alert-icon">✕</span><div class="alert-body"><strong>Succinylcholine contraindications</strong>Hyperkalemia · Burns &gt;24h · Denervation injury · Crush injury &gt;72h · Malignant hyperthermia history · Myopathies</div></div>
+      </div>`
+  },
+  {
+    id:'anaphylaxis', label:'Anaphylaxis',
+    accent:'var(--coral)', accentLt:'var(--coral-lt)', accentMd:'var(--coral-md)',
+    iconColor:'#B84020',
+    eyebrow:'Allergy & Immunology',
+    title:'Anaphylaxis',
+    subtitle:'Epinephrine is First Line — Never Delay — Never Antihistamines First',
+    badge:'Critical', badgeStyle:'background:var(--coral-lt);color:var(--coral);border:1px solid #E5B8A0;',
+    html:`
+      <div class="section-head"><span class="section-label" style="color:var(--coral)">Diagnostic criteria — any 1 of 3</span><div class="section-head-line"></div></div>
+      <div class="feat-list" style="margin-bottom:16px">
+        <div class="feat-item"><div class="feat-bullet" style="background:var(--coral)">1</div>Acute skin/mucosal changes + respiratory compromise <em>or</em> hypotension</div>
+        <div class="feat-item"><div class="feat-bullet" style="background:var(--coral)">2</div>≥2 organ systems involved after known allergen exposure</div>
+        <div class="feat-item"><div class="feat-bullet" style="background:var(--coral)">3</div>Hypotension alone after known allergen (SBP &lt;90 or 30% drop from baseline)</div>
+      </div>
+      <div class="section-head"><span class="section-label" style="color:var(--coral)">Treatment — in strict order</span><div class="section-head-line"></div></div>
+      <div class="steps">
+        <div class="step"><div class="step-num" style="background:var(--coral-md);color:var(--coral)">1</div><div class="step-text"><strong>Epinephrine IM</strong> — Vastus lateralis · <span class="dose">0.3–0.5 mg (1:1,000)</span> · Repeat q5–15 min · No contraindications in anaphylaxis</div></div>
+        <div class="step"><div class="step-num" style="background:var(--coral-md);color:var(--coral)">2</div><div class="step-text">Position supine + legs elevated · 100% O₂ · IV access · Monitor continuously</div></div>
+        <div class="step"><div class="step-num" style="background:var(--coral-md);color:var(--coral)">3</div><div class="step-text">Diphenhydramine <span class="dose">25–50 mg IV</span> · Famotidine <span class="dose">20 mg IV</span> (H1 + H2 blockade)</div></div>
+        <div class="step"><div class="step-num" style="background:var(--coral-md);color:var(--coral)">4</div><div class="step-text">Methylprednisolone <span class="dose">125 mg IV</span> or Hydrocortisone <span class="dose">200 mg IV</span> (prevent biphasic)</div></div>
+        <div class="step"><div class="step-num" style="background:var(--coral-md);color:var(--coral)">5</div><div class="step-text">Albuterol nebs if bronchospasm · Epi infusion if refractory: <span class="dose">0.1–1 mcg/kg/min</span></div></div>
+      </div>
+      <div class="alerts">
+        <div class="alert alert-red"><span class="alert-icon">⚠</span><div class="alert-body"><strong>Refractory anaphylaxis / β-blocker patient</strong>Glucagon 1–5 mg IV over 5 min → infusion 5–15 mcg/min. Consider methylene blue or lipid emulsion in extremis.</div></div>
+        <div class="alert alert-amber"><span class="alert-icon">⏱</span><div class="alert-body"><strong>Discharge criteria</strong>Observe ≥4–6h (≥8h if severe). Prescribe epi auto-injector ×2. Prednisolone 40 mg PO ×3d. Allergy referral. Medic-Alert bracelet.</div></div>
+      </div>`
+  },
+  {
+    id:'mi', label:'ACS / STEMI',
+    accent:'var(--red)', accentLt:'var(--red-lt)', accentMd:'var(--red-md)',
+    iconColor:'#C0392B',
+    eyebrow:'Cardiology',
+    title:'ACS — STEMI Protocol',
+    subtitle:'Door-to-Balloon &lt;90 min · NSTEMI / UA included',
+    badge:'Critical', badgeStyle:'background:var(--red-md);color:var(--red);border:1px solid #EFBBB5;',
+    html:`
+      <div class="section-head"><span class="section-label" style="color:var(--red)">STEMI criteria</span><div class="section-head-line"></div></div>
+      <div class="alert alert-red" style="margin-bottom:14px"><span class="alert-icon">◉</span><div class="alert-body"><strong>STE criteria — ≥2 contiguous leads</strong>≥1 mm limb leads · ≥2 mm precordial leads · New LBBB · Posterior MI: STD in V1–V3 + R&gt;S · aVR elevation = left main</div></div>
+      <div class="section-head"><span class="section-label" style="color:var(--red)">Immediate therapy — MONA</span><div class="section-head-line"></div></div>
+      <div class="drug-wrap">
+        <table class="drug-table">
+          <thead><tr><th>Drug</th><th>Dose</th><th>Notes</th></tr></thead>
+          <tbody>
+            <tr><td>Morphine</td><td><span class="mono">2–4 mg IV q5–15 min</span></td><td>Refractory pain only · May mask symptoms</td></tr>
+            <tr><td>Oxygen</td><td><span class="mono">2–4 L/min NC</span></td><td>Only if SpO₂ &lt;94% — avoid hyperoxia</td></tr>
+            <tr><td>Nitroglycerin</td><td><span class="mono">0.4 mg SL q5 min ×3</span></td><td>Hold if SBP &lt;90 / RV infarct / PDE5i use</td></tr>
+            <tr><td>Aspirin</td><td><span class="mono">325 mg PO (chewed)</span></td><td>Always first · Non-enteric-coated</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="section-head"><span class="section-label" style="color:var(--red)">Dual antiplatelet (DAPT) loading</span><div class="section-head-line"></div></div>
+      <div class="drug-wrap">
+        <table class="drug-table">
+          <thead><tr><th>Agent</th><th>Loading dose</th><th>Preferred scenario</th></tr></thead>
+          <tbody>
+            <tr><td>Ticagrelor</td><td><span class="mono">180 mg PO</span></td><td>PCI — preferred · Avoid if on anticoag</td></tr>
+            <tr><td>Prasugrel</td><td><span class="mono">60 mg PO</span></td><td>PCI · No prior stroke/TIA · Age &lt;75</td></tr>
+            <tr><td>Clopidogrel</td><td><span class="mono">600 mg PO</span></td><td>Fibrinolysis · Conservative strategy</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="alerts">
+        <div class="alert alert-blue"><span class="alert-icon">ℹ</span><div class="alert-body"><strong>If PCI not available within 120 min</strong>Tenecteplase (TNK) weight-based IV bolus. Transfer for rescue PCI if no signs of reperfusion at 90 min.</div></div>
+        <div class="alert alert-amber"><span class="alert-icon">⚠</span><div class="alert-body"><strong>Anticoagulation</strong>UFH 60 U/kg IV bolus (max 4,000 U) → infusion 12 U/kg/h. LMWH or fondaparinux per institutional protocol.</div></div>
+      </div>`
+  },
+  {
+    id:'dka', label:'DKA / HHS',
+    accent:'var(--amber)', accentLt:'var(--amber-lt)', accentMd:'var(--amber-md)',
+    iconColor:'#A05C00',
+    eyebrow:'Endocrinology',
+    title:'DKA &amp; HHS Management',
+    subtitle:'Fluids → Potassium → Insulin (in this order)',
+    badge:'Urgent', badgeStyle:'background:var(--amber-md);color:var(--amber);border:1px solid #E0C070;',
+    html:`
+      <div class="section-head"><span class="section-label" style="color:var(--amber)">Diagnostic criteria</span><div class="section-head-line"></div></div>
+      <div class="score-grid">
+        <div class="score-box">
+          <div class="score-box-head" style="background:var(--amber-lt);color:var(--amber)">DKA</div>
+          <div class="score-row"><span class="score-row-label">Glucose</span><span class="score-row-val" style="color:var(--amber)">&gt;250 mg/dL</span></div>
+          <div class="score-row"><span class="score-row-label">Arterial pH</span><span class="score-row-val" style="color:var(--amber)">&lt;7.3</span></div>
+          <div class="score-row"><span class="score-row-label">Bicarbonate</span><span class="score-row-val" style="color:var(--amber)">&lt;18 mEq/L</span></div>
+          <div class="score-row"><span class="score-row-label">Ketones (serum/urine)</span><span class="score-row-val" style="color:var(--amber)">Moderate–large</span></div>
+          <div class="score-row"><span class="score-row-label">Anion gap</span><span class="score-row-val" style="color:var(--amber)">&gt;12</span></div>
+        </div>
+        <div class="score-box">
+          <div class="score-box-head" style="background:var(--blue-lt);color:var(--blue)">HHS</div>
+          <div class="score-row"><span class="score-row-label">Glucose</span><span class="score-row-val" style="color:var(--blue)">&gt;600 mg/dL</span></div>
+          <div class="score-row"><span class="score-row-label">Arterial pH</span><span class="score-row-val" style="color:var(--blue)">&gt;7.3</span></div>
+          <div class="score-row"><span class="score-row-label">Serum Osm</span><span class="score-row-val" style="color:var(--blue)">&gt;320 mOsm</span></div>
+          <div class="score-row"><span class="score-row-label">Ketones</span><span class="score-row-val" style="color:var(--blue)">Absent / minimal</span></div>
+          <div class="score-row"><span class="score-row-label">Altered mentation</span><span class="score-row-val" style="color:var(--blue)">Common</span></div>
+        </div>
+      </div>
+      <div class="section-head"><span class="section-label" style="color:var(--amber)">Management — sequence matters</span><div class="section-head-line"></div></div>
+      <div class="steps">
+        <div class="step"><div class="step-num" style="background:var(--amber-md);color:var(--amber)">1</div><div class="step-text"><strong>Fluids first</strong> — NS <span class="dose">1 L/h × 2h</span> → 250–500 mL/h; switch to D5½NS when glucose &lt;250</div></div>
+        <div class="step"><div class="step-num" style="background:var(--amber-md);color:var(--amber)">2</div><div class="step-text"><strong>Potassium before insulin</strong> — Replete if K &lt;3.5 · <em>Hold insulin entirely</em> if K &lt;3.3 mEq/L</div></div>
+        <div class="step"><div class="step-num" style="background:var(--amber-md);color:var(--amber)">3</div><div class="step-text"><strong>Insulin infusion</strong> <span class="dose">0.1 U/kg/h</span> (DKA) — Target glucose drop 50–75 mg/dL/h</div></div>
+        <div class="step"><div class="step-num" style="background:var(--amber-md);color:var(--amber)">4</div><div class="step-text">Monitor BMP q2–4h · Phosphate if &lt;1 · Bicarb drip if pH &lt;6.9</div></div>
+      </div>
+      <div class="alerts">
+        <div class="alert alert-red"><span class="alert-icon">⚠</span><div class="alert-body"><strong>Cerebral edema</strong>Avoid rapid osmolality shifts. Correct Na slowly. Mannitol 0.5–1 g/kg IV if neuro deterioration. Highest risk in pediatric patients.</div></div>
+        <div class="alert alert-teal"><span class="alert-icon">✓</span><div class="alert-body"><strong>DKA resolution</strong>Glucose &lt;200 · pH &gt;7.3 · HCO₃ ≥15 · AG ≤12. Overlap subcutaneous insulin 2h before stopping drip.</div></div>
+      </div>`
+  },
+  {
+    id:'tox', label:'Toxicology',
+    accent:'var(--pink)', accentLt:'var(--pink-lt)', accentMd:'var(--pink-md)',
+    iconColor:'#A3335E',
+    eyebrow:'Medical Toxicology',
+    title:'Toxicology Quick Reference',
+    subtitle:'Toxidrome Recognition · Antidotes · Poison Control',
+    badge:'Urgent', badgeStyle:'background:var(--pink-lt);color:var(--pink);border:1px solid #EFC3D5;',
+    html:`
+      <div class="section-head"><span class="section-label" style="color:var(--pink)">Toxidrome recognition</span><div class="section-head-line"></div></div>
+      <div class="drug-wrap">
+        <table class="drug-table">
+          <thead><tr><th>Toxidrome</th><th>Key features</th><th>Common agents</th></tr></thead>
+          <tbody>
+            <tr><td>Cholinergic</td><td>SLUDGE · Bradycardia · Miosis · Diaphoresis</td><td>Organophosphates · Carbamates</td></tr>
+            <tr><td>Anticholinergic</td><td>"Dry as bone, hot as hare, blind as bat" · Tachycardia</td><td>TCA · Diphenhydramine · Scopolamine</td></tr>
+            <tr><td>Sympathomimetic</td><td>HTN · Tachycardia · Mydriasis · Agitation · Diaphoresis</td><td>Cocaine · Amphetamine · PCP</td></tr>
+            <tr><td>Opioid</td><td>Miosis · Respiratory depression · Sedation · Bradycardia</td><td>All opioids · Clonidine</td></tr>
+            <tr><td>Serotonin syndrome</td><td>Clonus · Hyperthermia · Diaphoresis · Tremor · Hyperreflexia</td><td>SSRI + MAOi · Tramadol</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="section-head"><span class="section-label" style="color:var(--pink)">Antidotes</span><div class="section-head-line"></div></div>
+      <div class="drug-wrap">
+        <table class="drug-table">
+          <thead><tr><th>Toxin / Overdose</th><th>Antidote</th><th>Dose / Notes</th></tr></thead>
+          <tbody>
+            <tr><td>Opioids</td><td>Naloxone</td><td><span class="mono">0.4–2 mg IV/IN/IM</span> — repeat q2–3 min · Infusion if needed</td></tr>
+            <tr><td>Benzodiazepines</td><td>Flumazenil</td><td><span class="mono">0.2 mg IV</span> — Caution: lowers seizure threshold</td></tr>
+            <tr><td>Acetaminophen</td><td>N-Acetylcysteine</td><td><span class="mono">150 mg/kg × 1h</span> → 12.5 mg/kg/h × 4h → 6.25 mg/kg/h × 16h</td></tr>
+            <tr><td>TCA overdose</td><td>Sodium Bicarb</td><td><span class="mono">1–2 mEq/kg IVP</span> — Target pH 7.45–7.55</td></tr>
+            <tr><td>β-blocker</td><td>Glucagon</td><td><span class="mono">3–10 mg IV</span> → infusion 3–5 mg/h</td></tr>
+            <tr><td>Calcium channel blocker</td><td>Calcium + Insulin HIE</td><td><span class="mono">CaCl 1g IV</span> + Regular insulin 1 U/kg bolus</td></tr>
+            <tr><td>OP / nerve agent</td><td>Atropine + Pralidoxime</td><td><span class="mono">Atropine 2–4 mg IV q5 min</span> until secretions dry</td></tr>
+            <tr><td>Digoxin</td><td>Digibind / DigiFab</td><td>Dose based on serum level or # tablets ingested</td></tr>
+            <tr><td>Heparin</td><td>Protamine sulfate</td><td><span class="mono">1 mg per 100 U heparin</span> given in last 4h</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="alerts">
+        <div class="alert alert-blue"><span class="alert-icon">☎</span><div class="alert-body"><strong>Poison Control Center — US</strong>1-800-222-1222 (24h) · Real-time guidance · Always call for complex ingestions</div></div>
+        <div class="alert alert-purple"><span class="alert-icon">💉</span><div class="alert-body"><strong>Intravenous Lipid Emulsion (ILE)</strong>For lipophilic toxins (local anesthetic toxicity, CCB, TCA in extremis): 20% Intralipid 1.5 mL/kg bolus → 0.25 mL/kg/min × 30–60 min</div></div>
+      </div>`
+  }
+];
+
+let active = 'acls';
+
+function buildTabs() {
+  const nav = document.getElementById('tabNav');
+  nav.innerHTML = CARDS.map(c => `
+    <button class="tab-btn ${c.id===active?'active':''}" onclick="setCard('${c.id}')">${c.label}</button>
+  `).join('');
+}
+
+function buildCard() {
+  const main = document.getElementById('main');
+  const c = CARDS.find(x=>x.id===active);
+  const idx = CARDS.findIndex(x=>x.id===active)+1;
+  main.innerHTML = `
+    <div class="card-shell active" style="--accent-color:${c.accent}">
+      <div class="card-header">
+        <div class="card-icon-wrap" style="background:${c.accentLt}">
+          <svg viewBox="0 0 24 24" fill="${c.iconColor}"><rect x="4" y="4" width="16" height="16" rx="3"/></svg>
+        </div>
+        <div class="card-hd-body">
+          <div class="card-eyebrow" style="color:${c.accent}">${c.eyebrow}</div>
+          <div class="card-title">${c.title}</div>
+          <div class="card-subtitle">${c.subtitle}</div>
+        </div>
+        <div class="card-badges">
+          <span class="card-badge-primary pill" style="${c.badgeStyle}">${c.badge}</span>
+          <span class="card-num">Card ${idx} of ${CARDS.length} · 2026</span>
+        </div>
+      </div>
+      <div class="card-body">${c.html}</div>
+      <div class="card-footer">
+        <span>EM Quick Cards 2026</span>
+        <span class="doc">Prepared by Dr. Mehta</span>
+        <span>Laminate-ready · Clinical reference only</span>
+      </div>
+    </div>
+  `;
+}
+
+function setCard(id) {
+  active = id;
+  buildTabs();
+  buildCard();
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+buildTabs();
+buildCard();
+</script>
+</body>
+</html>
