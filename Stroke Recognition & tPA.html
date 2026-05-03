@@ -1,0 +1,1231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stroke Recognition & tPA — Global Clinical Poster</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1a237e;
+            --primary-light: #3949ab;
+            --accent: #e53935;
+            --accent-light: #ef5350;
+            --success: #43a047;
+            --warning: #fb8c00;
+            --info: #039be5;
+            --dark: #0d1b2a;
+            --card-bg: rgba(255,255,255,0.94);
+            --glass: rgba(255,255,255,0.12);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0d1b2a 0%, #1a237e 30%, #0d1b2a 70%, #1b2838 100%);
+            background-attachment: fixed;
+            color: #fff;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        .particles {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: 0; overflow: hidden;
+        }
+        .particle {
+            position: absolute; width: 3px; height: 3px;
+            background: rgba(255,255,255,0.12); border-radius: 50%;
+            animation: float 18s infinite linear;
+        }
+        @keyframes float {
+            0% { transform: translateY(100vh) translateX(0); opacity: 0; }
+            15% { opacity: 1; }
+            85% { opacity: 1; }
+            100% { transform: translateY(-10vh) translateX(60px); opacity: 0; }
+        }
+        .container {
+            max-width: 1500px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+        .header {
+            text-align: center;
+            padding: 50px 20px 30px;
+            position: relative;
+        }
+        .header-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--accent), #ff5722);
+            color: #fff;
+            padding: 10px 28px;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            font-weight: 800;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            animation: badgePulse 2.5s infinite;
+            box-shadow: 0 4px 20px rgba(229,57,53,0.3);
+        }
+        @keyframes badgePulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(229,57,53,0.5); }
+            50% { box-shadow: 0 0 0 15px rgba(229,57,53,0); }
+        }
+        .header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.2rem, 5.5vw, 4rem);
+            font-weight: 900;
+            background: linear-gradient(135deg, #fff 0%, #90caf9 40%, #fff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 12px;
+            letter-spacing: -1px;
+        }
+        .header-sub {
+            font-size: clamp(0.95rem, 2.2vw, 1.25rem);
+            color: #90a4ae;
+            font-weight: 300;
+            max-width: 800px;
+            margin: 0 auto 24px;
+            line-height: 1.7;
+        }
+        .header-stats {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 14px;
+            margin-bottom: 24px;
+        }
+        .stat-pill {
+            background: var(--glass);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255,255,255,0.15);
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            color: #b0bec5;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .stat-pill strong { color: #fff; font-size: 0.95rem; }
+        .header-author {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            padding: 14px 32px;
+            border-radius: 50px;
+            border: 1px solid rgba(255,255,255,0.2);
+            font-size: 1rem;
+            color: #b0bec5;
+        }
+        .header-author .avatar {
+            width: 40px; height: 40px;
+            background: linear-gradient(135deg, var(--primary-light), var(--info));
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 800; color: #fff; font-size: 1rem;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+            gap: 24px;
+            margin-top: 30px;
+        }
+        .card {
+            background: var(--card-bg);
+            border-radius: 24px;
+            padding: 28px;
+            color: var(--dark);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid rgba(255,255,255,0.08);
+            backdrop-filter: blur(20px);
+        }
+        .card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 30px 60px -12px rgba(0,0,0,0.35);
+        }
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--info), var(--success));
+        }
+        .card-accent::before { background: linear-gradient(90deg, var(--accent), #ff5722); }
+        .card-success::before { background: linear-gradient(90deg, var(--success), #66bb6a); }
+        .card-info::before { background: linear-gradient(90deg, var(--info), #29b6f6); }
+        .card-warning::before { background: linear-gradient(90deg, var(--warning), #ffb74d); }
+        .card-purple::before { background: linear-gradient(90deg, #7b1fa2, #ba68c8); }
+
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 800;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            line-height: 1.3;
+        }
+        .card-icon {
+            width: 44px; height: 44px;
+            border-radius: 14px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.4rem;
+            flex-shrink: 0;
+        }
+        .icon-primary { background: linear-gradient(135deg, #e8eaf6, #c5cae9); color: var(--primary); }
+        .icon-accent { background: linear-gradient(135deg, #ffebee, #ffcdd2); color: var(--accent); }
+        .icon-success { background: linear-gradient(135deg, #e8f5e9, #c8e6c9); color: var(--success); }
+        .icon-info { background: linear-gradient(135deg, #e3f2fd, #bbdefb); color: var(--info); }
+        .icon-warning { background: linear-gradient(135deg, #fff3e0, #ffe0b2); color: var(--warning); }
+        .icon-purple { background: linear-gradient(135deg, #f3e5f5, #e1bee7); color: #7b1fa2; }
+
+        .mnemonic-grid { display: grid; gap: 10px; }
+        .mnemonic-item {
+            display: flex; align-items: center; gap: 14px;
+            padding: 14px 16px;
+            border-radius: 16px;
+            background: linear-gradient(135deg, #f5f5f5, #fafafa);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .mnemonic-item:hover {
+            background: linear-gradient(135deg, #ffebee, #ffcdd2);
+            transform: translateX(8px) scale(1.01);
+        }
+        .mnemonic-letter {
+            width: 50px; height: 50px;
+            border-radius: 14px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.7rem;
+            font-weight: 900;
+            color: #fff;
+            flex-shrink: 0;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        .letter-b { background: linear-gradient(135deg, #7b1fa2, #9c27b0); }
+        .letter-e { background: linear-gradient(135deg, #0288d1, #03a9f4); }
+        .letter-f { background: linear-gradient(135deg, var(--accent), var(--accent-light)); }
+        .letter-a { background: linear-gradient(135deg, var(--warning), #ffb74d); }
+        .letter-s { background: linear-gradient(135deg, var(--success), #66bb6a); }
+        .letter-t { background: linear-gradient(135deg, var(--primary), var(--primary-light)); }
+        .mnemonic-text { flex: 1; }
+        .mnemonic-text strong { display: block; font-size: 1.05rem; margin-bottom: 3px; }
+        .mnemonic-text span { font-size: 0.85rem; color: #555; line-height: 1.4; }
+
+        .nihss-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0 6px;
+            font-size: 0.88rem;
+        }
+        .nihss-table th {
+            text-align: left;
+            padding: 10px 12px;
+            font-weight: 700;
+            color: var(--primary);
+            font-size: 0.78rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .nihss-table td {
+            padding: 12px;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+        .nihss-table tr:hover td { background: #e8eaf6; }
+        .score-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.78rem;
+        }
+        .score-minor { background: #e8f5e9; color: var(--success); }
+        .score-mod { background: #fff3e0; color: var(--warning); }
+        .score-severe { background: #ffebee; color: var(--accent); }
+        .score-coma { background: #fce4ec; color: #c2185b; }
+
+        .timeline {
+            position: relative;
+            padding-left: 32px;
+        }
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 10px; top: 0; bottom: 0;
+            width: 3px;
+            background: linear-gradient(180deg, var(--accent), var(--warning), var(--success));
+            border-radius: 3px;
+        }
+        .timeline-item {
+            position: relative;
+            margin-bottom: 18px;
+            padding: 16px;
+            background: linear-gradient(135deg, #f5f5f5, #fafafa);
+            border-radius: 16px;
+            transition: all 0.3s ease;
+        }
+        .timeline-item:hover {
+            background: linear-gradient(135deg, #ffebee, #fce4ec);
+            transform: translateX(8px);
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -28px; top: 22px;
+            width: 14px; height: 14px;
+            border-radius: 50%;
+            background: var(--accent);
+            border: 3px solid #fff;
+            box-shadow: 0 0 0 3px var(--accent);
+        }
+        .timeline-time {
+            font-size: 0.72rem;
+            font-weight: 800;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 4px;
+        }
+        .timeline-title { font-weight: 700; font-size: 0.98rem; margin-bottom: 4px; }
+        .timeline-desc { font-size: 0.84rem; color: #555; line-height: 1.5; }
+
+        .contra-list { list-style: none; }
+        .contra-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+            font-size: 0.88rem;
+            line-height: 1.5;
+        }
+        .contra-list li:last-child { border-bottom: none; }
+        .contra-icon {
+            width: 28px; height: 28px;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.85rem;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+        .icon-abs { background: #ffebee; color: var(--accent); }
+        .icon-rel { background: #fff3e0; color: var(--warning); }
+
+        .emergency-card {
+            background: linear-gradient(135deg, #fff5f5, #ffebee);
+            border-radius: 16px;
+            padding: 16px;
+            margin-bottom: 12px;
+            border-left: 4px solid var(--accent);
+            transition: all 0.3s ease;
+        }
+        .emergency-card:hover {
+            transform: scale(1.02);
+            box-shadow: 0 8px 24px rgba(229,57,53,0.12);
+        }
+        .emergency-card h4 {
+            color: var(--accent);
+            font-size: 0.98rem;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .emergency-card p {
+            font-size: 0.84rem;
+            color: #444;
+            line-height: 1.6;
+        }
+
+        .img-container {
+            width: 100%;
+            border-radius: 16px;
+            overflow: hidden;
+            margin: 16px 0;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+        }
+        .img-container img {
+            width: 100%; height: auto; display: block;
+            transition: transform 0.5s ease;
+        }
+        .img-container:hover img { transform: scale(1.04); }
+        .img-caption {
+            text-align: center;
+            font-size: 0.78rem;
+            color: #78909c;
+            margin-top: 8px;
+            font-style: italic;
+            line-height: 1.4;
+        }
+
+        .chart-box {
+            background: #f8f9fa;
+            border-radius: 16px;
+            padding: 20px;
+            margin-top: 16px;
+        }
+
+        .info-box {
+            padding: 14px 16px;
+            border-radius: 14px;
+            margin: 12px 0;
+            font-size: 0.85rem;
+            line-height: 1.6;
+        }
+        .info-box.info { background: #e3f2fd; color: #1565c0; }
+        .info-box.warn { background: #fff3e0; color: #e65100; }
+        .info-box.danger { background: #ffebee; color: #c62828; }
+        .info-box.success { background: #e8f5e9; color: #2e7d32; }
+
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+        @media (max-width: 500px) { .two-col { grid-template-columns: 1fr; } }
+
+        .highlight-number {
+            font-size: 2.2rem;
+            font-weight: 900;
+            line-height: 1;
+        }
+        .highlight-label {
+            font-size: 0.8rem;
+            color: #666;
+            margin-top: 4px;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 40px 20px;
+            margin-top: 40px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+        .footer-text {
+            color: #78909c;
+            font-size: 0.9rem;
+            line-height: 1.8;
+        }
+        .footer-disclaimer {
+            margin-top: 16px;
+            padding: 16px;
+            background: var(--glass);
+            border-radius: 12px;
+            font-size: 0.75rem;
+            color: #90a4ae;
+            border: 1px solid rgba(255,255,255,0.1);
+            line-height: 1.6;
+        }
+
+        .fade-in {
+            animation: fadeIn 0.8s ease forwards;
+            opacity: 0;
+        }
+        @keyframes fadeIn { to { opacity: 1; } }
+        .slide-up {
+            animation: slideUp 0.8s ease forwards;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        @keyframes slideUp { to { opacity: 1; transform: translateY(0); } }
+
+        @media (max-width: 768px) {
+            .grid { grid-template-columns: 1fr; gap: 16px; }
+            .card { padding: 20px; }
+            .header { padding: 24px 12px; }
+            .header-stats { gap: 8px; }
+            .stat-pill { padding: 8px 14px; font-size: 0.72rem; }
+        }
+        @media (min-width: 1200px) {
+            .grid { grid-template-columns: repeat(3, 1fr); }
+        }
+        @media print {
+            body { background: #fff; color: #000; }
+            .card { background: #fff; border: 1px solid #ddd; box-shadow: none; }
+            .particles { display: none; }
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .tag-red { background: #ffebee; color: #c62828; }
+        .tag-orange { background: #fff3e0; color: #e65100; }
+        .tag-green { background: #e8f5e9; color: #2e7d32; }
+        .tag-blue { background: #e3f2fd; color: #1565c0; }
+        .tag-purple { background: #f3e5f5; color: #7b1fa2; }
+
+        ul.detail-list {
+            list-style: none;
+            font-size: 0.87rem;
+            line-height: 1.7;
+            color: #444;
+        }
+        ul.detail-list li {
+            padding: 6px 0;
+            border-bottom: 1px dashed #e0e0e0;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+        ul.detail-list li:last-child { border-bottom: none; }
+        ul.detail-list li::before {
+            content: '▸';
+            color: var(--primary);
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .emergency-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 8px;
+            margin-top: 12px;
+        }
+        .emergency-box {
+            background: #f5f5f5;
+            border-radius: 12px;
+            padding: 12px 8px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        .emergency-box:hover {
+            background: #e3f2fd;
+            transform: translateY(-3px);
+        }
+        .emergency-num {
+            font-size: 1.4rem;
+            font-weight: 900;
+            color: var(--accent);
+        }
+        .emergency-region {
+            font-size: 0.72rem;
+            color: #666;
+            margin-top: 4px;
+        }
+    </style>
+<base target="_blank">
+</head>
+<body>
+    <div class="particles" id="particles"></div>
+
+    <div class="container">
+        <header class="header fade-in">
+            <div class="header-badge">⚡ Emergency Protocol — Global Reference</div>
+            <h1>Stroke Recognition & tPA</h1>
+            <p class="header-sub">
+                NIHSS Scoring · Door-to-Needle Targets · Contraindications · Neuro Emergencies<br>
+                <span style="color:#ffb74d;">A Global Clinical Reference for All Healthcare Settings</span>
+            </p>
+            <div class="header-stats">
+                <div class="stat-pill">🌍 <strong>11.9M</strong> new strokes/year</div>
+                <div class="stat-pill">🧠 <strong>93.8M</strong> people living with stroke</div>
+                <div class="stat-pill">💀 <strong>7.25M</strong> deaths/year</div>
+                <div class="stat-pill">⚠️ <strong>1 in 4</strong> adults at lifetime risk</div>
+            </div>
+            <div class="header-author">
+                <div class="avatar">DM</div>
+                <span>Prepared by <strong style="color:#fff;">Dr. Mehta</strong></span>
+            </div>
+        </header>
+
+        <div class="grid">
+
+            <!-- BE-FAST Mnemonic -->
+            <div class="card card-accent slide-up" style="animation-delay:0.1s;">
+                <div class="card-title">
+                    <div class="card-icon icon-accent">🚨</div>
+                    BE-FAST Stroke Recognition
+                </div>
+                <p style="font-size:0.88rem; color:#555; margin-bottom:14px; line-height:1.6;">
+                    <strong>BE-FAST</strong> is the globally recommended stroke recognition tool, endorsed by the <strong>World Stroke Organization (WSO)</strong> and <strong>AHA/ASA</strong>. It captures posterior circulation strokes that FAST misses (≈14% of strokes). Posterior strokes are frequently misdiagnosed as vertigo, gastritis, or intoxication worldwide.
+                </p>
+                <div class="mnemonic-grid">
+                    <div class="mnemonic-item">
+                        <div class="mnemonic-letter letter-b">B</div>
+                        <div class="mnemonic-text">
+                            <strong>Balance</strong>
+                            <span>Sudden loss of balance, coordination, or unexplained falls — hallmark of posterior circulation stroke</span>
+                        </div>
+                    </div>
+                    <div class="mnemonic-item">
+                        <div class="mnemonic-letter letter-e">E</div>
+                        <div class="mnemonic-text">
+                            <strong>Eyes</strong>
+                            <span>Double vision, blurry vision, or vision loss in one/both eyes — often dismissed as fatigue or eye strain</span>
+                        </div>
+                    </div>
+                    <div class="mnemonic-item">
+                        <div class="mnemonic-letter letter-f">F</div>
+                        <div class="mnemonic-text">
+                            <strong>Face</strong>
+                            <span>Drooping or numbness on one side. Ask patient to smile or show teeth.</span>
+                        </div>
+                    </div>
+                    <div class="mnemonic-item">
+                        <div class="mnemonic-letter letter-a">A</div>
+                        <div class="mnemonic-text">
+                            <strong>Arm</strong>
+                            <span>Weakness or numbness in one arm/leg. Ask to raise both arms for 10 seconds.</span>
+                        </div>
+                    </div>
+                    <div class="mnemonic-item">
+                        <div class="mnemonic-letter letter-s">S</div>
+                        <div class="mnemonic-text">
+                            <strong>Speech</strong>
+                            <span>Slurred, garbled, or unable to speak. Ask to name common objects or repeat a phrase.</span>
+                        </div>
+                    </div>
+                    <div class="mnemonic-item">
+                        <div class="mnemonic-letter letter-t">T</div>
+                        <div class="mnemonic-text">
+                            <strong>Time</strong>
+                            <span>Call emergency services <strong>immediately</strong>! Note exact time of symptom onset. Every minute = 2 million neurons lost.</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="info-box warn" style="margin-top:14px;">
+                    <strong>⚠️ Global Reality:</strong> Prehospital delay is the #1 barrier to thrombolysis worldwide. Up to 70% of patients in LMICs first visit a local practitioner instead of emergency services. Community education using local-language BE-FAST campaigns is critical.
+                </div>
+
+                <h4 style="font-size:0.95rem; color:var(--accent); margin:16px 0 10px;">🌍 Emergency Numbers by Region</h4>
+                <div class="emergency-grid">
+                    <div class="emergency-box"><div class="emergency-num">911</div><div class="emergency-region">USA, Canada, Mexico, parts of Latin America</div></div>
+                    <div class="emergency-box"><div class="emergency-num">112</div><div class="emergency-region">EU, UK, Middle East, parts of Africa & Asia</div></div>
+                    <div class="emergency-box"><div class="emergency-num">999</div><div class="emergency-region">UK, Ireland, Hong Kong, Bangladesh, many Commonwealth nations</div></div>
+                    <div class="emergency-box"><div class="emergency-num">120</div><div class="emergency-region">China (Stroke 120 campaign)</div></div>
+                    <div class="emergency-box"><div class="emergency-num">108</div><div class="emergency-region">India, parts of South Asia</div></div>
+                    <div class="emergency-box"><div class="emergency-num">000</div><div class="emergency-region">Australia, Fiji</div></div>
+                    <div class="emergency-box"><div class="emergency-num">119</div><div class="emergency-region">Japan, South Korea</div></div>
+                    <div class="emergency-box"><div class="emergency-num">190</div><div class="emergency-region">Brazil (SAMU)</div></div>
+                </div>
+
+                <div class="img-container" style="margin-top:14px;">
+                    <img src="https://img.grepmed.com/uploads/37149/screening-neurology-befast-acronym-cva-84-original.jpeg" alt="BE-FAST Mnemonic">
+                </div>
+                <p class="img-caption">BE-FAST visual mnemonic — endorsed by WSO and AHA/ASA for global stroke education</p>
+            </div>
+
+            <!-- Global Stroke Burden -->
+            <div class="card card-purple slide-up" style="animation-delay:0.15s;">
+                <div class="card-title">
+                    <div class="card-icon icon-purple">🌍</div>
+                    Global Stroke Burden (WHO / WSO 2025)
+                </div>
+                <p style="font-size:0.88rem; color:#555; margin-bottom:14px; line-height:1.6;">
+                    Stroke is the <strong>2nd leading cause of death</strong> and <strong>3rd leading cause of death and disability combined</strong> worldwide. The global cost exceeds <strong>US$890 billion</strong> annually (0.66% of global GDP) and is projected to nearly double by 2050. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC11786524/" target="_blank" style="color:#7b1fa2;">Source: WSO Global Stroke Fact Sheet 2025</a>
+                </p>
+
+                <div class="two-col" style="margin-bottom:16px;">
+                    <div style="background:#f5f5f5; padding:16px; border-radius:16px; text-align:center;">
+                        <div class="highlight-number" style="color:#7b1fa2;">11.9M</div>
+                        <div class="highlight-label">New strokes/year (2021)</div>
+                    </div>
+                    <div style="background:#f5f5f5; padding:16px; border-radius:16px; text-align:center;">
+                        <div class="highlight-number" style="color:#7b1fa2;">93.8M</div>
+                        <div class="highlight-label">People living with stroke</div>
+                    </div>
+                    <div style="background:#f5f5f5; padding:16px; border-radius:16px; text-align:center;">
+                        <div class="highlight-number" style="color:#7b1fa2;">7.25M</div>
+                        <div class="highlight-label">Deaths/year</div>
+                    </div>
+                    <div style="background:#f5f5f5; padding:16px; border-radius:16px; text-align:center;">
+                        <div class="highlight-number" style="color:#7b1fa2;">160M+</div>
+                        <div class="highlight-label">DALYs lost/year</div>
+                    </div>
+                </div>
+
+                <h4 style="font-size:0.95rem; color:#7b1fa2; margin-bottom:10px;">📊 Stroke Types — Global Distribution</h4>
+                <div class="two-col" style="margin-bottom:12px;">
+                    <div style="background:#e8f5e9; padding:14px; border-radius:14px; text-align:center;">
+                        <div style="font-size:1.8rem; font-weight:900; color:var(--success);">65%</div>
+                        <div style="font-size:0.8rem; color:#555; margin-top:4px;"><strong>Ischemic</strong><br>7.8M cases/year</div>
+                    </div>
+                    <div style="background:#ffebee; padding:14px; border-radius:14px; text-align:center;">
+                        <div style="font-size:1.8rem; font-weight:900; color:var(--accent);">29%</div>
+                        <div style="font-size:0.8rem; color:#555; margin-top:4px;"><strong>Intracerebral Hemorrhage</strong><br>3.4M cases/year</div>
+                    </div>
+                    <div style="background:#e3f2fd; padding:14px; border-radius:14px; text-align:center;">
+                        <div style="font-size:1.8rem; font-weight:900; color:var(--info);">6%</div>
+                        <div style="font-size:0.8rem; color:#555; margin-top:4px;"><strong>Subarachnoid Hemorrhage</strong><br>700K cases/year</div>
+                    </div>
+                    <div style="background:#fff3e0; padding:14px; border-radius:14px; text-align:center;">
+                        <div style="font-size:1.8rem; font-weight:900; color:var(--warning);">1 in 4</div>
+                        <div style="font-size:0.8rem; color:#555; margin-top:4px;"><strong>Lifetime Risk</strong><br>Adults >25 years</div>
+                    </div>
+                </div>
+
+                <div class="info-box info" style="margin-top:10px;">
+                    <strong>🌍 LMIC Disparity:</strong> 87% of stroke deaths and 89% of DALYs occur in low- and lower-middle-income countries. ICH is more common in LMICs (31%) vs HICs (18%). Ischemic stroke is more common in HICs (75%) vs LMICs (63%).
+                </div>
+
+                <h4 style="font-size:0.95rem; color:#7b1fa2; margin:16px 0 10px;">🔴 Top 10 Modifiable Risk Factors (GBD 2021)</h4>
+                <ul class="detail-list">
+                    <li><span><strong>High blood pressure</strong> — #1 risk factor globally; accounts for ~48% of stroke burden</span></li>
+                    <li><span><strong>Air pollution</strong> — ambient PM2.5; major contributor in South Asia, East Asia, sub-Saharan Africa</span></li>
+                    <li><span><strong>Smoking / tobacco use</strong> — cigarettes, bidis, water-pipe, smokeless tobacco</span></li>
+                    <li><span><strong>High LDL cholesterol</strong> — diet-driven; rising in LMICs with nutrition transition</span></li>
+                    <li><span><strong>High sodium intake</strong> — processed foods, preserved foods, soy sauce</span></li>
+                    <li><span><strong>High fasting plasma glucose / diabetes</strong> — fastest-growing risk factor globally</span></li>
+                    <li><span><strong>Kidney dysfunction</strong> — chronic kidney disease increases stroke risk 2-3x</span></li>
+                    <li><span><strong>Excess body weight / obesity</strong> — BMI-driven; epidemic in HICs and urban LMICs</span></li>
+                    <li><span><strong>Physical inactivity</strong> — sedentary lifestyles; urbanization driver</span></li>
+                    <li><span><strong>Harmful alcohol use</strong> — binge drinking increases ICH risk significantly</span></li>
+                </ul>
+
+                <div class="chart-box">
+                    <svg viewBox="0 0 400 180" style="width:100%; height:auto;">
+                        <text x="200" y="14" text-anchor="middle" font-size="12" font-weight="bold" fill="#4a148c">Global Stroke Burden Trends (1990–2021)</text>
+                        <rect x="50" y="30" width="280" height="20" fill="#e1bee7" rx="4"/>
+                        <rect x="50" y="30" width="196" height="20" fill="#7b1fa2" rx="4"/>
+                        <text x="253" y="44" font-size="10" fill="#fff" font-weight="bold">+70% Incidence</text>
+
+                        <rect x="50" y="58" width="280" height="20" fill="#e1bee7" rx="4"/>
+                        <rect x="50" y="58" width="123" height="20" fill="#9c27b0" rx="4"/>
+                        <text x="180" y="72" font-size="10" fill="#fff" font-weight="bold">+44% Deaths</text>
+
+                        <rect x="50" y="86" width="280" height="20" fill="#e1bee7" rx="4"/>
+                        <rect x="50" y="86" width="241" height="20" fill="#ab47bc" rx="4"/>
+                        <text x="298" y="100" font-size="10" fill="#fff" font-weight="bold">+86% Prevalence</text>
+
+                        <rect x="50" y="114" width="280" height="20" fill="#e1bee7" rx="4"/>
+                        <rect x="50" y="114" width="90" height="20" fill="#ba68c8" rx="4"/>
+                        <text x="145" y="128" font-size="10" fill="#fff" font-weight="bold">+32% DALYs</text>
+
+                        <rect x="50" y="142" width="280" height="20" fill="#e1bee7" rx="4"/>
+                        <rect x="50" y="142" width="14" height="20" fill="#ce93d8" rx="4"/>
+                        <text x="70" y="156" font-size="10" fill="#4a148c" font-weight="bold">0.66% Global GDP Cost</text>
+                    </svg>
+                </div>
+                <p class="img-caption">Data: GBD 2021 Study / WSO Global Stroke Fact Sheet 2025</p>
+            </div>
+
+            <!-- NIHSS Scoring -->
+            <div class="card slide-up" style="animation-delay:0.2s;">
+                <div class="card-title">
+                    <div class="card-icon icon-primary">📊</div>
+                    NIHSS Scoring System
+                </div>
+                <p style="font-size:0.88rem; color:#555; margin-bottom:14px; line-height:1.6;">
+                    The <strong>National Institutes of Health Stroke Scale (NIHSS)</strong> is the global gold standard for quantifying stroke severity. It is a 15-item neurological examination (score 0–42) used universally in stroke trials, registries, and clinical practice. Higher scores correlate with worse outcomes and guide tPA/EVT eligibility.
+                </p>
+
+                <table class="nihss-table">
+                    <thead><tr><th>Score</th><th>Severity</th><th>Clinical Implication</th></tr></thead>
+                    <tbody>
+                        <tr><td><span class="score-badge score-minor">0–4</span></td><td><strong>Minor Stroke</strong></td><td>Good functional outcome likely; tPA may be deferred if rapidly improving</td></tr>
+                        <tr><td><span class="score-badge score-mod">5–15</span></td><td><strong>Moderate Stroke</strong></td><td>tPA candidate; monitor closely; ~50% achieve mRS 0–2 at 90 days</td></tr>
+                        <tr><td><span class="score-badge score-severe">16–20</span></td><td><strong>Moderate-Severe</strong></td><td>High disability risk; consider EVT + tPA; ICU monitoring</td></tr>
+                        <tr><td><span class="score-badge score-severe">21–25</span></td><td><strong>Severe Stroke</strong></td><td>Critical; tPA contraindicated if >25 for 3–4.5h window (ECASS-III)</td></tr>
+                        <tr><td><span class="score-badge score-coma">>25</span></td><td><strong>Very Severe / Coma</strong></td><td>Poor prognosis; score 42 = deep coma; consider palliation</td></tr>
+                    </tbody>
+                </table>
+
+                <div class="info-box success" style="margin-top:14px;">
+                    <strong>📋 NIHSS 15 Items:</strong> 1a. LOC, 1b. LOC Questions, 1c. LOC Commands, 2. Best Gaze, 3. Visual Fields, 4. Facial Palsy, 5a. Motor Arm (L), 5b. Motor Arm (R), 6a. Motor Leg (L), 6b. Motor Leg (R), 7. Limb Ataxia, 8. Sensory, 9. Best Language, 10. Dysarthria, 11. Extinction & Inattention.
+                </div>
+
+                <div class="chart-box">
+                    <svg viewBox="0 0 400 200" style="width:100%; height:auto;">
+                        <rect x="40" y="20" width="340" height="160" fill="#f5f5f5" rx="8"/>
+                        <rect x="55" y="140" width="50" height="40" fill="#43a047" rx="4" opacity="0.85"/>
+                        <rect x="115" y="100" width="50" height="80" fill="#fb8c00" rx="4" opacity="0.85"/>
+                        <rect x="175" y="70" width="50" height="110" fill="#e53935" rx="4" opacity="0.85"/>
+                        <rect x="235" y="50" width="50" height="130" fill="#c2185b" rx="4" opacity="0.85"/>
+                        <rect x="295" y="30" width="50" height="150" fill="#7b1fa2" rx="4" opacity="0.85"/>
+                        <text x="80" y="195" text-anchor="middle" font-size="11" fill="#555">0-4</text>
+                        <text x="140" y="195" text-anchor="middle" font-size="11" fill="#555">5-15</text>
+                        <text x="200" y="195" text-anchor="middle" font-size="11" fill="#555">16-20</text>
+                        <text x="260" y="195" text-anchor="middle" font-size="11" fill="#555">21-25</text>
+                        <text x="320" y="195" text-anchor="middle" font-size="11" fill="#555">>25</text>
+                        <text x="200" y="12" text-anchor="middle" font-size="13" font-weight="bold" fill="#1a237e">NIHSS Severity Distribution</text>
+                    </svg>
+                </div>
+
+                <div class="img-container">
+                    <img src="https://my.clevelandclinic.org/-/scassets/images/org/health/articles/nih-stroke-scale" alt="NIHSS Components">
+                </div>
+                <p class="img-caption">NIHSS assesses: LOC, gaze, visual fields, facial palsy, motor, ataxia, sensation, language, dysarthria, neglect</p>
+            </div>
+
+            <!-- Door-to-Needle Global -->
+            <div class="card card-warning slide-up" style="animation-delay:0.25s;">
+                <div class="card-title">
+                    <div class="card-icon icon-warning">⏱️</div>
+                    Door-to-Needle Time Targets (Global)
+                </div>
+                <p style="font-size:0.88rem; color:#555; margin-bottom:14px; line-height:1.6;">
+                    <strong>AHA/ASA Target: Stroke</strong> and <strong>WSO guidelines</strong> set the global standard. Time is brain: approximately <strong>2 million neurons are lost per minute</strong> of ischemia. Every 15-minute delay in tPA administration reduces the odds of a good outcome by 4–5%.
+                </p>
+
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-time">0 min — Hospital Arrival</div>
+                        <div class="timeline-title">🚑 ED Triage / Stroke Code Activation</div>
+                        <div class="timeline-desc">Activate stroke team immediately. Pre-hospital notification (if available) saves 15–30 minutes. Use standardized handoff protocols.</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-time">10 min</div>
+                        <div class="timeline-title">🩺 Physician Assessment + NIHSS</div>
+                        <div class="timeline-desc">Rapid neuro exam, vitals, capillary glucose. Document NIHSS. Rule out stroke mimics (hypoglycemia, seizure, migraine).</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-time">25 min</div>
+                        <div class="timeline-title">🧠 Brain Imaging (NCCT Head)</div>
+                        <div class="timeline-desc">Non-contrast CT to exclude hemorrhage. Target: imaging within 25 min. CTA if large vessel occlusion suspected. Tele-radiology for remote centers.</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-time">45 min</div>
+                        <div class="timeline-title">💉 tPA Bolus (Secondary Goal)</div>
+                        <div class="timeline-desc">Target: 50% of patients treated within 45 min. <strong>10% IV bolus</strong> over 1 minute. BP must be &lt;185/110 mmHg before administration.</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-time">60 min</div>
+                        <div class="timeline-title">💉 tPA Infusion Complete (Primary Goal)</div>
+                        <div class="timeline-desc">Target: 75% of patients within 60 min. <strong>90% infusion</strong> over 60 minutes. Mortality 8.6% vs 10.4% if treated ≤60 min vs >60 min.</div>
+                    </div>
+                </div>
+
+                <div style="margin-top:18px; padding:18px; background:linear-gradient(135deg, #fff3e0, #ffe0b2); border-radius:16px; text-align:center;">
+                    <div style="font-size:2.2rem; font-weight:900; color:var(--warning);">60 min</div>
+                    <div style="font-size:0.9rem; color:#555; margin-top:4px;">Primary Door-to-Needle Target (AHA/ASA / WSO)</div>
+                    <div style="font-size:0.8rem; color:#777; margin-top:8px;">Every 15 min delay = 4-5% ↓ odds of good outcome · 2M neurons lost/min</div>
+                </div>
+
+                <div class="info-box info" style="margin-top:14px;">
+                    <strong>🚑 Prehospital Care Worldwide:</strong><br>
+                    • <strong>Mobile Stroke Units (MSUs)</strong> — CT-equipped ambulances reduce treatment time by 30–60 min (Germany, USA, Australia, Brazil, China, India)<br>
+                    • <strong>Telestroke</strong> — Hub-and-spoke networks enable tPA administration in rural/remote hospitals via video consultation<br>
+                    • <strong>Paramedic training</strong> — Prehospital stroke scales (FAST-ED, RACE, LAMS) improve triage to EVT-capable centers
+                </div>
+            </div>
+
+            <!-- tPA Contraindications -->
+            <div class="card card-accent slide-up" style="animation-delay:0.3s;">
+                <div class="card-title">
+                    <div class="card-icon icon-accent">🚫</div>
+                    tPA Contraindications (AHA/ASA / WSO)
+                </div>
+                <p style="font-size:0.88rem; color:#555; margin-bottom:14px; line-height:1.6;">
+                    Per <strong>AHA/ASA 2024–2026 Guidelines</strong> and <strong>WSO recommendations</strong>. IV alteplase (0.9 mg/kg, max 90 mg) is the standard of care within 3 hours; extended to 3–4.5 hours with additional exclusions per ECASS-III.
+                </p>
+
+                <div style="margin-bottom:18px;">
+                    <h4 style="color:var(--accent); font-size:0.95rem; margin-bottom:12px; display:flex; align-items:center; gap:8px;">
+                        <span class="tag tag-red">Absolute</span>
+                        Do NOT Give tPA
+                    </h4>
+                    <ul class="contra-list">
+                        <li><span class="contra-icon icon-abs">✕</span> Active intracranial hemorrhage on CT</li>
+                        <li><span class="contra-icon icon-abs">✕</span> Structural intracranial disease (AVM, tumor, aneurysm)</li>
+                        <li><span class="contra-icon icon-abs">✕</span> Ischemic stroke within past 3 months</li>
+                        <li><span class="contra-icon icon-abs">✕</span> Active bleeding or bleeding diathesis</li>
+                        <li><span class="contra-icon icon-abs">✕</span> Platelet count &lt;100,000/mm³</li>
+                        <li><span class="contra-icon icon-abs">✕</span> Recent brain/spinal surgery (≤3 months)</li>
+                        <li><span class="contra-icon icon-abs">✕</span> Recent head trauma with fracture or brain injury</li>
+                        <li><span class="contra-icon icon-abs">✕</span> Symptoms suggesting subarachnoid hemorrhage</li>
+                        <li><span class="contra-icon icon-abs">✕</span> Glucose &lt;50 mg/dL (2.8 mmol/L) — correct first</li>
+                        <li><span class="contra-icon icon-abs">✕</span> INR &gt;1.7 on warfarin (or elevated PT/aPTT)</li>
+                        <li><span class="contra-icon icon-abs">✕</span> Direct thrombin inhibitors or Factor Xa inhibitors (unless stopped &gt;48h and normal labs)</li>
+                        <li><span class="contra-icon icon-abs">✕</span> LMWH at treatment doses within previous 24 hours</li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 style="color:var(--warning); font-size:0.95rem; margin-bottom:12px; display:flex; align-items:center; gap:8px;">
+                        <span class="tag tag-orange">Relative</span>
+                        Weigh Risk vs Benefit
+                    </h4>
+                    <ul class="contra-list">
+                        <li><span class="contra-icon icon-rel">!</span> SBP &gt;180 or DBP &gt;110 mmHg (must lower to &lt;185/110 before tPA)</li>
+                        <li><span class="contra-icon icon-rel">!</span> Age &gt;80 years (exclusion for 3–4.5h window per ECASS-III)</li>
+                        <li><span class="contra-icon icon-rel">!</span> NIHSS score &gt;25 (exclusion for 3–4.5h window)</li>
+                        <li><span class="contra-icon icon-rel">!</span> History of both diabetes AND prior stroke (3–4.5h exclusion)</li>
+                        <li><span class="contra-icon icon-rel">!</span> Seizure at onset with postictal deficit</li>
+                        <li><span class="contra-icon icon-rel">!</span> Major surgery in preceding 3 months</li>
+                        <li><span class="contra-icon icon-rel">!</span> Recent MI, GI/GU bleeding, or arterial puncture at non-compressible site</li>
+                        <li><span class="contra-icon icon-rel">!</span> Pregnancy (limited data; consider if severe deficit)</li>
+                        <li><span class="contra-icon icon-rel">!</span> Imaging evidence of ischemic injury &gt;1/3 MCA territory</li>
+                        <li><span class="contra-icon icon-rel">!</span> Early ischemic changes on CT (subtle hypodensity may be acceptable)</li>
+                    </ul>
+                </div>
+
+                <div class="img-container" style="margin-top:14px;">
+                    <img src="https://www.radiology.expert/content/images/modules/CVA%20-%20interventional%20radiology/ENG/resized/RadiologyExpert_English_module_Interventional%20radiology_stroke_patient_fig12_hemorrhagic_vs_ischemic_stroke_OVERLAY_640x0.jpg" alt="CT Comparison">
+                </div>
+                <p class="img-caption">NCCT Head: Left = hemorrhagic stroke (hyperdense), Right = ischemic stroke (hypodense with loss of insular ribbon)</p>
+            </div>
+
+            <!-- tPA Protocol & Dosing -->
+            <div class="card card-info slide-up" style="animation-delay:0.35s;">
+                <div class="card-title">
+                    <div class="card-icon icon-info">💊</div>
+                    tPA (Alteplase) Protocol — Global Standard
+                </div>
+                <p style="font-size:0.88rem; color:#555; margin-bottom:14px; line-height:1.6;">
+                    <strong>IV rtPA (Alteplase)</strong> is the first evidence-based treatment for acute ischemic stroke, approved by FDA (1996), EMA, and regulatory bodies worldwide. <strong>Tenecteplase (TNK)</strong> is increasingly adopted as a single-bolus alternative with comparable efficacy and easier administration.
+                </p>
+
+                <div class="two-col" style="margin-bottom:16px;">
+                    <div style="background:#e3f2fd; padding:18px; border-radius:16px; text-align:center;">
+                        <div class="highlight-number" style="color:var(--info);">0.9</div>
+                        <div class="highlight-label">mg/kg (max 90 mg)</div>
+                        <div style="font-size:0.75rem; color:#666; margin-top:6px;">Alteplase standard dose</div>
+                    </div>
+                    <div style="background:#e3f2fd; padding:18px; border-radius:16px; text-align:center;">
+                        <div class="highlight-number" style="color:var(--info);">4.5h</div>
+                        <div class="highlight-label">Maximum time window</div>
+                        <div style="font-size:0.75rem; color:#666; margin-top:6px;">From known symptom onset</div>
+                    </div>
+                </div>
+
+                <h4 style="color:var(--info); font-size:0.95rem; margin-bottom:10px;">📋 Step-by-Step Administration</h4>
+                <ul class="detail-list">
+                    <li><span><strong>Step 1:</strong> Calculate total dose = 0.9 mg/kg (round to nearest mg, maximum 90 mg)</span></li>
+                    <li><span><strong>Step 2:</strong> Administer <strong>10% as IV bolus</strong> over 1 minute</span></li>
+                    <li><span><strong>Step 3:</strong> Infuse remaining <strong>90% over 60 minutes</strong> via infusion pump</span></li>
+                    <li><span><strong>Step 4:</strong> No antiplatelet or anticoagulant for <strong>24 hours</strong> post-tPA</span></li>
+                    <li><span><strong>Step 5:</strong> BP checks every 15 min × 2h, then every 30 min × 6h, then hourly × 16h</span></li>
+                    <li><span><strong>Step 6:</strong> NIHSS assessment at 2h and 24h post-tPA</span></li>
+                    <li><span><strong>Step 7:</strong> Repeat CT/MRI at 24h before starting antithrombotics</span></li>
+                    <li><span><strong>Step 8:</strong> Continuous monitoring for angioedema, bleeding, neurological deterioration</span></li>
+                </ul>
+
+                <div class="info-box warn" style="margin-top:14px;">
+                    <strong>⚠️ BP Management During/After tPA:</strong><br>
+                    • <strong>Before tPA:</strong> BP must be &lt;185/110 mmHg (labetalol 10-20 mg IV or nicardipine infusion)<br>
+                    • <strong>During & 24h after:</strong> Maintain BP &lt;180/105 mmHg<br>
+                    • <strong>If SBP &gt;220 or DBP &gt;120:</strong> Aggressive management with IV agents required
+                </div>
+
+                <div style="margin-top:14px; padding:16px; background:linear-gradient(135deg, #fff3e0, #ffe0b2); border-radius:16px;">
+                    <h4 style="color:var(--warning); margin-bottom:10px; font-size:0.95rem;">⚠️ Complications to Monitor</h4>
+                    <ul style="list-style:none; font-size:0.84rem; color:#444; line-height:1.8;">
+                        <li>🩸 <strong>Symptomatic ICH (sICH)</strong> — 6-7% risk. Stop infusion immediately, emergency CT, neurosurgery consult, reverse coagulopathy.</li>
+                        <li>🩸 <strong>Systemic bleeding</strong> — Apply pressure, check coagulation profile, transfuse blood products if needed.</li>
+                        <li>🧠 <strong>Angioedema</strong> — 1-5% risk (often orolingual). Airway management, IV steroids, antihistamines. Intubate if airway compromise.</li>
+                        <li>💔 <strong>Reperfusion injury / cerebral edema</strong> — Mannitol 20% 1g/kg or hypertonic saline if herniation signs.</li>
+                        <li>🫁 <strong>Hypotension / arrhythmia</strong> — Monitor cardiac rhythm for 24h (screen for AF).</li>
+                    </ul>
+                </div>
+
+                <div class="img-container">
+                    <img src="https://www.ninds.nih.gov/sites/default/files/styles/half_width_small/public/2022-03/tpa_overview_brain_clot_v2.jpg?itok=Rdxr-MmC" alt="tPA Mechanism">
+                </div>
+                <p class="img-caption">tPA binds fibrin in the clot → converts plasminogen to plasmin → fibrinolysis → vessel recanalization</p>
+
+                <div style="margin-top:14px; padding:14px; background:linear-gradient(135deg, #e8eaf6, #c5cae9); border-radius:14px;">
+                    <div style="font-size:0.85rem; color:#333; line-height:1.6;">
+                        <strong style="color:var(--primary);">Tenecteplase (TNK) — Global Alternative:</strong><br>
+                        • <strong>0.25 mg/kg</strong> single IV bolus (max 25 mg) — no infusion pump needed<br>
+                        • Faster administration, less dosing error, ideal for prehospital/remote settings<br>
+                        • Comparable efficacy to alteplase in EXTEND-IA TNK, AcT, and NOR-TEST trials<br>
+                        • Approved in Australia, Canada, parts of Europe; expanding globally<br>
+                        • <em>Check local regulatory approval and institutional protocol</em>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Neuro Emergencies -->
+            <div class="card card-success slide-up" style="animation-delay:0.4s;">
+                <div class="card-title">
+                    <div class="card-icon icon-success">🧠</div>
+                    Neuro Emergencies & Stroke Mimics
+                </div>
+                <p style="font-size:0.88rem; color:#555; margin-bottom:14px; line-height:1.6;">
+                    <strong>Stroke mimics</strong> account for 15–30% of suspected stroke presentations globally. Misdiagnosis leads to unnecessary tPA exposure or missed treatment windows. Systematic differentiation is essential before thrombolysis.
+                </p>
+
+                <div class="emergency-card">
+                    <h4>🔴 Status Epilepticus / Todd's Paralysis</h4>
+                    <p>Postictal Todd's paralysis can perfectly mimic stroke. <strong>Rule:</strong> If seizure at onset → tPA contraindicated unless deficit persists &gt;30 min post-seizure. Check EEG if available.</p>
+                </div>
+                <div class="emergency-card">
+                    <h4>🔴 Hypoglycemia</h4>
+                    <p>Glucose &lt;50 mg/dL (2.8 mmol/L) causes focal neuro deficits indistinguishable from stroke. <strong>Always check capillary glucose first.</strong> Give IV dextrose if low — if symptoms resolve, it is NOT stroke.</p>
+                </div>
+                <div class="emergency-card">
+                    <h4>🔴 Hypertensive Encephalopathy / PRES</h4>
+                    <p>SBP &gt;220 with altered mental status, seizures, visual loss. Lower BP gradually (15-20% in 1st hour). <strong>Do NOT give tPA.</strong> MRI shows posterior white matter hyperintensities.</p>
+                </div>
+                <div class="emergency-card">
+                    <h4>🔴 Subarachnoid Hemorrhage (SAH)</h4>
+                    <p>"Thunderclap" headache, nuchal rigidity, vomiting. CT shows blood in sulci/cisterns. <strong>tPA is ABSOLUTE contraindication.</strong> Needs neurosurgery / endovascular coiling.</p>
+                </div>
+                <div class="emergency-card">
+                    <h4>🔴 Meningitis / Encephalitis</h4>
+                    <p>Fever + neck stiffness + altered sensorium + focal deficits. LP for CSF analysis. <strong>Do NOT give tPA.</strong> Start empiric antibiotics/antivirals immediately.</p>
+                </div>
+                <div class="emergency-card">
+                    <h4>🔴 Migraine with Aura (Hemiplegic)</h4>
+                    <p>Can mimic stroke, especially in young females. If atypical or first episode → full stroke workup before excluding tPA. History of similar episodes helps.</p>
+                </div>
+                <div class="emergency-card">
+                    <h4>🔴 Functional Neurological Disorder (Conversion Disorder)</h4>
+                    <p>Inconsistent examination, non-anatomical deficits, give-way weakness, la belle indifference. Do NOT give tPA. Psychiatric referral.</p>
+                </div>
+                <div class="emergency-card">
+                    <h4>🔴 Brain Tumor / Abscess</h4>
+                    <p>Subacute onset, progressive deficits, papilledema. CT/MRI with contrast. Steroids for edema. Neurosurgery referral.</p>
+                </div>
+
+                <div style="margin-top:16px; padding:18px; background:linear-gradient(135deg, #e8f5e9, #c8e6c9); border-radius:16px;">
+                    <h4 style="color:var(--success); margin-bottom:12px; font-size:1rem;">✅ tPA Eligibility Checklist (Universal)</h4>
+                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; font-size:0.82rem; color:#333; line-height:1.7;">
+                        <div>☑️ Age ≥18 years</div>
+                        <div>☑️ Clinical diagnosis of ischemic stroke</div>
+                        <div>☑️ Symptom onset &lt;4.5h (known)</div>
+                        <div>☑️ Wake-up stroke: MRI DWI-FLAIR mismatch</div>
+                        <div>☑️ CT excludes hemorrhage</div>
+                        <div>☑️ No absolute contraindications</div>
+                        <div>☑️ NIHSS appropriate (not &gt;25 for 3-4.5h)</div>
+                        <div>☑️ BP &lt;185/110 before tPA</div>
+                        <div>☑️ Glucose &gt;50 mg/dL (&gt;2.8 mmol/L)</div>
+                        <div>☑️ INR ≤1.7 (if on warfarin)</div>
+                        <div>☑️ Platelets &gt;100,000/mm³</div>
+                        <div>☑️ Informed consent obtained</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Global Stroke Care Systems -->
+            <div class="card slide-up" style="animation-delay:0.45s;">
+                <div class="card-title">
+                    <div class="card-icon icon-primary">🏥</div>
+                    Global Stroke Care Systems
+                </div>
+                <p style="font-size:0.88rem; color:#555; margin-bottom:14px; line-height:1.6;">
+                    Organized stroke care systems dramatically improve outcomes. The <strong>World Stroke Organization</strong> advocates for tiered networks, telemedicine, and Mobile Stroke Units to bridge the urban-rural and HIC-LMIC gap.
+                </p>
+
+                <h4 style="font-size:0.95rem; color:var(--primary); margin-bottom:10px;">🏛️ Stroke Center Classification (Global)</h4>
+                <ul class="detail-list">
+                    <li><span><strong>Primary Stroke Center (PSC):</strong> 24/7 CT, tPA capability, basic stroke unit, stroke protocols. District/regional hospitals.</span></li>
+                    <li><span><strong>Comprehensive Stroke Center (CSC):</strong> PSC + 24/7 neurosurgery, EVT (thrombectomy), neuro-ICU, neuro-intervention. Tertiary/quaternary centers.</span></li>
+                    <li><span><strong>Acute Stroke-Ready Hospital (ASRH):</strong> Can stabilize, give tPA, then transfer to CSC. Community/rural hospitals.</span></li>
+                    <li><span><span class="tag tag-blue">Telestroke</span> <strong>Hub-and-Spoke Model:</strong> CSC (hub) provides real-time video consultation to remote hospitals (spokes) for tPA decision-making, image interpretation, and transfer coordination.</span></li>
+                </ul>
+
+                <div class="info-box success" style="margin-top:14px;">
+                    <strong>🚑 Mobile Stroke Units (MSU) — Global Adoption:</strong><br>
+                    • <strong>Germany</strong> — First MSU (2010); proven to reduce treatment time by 30–60 min<br>
+                    • <strong>USA</strong> — Multiple cities (Houston, Cleveland, New York); improved tPA rates<br>
+                    • <strong>Australia</strong> — Rural MSU networks for vast remote areas<br>
+                    • <strong>Brazil</strong> — SAMU-MSU in São Paulo for urban dense populations<br>
+                    • <strong>China</strong> — Stroke 120 campaign + MSU in major cities<br>
+                    • <strong>India</strong> — ICMR-funded MSU in Assam; 24h → 2h treatment time; deaths reduced 1/3<br>
+                    • <strong>Key finding:</strong> MSUs consistently improve door-to-needle times and functional outcomes
+                </div>
+
+                <h4 style="font-size:0.95rem; color:var(--primary); margin:16px 0 10px;">📊 Global Barriers to Stroke Care</h4>
+                <ul class="detail-list">
+                    <li><span><strong>Prehospital delay:</strong> #1 barrier globally. 70% of LMIC patients visit local practitioners first.</span></li>
+                    <li><span><strong>Low thrombolysis rates:</strong> 10-15% in HICs vs &lt;1% in many LMICs.</span></li>
+                    <li><span><strong>Infrastructure gaps:</strong> No 24/7 CT in many district hospitals; no stroke physicians.</span></li>
+                    <li><span><strong>Financial barriers:</strong> tPA cost (~$3,000–8,000) prohibitive without universal health coverage.</span></li>
+                    <li><span><strong>Workforce shortage:</strong> Neurologist density 0.03/100,000 in Africa vs 4/100,000 in Europe.</span></li>
+                    <li><span><strong>Awareness:</strong> Low public knowledge of stroke symptoms in all regions; language barriers for FAST/BE-FAST.</span></li>
+                    <li><span><strong>Climate change:</strong> Rising temperatures and air pollution increasing stroke incidence globally (ISC 2026).</span></li>
+                </ul>
+
+                <div class="info-box info" style="margin-top:14px;">
+                    <strong>📋 WHO Best Buys for Stroke Prevention:</strong><br>
+                    The WHO recommends cost-effective interventions: tobacco taxation, salt reduction policies, trans-fat elimination, hypertension screening & treatment, diabetes management, and atrial fibrillation detection & anticoagulation. These "best buys" can prevent 80% of cardiovascular events including stroke.
+                </div>
+            </div>
+
+            <!-- Post-tPA Monitoring -->
+            <div class="card card-info slide-up" style="animation-delay:0.5s;">
+                <div class="card-title">
+                    <div class="card-icon icon-info">📈</div>
+                    Post-tPA Monitoring Protocol
+                </div>
+                <p style="font-size:0.88rem; color:#555; margin-bottom:14px; line-height:1.6;">
+                    Structured monitoring is essential for early detection of complications. This protocol is applicable across all healthcare settings globally.
+                </p>
+
+                <table class="nihss-table" style="font-size:0.82rem;">
+                    <thead>
+                        <tr>
+                            <th>Time Frame</th>
+                            <th>BP Monitoring</th>
+                            <th>Neuro Checks</th>
+                            <th>Other Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>0–2 hours</strong></td>
+                            <td>Every 15 min<br>Target: &lt;180/105</td>
+                            <td>NIHSS + GCS<br>Every 30 min</td>
+                            <td>Cardiac monitor<br>Watch for angioedema</td>
+                        </tr>
+                        <tr>
+                            <td><strong>2–8 hours</strong></td>
+                            <td>Every 30 min</td>
+                            <td>NIHSS every 1h</td>
+                            <td>Watch for sICH<br>No antiplatelets</td>
+                        </tr>
+                        <tr>
+                            <td><strong>8–24 hours</strong></td>
+                            <td>Every 1 hour</td>
+                            <td>NIHSS every 4h</td>
+                            <td>Repeat CT at 24h<br>Before antithrombotics</td>
+                        </tr>
+                        <tr>
+                            <td><strong>24–48 hours</strong></td>
+                            <td>Every 4 hours</td>
+                            <td>NIHSS at 24h</td>
+                            <td>Start aspirin 75-325 mg<br>If CT clear</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="info-box danger" style="margin-top:14px;">
+                    <strong>🚨 STOP tPA Immediately If:</strong><br>
+                    • Sudden severe headache, vomiting, or decreased LOC → <strong>Emergency CT head</strong><br>
+                    • Acute hypertension (SBP &gt;220 or DBP &gt;120) unresponsive to IV antihypertensives<br>
+                    • Orolingual angioedema → airway protection, IV methylprednisolone, antihistamines<br>
+                    • Any signs of systemic bleeding → coagulation profile, blood products, local hemostasis
+                </div>
+
+                <div style="margin-top:14px; padding:16px; background:#f5f5f5; border-radius:16px;">
+                    <h4 style="color:var(--primary); margin-bottom:10px; font-size:0.95rem;">📊 Expected Outcomes (Global Meta-Analysis)</h4>
+                    <div class="two-col">
+                        <div style="text-align:center; padding:10px;">
+                            <div style="font-size:1.6rem; font-weight:900; color:var(--success);">52%</div>
+                            <div style="font-size:0.78rem; color:#666;">mRS 0–1 at 90 days (tPA vs placebo)</div>
+                        </div>
+                        <div style="text-align:center; padding:10px;">
+                            <div style="font-size:1.6rem; font-weight:900; color:var(--success);">39%</div>
+                            <div style="font-size:0.78rem; color:#666;">mRS 0–2 at 90 days (NNT = 7)</div>
+                        </div>
+                        <div style="text-align:center; padding:10px;">
+                            <div style="font-size:1.6rem; font-weight:900; color:var(--warning);">6-7%</div>
+                            <div style="font-size:0.78rem; color:#666;">Symptomatic ICH rate</div>
+                        </div>
+                        <div style="text-align:center; padding:10px;">
+                            <div style="font-size:1.6rem; font-weight:900; color:var(--accent);">13%</div>
+                            <div style="font-size:0.78rem; color:#666;">Absolute mortality reduction</div>
+                        </div>
+                    </div>
+                    <p style="font-size:0.75rem; color:#888; margin-top:10px; text-align:center;">Source: NINDS rtPA Trial, ECASS-III, IST-3 Meta-Analysis</p>
+                </div>
+            </div>
+
+            <!-- Key Mnemonics Summary -->
+            <div class="card card-success slide-up" style="animation-delay:0.55s;">
+                <div class="card-title">
+                    <div class="card-icon icon-success">🧩</div>
+                    Key Mnemonics & Memory Aids
+                </div>
+
+                <div style="margin-bottom:16px;">
+                    <h4 style="color:var(--success); font-size:1rem; margin-bottom:10px;">🚨 BE-FAST (Recognition)</h4>
+                    <div style="display:flex; flex-wrap:wrap; gap:8px; font-size:0.85rem;">
+                        <span class="tag tag-purple">B = Balance</span>
+                        <span class="tag tag-blue">E = Eyes</span>
+                        <span class="tag tag-red">F = Face</span>
+                        <span class="tag tag-orange">A = Arm</span>
+                        <span class="tag tag-green">S = Speech</span>
+                        <span class="tag" style="background:#e8eaf6; color:#1a237e;">T = Time (Call Emergency)</span>
+                    </div>
+                </div>
+
+                <div style="margin-bottom:16px;">
+                    <h4 style="color:var(--warning); font-size:1rem; margin-bottom:10px;">⏱️ Time Targets (AHA/ASA / WSO)</h4>
+                    <div style="background:#fff8e1; padding:14px; border-radius:14px; font-size:0.85rem; color:#555; line-height:1.7;">
+                        <strong>Door-to-Physician:</strong> ≤10 min · 
+                        <strong>Door-to-CT:</strong> ≤25 min · 
+                        <strong>Door-to-Needle:</strong> ≤60 min · 
+                        <strong>CT-to-Needle:</strong> ≤30 min
+                    </div>
+                </div>
+
+                <div style="margin-bottom:16px;">
+                    <h4 style="color:var(--accent); font-size:1rem; margin-bottom:10px;">🚫 tPA Contraindications Memory</h4>
+                    <div style="background:#ffebee; padding:14px; border-radius:14px; font-size:0.85rem; color:#555; line-height:1.7;">
+                        <strong>"HIBS-GLP"</strong> — Hemorrhage on CT, ICH history, BP &gt;185/110, Surgery ≤3mo, Glucose &lt;50, INR &gt;1.7, Platelets &lt;100K, LMWH &lt;24h
+                    </div>
+                </div>
+
+                <div>
+                    <h4 style="color:var(--info); font-size:1rem; margin-bottom:10px;">💊 tPA Dosing Memory</h4>
+                    <div style="background:#e3f2fd; padding:14px; border-radius:14px; font-size:0.85rem; color:#555; line-height:1.7;">
+                        <strong>"9-1-9"</strong> — 0.<strong>9</strong> mg/kg · <strong>10%</strong> bolus (<strong>1</strong> min) · <strong>90%</strong> over <strong>9</strong>0 minutes (60 min infusion + 30 min observation)
+                    </div>
+                </div>
+
+                <div class="img-container" style="margin-top:16px;">
+                    <img src="https://strokefoundation.org.au/media/etbhmvaa/fast-horizontal.jpg?width=999&height=422&mode=max" alt="FAST Stroke Signs">
+                </div>
+                <p class="img-caption">FAST horizontal mnemonic — foundational stroke recognition tool used in community health programs worldwide</p>
+            </div>
+
+        </div>
+
+        <footer class="footer">
+            <div class="footer-text">
+                <strong style="color:#fff; font-size:1.15rem;">🌍 Time is Brain — Every Minute Counts Everywhere</strong><br>
+                Stroke is a global emergency. Fast recognition, rapid emergency response, and thrombolysis within 60 minutes save millions of neurons and lives across all nations.<br>
+                <span style="color:#ffb74d;">Strengthen stroke systems. Train paramedics. Expand telestroke. Deploy Mobile Stroke Units. Prevent the preventable.</span>
+            </div>
+            <div class="footer-disclaimer">
+                <strong>Disclaimer:</strong> This poster is for educational purposes only and does not constitute medical advice. 
+                Always follow institutional protocols and consult current AHA/ASA, WSO, and local regulatory guidelines. 
+                Clinical decisions should be made by qualified healthcare professionals. Data sourced from WHO, World Stroke Organization Global Stroke Fact Sheet 2025, GBD 2021 Study, AHA/ASA Guidelines, and peer-reviewed literature.<br><br>
+                <strong>Prepared by Dr. Mehta · 2026</strong>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        const particlesContainer = document.getElementById('particles');
+        for (let i = 0; i < 35; i++) {
+            const p = document.createElement('div');
+            p.className = 'particle';
+            p.style.left = Math.random() * 100 + '%';
+            p.style.animationDuration = (12 + Math.random() * 20) + 's';
+            p.style.animationDelay = Math.random() * 15 + 's';
+            p.style.width = (2 + Math.random() * 4) + 'px';
+            p.style.height = p.style.width;
+            particlesContainer.appendChild(p);
+        }
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animationPlayState = 'running';
+                }
+            });
+        }, { threshold: 0.05 });
+        document.querySelectorAll('.slide-up').forEach(el => {
+            el.style.animationPlayState = 'paused';
+            observer.observe(el);
+        });
+        document.querySelectorAll('.mnemonic-item').forEach(item => {
+            item.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateX(10px) scale(1.02)';
+            });
+            item.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateX(0) scale(1)';
+            });
+        });
+    </script>
+</body>
+</html>
