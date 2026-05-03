@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Emergency Drug Reference | 30 Flashcards | Dr. Mehta</title>
+  <style>
+    :root{
+      --bg:#ffffff;
+      --text:#172033;
+      --muted:#61708a;
+      --dark:#0f172a;
+      --dark2:#1e293b;
+      --glass:rgba(255,255,255,.16);
+      --shadow:0 18px 40px rgba(15, 23, 42, 0.12);
+      --radius:24px;
+      --c1:linear-gradient(135deg,#5b8cff,#7b61ff);
+      --c2:linear-gradient(135deg,#00c6a7,#00e0ff);
+      --c3:linear-gradient(135deg,#ff7a59,#ffb36b);
+      --c4:linear-gradient(135deg,#ff5fa2,#a66cff);
+      --c5:linear-gradient(135deg,#00b4d8,#5773ff);
+      --c6:linear-gradient(135deg,#22c55e,#14b8a6);
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{
+      font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+      background:var(--bg);
+      color:var(--text);
+      line-height:1.5;
+      padding:28px 16px 48px;
+    }
+    .container{max-width:1400px;margin:0 auto}
+    .hero{
+      text-align:center;
+      padding:32px 20px;
+      border-radius:28px;
+      background:
+        radial-gradient(circle at top left, rgba(91,140,255,.10), transparent 28%),
+        radial-gradient(circle at top right, rgba(255,95,162,.10), transparent 28%),
+        radial-gradient(circle at bottom center, rgba(0,198,167,.10), transparent 24%),
+        #fff;
+      border:1px solid rgba(15,23,42,.06);
+      box-shadow:0 10px 30px rgba(15,23,42,.06);
+      margin-bottom:26px;
+    }
+    .badge{
+      display:inline-block;
+      padding:8px 14px;
+      border-radius:999px;
+      background:linear-gradient(135deg,#eef2ff,#ecfeff);
+      color:#475569;
+      font-size:12px;
+      font-weight:800;
+      letter-spacing:.5px;
+      margin-bottom:14px;
+    }
+    h1{
+      font-size:clamp(30px,4.2vw,52px);
+      line-height:1.1;
+      margin-bottom:10px;
+    }
+    .sub{
+      max-width:900px;
+      margin:0 auto;
+      color:var(--muted);
+      font-size:clamp(15px,2vw,18px);
+    }
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+      gap:22px;
+      margin-top:22px;
+    }
+    .flip-card{
+      background:transparent;
+      perspective:1200px;
+      min-height:305px;
+    }
+    .flip-inner{
+      position:relative;
+      width:100%;
+      height:100%;
+      min-height:305px;
+      transition:transform .75s ease;
+      transform-style:preserve-3d;
+    }
+    .flip-card:hover .flip-inner,
+    .flip-card:focus-within .flip-inner,
+    .flip-card.flipped .flip-inner{
+      transform:rotateY(180deg);
+    }
+    .face{
+      position:absolute;
+      inset:0;
+      border-radius:var(--radius);
+      padding:22px;
+      box-shadow:var(--shadow);
+      backface-visibility:hidden;
+      -webkit-backface-visibility:hidden;
+      overflow:hidden;
+      display:flex;
+      flex-direction:column;
+      justify-content:space-between;
+    }
+    .face::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:rgba(255,255,255,.06);
+      pointer-events:none;
+    }
+    .front{color:#fff}
+    .back{
+      color:#fff;
+      background:linear-gradient(160deg,var(--dark),var(--dark2));
+      transform:rotateY(180deg);
+    }
+    .g1{background:var(--c1)}
+    .g2{background:var(--c2)}
+    .g3{background:var(--c3)}
+    .g4{background:var(--c4)}
+    .g5{background:var(--c5)}
+    .g6{background:var(--c6)}
+    .row{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:10px;
+      position:relative;
+      z-index:1;
+    }
+    .tag,.num{
+      padding:7px 11px;
+      border-radius:999px;
+      background:var(--glass);
+      border:1px solid rgba(255,255,255,.18);
+      backdrop-filter:blur(8px);
+      font-size:12px;
+      font-weight:800;
+      letter-spacing:.35px;
+    }
+    .q{
+      position:relative;
+      z-index:1;
+      margin-top:14px;
+      font-size:1.1rem;
+      font-weight:800;
+    }
+    .hint{
+      position:relative;
+      z-index:1;
+      font-size:.95rem;
+      opacity:.95;
+      margin-top:10px;
+    }
+    .a{
+      position:relative;
+      z-index:1;
+    }
+    .a h3{
+      font-size:1rem;
+      color:#93c5fd;
+      margin-bottom:10px;
+    }
+    .a p{
+      font-size:.95rem;
+      color:#e5eefc;
+      margin-bottom:8px;
+    }
+    .footer{
+      text-align:center;
+      color:var(--muted);
+      margin-top:28px;
+      font-size:14px;
+    }
+    .footer strong{color:#7b61ff}
+    @media (max-width:640px){
+      body{padding:18px 12px 34px}
+      .hero{padding:24px 16px;border-radius:22px}
+      .face{padding:18px}
+      .flip-card,.flip-inner{min-height:280px}
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <section class="hero">
+      <div class="badge">Emergency Drug Reference</div>
+      <h1>ACLS & EM Pharmacology</h1>
+      <p class="sub">
+        30 advanced flashcards covering dosages, indications, contraindications, mechanisms, and cautions. Prepared by Dr. Mehta.
+      </p>
+    </section>
+
+    <section class="grid">
+
+      <article class="flip-card" onclick="this.classList.toggle('flipped')" tabindex="0">
+        <div class="flip-inner">
+          <div class="face front g1">
+            <div class="row"><span class="tag">ACLS</span><span class="num">Card 01</span></div>
+            <div><div class="q">What is the ACLS adult cardiac arrest dose of epinephrine?</div><div class="hint">Tap or hover to flip.</div></div>
+          </div>
+          <div class="face back">
+            <div class="row"><span class="tag">Epinephrine</span><span class="num">Dr. Mehta</span></div>
+            <div class="a"><h3>Dose</h3><p>1 mg IV/IO every 3 to 5 minutes during pulseless arrest.</p><p>Use the 1:10,000 concentration for IV/IO arrest dosing; monitor for arrhythmias and hypertension after ROSC.</p></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="flip-card" onclick="this.classList.toggle('flipped')" tabindex="0">
+        <div class="flip-inner">
+          <div class="face front g2">
+            <div class="row"><span class="tag">Vasopressor</span><span class="num">Card 02</span></div>
+            <div><div class="q">When is an epinephrine infusion used outside pulseless arrest?</div><div class="hint">Tap or hover to flip.</div></div>
+          </div>
+          <div class="face back">
+            <div class="row"><span class="tag">Epinephrine</span><span class="num">Dr. Mehta</span></div>
+            <div class="a"><h3>Indication</h3><p>Used for symptomatic bradycardia or shock when atropine and pacing are ineffective or unavailable.</p><p>Typical infusion range is 2 to 10 mcg/min, titrated to response.</p></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="flip-card" onclick="this.classList.toggle('flipped')" tabindex="0">
+        <div class="flip-inner">
+          <div class="face front g3">
+            <div class="row"><span class="tag">Antiarrhythmic</span><span class="num">Card 03</span></div>
+            <div><div class="q">What is the amiodarone dose for refractory VF or pulseless VT?</div><div class="hint">Tap or hover to flip.</div></div>
+          </div>
+          <div class="face back">
+            <div class="row"><span class="tag">Amiodarone</span><span class="num">Dr. Mehta</span></div>
+            <div class="a"><h3>Dose</h3><p>300 mg IV/IO bolus, then 150 mg once if needed.</p><p>Used after defibrillation attempts in shock-refractory VF/pulseless VT; watch for hypotension and bradycardia.</p></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="flip-card" onclick="this.classList.toggle('flipped')" tabindex="0">
+        <div class="flip-inner">
+          <div class="face front g4">
+            <div class="row"><span class="tag">Tachycardia</span><span class="num">Card 04</span></div>
+            <div><div class="q">What is one important amiodarone contraindication or caution point?</div><div class="hint">Tap or hover to flip.</div></div>
+          </div>
+          <div class="face back">
+            <div class="row"><span class="tag">Amiodarone</span><span class="num">Dr. Mehta</span></div>
+            <div class="a"><h3>Caution</h3><p>Use caution in hepatic failure and avoid in second- or third-degree heart block without pacing support.</p><p>It can also prolong QT and worsen hypotension.</p></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="flip-card" onclick="this.classList.toggle('flipped')" tabindex="0">
+        <div class="flip-inner">
+          <div class="face front g5">
+            <div class="row"><span class="tag">Bradycardia</span><span class="num">Card 05</span></div>
+            <div><div class="q">What is the adult atropine dose for symptomatic bradycardia?</div><div class="hint">Tap or hover to flip.</div></div>
+          </div>
+          <div class="face back">
+            <div class="row"><span class="tag">Atropine</span><span class="num">Dr. Mehta</span></div>
+            <div class="a"><h3>Dose</h3><p>1 mg IV every 3 to 5 minutes to a maximum total dose of 3 mg.</p><p>It is first-line for many unstable bradycardia cases, but may fail in high-grade AV block.</p></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="flip-card" onclick="this.classList.toggle('flipped')" tabindex="0">
+        <div class="flip-inner">
+          <div class="face front g6">
+            <div class="row"><span class="tag">Atropine</span><span class="num">Card 06</span></div>
+            <div><div class="q">Why should very small atropine doses be avoided?</div><div class="hint">Tap or hover to flip.</div></div>
+          </div>
+          <div class="face back">
+            <div class="row"><span class="tag">Atropine</span><span class="num">Dr. Mehta</span></div>
+            <div class="a"><h3>Warning</h3><p>Doses lower than 0.5 mg may worsen bradycardia through paradoxical effects.</p><p>Also avoid relying on atropine alone in transplanted hearts or advanced conduction block.</p></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="flip-card" onclick="this.classList.toggle('flipped')" tabindex="0">
+        <div class="flip-inner">
+          <div class="face front g1">
+            <div class="row"><span class="tag">SVT</span><span class="num">Card 07</span></div>
+            <div><div class="q">What is the adenosine sequence for regular narrow-complex SVT?</div><div class="hint">Tap or hover to flip.</div></div>
+          </div>
+          <div class="face back">
+            <div class="row"><span class="tag">Adenosine</span><span class="num">Dr. Mehta</span></div>
+            <div class="a"><h3>Dose</h3><p>6 mg rapid IV push, then 12 mg if needed, and another 12 mg if necessary.</p><p>Give through a proximal line with a rapid saline flush.</p></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="flip-card" onclick="this.classList.toggle('flipped')" tabindex="0">
+        <div class="flip-inner">
+          <div class="face front g2">
+            <div class="row"><span class="tag">Adenosine</span><span class="num">Card 08</span></div>
+            <div><div class="q">When should adenosine be avoided or used with extreme caution?</div><div class="hint">Tap or hover to flip.</div></div>
+          </div>
+          <div class="face back">
+            <div class="row"><span class="tag">Adenosine</span><span class="num">Dr. Mehta</span></div>
+            <div class="a"><h3>Contraindication</h3><p>Avoid in irregular or polymorphic wide-complex tachycardia.</p><p>Use caution in asthma or reactive airway disease because bronchospasm can occur.</p></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="flip-card" onclick="this.classList.toggle('flipped')" tabindex="0">
+        <div class="flip-inner">
+          <div class="face front g3">
+            <div class="row"><span class="tag">Shock</span><span class="num">Card 09</span></div>
+            <div><div class="q">What dopamine infusion range is commonly used for bradycardia or shock support?</div><div class="hint">Tap or hover to flip.</div></div>
+          </div>
+          <div class="face back">
+            <div class="row"><span class="tag">Dopamine</span><span class="num">Dr. Mehta</span></div>
+            <div class="a"><h3>Dose</h3><p>5 to 20 mcg/kg/minute, titrated to clinical effect.</p><p>Used when atropine is ineffective and pacing is not immediately available, or for hypotensive states requiring vasoactive support.</p></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="flip-card" onclick="this.classList.toggle('flipped')" tabindex="0">
+        <div class="flip-inner">
+          <div class="face front g4">
+            <div class="row"><span class="tag">Pressor</span><span class="num">Card 10</span></div>
+            <div><div class="q">What is a major risk when titrating dopamine infusions?</div><div class="hint">Tap or hover to flip.</div></div>
+          </div>
+          <div class="face back">
+            <div class="row"><span class="tag">Dopamine</span><span class="num">Dr. Mehta</span></div>
+            <div class="a"><h3>Caution</h3><p>Dopamine can provoke tachyarrhythmias and increase myocardial oxygen demand.</p><p>Continuous ECG and blood pressure monitoring are important during infusion.</p></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="flip-card" onclick="this.classList.toggle('flipped')" tabindex="0">
+        <div class="flip-inner">
+          <div class="face front g5">
+            <div class="row"><span class="tag">Vasopressor</span><span class="num">Card 11</span></div>
+            <div><div class="q">When is norepinephrine commonly used in emergency medicine?</div><div class="hint">Tap or hover to flip.</div></div>
+          </div>
+          <div class="face back">
+            <div class="row"><span class="tag">Norepinephrine</span><span class="num">Dr. Mehta</span></div>
+            <div class="a"><h3>Indication</h3><p>Commonly used for vasodilatory or septic shock with persistent hypotension despite fluids.</p><p>It is a potent vasopressor and is usually infused through a controlled pump with close hemodynamic monitoring.</p></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="flip-card" onclick="this.classList.toggle('flipped')" tabindex="0">
+        <div class="flip-inner">
+          <div class="face front g6">
+            <div class="row"><span class="tag">Antiarrhythmic</span><span class="num">Card 12</span></div>
+            <div><div class="q">What is the lidocaine adult bolus dose in refractory VF or pulseless VT?</div><div class="hint">Tap or hover to flip.</div></div>
+          </div>
+          <div class="face back">
+            <div class="row"><span class="tag">Lidocaine</span><span class="num">Dr. Mehta</span></div>
+            <div class="a"><h3>Dose</h3><p>1 to 1.5 mg/kg IV, repeat every 5 to 10 minutes to a maximum of 3 mg/kg.</p><p>Lidocaine is generally considered when amiodarone is unavailable or unsuitable.</p></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="flip-card" onclick="this.classList.toggle('flipped')" tabindex="0">
+        <div class="flip-inner">
+          <div class="face front g1">
+            <div class="row"><span class="tag">Lidocaine</span><span class="num">Card 13</span></div>
+            <div><div class="q">What toxicity clues can appear with excessive lidocaine exposure?</div><div class="hint">Tap or hover to flip.</div></div>
+          </div>
+          <div class="face back">
+            <div class="row"><span class="tag">Lidocaine</span><span class="num">Dr. Mehta</span></div>
+            <div class="a"><h3>Adverse effects</h3><p>Neurologic toxicity may include confusion, tremor, seizure, or decreased consciousness.</p><p>Cardiac toxicity can include bradycardia, hypotension, or worsening arrhythmia.</p></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="flip-card" onclick="this.classList.toggle('flipped')" tabindex="0">
+        <div class="flip-inner">
+          <div class="face front g2">
+            <div class="row"><span class="tag">Torsades</span><span class="num">Card 14</span></div>
+            <div><div class="q">What is the adult magnesium sulfate dose commonly used for torsades de pointes?</div><div class="hint">Tap or hover to flip.</div></div>
+          </div>
+          <div class="face back">
+            <div class="row"><span class="tag">Magnesium</span><span class="num">Dr. Mehta</span></div>
+            <div class="a"><h3>Dose</h3><p>1 to 2 g IV/IO in adults.</p><p>This is particularly useful for torsades de pointes or suspected hypomagnesemia-associated ventricular arrhythmia.</p></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="flip-card" onclick="this.classList.toggle('flipped')" tabindex="0">
+        <div class="flip-inner">
+          <div class="face front g3">
+            <div class="row"><span class="tag">Magnesium</span><span class="num">Card 15</span></div>
+            <div><div class="q">What is a pediatric magnesium sulfate maximum dose often cited in resuscitation references?</div><div class="hint">Tap or hover to flip.</div></div>
+          </div>
+          <div class="face back">
+            <div class="row"><span class="tag">Magnesium</span><span class="num">Dr. Mehta</span></div>
+            <div class="a"><h3>Pediatric dose</h3><p>25 to 50 mg/kg, up to a maximum of 2 g.</p><p>Monitor for hypotension and diminished reflexes with excessive administration.</p></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="flip-card" onclick="this.classList.toggle('flipped')" tabindex="0">
+        <div class="flip-inner">
+          <div class="face front g4">
+            <div class="row"><span class="tag">Metabolic</span><span class="num">Card 16</span></div>
+            <div><div class="q">What are accepted emergency indications for sodium bicarbonate?</div><div class="hint">Tap or hover to flip.</div></div>
+          </div>
+          <div class="face back">
+            <div class="row"><span class="tag">Sodium Bicarb</span><span class="num">Dr. Mehta</span></div>
+            <div class="a"><h3>Indications</h3><p>Hyperkalemia, tricyclic antidepressant toxicity, selected severe metabolic acidosis, and certain overdose states.</p><p>It is not recommended for routine use in standard cardiac arrest.</p></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="flip-card" onclick="this.classList.toggle('flipped')" tabindex="0">
+        <div class="flip-inner">
+          <div class="face front g5">
+            <div class="row"><span class="tag">Buffer</span><span class="num">Card 17</span></div>
+            <div><div class="q">What is a common adult sodium bicarbonate bolus dose in resuscitation references?</div><div class="hint">Tap or hover to flip.</div></div>
+          </div>
+          <div class="face back">
+            <div class="row"><span class="tag">Sodium Bicarb</span><span class="num">Dr. Mehta</span></div>
+            <div class="a"><h3>Dose</h3><p>50 mEq in adults is commonly cited.</p><p>Effective ventilation matters because bicarbonate generates carbon dioxide load.</p></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="flip-card" onclick="this.classList.toggle('flipped')" tabindex="0">
+        <div class="flip-inner">
+          <div class="face front g6">
+            <div class="row"><span class="tag">Electrolyte</span><span class="num">Card 18</span></div>
+            <div><div class="q">When is calcium especially important in emergency pharmacology?</div><div class="hint">Tap or hover to flip.</div></div>
+          </div>
+          <div class="face back">
+            <div class="row"><span class="tag">Calcium</span><span class="num">Dr. Mehta</span></div>
+            <div class="a"><h3>Indications</h3><p>Hyperkalemia, calcium channel blocker overdose, hypocalcemia, and hypermagnesemia are classic emergency indications.</p><p>Routine calcium use in undifferentiated cardiac arrest is not recommended.</p></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="flip-card" onclick="this.classList.toggle('flipped')" tabindex="0">
+        <div class="flip-inner">
+          <div class="face front g1">
+            <div class="row"><span class="tag">Calcium</span><span class="num">Card 19</span></div>
+            <div><div class="q">What adult calcium gluconate dose appears in common resuscitation references?</div><div class="hint">Tap or hover to flip.</div></div>
+          </div>
+          <div class="face back">
+            <div class="row"><span class="tag">Calcium</span><span class="num">Dr. Mehta</span></div>
+            <div class="a"><h3>Dose</h3><p>Calcium gluconate 3 g is listed in common resuscitation dosing tables.</p><p>Choose formulation and route carefully, especially when tissue injury risk from extravasation is a concern.</p></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="flip-card" onclick="this.classList.toggle('flipped')" tabindex="0">
+        <div class="flip-inner">
+          <div class="face front g2">
+            <div class="row"><span class="tag">Tachycardia</span><span class="num">Card 20</span></div>
+            <div><div class="q">What procainamide infusion approach is used for stable wide-complex tachycardia?</div><div class="hint">Tap or hover to flip.</div></div>
+          </div>
+          <div class="face back">
+            <div class="row"><span class="tag">Procainamide</span><span class="num">Dr. Mehta</span></div>
+            <div class="a"><h3>Dose</h3><p>20 to 50 mg/min until arrhythmia suppression, hypotension, QRS widening, or a total of 17 mg/kg.</p><p>Avoid if QT is prolonged or in heart failure with reduced tolerance to negative inotropy.</p></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="flip-card" onclick="this.classList.toggle('flipped')" tabindex="0">
+        <div class="flip-inner">
+          <div class="face front g3">
+            <div class="row"><span class="tag">AV Nodal</span><span class="num">Card 21</span></div>
+            <div><div class="q">When is diltiazem commonly used in emergency medicine?</div><div class="hint">Tap or hover to flip.</div></div>
+          </div>
+          <div class="face back">
+            <div class="row"><span class="tag">Diltiazem</span><span class="num">Dr. Mehta</span></div>
+            <div class="a"><h3>Indication</h3><p>Used for rate control in stable atrial fibrillation or atrial flutter with rapid ventricular response.</p><p>It is generally avoided in hypotension, decompensated heart failure, or pre-excited atrial fibrillation.</p></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="flip-card" onclick="this.classList.toggle('flipped')" tabindex="0">
+        <div class="flip-inner">
+          <div class="face front g4">
+            <div class="row"><span class="tag">Rate control</span><span class="num">Card 22</span></div>
+            <div><div class="q">What beta-blocker caution matters in unstable tachyarrhythmia management?</div><div class="hint">Tap or hover to flip.</div></div>
+          </div>
+          <div class="face back">
+            <div class="row"><span class="tag">Beta-blockers</span><span class="num">Dr. Mehta</span></div>
+            <div class="a"><h3>Caution</h3><p>They may worsen hypotension, bradycardia, or acute decompensated heart failure.</p><p>Use carefully in asthma or severe bronchospastic disease depending on agent selectivity.</p></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="flip-card" onclick="this.classList.toggle('flipped')" tabindex="0">
+        <div class="flip-inner">
+          <div class="face front g5">
+            <div class="row"><span class="tag">Bradycardia</span><span class="num">Card 23</span></div>
+            <div><div class="q">What important exception is noted for atropine in heart transplant patients?</div><div class="hint">Tap or hover to flip.</div></div>
+          </div>
+          <div class="face back">
+            <div class="row"><span class="tag">Heart transplant</span><span class="num">Dr. Mehta</span></div>
+            <div class="a"><h3>Exception</h3><p>Heart transplant patients may not respond well to atropine because of denervation.</p><p>Pacing and/or dopamine or epinephrine support may be preferred.</p></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="flip-card" onclick="this.classList.toggle('flipped')" tabindex="0">
+        <div class="flip-inner">
+          <div class="face front g6">
+            <div class="row"><span class="tag">Airway</span><span class="num">Card 24</span></div>
+            <div><div class="q">Why is proximal IV access and a flush important for adenosine?</div><div class="hint">Tap or hover to flip.</div></div>
+          </div>
+          <div class="face back">
+            <div class="row"><span class="tag">Adenosine</span><span class="num">Dr. Mehta</span></div>
+            <div class="a"><h3>Administration</h3><p>Adenosine has an extremely short half-life, so it must reach the heart rapidly.</p><p>A fast push and immediate saline flush improve the chance of therapeutic effect.</p></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="flip-card" onclick="this.classList.toggle('flipped')" tabindex="0">
+        <div class="flip-inner">
+          <div class="face front g1">
+            <div class="row"><span class="tag">Pediatrics</span><span class="num">Card 25</span></div>
+            <div><div class="q">What pediatric sodium bicarbonate dose is commonly listed in resuscitation tables?</div><div class="hint">Tap or hover to flip.</div></div>
+          </div>
+          <div class="face back">
+            <div class="row"><span class="tag">Pediatric</span><span class="num">Dr. Mehta</span></div>
+            <div class="a"><h3>Dose</h3><p>1 mEq/kg is commonly listed for pediatric patients.</p><p>PALS references advise against routine use except in select conditions such as hyperkalemia or certain toxicologic emergencies.</p></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="flip-card" onclick="this.classList.toggle('flipped')" tabindex="0">
+        <div class="flip-inner">
+          <div class="face front g2">
+            <div class="row"><span class="tag">Rhythm care</span><span class="num">Card 26</span></div>
+            <div><div class="q">Which two antiarrhythmics require special attention to QT prolongation?</div><div class="hint">Tap or hover to flip.</div></div>
+          </div>
+          <div class="face back">
+            <div class="row"><span class="tag">QT risk</span><span class="num">Dr. Mehta</span></div>
+            <div class="a"><h3>Answer</h3><p>Procainamide and sotalol are notable QT-prolonging agents in tachycardia management references.</p><p>Amiodarone can also prolong QT, though torsades risk differs by context.</p></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="flip-card" onclick="this.classList.toggle('flipped')" tabindex="0">
+        <div class="flip-inner">
+          <div class="face front g3">
+            <div class="row"><span class="tag">Infusion</span><span class="num">Card 27</span></div>
+            <div><div class="q">What is the dobutamine infusion range shown in common resuscitation tables?</div><div class="hint">Tap or hover to flip.</div></div>
+          </div>
+          <div class="face back">
+            <div class="row"><span class="tag">Dobutamine</span><span class="num">Dr. Mehta</span></div>
+            <div class="a"><h3>Dose</h3><p>2 to 5 mcg/kg/minute initially, increasing as needed to a maximum of 20 mcg/kg/minute.</p><p>It is an inotrope rather than a primary arrest drug, useful when low cardiac output is the main issue.</p></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="flip-card" onclick="this.classList.toggle('flipped')" tabindex="0">
+        <div class="flip-inner">
+          <div class="face front g4">
+            <div class="row"><span class="tag">Rhythm strategy</span><span class="num">Card 28</span></div>
+            <div><div class="q">When should AV nodal blockers be avoided in tachycardia management?</div><div class="hint">Tap or hover to flip.</div></div>
+          </div>
+          <div class="face back">
+            <div class="row"><span class="tag">Avoidance</span><span class="num">Dr. Mehta</span></div>
+            <div class="a"><h3>High risk setting</h3><p>Avoid AV nodal blockers such as diltiazem in pre-excited atrial fibrillation or certain irregular wide-complex tachycardias.</p><p>They can accelerate conduction down an accessory pathway and worsen instability.</p></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="flip-card" onclick="this.classList.toggle('flipped')" tabindex="0">
+        <div class="flip-inner">
+          <div class="face front g5">
+            <div class="row"><span class="tag">Shockable arrest</span><span class="num">Card 29</span></div>
+            <div><div class="q">Which antiarrhythmic is preferred first in many ACLS teaching references for refractory VF/pulseless VT?</div><div class="hint">Tap or hover to flip.</div></div>
+          </div>
+          <div class="face back">
+            <div class="row"><span class="tag">Choice</span><span class="num">Dr. Mehta</span></div>
+            <div class="a"><h3>Answer</h3><p>Amiodarone is commonly presented first, with lidocaine as an alternative when needed.</p><p>Selection still depends on the clinical context and protocol in use.</p></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="flip-card" onclick="this.classList.toggle('flipped')" tabindex="0">
+        <div class="flip-inner">
+          <div class="face front g6">
+            <div class="row"><span class="tag">Safety</span><span class="num">Card 30</span></div>
+            <div><div class="q">What recurring safety principle applies to most ACLS and EM drug administration?</div><div class="hint">Tap or hover to flip.</div></div>
+          </div>
+          <div class="face back">
+            <div class="row"><span class="tag">Core principle</span><span class="num">Dr. Mehta</span></div>
+            <div class="a"><h3>Answer</h3><p>Confirm rhythm, indication, concentration, route, and hemodynamic monitoring before and during administration.</p><p>Many ACLS medications can worsen hypotension, bradycardia, tachyarrhythmia, or conduction abnormalities if misapplied.</p></div>
+          </div>
+        </div>
+      </article>
+
+    </section>
+
+    <div class="footer">
+      <strong>Prepared by Dr. Mehta</strong>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener("keydown", function(e){
+      if(e.key === "Enter" || e.key === " "){
+        const active = document.activeElement;
+        if(active && active.classList.contains("flip-card")){
+          e.preventDefault();
+          active.classList.toggle("flipped");
+        }
+      }
+    });
+  </script>
+</body>
+</html>
