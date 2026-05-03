@@ -350,16 +350,95 @@
     font-size: 11px; color: var(--ink3); font-style: italic; letter-spacing: 0.3px;
   }
 
+  /* ── DRUG TABLE MOBILE SCROLL ── */
+  .drug-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .drug-table { min-width: 480px; }
+  .drug-table .mono { white-space: normal; word-break: break-word; }
+  .dose { white-space: normal; word-break: break-word; }
+
   /* ── RESPONSIVE ── */
-  @media (max-width: 600px) {
-    .card-body { padding: 16px 16px; }
-    .card-header { padding: 16px 16px 14px; }
-    .card-footer { padding: 8px 16px; }
-    .vitals-strip { grid-template-columns: repeat(3, 1fr); }
-    .score-grid { grid-template-columns: 1fr; }
-    .two-col { grid-template-columns: 1fr; }
+  @media (max-width: 640px) {
+    html { font-size: 14px; }
+
+    .masthead-inner { padding: 0 12px; }
+    .main { padding: 12px 10px 32px; }
+
+    /* logo — hide meta on very small */
+    .logo-meta { display: none; }
+    .logo-title { font-size: 14px; }
+    .logo-mark { width: 34px; height: 34px; border-radius: 8px; }
     .masthead-pills { display: none; }
-    .card-title { font-size: 20px; }
+
+    /* tabs */
+    .tab-btn { padding: 9px 11px 8px; font-size: 11px; }
+
+    /* card header — stack vertically on mobile */
+    .card-header {
+      padding: 14px 14px 12px;
+      flex-wrap: wrap; gap: 10px;
+    }
+    .card-icon-wrap { width: 38px; height: 38px; border-radius: 9px; }
+    .card-icon-wrap svg { width: 20px; height: 20px; }
+    .card-title { font-size: 18px; }
+    .card-subtitle { font-size: 11px; }
+    .card-eyebrow { font-size: 9px; }
+    /* badges move below title on narrow screens */
+    .card-badges {
+      flex-direction: row; align-items: center;
+      width: 100%; justify-content: flex-start;
+      margin-left: 0; gap: 6px;
+    }
+    .card-num { font-size: 9px; }
+
+    /* body */
+    .card-body { padding: 14px 12px; }
+    .card-footer {
+      padding: 8px 12px; flex-wrap: wrap; gap: 4px;
+    }
+    .card-footer span { font-size: 10px; }
+
+    /* tables — horizontal scroll container */
+    .drug-wrap { border-radius: 8px; }
+
+    /* steps */
+    .step-text { font-size: 12px; }
+    .steps { gap: 8px; }
+
+    /* vitals */
+    .vitals-strip { grid-template-columns: repeat(3, 1fr); gap: 6px; }
+    .vital-val { font-size: 16px; }
+    .vital-label { font-size: 8px; }
+
+    /* score grid — single col */
+    .score-grid { grid-template-columns: 1fr; gap: 10px; }
+    .score-row { font-size: 11.5px; padding: 5px 10px; }
+
+    /* two col — stack */
+    .two-col { grid-template-columns: 1fr; gap: 12px; }
+
+    /* alert boxes */
+    .alert { padding: 9px 10px; }
+    .alert-body { font-size: 11.5px; }
+
+    /* section label */
+    .section-label { font-size: 9px; letter-spacing: 1px; }
+
+    /* feat list */
+    .feat-item { font-size: 12px; }
+
+    /* timeline */
+    .tl-text { font-size: 12px; }
+    .tl-time { font-size: 10px; }
+
+    /* section head line */
+    .section-head { margin: 12px 0 8px; }
+  }
+
+  @media (max-width: 380px) {
+    .tab-btn { padding: 8px 9px; font-size: 10.5px; }
+    .card-title { font-size: 16px; }
+    .drug-table { min-width: 380px; }
+    .drug-table th, .drug-table td { padding: 6px 8px; font-size: 11.5px; }
   }
 </style>
 </head>
