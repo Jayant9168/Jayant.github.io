@@ -48,6 +48,8 @@ body{
   min-height:100vh;
   overflow-x:hidden;
   -webkit-font-smoothing:antialiased;
+  word-wrap:break-word;
+  overflow-wrap:break-word;
 }
 
 #sidebar{
@@ -56,11 +58,14 @@ body{
   display:flex;flex-direction:column;z-index:100;
   transition:transform .35s cubic-bezier(.4,0,.2,1);
   border-right:1px solid rgba(255,255,255,.06);
+  overflow-y:auto;
+  overflow-x:hidden;
 }
 .sidebar-logo{
   padding:32px 24px 24px;
   border-bottom:1px solid rgba(255,255,255,.07);
   background:linear-gradient(180deg,rgba(184,148,46,.08) 0%,transparent 100%);
+  flex-shrink:0;
 }
 .sidebar-logo .cross{
   display:inline-flex;align-items:center;justify-content:center;
@@ -72,21 +77,24 @@ body{
 .sidebar-logo h2{
   font-family:'Playfair Display',serif;font-size:15px;
   color:#e8e4dc;letter-spacing:.3px;line-height:1.4;font-weight:600;
+  word-wrap:break-word;overflow-wrap:break-word;
 }
 .sidebar-logo p{font-size:11px;color:rgba(255,255,255,.35);margin-top:4px;letter-spacing:.3px}
 
-.sidebar-nav{flex:1;overflow-y:auto;padding:16px 10px}
+.sidebar-nav{flex:1;overflow-y:auto;overflow-x:hidden;padding:16px 10px}
 .nav-section{margin-bottom:4px}
 .nav-label{
   font-size:9.5px;font-weight:700;letter-spacing:2px;
   color:rgba(255,255,255,.25);padding:10px 14px 6px;text-transform:uppercase;
+  white-space:nowrap;
 }
 .nav-item{
   display:flex;align-items:center;gap:11px;
   padding:10px 14px;border-radius:10px;cursor:pointer;
   font-size:13px;color:rgba(255,255,255,.5);
   transition:all .25s;margin-bottom:2px;text-decoration:none;
-  border:1px solid transparent;
+  border:1px solid transparent;white-space:nowrap;
+  min-width:0;
 }
 .nav-item:hover{background:rgba(255,255,255,.06);color:rgba(255,255,255,.85)}
 .nav-item.active{
@@ -102,7 +110,7 @@ body{
 
 .sidebar-footer{
   padding:18px 20px;border-top:1px solid rgba(255,255,255,.07);
-  display:flex;align-items:center;gap:12px;
+  display:flex;align-items:center;gap:12px;flex-shrink:0;
 }
 .avatar{
   width:40px;height:40px;border-radius:50%;
@@ -131,13 +139,20 @@ main{margin-left:272px;min-height:100vh;position:relative;z-index:1}
   border-bottom:1px solid var(--border);
   padding:0 40px;height:62px;
   display:flex;align-items:center;justify-content:space-between;
+  gap:12px;
+  min-width:0;
 }
-.topbar-title{font-size:13px;color:var(--text3);display:flex;align-items:center;gap:8px}
-.topbar-title strong{color:var(--text);font-weight:600}
-.topbar-badges{display:flex;gap:8px}
+.topbar-title{
+  font-size:13px;color:var(--text3);display:flex;align-items:center;gap:8px;
+  min-width:0;flex-shrink:1;overflow:hidden;
+}
+.topbar-title span:first-child{white-space:nowrap;flex-shrink:0}
+.topbar-title strong{color:var(--text);font-weight:600;white-space:nowrap}
+.topbar-title svg{flex-shrink:0}
+.topbar-badges{display:flex;gap:8px;flex-shrink:0}
 .badge{
   padding:5px 14px;border-radius:20px;font-size:10.5px;font-weight:700;
-  letter-spacing:.5px;text-transform:uppercase;
+  letter-spacing:.5px;text-transform:uppercase;white-space:nowrap;
 }
 .badge.teal{background:linear-gradient(135deg,rgba(14,158,150,.1),rgba(14,158,150,.05));color:var(--teal);border:1px solid rgba(14,158,150,.18)}
 
@@ -153,22 +168,25 @@ main{margin-left:272px;min-height:100vh;position:relative;z-index:1}
   content:'';position:absolute;top:-80px;right:-60px;
   width:360px;height:360px;border-radius:50%;
   background:radial-gradient(circle,rgba(184,148,46,.18) 0%,transparent 65%);
+  pointer-events:none;
 }
 .hero::after{
   content:'';position:absolute;bottom:-60px;left:180px;
   width:240px;height:240px;border-radius:50%;
   background:radial-gradient(circle,rgba(14,158,150,.1) 0%,transparent 65%);
+  pointer-events:none;
 }
 .hero-tag{
   display:inline-flex;align-items:center;gap:7px;
   background:rgba(184,148,46,.15);border:1px solid rgba(184,148,46,.25);
   padding:6px 16px;border-radius:20px;font-size:10.5px;
   color:var(--gold3);letter-spacing:1.2px;text-transform:uppercase;font-weight:600;
-  margin-bottom:20px;
+  margin-bottom:20px;white-space:nowrap;
 }
 .hero h1{
   font-family:'Playfair Display',serif;font-size:38px;
   line-height:1.2;margin-bottom:14px;color:#fff;font-weight:600;
+  word-wrap:break-word;overflow-wrap:break-word;
 }
 .hero h1 span{color:var(--gold3)}
 .hero p{font-size:15px;color:rgba(255,255,255,.55);max-width:580px;line-height:1.75}
@@ -186,6 +204,7 @@ main{margin-left:272px;min-height:100vh;position:relative;z-index:1}
 .section-head h2{
   font-family:'Playfair Display',serif;font-size:23px;
   display:flex;align-items:center;gap:12px;color:var(--text);font-weight:600;
+  word-wrap:break-word;overflow-wrap:break-word;
 }
 .section-head h2 .num{
   width:32px;height:32px;
@@ -195,11 +214,12 @@ main{margin-left:272px;min-height:100vh;position:relative;z-index:1}
   flex-shrink:0;box-shadow:0 2px 8px rgba(184,148,46,.3);
 }
 
-.cards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px;margin-bottom:40px}
+.cards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:18px;margin-bottom:40px}
 .card{
   background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);
   padding:24px;cursor:pointer;transition:all .3s cubic-bezier(.4,0,.2,1);
   position:relative;overflow:hidden;box-shadow:var(--shadow-sm);
+  min-width:0;
 }
 .card:hover{
   border-color:var(--border2);transform:translateY(-3px);
@@ -215,14 +235,14 @@ main{margin-left:272px;min-height:100vh;position:relative;z-index:1}
 .card-icon{
   width:52px;height:52px;border-radius:12px;
   display:flex;align-items:center;justify-content:center;
-  font-size:24px;margin-bottom:16px;
+  font-size:24px;margin-bottom:16px;flex-shrink:0;
 }
-.card h3{font-size:15.5px;font-weight:700;margin-bottom:7px;color:var(--text)}
-.card p{font-size:13px;color:var(--text3);line-height:1.65}
+.card h3{font-size:15.5px;font-weight:700;margin-bottom:7px;color:var(--text);word-wrap:break-word}
+.card p{font-size:13px;color:var(--text3);line-height:1.65;word-wrap:break-word}
 .card .card-meta{display:flex;gap:6px;margin-top:16px;flex-wrap:wrap}
 .tag{
   font-size:9.5px;font-weight:700;padding:3px 9px;border-radius:6px;
-  text-transform:uppercase;letter-spacing:.5px;
+  text-transform:uppercase;letter-spacing:.5px;white-space:nowrap;
 }
 .tag.red{background:var(--red-bg);color:var(--red);border:1px solid rgba(214,54,76,.15)}
 .tag.green{background:var(--green-bg);color:var(--green);border:1px solid rgba(26,158,112,.15)}
@@ -243,18 +263,18 @@ main{margin-left:272px;min-height:100vh;position:relative;z-index:1}
   width:56px;height:56px;border-radius:14px;
   display:flex;align-items:center;justify-content:center;font-size:26px;flex-shrink:0;
 }
-.proc-header h3{font-family:'Playfair Display',serif;font-size:20px;margin-bottom:4px;color:var(--text)}
-.proc-header p{font-size:13px;color:var(--text3)}
+.proc-header-text{min-width:0;flex:1}
+.proc-header h3{font-family:'Playfair Display',serif;font-size:20px;margin-bottom:4px;color:var(--text);word-wrap:break-word}
+.proc-header p{font-size:13px;color:var(--text3);word-wrap:break-word}
 .proc-header .tags{display:flex;gap:6px;margin-top:10px;flex-wrap:wrap}
 
 .proc-body{display:grid;grid-template-columns:1fr 1fr;gap:0}
-@media(max-width:900px){.proc-body{grid-template-columns:1fr}}
-.proc-col{padding:24px 28px;border-right:1px solid var(--border)}
+.proc-col{padding:24px 28px;border-right:1px solid var(--border);min-width:0;overflow-wrap:break-word}
 .proc-col:last-child{border-right:none}
 .proc-col h4{
   font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;
   color:var(--text3);margin-bottom:16px;padding-bottom:12px;
-  border-bottom:1px solid var(--border);
+  border-bottom:1px solid var(--border);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
 }
 
 .checklist{list-style:none}
@@ -262,7 +282,7 @@ main{margin-left:272px;min-height:100vh;position:relative;z-index:1}
   display:flex;align-items:flex-start;gap:10px;
   padding:9px 12px;border-radius:8px;margin-bottom:3px;
   cursor:pointer;transition:all .2s;font-size:13.5px;line-height:1.55;
-  border:1px solid transparent;
+  border:1px solid transparent;min-width:0;
 }
 .checklist li:hover{background:var(--bg3);border-color:var(--border)}
 .checklist li.checked{opacity:.45}
@@ -275,75 +295,85 @@ main{margin-left:272px;min-height:100vh;position:relative;z-index:1}
   background:#fff;
 }
 .checklist li.checked .check-box::after{content:'✓';color:#fff;font-weight:700;font-size:11px}
+.check-text{min-width:0;word-wrap:break-word;overflow-wrap:break-word}
 .step-num{
   width:24px;height:24px;background:var(--bg3);border:1px solid var(--border);
   border-radius:6px;display:flex;align-items:center;justify-content:center;
   font-family:'DM Mono',monospace;font-size:10px;color:var(--gold2);
   flex-shrink:0;margin-top:1px;font-weight:700;
 }
-.step-text strong{display:block;font-size:13px;color:var(--text);font-weight:600}
-.step-text span{font-size:12px;color:var(--text3)}
+.step-text{min-width:0;word-wrap:break-word;overflow-wrap:break-word;flex:1}
+.step-text strong{display:block;font-size:13px;color:var(--text);font-weight:600;word-wrap:break-word}
+.step-text span{font-size:12px;color:var(--text3);word-wrap:break-word}
 
 .alert-box{
   display:flex;gap:10px;padding:13px 15px;border-radius:var(--radius-sm);
   margin-bottom:14px;font-size:12.5px;line-height:1.6;
+  word-wrap:break-word;overflow-wrap:break-word;
 }
 .alert-box.warn{background:var(--warn-bg);border:1px solid rgba(196,126,18,.15);color:var(--warn)}
 .alert-box.danger{background:var(--red-bg);border:1px solid rgba(214,54,76,.15);color:var(--red)}
 .alert-box.info{background:var(--blue-bg);border:1px solid rgba(46,111,186,.12);color:var(--blue)}
 .alert-box.success{background:var(--green-bg);border:1px solid rgba(26,158,112,.12);color:var(--green)}
 .alert-box .icon{font-size:16px;flex-shrink:0;margin-top:1px}
+.alert-box > div:last-child{min-width:0;flex:1}
 
 .diagram-wrap{
   background:var(--panel);border-radius:var(--radius-sm);border:1px solid var(--border);
   padding:18px;margin-bottom:12px;display:flex;flex-direction:column;align-items:center;
-  box-shadow:var(--shadow-sm);
+  box-shadow:var(--shadow-sm);overflow:hidden;
 }
+.diagram-wrap svg{max-width:100%;height:auto}
 .diagram-wrap figcaption{
   font-size:11px;color:var(--text3);text-align:center;margin-top:10px;
-  font-style:italic;letter-spacing:.3px;
+  font-style:italic;letter-spacing:.3px;word-wrap:break-word;
 }
 
-.charts-row{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:20px;margin-bottom:36px}
+.charts-row{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px;margin-bottom:36px}
 .chart-card{
   background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);
-  padding:24px;box-shadow:var(--shadow-sm);
+  padding:24px;box-shadow:var(--shadow-sm);min-width:0;overflow-wrap:break-word;
 }
-.chart-card h4{font-size:14.5px;font-weight:700;margin-bottom:4px;color:var(--text)}
-.chart-card p{font-size:12px;color:var(--text3);margin-bottom:20px}
+.chart-card h4{font-size:14.5px;font-weight:700;margin-bottom:4px;color:var(--text);word-wrap:break-word}
+.chart-card p{font-size:12px;color:var(--text3);margin-bottom:20px;word-wrap:break-word}
 
 .bar-chart{display:flex;flex-direction:column;gap:11px}
-.bar-row{display:flex;align-items:center;gap:10px}
-.bar-label{font-size:12px;color:var(--text2);width:130px;flex-shrink:0;text-align:right;font-weight:500}
-.bar-track{flex:1;height:24px;background:var(--bg3);border-radius:6px;overflow:hidden;position:relative}
+.bar-row{display:flex;align-items:center;gap:10px;min-width:0}
+.bar-label{font-size:12px;color:var(--text2);width:130px;flex-shrink:0;text-align:right;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bar-track{flex:1;height:24px;background:var(--bg3);border-radius:6px;overflow:hidden;position:relative;min-width:0}
 .bar-fill{
   height:100%;border-radius:6px;
   display:flex;align-items:center;padding-right:10px;justify-content:flex-end;
   font-family:'DM Mono',monospace;font-size:10px;font-weight:700;
   transition:width 1.2s cubic-bezier(.16,1,.3,1);
+  white-space:nowrap;
 }
 
 .donut-wrap{display:flex;align-items:center;gap:24px;flex-wrap:wrap}
+.donut-wrap svg{flex-shrink:0}
 .donut-legend{display:flex;flex-direction:column;gap:9px}
-.legend-item{display:flex;align-items:center;gap:9px;font-size:12px;color:var(--text2)}
+.legend-item{display:flex;align-items:center;gap:9px;font-size:12px;color:var(--text2);white-space:nowrap}
 .legend-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
 
 .line-chart-wrap{width:100%;overflow:hidden;border-radius:var(--radius-sm)}
+.line-chart-wrap svg{width:100%;height:auto;display:block}
 
-.data-table{width:100%;border-collapse:collapse;font-size:13px;margin-bottom:0}
+.data-table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow-sm)}
+.data-table{width:100%;border-collapse:collapse;font-size:13px;min-width:600px}
 .data-table th{
   background:var(--bg3);color:var(--text3);font-size:10.5px;
   font-weight:700;letter-spacing:.8px;text-transform:uppercase;
   padding:11px 14px;text-align:left;border-bottom:1px solid var(--border2);
+  white-space:nowrap;
 }
 .data-table td{
   padding:12px 14px;border-bottom:1px solid var(--border);
-  color:var(--text2);vertical-align:top;
+  color:var(--text2);vertical-align:top;word-wrap:break-word;overflow-wrap:break-word;
 }
 .data-table tr:hover td{background:var(--bg3)}
 .data-table tr:last-child td{border-bottom:none}
 .status-dot{
-  display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:500;
+  display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:500;white-space:nowrap;
 }
 .status-dot::before{content:'';width:7px;height:7px;border-radius:50%;flex-shrink:0}
 .status-dot.critical::before{background:var(--red);box-shadow:0 0 8px rgba(214,54,76,.4)}
@@ -355,19 +385,20 @@ main{margin-left:272px;min-height:100vh;position:relative;z-index:1}
   padding:26px;margin-bottom:36px;box-shadow:var(--shadow-sm);
 }
 .progress-tracker h4{font-size:14.5px;font-weight:700;margin-bottom:18px;color:var(--text)}
-.tracker-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px}
-.tracker-item{background:var(--bg3);border-radius:var(--radius-sm);padding:16px;border:1px solid var(--border);transition:all .2s}
+.tracker-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:14px}
+.tracker-item{background:var(--bg3);border-radius:var(--radius-sm);padding:16px;border:1px solid var(--border);transition:all .2s;min-width:0}
 .tracker-item:hover{box-shadow:var(--shadow-sm)}
-.tracker-item .t-name{font-size:12.5px;color:var(--text2);margin-bottom:10px;font-weight:500}
+.tracker-item .t-name{font-size:12.5px;color:var(--text2);margin-bottom:10px;font-weight:500;word-wrap:break-word}
 .tracker-bar{height:6px;background:var(--bg4);border-radius:3px;overflow:hidden;margin-bottom:7px}
 .tracker-fill{height:100%;border-radius:3px;transition:width 1.5s ease}
 .tracker-item .t-pct{font-family:'DM Mono',monospace;font-size:13px;font-weight:700}
 
-.equip-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px;margin-bottom:12px}
+.equip-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:8px;margin-bottom:12px}
 .equip-item{
   background:var(--bg3);border:1px solid var(--border);border-radius:8px;
   padding:9px 13px;display:flex;align-items:center;gap:10px;
-  font-size:13px;cursor:pointer;transition:all .2s;
+  font-size:13px;cursor:pointer;transition:all .2s;min-width:0;
+  word-wrap:break-word;overflow-wrap:break-word;
 }
 .equip-item:hover{border-color:var(--border2);background:var(--panel);box-shadow:var(--shadow-sm)}
 .equip-item.checked{opacity:.5}
@@ -383,50 +414,27 @@ main{margin-left:272px;min-height:100vh;position:relative;z-index:1}
 .accordion-head{
   display:flex;align-items:center;justify-content:space-between;
   padding:16px 20px;cursor:pointer;background:var(--panel);transition:background .2s;
-  font-size:14px;font-weight:600;color:var(--text);
+  font-size:14px;font-weight:600;color:var(--text);gap:12px;min-width:0;
 }
+.accordion-head > span:first-child{word-wrap:break-word;overflow-wrap:break-word;min-width:0;flex:1}
 .accordion-head:hover{background:var(--bg3)}
-.accordion-head .arrow{transition:transform .3s;font-size:11px;color:var(--text4)}
+.accordion-head .arrow{transition:transform .3s;font-size:11px;color:var(--text4);flex-shrink:0}
 .accordion.open .accordion-head .arrow{transform:rotate(180deg)}
 .accordion-body{max-height:0;overflow:hidden;transition:max-height .4s ease}
 .accordion.open .accordion-body{max-height:800px}
-.accordion-body-inner{padding:18px 20px}
+.accordion-body-inner{padding:18px 20px;overflow-wrap:break-word;word-wrap:break-word}
 
 footer{
   border-top:1px solid var(--border);padding:28px 40px;
   display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;
   background:var(--panel);
 }
-footer p{font-size:12px;color:var(--text3)}
+footer p{font-size:12px;color:var(--text3);word-wrap:break-word}
 footer .f-brand{font-family:'Playfair Display',serif;font-size:14px;color:var(--gold2);font-weight:600}
 
 ::-webkit-scrollbar{width:5px;height:5px}
 ::-webkit-scrollbar-track{background:transparent}
 ::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px}
-
-@media(max-width:768px){
-  #sidebar{transform:translateX(-100%)}
-  #sidebar.open{transform:translateX(0)}
-  #menuBtn{display:flex}
-  #overlay.open{display:block}
-  main{margin-left:0}
-  .topbar{padding:0 60px 0 16px}
-  .content{padding:20px}
-  .hero{padding:28px}
-  .hero h1{font-size:26px}
-  .hero-stats{gap:24px}
-  .hero-stat .val{font-size:24px}
-  .charts-row{grid-template-columns:1fr}
-  .bar-label{width:100px;font-size:11px}
-  footer{padding:20px}
-}
-@media(max-width:480px){
-  .hero h1{font-size:22px}
-  .cards-grid{grid-template-columns:1fr}
-  .tracker-grid{grid-template-columns:1fr 1fr}
-  .equip-grid{grid-template-columns:1fr}
-  .proc-body{grid-template-columns:1fr}
-}
 
 .section{margin-bottom:48px}
 .divider{
@@ -435,13 +443,13 @@ footer .f-brand{font-family:'Playfair Display',serif;font-size:14px;color:var(--
   margin:40px 0;
 }
 .two-col{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:18px}
-@media(max-width:700px){.two-col{grid-template-columns:1fr}}
 
-.tab-bar{display:flex;gap:3px;flex-wrap:wrap;margin-bottom:20px;background:var(--bg3);padding:4px;border-radius:12px;width:fit-content;border:1px solid var(--border)}
+.tab-bar{display:flex;gap:3px;flex-wrap:wrap;margin-bottom:20px;background:var(--bg3);padding:4px;border-radius:12px;width:fit-content;max-width:100%;border:1px solid var(--border)}
 .tab-btn{
   padding:9px 20px;border-radius:9px;border:none;
   background:transparent;color:var(--text3);font-size:13px;
   font-family:'DM Sans',sans-serif;cursor:pointer;transition:all .25s;font-weight:500;
+  white-space:nowrap;
 }
 .tab-btn.active{background:var(--text);color:#fff;font-weight:600;box-shadow:var(--shadow-sm)}
 .tab-btn:not(.active):hover{color:var(--text)}
@@ -457,6 +465,60 @@ body::before{
   background-size:28px 28px;
 }
 main{position:relative;z-index:1}
+
+/* ─── RESPONSIVE ─── */
+@media(max-width:900px){
+  .proc-body{grid-template-columns:1fr}
+  .proc-col{border-right:none !important;border-bottom:1px solid var(--border)}
+  .proc-col:last-child{border-bottom:none}
+}
+
+@media(max-width:768px){
+  #sidebar{transform:translateX(-100%)}
+  #sidebar.open{transform:translateX(0)}
+  #menuBtn{display:flex}
+  #overlay.open{display:block}
+  main{margin-left:0}
+  .topbar{padding:0 16px 0 66px}
+  .content{padding:20px 16px}
+  .hero{padding:28px 24px}
+  .hero h1{font-size:26px}
+  .hero-stats{gap:24px}
+  .hero-stat .val{font-size:24px}
+  .charts-row{grid-template-columns:1fr}
+  .bar-label{width:100px;font-size:11px}
+  .two-col{grid-template-columns:1fr}
+  .tracker-grid{grid-template-columns:1fr 1fr}
+  .equip-grid{grid-template-columns:1fr 1fr}
+  .cards-grid{grid-template-columns:1fr 1fr}
+  footer{padding:20px 16px;flex-direction:column;align-items:flex-start}
+  footer p:last-child{text-align:left}
+  .section-head h2{font-size:20px}
+}
+
+@media(max-width:480px){
+  .hero h1{font-size:22px}
+  .hero p{font-size:14px}
+  .cards-grid{grid-template-columns:1fr}
+  .tracker-grid{grid-template-columns:1fr}
+  .equip-grid{grid-template-columns:1fr}
+  .bar-label{width:80px;font-size:10px}
+  .tab-btn{padding:8px 14px;font-size:12px}
+  .proc-header{padding:20px 18px;gap:14px}
+  .proc-col{padding:18px}
+  .proc-header h3{font-size:17px}
+  .hero-stats{gap:18px}
+  .hero-stat .val{font-size:22px}
+  .hero-tag{font-size:9px;padding:5px 12px}
+}
+
+@media(max-width:360px){
+  .content{padding:14px 10px}
+  .hero{padding:22px 16px}
+  .hero h1{font-size:20px}
+  .bar-label{width:65px;font-size:9.5px}
+  .bar-fill{font-size:9px;padding-right:6px}
+}
 </style>
 </head>
 <body>
@@ -483,7 +545,7 @@ main{position:relative;z-index:1}
       <a class="nav-item" href="#central-lines"><div class="icon">💉</div>Central Lines</a>
       <a class="nav-item" href="#intubation"><div class="icon">🫁</div>Intubation / RSI</a>
       <a class="nav-item" href="#chest-tube"><div class="icon">🩺</div>Chest Tube</a>
-      <a class="nav-item" href="#em-procedures"><div class="icon">⚡</div>Emergency Procedures</a>
+      <a class="nav-item" href="#em-procedures"><div class="icon">⚡</div>Emergency Proc.</a>
     </div>
     <div class="nav-section">
       <div class="nav-label">Reference</div>
@@ -505,7 +567,7 @@ main{position:relative;z-index:1}
     <div class="topbar-title">
       <span>EM Procedures</span>
       <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5"/></svg>
-      <strong>Procedural Skills Checklist</strong>
+      <strong>Skills Checklist</strong>
     </div>
     <div class="topbar-badges">
       <span class="badge teal">Dr. Mehta</span>
@@ -517,7 +579,7 @@ main{position:relative;z-index:1}
     <div class="hero" id="overview">
       <div class="hero-tag">✚ Emergency Medicine · Procedural Reference</div>
       <h1>Procedural Skills<br><span>Mastery Checklist</span></h1>
-      <p>Comprehensive step-by-step protocols for central venous access, rapid sequence intubation, thoracostomy, and critical emergency procedures — with real-time competency tracking.</p>
+      <p>Comprehensive step-by-step protocols for central venous access, rapid sequence intubation, thoracostomy, and critical emergency procedures with real-time competency tracking.</p>
       <div class="hero-stats">
         <div class="hero-stat">
           <label>Procedures</label>
@@ -544,7 +606,7 @@ main{position:relative;z-index:1}
         <p>IJV, Subclavian, Femoral approaches with ultrasound guidance and sterile technique.</p>
         <div class="card-meta">
           <span class="tag red">High Risk</span>
-          <span class="tag blue">Sterile Field</span>
+          <span class="tag blue">Sterile</span>
           <span class="tag gold">US Guided</span>
         </div>
       </div>
@@ -559,7 +621,7 @@ main{position:relative;z-index:1}
       </div>
       <div class="card" onclick="scrollTo('chest-tube')">
         <div class="card-icon" style="background:var(--green-bg)">🩺</div>
-        <h3>Chest Tube / Thoracostomy</h3>
+        <h3>Chest Tube</h3>
         <p>Tube thoracostomy for pneumothorax, hemothorax, and pleural effusion drainage.</p>
         <div class="card-meta">
           <span class="tag warn">Moderate</span>
@@ -584,38 +646,20 @@ main{position:relative;z-index:1}
       <div class="charts-row">
         <div class="chart-card">
           <h4>First-Attempt Success Rates</h4>
-          <p>Ultrasound-guided vs landmark — pooled literature data</p>
+          <p>US-guided vs landmark — pooled literature</p>
           <div class="bar-chart">
-            <div class="bar-row">
-              <span class="bar-label">IJV (US)</span>
-              <div class="bar-track"><div class="bar-fill" style="width:94%;background:linear-gradient(90deg,var(--green),var(--teal));color:#fff">94%</div></div>
-            </div>
-            <div class="bar-row">
-              <span class="bar-label">Subclavian</span>
-              <div class="bar-track"><div class="bar-fill" style="width:88%;background:linear-gradient(90deg,var(--blue),var(--teal));color:#fff">88%</div></div>
-            </div>
-            <div class="bar-row">
-              <span class="bar-label">Femoral (US)</span>
-              <div class="bar-track"><div class="bar-fill" style="width:96%;background:linear-gradient(90deg,var(--green),var(--blue));color:#fff">96%</div></div>
-            </div>
-            <div class="bar-row">
-              <span class="bar-label">RSI 1st pass</span>
-              <div class="bar-track"><div class="bar-fill" style="width:82%;background:linear-gradient(90deg,var(--gold),var(--gold3));color:#fff">82%</div></div>
-            </div>
-            <div class="bar-row">
-              <span class="bar-label">Chest Tube</span>
-              <div class="bar-track"><div class="bar-fill" style="width:90%;background:linear-gradient(90deg,var(--blue),var(--gold));color:#fff">90%</div></div>
-            </div>
-            <div class="bar-row">
-              <span class="bar-label">Needle Decomp</span>
-              <div class="bar-track"><div class="bar-fill" style="width:77%;background:linear-gradient(90deg,var(--red),var(--warn));color:#fff">77%</div></div>
-            </div>
+            <div class="bar-row"><span class="bar-label">IJV (US)</span><div class="bar-track"><div class="bar-fill" style="width:94%;background:linear-gradient(90deg,var(--green),var(--teal));color:#fff">94%</div></div></div>
+            <div class="bar-row"><span class="bar-label">Subclavian</span><div class="bar-track"><div class="bar-fill" style="width:88%;background:linear-gradient(90deg,var(--blue),var(--teal));color:#fff">88%</div></div></div>
+            <div class="bar-row"><span class="bar-label">Femoral (US)</span><div class="bar-track"><div class="bar-fill" style="width:96%;background:linear-gradient(90deg,var(--green),var(--blue));color:#fff">96%</div></div></div>
+            <div class="bar-row"><span class="bar-label">RSI 1st pass</span><div class="bar-track"><div class="bar-fill" style="width:82%;background:linear-gradient(90deg,var(--gold),var(--gold3));color:#fff">82%</div></div></div>
+            <div class="bar-row"><span class="bar-label">Chest Tube</span><div class="bar-track"><div class="bar-fill" style="width:90%;background:linear-gradient(90deg,var(--blue),var(--gold));color:#fff">90%</div></div></div>
+            <div class="bar-row"><span class="bar-label">Needle Decomp</span><div class="bar-track"><div class="bar-fill" style="width:77%;background:linear-gradient(90deg,var(--red),var(--warn));color:#fff">77%</div></div></div>
           </div>
         </div>
 
         <div class="chart-card">
           <h4>CVC Complication Distribution</h4>
-          <p>Breakdown of central line complications across all sites</p>
+          <p>Breakdown across all access sites</p>
           <div class="donut-wrap">
             <svg width="120" height="120" viewBox="0 0 120 120">
               <circle cx="60" cy="60" r="46" fill="none" stroke="#e8ebf0" stroke-width="22"/>
@@ -640,16 +684,10 @@ main{position:relative;z-index:1}
           <h4>RSI Drug Onset Timeline</h4>
           <p>Time to intubating conditions (seconds)</p>
           <div class="line-chart-wrap">
-            <svg viewBox="0 0 300 160" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto">
+            <svg viewBox="0 0 300 160" xmlns="http://www.w3.org/2000/svg">
               <defs>
-                <linearGradient id="gSuc" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0" stop-color="#1a9e70" stop-opacity=".3"/>
-                  <stop offset="1" stop-color="#1a9e70" stop-opacity="0"/>
-                </linearGradient>
-                <linearGradient id="gRoc" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0" stop-color="#2e6fba" stop-opacity=".2"/>
-                  <stop offset="1" stop-color="#2e6fba" stop-opacity="0"/>
-                </linearGradient>
+                <linearGradient id="gSuc" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1a9e70" stop-opacity=".3"/><stop offset="1" stop-color="#1a9e70" stop-opacity="0"/></linearGradient>
+                <linearGradient id="gRoc" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2e6fba" stop-opacity=".2"/><stop offset="1" stop-color="#2e6fba" stop-opacity="0"/></linearGradient>
               </defs>
               <line x1="40" y1="10" x2="40" y2="130" stroke="#e2e5ec" stroke-width="1"/>
               <line x1="40" y1="130" x2="290" y2="130" stroke="#e2e5ec" stroke-width="1"/>
@@ -690,12 +728,10 @@ main{position:relative;z-index:1}
     <div class="divider"></div>
 
     <div id="central-lines" class="section">
-      <div class="section-head">
-        <h2><span class="num">03</span>Central Venous Access</h2>
-      </div>
+      <div class="section-head"><h2><span class="num">03</span>Central Venous Access</h2></div>
       <div class="two-col">
         <div class="diagram-wrap">
-          <svg viewBox="0 0 320 220" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:320px">
+          <svg viewBox="0 0 320 220" xmlns="http://www.w3.org/2000/svg">
             <rect x="0" y="0" width="320" height="220" rx="10" fill="#f6f7fa"/>
             <ellipse cx="160" cy="80" rx="55" ry="75" fill="none" stroke="#d0d4de" stroke-width="1.5" stroke-dasharray="4,3"/>
             <path d="M130 20 C120 50 118 90 125 160" stroke="#2e6fba" stroke-width="8" fill="none" stroke-linecap="round" opacity=".7"/>
@@ -713,30 +749,20 @@ main{position:relative;z-index:1}
             <rect x="75" y="10" width="22" height="10" rx="3" fill="#e8ebf0" stroke="#b8942e" stroke-width="1"/>
             <text x="79" y="18" fill="#b8942e" font-size="7" font-weight="600">US</text>
           </svg>
-          <figcaption>Fig. 1 — IJV Anatomy & Needle Approach (Short-axis)</figcaption>
+          <figcaption>Fig. 1 — IJV Anatomy & Needle Approach</figcaption>
         </div>
         <div class="diagram-wrap">
-          <svg viewBox="0 0 320 220" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:320px">
+          <svg viewBox="0 0 320 220" xmlns="http://www.w3.org/2000/svg">
             <rect x="0" y="0" width="320" height="220" rx="10" fill="#f6f7fa"/>
-            <circle cx="60" cy="50" r="18" fill="#fff" stroke="#b8942e" stroke-width="1.5"/>
-            <text x="60" y="46" text-anchor="middle" fill="#b8942e" font-size="8" font-weight="700">01</text>
-            <text x="60" y="57" text-anchor="middle" fill="#7c8298" font-size="7">Needle</text>
+            <circle cx="60" cy="50" r="18" fill="#fff" stroke="#b8942e" stroke-width="1.5"/><text x="60" y="46" text-anchor="middle" fill="#b8942e" font-size="8" font-weight="700">01</text><text x="60" y="57" text-anchor="middle" fill="#7c8298" font-size="7">Needle</text>
             <line x1="78" y1="50" x2="100" y2="50" stroke="#d0d4de" stroke-width="1.5" stroke-dasharray="3,2"/>
-            <circle cx="118" cy="50" r="18" fill="#fff" stroke="#1a9e70" stroke-width="1.5"/>
-            <text x="118" y="46" text-anchor="middle" fill="#1a9e70" font-size="8" font-weight="700">02</text>
-            <text x="118" y="57" text-anchor="middle" fill="#7c8298" font-size="7">Wire</text>
+            <circle cx="118" cy="50" r="18" fill="#fff" stroke="#1a9e70" stroke-width="1.5"/><text x="118" y="46" text-anchor="middle" fill="#1a9e70" font-size="8" font-weight="700">02</text><text x="118" y="57" text-anchor="middle" fill="#7c8298" font-size="7">Wire</text>
             <line x1="136" y1="50" x2="158" y2="50" stroke="#d0d4de" stroke-width="1.5" stroke-dasharray="3,2"/>
-            <circle cx="176" cy="50" r="18" fill="#fff" stroke="#2e6fba" stroke-width="1.5"/>
-            <text x="176" y="46" text-anchor="middle" fill="#2e6fba" font-size="8" font-weight="700">03</text>
-            <text x="176" y="57" text-anchor="middle" fill="#7c8298" font-size="7">Dilate</text>
+            <circle cx="176" cy="50" r="18" fill="#fff" stroke="#2e6fba" stroke-width="1.5"/><text x="176" y="46" text-anchor="middle" fill="#2e6fba" font-size="8" font-weight="700">03</text><text x="176" y="57" text-anchor="middle" fill="#7c8298" font-size="7">Dilate</text>
             <line x1="194" y1="50" x2="216" y2="50" stroke="#d0d4de" stroke-width="1.5" stroke-dasharray="3,2"/>
-            <circle cx="234" cy="50" r="18" fill="#fff" stroke="#c47e12" stroke-width="1.5"/>
-            <text x="234" y="46" text-anchor="middle" fill="#c47e12" font-size="8" font-weight="700">04</text>
-            <text x="234" y="57" text-anchor="middle" fill="#7c8298" font-size="7">Catheter</text>
+            <circle cx="234" cy="50" r="18" fill="#fff" stroke="#c47e12" stroke-width="1.5"/><text x="234" y="46" text-anchor="middle" fill="#c47e12" font-size="8" font-weight="700">04</text><text x="234" y="57" text-anchor="middle" fill="#7c8298" font-size="7">Catheter</text>
             <line x1="252" y1="50" x2="274" y2="50" stroke="#d0d4de" stroke-width="1.5" stroke-dasharray="3,2"/>
-            <circle cx="292" cy="50" r="18" fill="#fff" stroke="#d6364c" stroke-width="1.5"/>
-            <text x="292" y="46" text-anchor="middle" fill="#d6364c" font-size="8" font-weight="700">05</text>
-            <text x="292" y="57" text-anchor="middle" fill="#7c8298" font-size="7">Confirm</text>
+            <circle cx="292" cy="50" r="18" fill="#fff" stroke="#d6364c" stroke-width="1.5"/><text x="292" y="46" text-anchor="middle" fill="#d6364c" font-size="8" font-weight="700">05</text><text x="292" y="57" text-anchor="middle" fill="#7c8298" font-size="7">Confirm</text>
             <ellipse cx="160" cy="140" rx="60" ry="45" fill="none" stroke="#2e6fba" stroke-width="2" opacity=".4"/>
             <ellipse cx="155" cy="135" rx="14" ry="12" fill="rgba(46,111,186,.08)" stroke="#2e6fba" stroke-width="1.5"/>
             <ellipse cx="185" cy="140" rx="12" ry="11" fill="rgba(214,54,76,.08)" stroke="#d6364c" stroke-width="1.5"/>
@@ -744,7 +770,7 @@ main{position:relative;z-index:1}
             <text x="179" y="143" fill="#d6364c" font-size="8" font-weight="700">A</text>
             <text x="160" y="195" text-anchor="middle" fill="#a5aab8" font-size="9">US Cross-Section: Vein vs Artery</text>
           </svg>
-          <figcaption>Fig. 2 — Seldinger Technique (5 Steps) & US Identification</figcaption>
+          <figcaption>Fig. 2 — Seldinger Technique & US ID</figcaption>
         </div>
       </div>
 
@@ -758,9 +784,9 @@ main{position:relative;z-index:1}
         <div class="proc-panel">
           <div class="proc-header">
             <div class="proc-header-icon" style="background:var(--red-bg)">💉</div>
-            <div>
-              <h3>Internal Jugular Vein — CVC Insertion</h3>
-              <p>Right IJV preferred · Ultrasound guidance mandatory · Trendelenburg position</p>
+            <div class="proc-header-text">
+              <h3>Internal Jugular Vein — CVC</h3>
+              <p>Right IJV preferred · US guidance mandatory · Trendelenburg</p>
               <div class="tags"><span class="tag red">High Risk</span><span class="tag gold">US Guided</span><span class="tag blue">Seldinger</span></div>
             </div>
           </div>
@@ -777,21 +803,21 @@ main{position:relative;z-index:1}
                 <li onclick="toggleCheck(this)"><div class="check-box"></div><div class="check-text">Apply cardiac monitor, pulse oximetry</div></li>
                 <li onclick="toggleCheck(this)"><div class="check-box"></div><div class="check-text">Perform surgical hand scrub (chlorhexidine)</div></li>
                 <li onclick="toggleCheck(this)"><div class="check-box"></div><div class="check-text">Don sterile gown, gloves, mask, cap</div></li>
-                <li onclick="toggleCheck(this)"><div class="check-box"></div><div class="check-text">Prepare & drape sterile field (max barrier precautions)</div></li>
+                <li onclick="toggleCheck(this)"><div class="check-box"></div><div class="check-text">Prepare & drape sterile field (max barrier)</div></li>
                 <li onclick="toggleCheck(this)"><div class="check-box"></div><div class="check-text">Flush all catheter lumens with normal saline</div></li>
               </ul>
             </div>
             <div class="proc-col">
               <h4>Step-by-Step Procedure</h4>
               <ul class="checklist">
-                <li onclick="toggleCheck(this)"><div class="step-num">01</div><div class="step-text"><strong>Ultrasound Identification</strong><span>Identify IJV in transverse — compressible, lateral to carotid</span></div></li>
-                <li onclick="toggleCheck(this)"><div class="step-num">02</div><div class="step-text"><strong>Skin Puncture</strong><span>18G needle at 45° angle, continuous aspiration of dark blood</span></div></li>
-                <li onclick="toggleCheck(this)"><div class="step-num">03</div><div class="step-text"><strong>Confirm Venous Access</strong><span>US visualize needle tip in vein lumen; blood should flow freely</span></div></li>
-                <li onclick="toggleCheck(this)"><div class="step-num">04</div><div class="step-text"><strong>Insert Guidewire</strong><span>J-tip wire through needle, advance 15–20 cm, monitor for dysrhythmia</span></div></li>
-                <li onclick="toggleCheck(this)"><div class="step-num">05</div><div class="step-text"><strong>Nick Skin & Dilate</strong><span>Small scalpel nick, insert dilator over wire with twisting motion</span></div></li>
-                <li onclick="toggleCheck(this)"><div class="step-num">06</div><div class="step-text"><strong>Advance Catheter</strong><span>Triple-lumen catheter to 15–17 cm (right) / 17–19 cm (left)</span></div></li>
+                <li onclick="toggleCheck(this)"><div class="step-num">01</div><div class="step-text"><strong>US Identification</strong><span>Identify IJV in transverse — compressible, lateral to carotid</span></div></li>
+                <li onclick="toggleCheck(this)"><div class="step-num">02</div><div class="step-text"><strong>Skin Puncture</strong><span>18G needle at 45°, continuous aspiration of dark blood</span></div></li>
+                <li onclick="toggleCheck(this)"><div class="step-num">03</div><div class="step-text"><strong>Confirm Venous Access</strong><span>US visualize needle tip in vein lumen; free blood flow</span></div></li>
+                <li onclick="toggleCheck(this)"><div class="step-num">04</div><div class="step-text"><strong>Insert Guidewire</strong><span>J-tip wire, advance 15–20 cm, monitor for dysrhythmia</span></div></li>
+                <li onclick="toggleCheck(this)"><div class="step-num">05</div><div class="step-text"><strong>Nick Skin & Dilate</strong><span>Scalpel nick, insert dilator over wire with twisting</span></div></li>
+                <li onclick="toggleCheck(this)"><div class="step-num">06</div><div class="step-text"><strong>Advance Catheter</strong><span>Triple-lumen to 15–17 cm (R) / 17–19 cm (L)</span></div></li>
                 <li onclick="toggleCheck(this)"><div class="step-num">07</div><div class="step-text"><strong>Confirm Blood Return</strong><span>Aspirate from all lumens; flush and cap</span></div></li>
-                <li onclick="toggleCheck(this)"><div class="step-num">08</div><div class="step-text"><strong>Secure & Dress</strong><span>Suture to skin × 2 sites, apply occlusive dressing</span></div></li>
+                <li onclick="toggleCheck(this)"><div class="step-num">08</div><div class="step-text"><strong>Secure & Dress</strong><span>Suture × 2 sites, apply occlusive dressing</span></div></li>
                 <li onclick="toggleCheck(this)"><div class="step-num">09</div><div class="step-text"><strong>Post-Procedure CXR</strong><span>Confirm tip at SVC/RA junction; rule out pneumothorax</span></div></li>
               </ul>
             </div>
@@ -803,16 +829,16 @@ main{position:relative;z-index:1}
         <div class="proc-panel">
           <div class="proc-header">
             <div class="proc-header-icon" style="background:var(--blue-bg)">💉</div>
-            <div>
-              <h3>Subclavian Vein — CVC Insertion</h3>
-              <p>Infraclavicular approach · Lower infection risk · Higher pneumothorax risk</p>
+            <div class="proc-header-text">
+              <h3>Subclavian Vein — CVC</h3>
+              <p>Infraclavicular · Lower infection risk · Higher pneumothorax risk</p>
               <div class="tags"><span class="tag warn">Pneumo Risk</span><span class="tag green">Low CLABSI</span><span class="tag blue">Infraclavicular</span></div>
             </div>
           </div>
           <div class="proc-body">
             <div class="proc-col">
               <h4>Key Anatomical Landmarks</h4>
-              <div class="alert-box danger"><div class="icon">🚨</div><div>Highest pneumothorax risk (~3%). Contraindicated if ipsilateral lung pathology. Avoid in severe coagulopathy.</div></div>
+              <div class="alert-box danger"><div class="icon">🚨</div><div>Highest pneumothorax risk (~3%). Avoid if ipsilateral lung pathology or severe coagulopathy.</div></div>
               <ul class="checklist">
                 <li onclick="toggleCheck(this)"><div class="check-box"></div><div class="check-text">Clavicle junction at medial/middle third (1 cm below)</div></li>
                 <li onclick="toggleCheck(this)"><div class="check-box"></div><div class="check-text">Suprasternal notch as target landmark (medial)</div></li>
@@ -824,10 +850,10 @@ main{position:relative;z-index:1}
               <ul class="checklist">
                 <li onclick="toggleCheck(this)"><div class="step-num">01</div><div class="step-text"><strong>Position & Prep</strong><span>Supine, roll between scapulae, ipsilateral arm down</span></div></li>
                 <li onclick="toggleCheck(this)"><div class="step-num">02</div><div class="step-text"><strong>Puncture Point</strong><span>1 cm below clavicle at medial/middle third junction</span></div></li>
-                <li onclick="toggleCheck(this)"><div class="step-num">03</div><div class="step-text"><strong>Advance Needle</strong><span>Aim toward suprasternal notch, hugging clavicle undersurface</span></div></li>
-                <li onclick="toggleCheck(this)"><div class="step-num">04</div><div class="step-text"><strong>Blood Aspiration</strong><span>Non-pulsatile, dark venous blood confirms subclavian vein</span></div></li>
+                <li onclick="toggleCheck(this)"><div class="step-num">03</div><div class="step-text"><strong>Advance Needle</strong><span>Aim toward suprasternal notch, hugging clavicle</span></div></li>
+                <li onclick="toggleCheck(this)"><div class="step-num">04</div><div class="step-text"><strong>Blood Aspiration</strong><span>Non-pulsatile, dark venous blood confirms vein</span></div></li>
                 <li onclick="toggleCheck(this)"><div class="step-num">05</div><div class="step-text"><strong>Seldinger</strong><span>Guidewire → dilator → catheter (17–19 cm)</span></div></li>
-                <li onclick="toggleCheck(this)"><div class="step-num">06</div><div class="step-text"><strong>Post-CXR</strong><span>Mandatory — confirm placement & rule out pneumothorax</span></div></li>
+                <li onclick="toggleCheck(this)"><div class="step-num">06</div><div class="step-text"><strong>Post-CXR</strong><span>Mandatory — confirm placement, rule out pneumothorax</span></div></li>
               </ul>
             </div>
             <div class="proc-col">
@@ -855,31 +881,31 @@ main{position:relative;z-index:1}
         <div class="proc-panel">
           <div class="proc-header">
             <div class="proc-header-icon" style="background:var(--green-bg)">💉</div>
-            <div>
-              <h3>Femoral Vein — CVC Insertion</h3>
-              <p>Groin access · Easiest landmark technique · Higher infection/DVT risk</p>
-              <div class="tags"><span class="tag warn">DVT Risk</span><span class="tag green">No Pneumo Risk</span><span class="tag blue">Landmark</span></div>
+            <div class="proc-header-text">
+              <h3>Femoral Vein — CVC</h3>
+              <p>Groin access · Easiest landmark · Higher infection/DVT risk</p>
+              <div class="tags"><span class="tag warn">DVT Risk</span><span class="tag green">No Pneumo</span><span class="tag blue">Landmark</span></div>
             </div>
           </div>
           <div class="proc-body">
             <div class="proc-col">
-              <h4>Anatomical Mnemonic: NAVEL</h4>
-              <div class="alert-box info"><div class="icon">ℹ️</div><div><strong>NAVEL (lateral to medial):</strong> Nerve · Artery · Vein · Empty space · Lymphatics. Target the femoral vein (just medial to artery).</div></div>
+              <h4>Mnemonic: NAVEL</h4>
+              <div class="alert-box info"><div class="icon">ℹ️</div><div><strong>NAVEL (lat→med):</strong> Nerve · Artery · Vein · Empty space · Lymphatics. Target vein (1 cm medial to artery pulse).</div></div>
               <ul class="checklist">
                 <li onclick="toggleCheck(this)"><div class="step-num">01</div><div class="step-text"><strong>Position</strong><span>Supine, hip slightly abducted and externally rotated</span></div></li>
-                <li onclick="toggleCheck(this)"><div class="step-num">02</div><div class="step-text"><strong>Landmark</strong><span>Palpate femoral artery pulse 2 cm below inguinal ligament; vein is 1 cm medial</span></div></li>
+                <li onclick="toggleCheck(this)"><div class="step-num">02</div><div class="step-text"><strong>Landmark</strong><span>Palpate femoral artery pulse 2 cm below inguinal ligament</span></div></li>
                 <li onclick="toggleCheck(this)"><div class="step-num">03</div><div class="step-text"><strong>Needle Entry</strong><span>45° angle, medial to pulse; advance until blood aspiration</span></div></li>
                 <li onclick="toggleCheck(this)"><div class="step-num">04</div><div class="step-text"><strong>Seldinger</strong><span>Insert guidewire, dilate, advance catheter 20–25 cm</span></div></li>
-                <li onclick="toggleCheck(this)"><div class="step-num">05</div><div class="step-text"><strong>Confirm & Secure</strong><span>Aspirate all lumens; secure with sutures; sterile dressing</span></div></li>
-                <li onclick="toggleCheck(this)"><div class="step-num">06</div><div class="step-text"><strong>Post-Procedure</strong><span>Document; plan early removal or conversion to upper body access</span></div></li>
+                <li onclick="toggleCheck(this)"><div class="step-num">05</div><div class="step-text"><strong>Confirm & Secure</strong><span>Aspirate all lumens; suture; sterile dressing</span></div></li>
+                <li onclick="toggleCheck(this)"><div class="step-num">06</div><div class="step-text"><strong>Post-Procedure</strong><span>Document; plan early removal or upper body conversion</span></div></li>
               </ul>
             </div>
             <div class="proc-col">
               <h4>Femoral vs IJV Comparison</h4>
-              <div style="overflow-x:auto"><table class="data-table">
+              <div class="data-table-wrap"><table class="data-table">
                 <thead><tr><th>Parameter</th><th>Femoral</th><th>IJV</th></tr></thead>
                 <tbody>
-                  <tr><td>Pneumothorax Risk</td><td><span class="status-dot low">None</span></td><td><span class="status-dot low">Low</span></td></tr>
+                  <tr><td>Pneumothorax</td><td><span class="status-dot low">None</span></td><td><span class="status-dot low">Low</span></td></tr>
                   <tr><td>Infection Rate</td><td><span class="status-dot critical">Highest</span></td><td><span class="status-dot moderate">Moderate</span></td></tr>
                   <tr><td>DVT Risk</td><td><span class="status-dot critical">High</span></td><td><span class="status-dot low">Low</span></td></tr>
                   <tr><td>CPR Compatible</td><td><span class="status-dot low">Yes</span></td><td><span class="status-dot critical">No</span></td></tr>
@@ -895,12 +921,10 @@ main{position:relative;z-index:1}
     <div class="divider"></div>
 
     <div id="intubation" class="section">
-      <div class="section-head">
-        <h2><span class="num">04</span>Rapid Sequence Intubation (RSI)</h2>
-      </div>
+      <div class="section-head"><h2><span class="num">04</span>Rapid Sequence Intubation</h2></div>
       <div class="two-col">
         <div class="diagram-wrap">
-          <svg viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:300px">
+          <svg viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg">
             <rect x="0" y="0" width="300" height="200" rx="10" fill="#f6f7fa"/>
             <ellipse cx="150" cy="60" rx="55" ry="50" fill="none" stroke="#d0d4de" stroke-width="1.5"/>
             <path d="M130 40 L130 75 L145 80" stroke="#2e6fba" stroke-width="1.5" fill="none"/>
@@ -921,53 +945,46 @@ main{position:relative;z-index:1}
           <figcaption>Fig. 3 — Airway Anatomy & ETT Path</figcaption>
         </div>
         <div class="diagram-wrap">
-          <svg viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:300px">
+          <svg viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg">
             <rect x="0" y="0" width="300" height="200" rx="10" fill="#f6f7fa"/>
             <text x="150" y="20" text-anchor="middle" fill="#b8942e" font-family="Playfair Display" font-size="11" font-weight="bold">The 7 Ps of RSI</text>
-            <rect x="10" y="28" width="125" height="22" rx="6" fill="#fff" stroke="#e2e5ec" stroke-width="1"/>
-            <text x="73" y="43" text-anchor="middle" fill="#2e6fba" font-size="9"><tspan font-weight="700">P1:</tspan> Preparation</text>
-            <rect x="145" y="28" width="145" height="22" rx="6" fill="#fff" stroke="#e2e5ec" stroke-width="1"/>
-            <text x="218" y="43" text-anchor="middle" fill="#2e6fba" font-size="9"><tspan font-weight="700">P2:</tspan> Preoxygenation</text>
-            <rect x="10" y="56" width="125" height="22" rx="6" fill="#fff" stroke="#e2e5ec" stroke-width="1"/>
-            <text x="73" y="71" text-anchor="middle" fill="#1a9e70" font-size="9"><tspan font-weight="700">P3:</tspan> Pretreatment</text>
-            <rect x="145" y="56" width="145" height="22" rx="6" fill="#fff" stroke="#e2e5ec" stroke-width="1"/>
-            <text x="218" y="71" text-anchor="middle" fill="#1a9e70" font-size="9"><tspan font-weight="700">P4:</tspan> Paralysis + Induction</text>
-            <rect x="10" y="84" width="125" height="22" rx="6" fill="#fff" stroke="#e2e5ec" stroke-width="1"/>
-            <text x="73" y="99" text-anchor="middle" fill="#c47e12" font-size="9"><tspan font-weight="700">P5:</tspan> Protection</text>
-            <rect x="145" y="84" width="145" height="22" rx="6" fill="#fff" stroke="#e2e5ec" stroke-width="1"/>
-            <text x="218" y="99" text-anchor="middle" fill="#c47e12" font-size="9"><tspan font-weight="700">P6:</tspan> Placement</text>
-            <rect x="10" y="112" width="280" height="22" rx="6" fill="#fff" stroke="#b8942e" stroke-width="1"/>
-            <text x="150" y="127" text-anchor="middle" fill="#b8942e" font-size="9"><tspan font-weight="700">P7:</tspan> Post-intubation management</text>
-            <rect x="10" y="144" width="280" height="50" rx="8" fill="#f0f2f6" stroke="#e2e5ec" stroke-width="1"/>
+            <rect x="10" y="28" width="125" height="22" rx="6" fill="#fff" stroke="#e2e5ec"/><text x="73" y="43" text-anchor="middle" fill="#2e6fba" font-size="9"><tspan font-weight="700">P1:</tspan> Preparation</text>
+            <rect x="145" y="28" width="145" height="22" rx="6" fill="#fff" stroke="#e2e5ec"/><text x="218" y="43" text-anchor="middle" fill="#2e6fba" font-size="9"><tspan font-weight="700">P2:</tspan> Preoxygenation</text>
+            <rect x="10" y="56" width="125" height="22" rx="6" fill="#fff" stroke="#e2e5ec"/><text x="73" y="71" text-anchor="middle" fill="#1a9e70" font-size="9"><tspan font-weight="700">P3:</tspan> Pretreatment</text>
+            <rect x="145" y="56" width="145" height="22" rx="6" fill="#fff" stroke="#e2e5ec"/><text x="218" y="71" text-anchor="middle" fill="#1a9e70" font-size="9"><tspan font-weight="700">P4:</tspan> Paralysis + Induction</text>
+            <rect x="10" y="84" width="125" height="22" rx="6" fill="#fff" stroke="#e2e5ec"/><text x="73" y="99" text-anchor="middle" fill="#c47e12" font-size="9"><tspan font-weight="700">P5:</tspan> Protection</text>
+            <rect x="145" y="84" width="145" height="22" rx="6" fill="#fff" stroke="#e2e5ec"/><text x="218" y="99" text-anchor="middle" fill="#c47e12" font-size="9"><tspan font-weight="700">P6:</tspan> Placement</text>
+            <rect x="10" y="112" width="280" height="22" rx="6" fill="#fff" stroke="#b8942e"/><text x="150" y="127" text-anchor="middle" fill="#b8942e" font-size="9"><tspan font-weight="700">P7:</tspan> Post-intubation management</text>
+            <rect x="10" y="144" width="280" height="50" rx="8" fill="#f0f2f6" stroke="#e2e5ec"/>
             <text x="150" y="158" text-anchor="middle" fill="#7c8298" font-size="8" font-weight="700">INDUCTION AGENTS</text>
             <text x="30" y="172" fill="#1a9e70" font-size="8" font-weight="600">Ketamine 1.5 mg/kg IV</text>
             <text x="30" y="184" fill="#2e6fba" font-size="8" font-weight="600">Etomidate 0.3 mg/kg IV</text>
             <text x="175" y="172" fill="#c47e12" font-size="8" font-weight="600">Succinylcholine 1.5 mg/kg</text>
             <text x="175" y="184" fill="#b8942e" font-size="8" font-weight="600">Rocuronium 1.2 mg/kg</text>
           </svg>
-          <figcaption>Fig. 4 — RSI 7 Ps Framework & Drug Dosing</figcaption>
+          <figcaption>Fig. 4 — RSI 7 Ps & Drug Dosing</figcaption>
         </div>
       </div>
       <div class="proc-panel">
         <div class="proc-header">
           <div class="proc-header-icon" style="background:var(--blue-bg)">🫁</div>
-          <div>
+          <div class="proc-header-text">
             <h3>RSI — Step-by-Step Protocol</h3>
             <p>Apneic oxygenation · Video laryngoscopy preferred · ETCO₂ mandatory</p>
-            <div class="tags"><span class="tag red">Critical Skill</span><span class="tag blue">RSI</span><span class="tag gold">ETCO₂ Required</span></div>
+            <div class="tags"><span class="tag red">Critical Skill</span><span class="tag blue">RSI</span><span class="tag gold">ETCO₂</span></div>
           </div>
         </div>
         <div class="proc-body">
           <div class="proc-col">
-            <h4>Pre-Intubation Prep (SOAP-ME)</h4>
-            <div class="alert-box success"><div class="icon">✅</div><div><strong>SOAP-ME:</strong> Suction · Oxygen · Airway Equipment · Pharmacy (drugs) · Monitoring · End-tidal CO₂</div></div>
+            <h4>Pre-Intubation (SOAP-ME)</h4>
+            <div class="alert-box success"><div class="icon">✅</div><div><strong>SOAP-ME:</strong> Suction · Oxygen · Airway Equipment · Pharmacy · Monitoring · End-tidal CO₂</div></div>
             <ul class="checklist">
               <li onclick="toggleCheck(this)"><div class="check-box"></div><div class="check-text">Assess airway: LEMON score (Look, Evaluate 3-3-2, Mallampati, Obstruction, Neck)</div></li>
               <li onclick="toggleCheck(this)"><div class="check-box"></div><div class="check-text">Establish IV access × 2 (large bore preferred)</div></li>
               <li onclick="toggleCheck(this)"><div class="check-box"></div><div class="check-text">Attach full monitoring: SpO₂, ECG, BP, ETCO₂</div></li>
               <li onclick="toggleCheck(this)"><div class="check-box"></div><div class="check-text">Pre-oxygenate: NRB mask 15 L/min × 3 min (SpO₂ ≥95%)</div></li>
               <li onclick="toggleCheck(this)"><div class="check-box"></div><div class="check-text">Position: "Sniffing" or ramped (obese/pregnant)</div></li>
-              <li onclick="toggleCheck(this)"><div class="check-box"></div><div class="check-text">Prepare: Video laryngoscope + direct laryngoscope backup</div></li>
+              <li onclick="toggleCheck(this)"><div class="check-box"></div><div class="check-text">Prepare: Video laryngoscope + direct backup</div></li>
               <li onclick="toggleCheck(this)"><div class="check-box"></div><div class="check-text">Prepare: ETT 7.0 cuffed, syringe 10 mL, stylet</div></li>
               <li onclick="toggleCheck(this)"><div class="check-box"></div><div class="check-text">Prepare: BVM + suction catheter (Yankauer)</div></li>
               <li onclick="toggleCheck(this)"><div class="check-box"></div><div class="check-text">Drug dosing calculated & drawn up</div></li>
@@ -977,17 +994,17 @@ main{position:relative;z-index:1}
           <div class="proc-col">
             <h4>Intubation Sequence</h4>
             <ul class="checklist">
-              <li onclick="toggleCheck(this)"><div class="step-num">01</div><div class="step-text"><strong>Give Induction Agent</strong><span>Ketamine 1.5 mg/kg IV OR Etomidate 0.3 mg/kg IV (rapid push)</span></div></li>
-              <li onclick="toggleCheck(this)"><div class="step-num">02</div><div class="step-text"><strong>Apply Cricoid Pressure</strong><span>Sellick manoeuvre — applied at loss of consciousness (controversial)</span></div></li>
-              <li onclick="toggleCheck(this)"><div class="step-num">03</div><div class="step-text"><strong>Give Paralytic</strong><span>Succinylcholine 1.5 mg/kg OR Rocuronium 1.2 mg/kg IV</span></div></li>
-              <li onclick="toggleCheck(this)"><div class="step-num">04</div><div class="step-text"><strong>Apneic Oxygenation</strong><span>15 L/min nasal cannula during apnoea; do NOT ventilate</span></div></li>
-              <li onclick="toggleCheck(this)"><div class="step-num">05</div><div class="step-text"><strong>Direct/Video Laryngoscopy</strong><span>Lift at 45°, visualize cords — Grade I or II Cormack-Lehane</span></div></li>
-              <li onclick="toggleCheck(this)"><div class="step-num">06</div><div class="step-text"><strong>Pass ETT</strong><span>Advance cuff 2–3 cm past cords; remove stylet; inflate cuff 5–10 mL</span></div></li>
-              <li onclick="toggleCheck(this)"><div class="step-num">07</div><div class="step-text"><strong>Confirm Placement</strong><span>ETCO₂ waveform + bilateral breath sounds + CXR (22–24 cm at lip)</span></div></li>
-              <li onclick="toggleCheck(this)"><div class="step-num">08</div><div class="step-text"><strong>Secure ETT</strong><span>Tape or commercial holder; recheck position</span></div></li>
-              <li onclick="toggleCheck(this)"><div class="step-num">09</div><div class="step-text"><strong>Post-Intubation Sedation</strong><span>Propofol or Midazolam + analgesic (Fentanyl) infusion</span></div></li>
+              <li onclick="toggleCheck(this)"><div class="step-num">01</div><div class="step-text"><strong>Induction Agent</strong><span>Ketamine 1.5 mg/kg OR Etomidate 0.3 mg/kg IV</span></div></li>
+              <li onclick="toggleCheck(this)"><div class="step-num">02</div><div class="step-text"><strong>Cricoid Pressure</strong><span>Sellick manoeuvre at loss of consciousness</span></div></li>
+              <li onclick="toggleCheck(this)"><div class="step-num">03</div><div class="step-text"><strong>Paralytic</strong><span>Succinylcholine 1.5 mg/kg OR Rocuronium 1.2 mg/kg IV</span></div></li>
+              <li onclick="toggleCheck(this)"><div class="step-num">04</div><div class="step-text"><strong>Apneic Oxygenation</strong><span>15 L/min nasal cannula; do NOT ventilate</span></div></li>
+              <li onclick="toggleCheck(this)"><div class="step-num">05</div><div class="step-text"><strong>Laryngoscopy</strong><span>Lift at 45°, visualize cords — Grade I/II</span></div></li>
+              <li onclick="toggleCheck(this)"><div class="step-num">06</div><div class="step-text"><strong>Pass ETT</strong><span>Cuff 2–3 cm past cords; remove stylet; inflate 5–10 mL</span></div></li>
+              <li onclick="toggleCheck(this)"><div class="step-num">07</div><div class="step-text"><strong>Confirm Placement</strong><span>ETCO₂ waveform + bilateral BS + CXR</span></div></li>
+              <li onclick="toggleCheck(this)"><div class="step-num">08</div><div class="step-text"><strong>Secure ETT</strong><span>Tape or holder; recheck position</span></div></li>
+              <li onclick="toggleCheck(this)"><div class="step-num">09</div><div class="step-text"><strong>Post-Intubation</strong><span>Propofol/Midazolam + Fentanyl infusion</span></div></li>
             </ul>
-            <div class="alert-box danger"><div class="icon">🚨</div><div><strong>Failed Airway (3 attempts):</strong> Call for help → Supraglottic airway device (iGel/LMA) → Surgical airway (cricothyrotomy)</div></div>
+            <div class="alert-box danger"><div class="icon">🚨</div><div><strong>Failed Airway (3 attempts):</strong> Call help → SGA (iGel/LMA) → Surgical airway (cricothyrotomy)</div></div>
           </div>
         </div>
       </div>
@@ -996,20 +1013,18 @@ main{position:relative;z-index:1}
     <div class="divider"></div>
 
     <div id="chest-tube" class="section">
-      <div class="section-head">
-        <h2><span class="num">05</span>Chest Tube / Tube Thoracostomy</h2>
-      </div>
+      <div class="section-head"><h2><span class="num">05</span>Chest Tube / Thoracostomy</h2></div>
       <div class="two-col">
         <div class="diagram-wrap">
-          <svg viewBox="0 0 300 220" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:300px">
+          <svg viewBox="0 0 300 220" xmlns="http://www.w3.org/2000/svg">
             <rect x="0" y="0" width="300" height="220" rx="10" fill="#f6f7fa"/>
             <path d="M60 20 C55 40 50 80 55 150 C58 180 90 200 150 205 C210 200 242 180 245 150 C250 80 245 40 240 20 Z" fill="none" stroke="#d0d4de" stroke-width="1.5"/>
-            <path d="M75 60 C100 55 200 55 225 60" stroke="#a5aab8" stroke-width="1.5" fill="none" opacity=".4" stroke-linecap="round"/>
-            <path d="M70 85 C100 78 200 78 230 85" stroke="#a5aab8" stroke-width="1.5" fill="none" opacity=".4" stroke-linecap="round"/>
-            <path d="M68 110 C100 102 200 102 232 110" stroke="#a5aab8" stroke-width="1.5" fill="none" opacity=".4" stroke-linecap="round"/>
-            <path d="M68 136 C100 128 200 128 232 136" stroke="#a5aab8" stroke-width="1.5" fill="none" opacity=".4" stroke-linecap="round"/>
-            <path d="M80 30 C75 60 75 100 82 145 C90 165 115 175 148 178 C148 178 148 30 148 30 Z" fill="rgba(46,111,186,.06)" stroke="#2e6fba" stroke-width="1"/>
-            <path d="M220 30 C225 60 225 100 218 145 C210 165 185 175 152 178 C152 178 152 30 152 30 Z" fill="rgba(46,111,186,.06)" stroke="#2e6fba" stroke-width="1"/>
+            <path d="M75 60 C100 55 200 55 225 60" stroke="#a5aab8" stroke-width="1.5" fill="none" opacity=".4"/>
+            <path d="M70 85 C100 78 200 78 230 85" stroke="#a5aab8" stroke-width="1.5" fill="none" opacity=".4"/>
+            <path d="M68 110 C100 102 200 102 232 110" stroke="#a5aab8" stroke-width="1.5" fill="none" opacity=".4"/>
+            <path d="M68 136 C100 128 200 128 232 136" stroke="#a5aab8" stroke-width="1.5" fill="none" opacity=".4"/>
+            <path d="M80 30 C75 60 75 100 82 145 C90 165 115 175 148 178 L148 30 Z" fill="rgba(46,111,186,.06)" stroke="#2e6fba" stroke-width="1"/>
+            <path d="M220 30 C225 60 225 100 218 145 C210 165 185 175 152 178 L152 30 Z" fill="rgba(46,111,186,.06)" stroke="#2e6fba" stroke-width="1"/>
             <path d="M245 95 C235 93 215 95 200 100" stroke="#b8942e" stroke-width="4" fill="none" stroke-linecap="round"/>
             <circle cx="248" cy="95" r="5" fill="#b8942e" opacity=".6"/>
             <polygon points="200,70 230,70 230,130 200,130" fill="rgba(26,158,112,.06)" stroke="#1a9e70" stroke-width="1" stroke-dasharray="3,3"/>
@@ -1017,31 +1032,29 @@ main{position:relative;z-index:1}
             <text x="201" y="112" fill="#1a9e70" font-size="8" font-weight="600">Triangle</text>
             <text x="90" y="100" fill="#2e6fba" font-size="9" font-weight="500">Left Lung</text>
             <text x="165" y="100" fill="#2e6fba" font-size="9" font-weight="500">Right</text>
-            <text x="165" y="110" fill="#2e6fba" font-size="9" font-weight="500">Lung</text>
+            <text x="165" y="112" fill="#2e6fba" font-size="9" font-weight="500">Lung</text>
             <text x="250" y="90" fill="#b8942e" font-size="8" font-weight="600">Tube</text>
             <text x="50" y="138" fill="#7c8298" font-size="7.5">5th ICS</text>
-            <line x1="233" y1="20" x2="245" y2="170" stroke="#c47e12" stroke-width="1" stroke-dasharray="4,3" opacity=".4"/>
-            <text x="248" y="50" fill="#c47e12" font-size="7" font-weight="600">MAL</text>
           </svg>
-          <figcaption>Fig. 5 — Safe Triangle & Tube Position (5th ICS, MAL)</figcaption>
+          <figcaption>Fig. 5 — Safe Triangle (5th ICS, MAL)</figcaption>
         </div>
         <div class="chart-card">
-          <h4>Tube Size Selection Guide</h4>
+          <h4>Tube Size Selection</h4>
           <p>French size by indication</p>
           <div class="bar-chart" style="margin-top:8px">
-            <div class="bar-row"><span class="bar-label">Spontaneous PTX</span><div class="bar-track"><div class="bar-fill" style="width:30%;background:linear-gradient(90deg,#1a9e70,#2e6fba);color:#fff;font-size:9px">14–20F</div></div></div>
-            <div class="bar-row"><span class="bar-label">Traumatic PTX</span><div class="bar-track"><div class="bar-fill" style="width:55%;background:linear-gradient(90deg,#2e6fba,#b8942e);color:#fff">28–32F</div></div></div>
+            <div class="bar-row"><span class="bar-label">Spont. PTX</span><div class="bar-track"><div class="bar-fill" style="width:30%;background:linear-gradient(90deg,#1a9e70,#2e6fba);color:#fff;font-size:9px">14–20F</div></div></div>
+            <div class="bar-row"><span class="bar-label">Trauma PTX</span><div class="bar-track"><div class="bar-fill" style="width:55%;background:linear-gradient(90deg,#2e6fba,#b8942e);color:#fff">28–32F</div></div></div>
             <div class="bar-row"><span class="bar-label">Hemothorax</span><div class="bar-track"><div class="bar-fill" style="width:75%;background:linear-gradient(90deg,#c47e12,#d6364c);color:#fff">32–40F</div></div></div>
-            <div class="bar-row"><span class="bar-label">Pleural Effusion</span><div class="bar-track"><div class="bar-fill" style="width:40%;background:linear-gradient(90deg,#1a9e70,#1a9e70);color:#fff">12–24F</div></div></div>
+            <div class="bar-row"><span class="bar-label">Effusion</span><div class="bar-track"><div class="bar-fill" style="width:40%;background:linear-gradient(90deg,#1a9e70,#1a9e70);color:#fff">12–24F</div></div></div>
           </div><br>
-          <h4 style="font-size:12px;color:var(--text3);text-transform:uppercase;letter-spacing:1px;font-weight:700">Insertion Landmarks</h4>
-          <div style="overflow-x:auto"><table class="data-table" style="font-size:12px;margin:8px 0 0">
+          <h4 style="font-size:12px;color:var(--text3);text-transform:uppercase;letter-spacing:1px;font-weight:700">Landmarks</h4>
+          <div class="data-table-wrap" style="margin-top:8px"><table class="data-table" style="min-width:auto">
             <thead><tr><th>Site</th><th>Position</th></tr></thead>
             <tbody>
-              <tr><td>Safe Triangle</td><td>4th–5th ICS, mid-axillary line, anterior axillary line</td></tr>
-              <tr><td>Borders</td><td>Lat. edge of pec major · Ant. border of lat dorsi · 5th ICS base</td></tr>
-              <tr><td>Direction PTX</td><td>Anterior, apex</td></tr>
-              <tr><td>Direction Effusion</td><td>Posterior, inferior</td></tr>
+              <tr><td>Safe Triangle</td><td>4th–5th ICS, mid-axillary line</td></tr>
+              <tr><td>Borders</td><td>Pec major · Lat dorsi · 5th ICS</td></tr>
+              <tr><td>PTX direction</td><td>Anterior, apex</td></tr>
+              <tr><td>Effusion dir.</td><td>Posterior, inferior</td></tr>
             </tbody>
           </table></div>
         </div>
@@ -1049,9 +1062,9 @@ main{position:relative;z-index:1}
       <div class="proc-panel">
         <div class="proc-header">
           <div class="proc-header-icon" style="background:var(--green-bg)">🩺</div>
-          <div>
-            <h3>Tube Thoracostomy — Procedure Steps</h3>
-            <p>Open technique · Safe triangle · Blunt dissection over rib superior border</p>
+          <div class="proc-header-text">
+            <h3>Tube Thoracostomy Steps</h3>
+            <p>Open technique · Safe triangle · Blunt dissection over rib</p>
             <div class="tags"><span class="tag warn">Sterile</span><span class="tag green">Blunt Dissection</span></div>
           </div>
         </div>
@@ -1062,7 +1075,7 @@ main{position:relative;z-index:1}
               <div class="equip-item" onclick="toggleEquip(this)"><div class="e-box"></div>Chest tube tray</div>
               <div class="equip-item" onclick="toggleEquip(this)"><div class="e-box"></div>Appropriate tube size</div>
               <div class="equip-item" onclick="toggleEquip(this)"><div class="e-box"></div>Underwater seal drain</div>
-              <div class="equip-item" onclick="toggleEquip(this)"><div class="e-box"></div>Large curved Kelly clamp</div>
+              <div class="equip-item" onclick="toggleEquip(this)"><div class="e-box"></div>Curved Kelly clamp</div>
               <div class="equip-item" onclick="toggleEquip(this)"><div class="e-box"></div>Scalpel #10</div>
               <div class="equip-item" onclick="toggleEquip(this)"><div class="e-box"></div>1% Lidocaine 20 mL</div>
               <div class="equip-item" onclick="toggleEquip(this)"><div class="e-box"></div>Heavy suture (0 silk)</div>
@@ -1074,15 +1087,15 @@ main{position:relative;z-index:1}
           <div class="proc-col">
             <h4>Step-by-Step</h4>
             <ul class="checklist">
-              <li onclick="toggleCheck(this)"><div class="step-num">01</div><div class="step-text"><strong>Position & Consent</strong><span>Ipsilateral arm raised above head; IV sedation/analgesia</span></div></li>
-              <li onclick="toggleCheck(this)"><div class="step-num">02</div><div class="step-text"><strong>Local Anaesthesia</strong><span>Infiltrate skin, subcutaneous tissue, periosteum of rib 6</span></div></li>
-              <li onclick="toggleCheck(this)"><div class="step-num">03</div><div class="step-text"><strong>Skin Incision</strong><span>2–3 cm incision over 6th rib (one ICS below target)</span></div></li>
-              <li onclick="toggleCheck(this)"><div class="step-num">04</div><div class="step-text"><strong>Blunt Dissection</strong><span>Kelly clamp creates tunnel; open over superior border of 5th rib (avoid NVB)</span></div></li>
-              <li onclick="toggleCheck(this)"><div class="step-num">05</div><div class="step-text"><strong>Enter Pleural Space</strong><span>Controlled puncture; sweep finger to clear adhesions; confirm position</span></div></li>
-              <li onclick="toggleCheck(this)"><div class="step-num">06</div><div class="step-text"><strong>Insert Tube</strong><span>Guide tube posterosuperior (PTX) or posteroinferior (effusion) — all holes inside</span></div></li>
-              <li onclick="toggleCheck(this)"><div class="step-num">07</div><div class="step-text"><strong>Connect Drainage</strong><span>Attach to underwater seal; confirm fog/swing/drainage</span></div></li>
-              <li onclick="toggleCheck(this)"><div class="step-num">08</div><div class="step-text"><strong>Secure & Dress</strong><span>Purse-string suture + horizontal mattress; petroleum gauze; tape firmly</span></div></li>
-              <li onclick="toggleCheck(this)"><div class="step-num">09</div><div class="step-text"><strong>Post-Procedure CXR</strong><span>Confirm position; document drainage output</span></div></li>
+              <li onclick="toggleCheck(this)"><div class="step-num">01</div><div class="step-text"><strong>Position & Consent</strong><span>Arm raised above head; IV sedation/analgesia</span></div></li>
+              <li onclick="toggleCheck(this)"><div class="step-num">02</div><div class="step-text"><strong>Local Anaesthesia</strong><span>Infiltrate skin, subcut tissue, periosteum of rib 6</span></div></li>
+              <li onclick="toggleCheck(this)"><div class="step-num">03</div><div class="step-text"><strong>Skin Incision</strong><span>2–3 cm over 6th rib (one ICS below target)</span></div></li>
+              <li onclick="toggleCheck(this)"><div class="step-num">04</div><div class="step-text"><strong>Blunt Dissection</strong><span>Kelly clamp tunnel; over superior border of 5th rib</span></div></li>
+              <li onclick="toggleCheck(this)"><div class="step-num">05</div><div class="step-text"><strong>Enter Pleural Space</strong><span>Controlled puncture; sweep finger; confirm position</span></div></li>
+              <li onclick="toggleCheck(this)"><div class="step-num">06</div><div class="step-text"><strong>Insert Tube</strong><span>Posterosuperior (PTX) or posteroinferior (effusion)</span></div></li>
+              <li onclick="toggleCheck(this)"><div class="step-num">07</div><div class="step-text"><strong>Connect Drainage</strong><span>Underwater seal; confirm fog/swing/drainage</span></div></li>
+              <li onclick="toggleCheck(this)"><div class="step-num">08</div><div class="step-text"><strong>Secure & Dress</strong><span>Purse-string + mattress suture; petroleum gauze; tape</span></div></li>
+              <li onclick="toggleCheck(this)"><div class="step-num">09</div><div class="step-text"><strong>Post-CXR</strong><span>Confirm position; document drainage output</span></div></li>
             </ul>
           </div>
         </div>
@@ -1092,148 +1105,122 @@ main{position:relative;z-index:1}
     <div class="divider"></div>
 
     <div id="em-procedures" class="section">
-      <div class="section-head">
-        <h2><span class="num">06</span>Emergency Procedures</h2>
-      </div>
+      <div class="section-head"><h2><span class="num">06</span>Emergency Procedures</h2></div>
 
       <div class="accordion open">
-        <div class="accordion-head" onclick="toggleAccordion(this)">
-          <span>⚡ Needle Chest Decompression (Tension Pneumothorax)</span>
-          <span class="arrow">▼</span>
-        </div>
-        <div class="accordion-body">
-          <div class="accordion-body-inner">
-            <div class="alert-box danger"><div class="icon">🚨</div><div><strong>Clinical signs:</strong> Hypoxia + Hypotension + Tracheal deviation + Absent breath sounds + JVD. DO NOT wait for CXR.</div></div>
-            <div class="two-col" style="margin-top:12px">
-              <ul class="checklist">
-                <li onclick="toggleCheck(this)"><div class="step-num">01</div><div class="step-text"><strong>Identify Site</strong><span>2nd ICS, mid-clavicular line OR 4th/5th ICS, mid-axillary line</span></div></li>
-                <li onclick="toggleCheck(this)"><div class="step-num">02</div><div class="step-text"><strong>Equipment</strong><span>14G (or 16G) angiocath ≥ 8 cm length</span></div></li>
-                <li onclick="toggleCheck(this)"><div class="step-num">03</div><div class="step-text"><strong>Puncture</strong><span>Insert over superior border of 3rd rib; remove stylet on rush of air</span></div></li>
-                <li onclick="toggleCheck(this)"><div class="step-num">04</div><div class="step-text"><strong>Leave Catheter</strong><span>Secure catheter in place; prepare for definitive chest tube</span></div></li>
-              </ul>
-              <div class="diagram-wrap" style="margin:0">
-                <svg viewBox="0 0 200 140" xmlns="http://www.w3.org/2000/svg" style="width:100%">
-                  <rect x="0" y="0" width="200" height="140" rx="8" fill="#f6f7fa"/>
-                  <path d="M30 20 C28 50 28 90 35 120 C40 132 80 138 100 139 C120 138 160 132 165 120 C172 90 172 50 170 20 Z" fill="none" stroke="#d0d4de" stroke-width="1.5"/>
-                  <path d="M38 45 C65 40 135 40 162 45" stroke="#a5aab8" stroke-width="1.2" fill="none" opacity=".4"/>
-                  <path d="M36 68 C65 62 135 62 164 68" stroke="#a5aab8" stroke-width="1.2" fill="none" opacity=".4"/>
-                  <circle cx="72" cy="56" r="6" fill="rgba(214,54,76,.1)" stroke="#d6364c" stroke-width="1.5"/>
-                  <text x="42" y="34" fill="#d6364c" font-size="8" font-weight="600">2nd ICS MCL</text>
-                  <line x1="72" y1="25" x2="72" y2="52" stroke="#b8942e" stroke-width="2.5" stroke-linecap="round"/>
-                  <polygon points="72,52 68,44 76,44" fill="#b8942e"/>
-                  <text x="78" y="40" fill="#b8942e" font-size="7.5" font-weight="600">14G Needle</text>
-                  <path d="M80 56 C90 54 105 56 115 54" stroke="#2e6fba" stroke-width="1.5" fill="none" stroke-dasharray="3,2"/>
-                  <text x="118" y="58" fill="#2e6fba" font-size="7" font-weight="600">Rush of Air</text>
-                </svg>
-                <figcaption>Needle Decompression — 2nd ICS MCL</figcaption>
-              </div>
+        <div class="accordion-head" onclick="toggleAccordion(this)"><span>⚡ Needle Decompression (Tension Pneumothorax)</span><span class="arrow">▼</span></div>
+        <div class="accordion-body"><div class="accordion-body-inner">
+          <div class="alert-box danger"><div class="icon">🚨</div><div><strong>Clinical signs:</strong> Hypoxia + Hypotension + Tracheal deviation + Absent BS + JVD. DO NOT wait for CXR.</div></div>
+          <div class="two-col" style="margin-top:12px">
+            <ul class="checklist">
+              <li onclick="toggleCheck(this)"><div class="step-num">01</div><div class="step-text"><strong>Identify Site</strong><span>2nd ICS MCL or 4th/5th ICS mid-axillary line</span></div></li>
+              <li onclick="toggleCheck(this)"><div class="step-num">02</div><div class="step-text"><strong>Equipment</strong><span>14G (or 16G) angiocath ≥ 8 cm length</span></div></li>
+              <li onclick="toggleCheck(this)"><div class="step-num">03</div><div class="step-text"><strong>Puncture</strong><span>Over superior border of 3rd rib; remove stylet on air rush</span></div></li>
+              <li onclick="toggleCheck(this)"><div class="step-num">04</div><div class="step-text"><strong>Secure Catheter</strong><span>Leave in place; prepare for definitive chest tube</span></div></li>
+            </ul>
+            <div class="diagram-wrap" style="margin:0">
+              <svg viewBox="0 0 200 140" xmlns="http://www.w3.org/2000/svg">
+                <rect x="0" y="0" width="200" height="140" rx="8" fill="#f6f7fa"/>
+                <path d="M30 20 C28 50 28 90 35 120 C40 132 80 138 100 139 C120 138 160 132 165 120 C172 90 172 50 170 20 Z" fill="none" stroke="#d0d4de" stroke-width="1.5"/>
+                <path d="M38 45 C65 40 135 40 162 45" stroke="#a5aab8" stroke-width="1.2" fill="none" opacity=".4"/>
+                <path d="M36 68 C65 62 135 62 164 68" stroke="#a5aab8" stroke-width="1.2" fill="none" opacity=".4"/>
+                <circle cx="72" cy="56" r="6" fill="rgba(214,54,76,.1)" stroke="#d6364c" stroke-width="1.5"/>
+                <text x="42" y="34" fill="#d6364c" font-size="8" font-weight="600">2nd ICS MCL</text>
+                <line x1="72" y1="25" x2="72" y2="52" stroke="#b8942e" stroke-width="2.5" stroke-linecap="round"/>
+                <polygon points="72,52 68,44 76,44" fill="#b8942e"/>
+                <text x="78" y="40" fill="#b8942e" font-size="7.5" font-weight="600">14G Needle</text>
+                <path d="M80 56 C90 54 105 56 115 54" stroke="#2e6fba" stroke-width="1.5" fill="none" stroke-dasharray="3,2"/>
+                <text x="118" y="58" fill="#2e6fba" font-size="7" font-weight="600">Rush of Air</text>
+              </svg>
+              <figcaption>Needle Decompression</figcaption>
             </div>
           </div>
-        </div>
+        </div></div>
       </div>
 
       <div class="accordion">
-        <div class="accordion-head" onclick="toggleAccordion(this)">
-          <span>💓 Pericardiocentesis (Cardiac Tamponade)</span>
-          <span class="arrow">▼</span>
-        </div>
-        <div class="accordion-body">
-          <div class="accordion-body-inner">
-            <div class="alert-box warn"><div class="icon">⚠️</div><div><strong>Beck's Triad:</strong> Hypotension + Muffled heart sounds + JVD. Confirm with bedside echo before procedure.</div></div>
-            <ul class="checklist" style="margin-top:12px">
-              <li onclick="toggleCheck(this)"><div class="step-num">01</div><div class="step-text"><strong>Position</strong><span>Semi-recumbent 45°, cardiac monitor attached, US-guided preferred</span></div></li>
-              <li onclick="toggleCheck(this)"><div class="step-num">02</div><div class="step-text"><strong>Subxiphoid Approach</strong><span>18G 10 cm spinal needle; enter 1 cm below xiphoid, angle 45° toward left shoulder</span></div></li>
-              <li onclick="toggleCheck(this)"><div class="step-num">03</div><div class="step-text"><strong>Advance with Aspiration</strong><span>Continuous aspiration; ST elevation/ectopy = ventricular contact → withdraw</span></div></li>
-              <li onclick="toggleCheck(this)"><div class="step-num">04</div><div class="step-text"><strong>Aspirate Fluid</strong><span>Pericardial blood does NOT clot; ventricular blood clots rapidly</span></div></li>
-              <li onclick="toggleCheck(this)"><div class="step-num">05</div><div class="step-text"><strong>Consider Drain</strong><span>Seldinger technique to leave pigtail catheter for ongoing drainage</span></div></li>
-            </ul>
-          </div>
-        </div>
+        <div class="accordion-head" onclick="toggleAccordion(this)"><span>💓 Pericardiocentesis (Tamponade)</span><span class="arrow">▼</span></div>
+        <div class="accordion-body"><div class="accordion-body-inner">
+          <div class="alert-box warn"><div class="icon">⚠️</div><div><strong>Beck's Triad:</strong> Hypotension + Muffled heart sounds + JVD. Confirm with bedside echo.</div></div>
+          <ul class="checklist" style="margin-top:12px">
+            <li onclick="toggleCheck(this)"><div class="step-num">01</div><div class="step-text"><strong>Position</strong><span>Semi-recumbent 45°, cardiac monitor, US-guided preferred</span></div></li>
+            <li onclick="toggleCheck(this)"><div class="step-num">02</div><div class="step-text"><strong>Subxiphoid Approach</strong><span>18G 10 cm needle; 1 cm below xiphoid, 45° toward left shoulder</span></div></li>
+            <li onclick="toggleCheck(this)"><div class="step-num">03</div><div class="step-text"><strong>Advance with Aspiration</strong><span>Continuous aspiration; ST elevation = ventricular contact → withdraw</span></div></li>
+            <li onclick="toggleCheck(this)"><div class="step-num">04</div><div class="step-text"><strong>Aspirate Fluid</strong><span>Pericardial blood does NOT clot; ventricular blood clots rapidly</span></div></li>
+            <li onclick="toggleCheck(this)"><div class="step-num">05</div><div class="step-text"><strong>Consider Drain</strong><span>Seldinger to leave pigtail catheter for ongoing drainage</span></div></li>
+          </ul>
+        </div></div>
       </div>
 
       <div class="accordion">
-        <div class="accordion-head" onclick="toggleAccordion(this)">
-          <span>✂️ Surgical Cricothyrotomy (CICO)</span>
-          <span class="arrow">▼</span>
-        </div>
-        <div class="accordion-body">
-          <div class="accordion-body-inner">
-            <div class="alert-box danger"><div class="icon">🚨</div><div><strong>CICO Algorithm:</strong> Failed intubation × 3 + Failed supraglottic airway → Declare CICO → Surgical cricothyrotomy immediately.</div></div>
-            <ul class="checklist" style="margin-top:12px">
-              <li onclick="toggleCheck(this)"><div class="step-num">01</div><div class="step-text"><strong>Landmark</strong><span>Palpate cricothyroid membrane — midline, between thyroid & cricoid cartilage</span></div></li>
-              <li onclick="toggleCheck(this)"><div class="step-num">02</div><div class="step-text"><strong>Horizontal Incision</strong><span>5 mm stab incision through skin AND CTM membrane (horizontal)</span></div></li>
-              <li onclick="toggleCheck(this)"><div class="step-num">03</div><div class="step-text"><strong>Dilate & Insert</strong><span>Insert tracheal hook or curved clamp to hold open; pass 6.0 cuffed ETT or tracheostomy tube</span></div></li>
-              <li onclick="toggleCheck(this)"><div class="step-num">04</div><div class="step-text"><strong>Inflate Cuff</strong><span>Inflate cuff, ventilate, confirm ETCO₂ waveform</span></div></li>
-              <li onclick="toggleCheck(this)"><div class="step-num">05</div><div class="step-text"><strong>Secure Tube</strong><span>Tie-down or suture; formal tracheostomy within 72 hours</span></div></li>
-            </ul>
-          </div>
-        </div>
+        <div class="accordion-head" onclick="toggleAccordion(this)"><span>✂️ Surgical Cricothyrotomy (CICO)</span><span class="arrow">▼</span></div>
+        <div class="accordion-body"><div class="accordion-body-inner">
+          <div class="alert-box danger"><div class="icon">🚨</div><div><strong>CICO:</strong> Failed intubation × 3 + Failed SGA → Declare CICO → Surgical cricothyrotomy immediately.</div></div>
+          <ul class="checklist" style="margin-top:12px">
+            <li onclick="toggleCheck(this)"><div class="step-num">01</div><div class="step-text"><strong>Landmark</strong><span>Palpate cricothyroid membrane midline between thyroid & cricoid</span></div></li>
+            <li onclick="toggleCheck(this)"><div class="step-num">02</div><div class="step-text"><strong>Horizontal Incision</strong><span>5 mm stab through skin AND CTM membrane</span></div></li>
+            <li onclick="toggleCheck(this)"><div class="step-num">03</div><div class="step-text"><strong>Dilate & Insert</strong><span>Tracheal hook to hold open; pass 6.0 cuffed ETT</span></div></li>
+            <li onclick="toggleCheck(this)"><div class="step-num">04</div><div class="step-text"><strong>Inflate Cuff</strong><span>Ventilate, confirm ETCO₂ waveform</span></div></li>
+            <li onclick="toggleCheck(this)"><div class="step-num">05</div><div class="step-text"><strong>Secure Tube</strong><span>Tie-down or suture; formal tracheostomy within 72h</span></div></li>
+          </ul>
+        </div></div>
       </div>
 
       <div class="accordion">
-        <div class="accordion-head" onclick="toggleAccordion(this)">
-          <span>⚡ Synchronized Cardioversion</span>
-          <span class="arrow">▼</span>
-        </div>
-        <div class="accordion-body">
-          <div class="accordion-body-inner">
-            <ul class="checklist">
-              <li onclick="toggleCheck(this)"><div class="check-box"></div><div class="check-text">Confirm: Unstable (BP &lt;90, altered mentation, acute HF, ischaemia)</div></li>
-              <li onclick="toggleCheck(this)"><div class="check-box"></div><div class="check-text">IV/IO access established; oxygen running</div></li>
-              <li onclick="toggleCheck(this)"><div class="check-box"></div><div class="check-text">Sedation: Midazolam 1–2 mg IV + Fentanyl 25–50 mcg IV</div></li>
-              <li onclick="toggleCheck(this)"><div class="check-box"></div><div class="check-text">Select SYNC mode on defibrillator (confirm sync markers on R waves)</div></li>
-              <li onclick="toggleCheck(this)"><div class="check-box"></div><div class="check-text">Energy: SVT/AFL 50–100 J; AF 120–200 J biphasic; VT 100–200 J</div></li>
-              <li onclick="toggleCheck(this)"><div class="check-box"></div><div class="check-text">Apply gel pads; ensure no one touching patient</div></li>
-              <li onclick="toggleCheck(this)"><div class="check-box"></div><div class="check-text">Deliver shock; reassess rhythm immediately</div></li>
-              <li onclick="toggleCheck(this)"><div class="check-box"></div><div class="check-text">Document: Pre/post rhythm, energy delivered, patient response</div></li>
-            </ul>
-          </div>
-        </div>
+        <div class="accordion-head" onclick="toggleAccordion(this)"><span>⚡ Synchronized Cardioversion</span><span class="arrow">▼</span></div>
+        <div class="accordion-body"><div class="accordion-body-inner">
+          <ul class="checklist">
+            <li onclick="toggleCheck(this)"><div class="check-box"></div><div class="check-text">Confirm unstable: BP &lt;90, altered mentation, acute HF, ischaemia</div></li>
+            <li onclick="toggleCheck(this)"><div class="check-box"></div><div class="check-text">IV/IO access established; oxygen running</div></li>
+            <li onclick="toggleCheck(this)"><div class="check-box"></div><div class="check-text">Sedation: Midazolam 1–2 mg IV + Fentanyl 25–50 mcg IV</div></li>
+            <li onclick="toggleCheck(this)"><div class="check-box"></div><div class="check-text">Select SYNC mode (confirm sync markers on R waves)</div></li>
+            <li onclick="toggleCheck(this)"><div class="check-box"></div><div class="check-text">Energy: SVT/AFL 50–100 J; AF 120–200 J; VT 100–200 J biphasic</div></li>
+            <li onclick="toggleCheck(this)"><div class="check-box"></div><div class="check-text">Apply gel pads; ensure no one touching patient</div></li>
+            <li onclick="toggleCheck(this)"><div class="check-box"></div><div class="check-text">Deliver shock; reassess rhythm immediately</div></li>
+            <li onclick="toggleCheck(this)"><div class="check-box"></div><div class="check-text">Document: Pre/post rhythm, energy, patient response</div></li>
+          </ul>
+        </div></div>
       </div>
     </div>
 
     <div class="divider"></div>
 
     <div id="complications" class="section">
-      <div class="section-head">
-        <h2><span class="num">07</span>Complication Reference</h2>
-      </div>
-      <div style="overflow-x:auto;background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow-sm)">
+      <div class="section-head"><h2><span class="num">07</span>Complication Reference</h2></div>
+      <div class="data-table-wrap">
         <table class="data-table">
-          <thead><tr><th>Procedure</th><th>Complication</th><th>Incidence</th><th>Risk Level</th><th>Immediate Action</th></tr></thead>
+          <thead><tr><th>Procedure</th><th>Complication</th><th>Rate</th><th>Risk</th><th>Immediate Action</th></tr></thead>
           <tbody>
-            <tr><td style="font-weight:600;color:var(--text)">CVC (Subclavian)</td><td>Pneumothorax</td><td>1–3%</td><td><span class="status-dot critical">High</span></td><td>CXR immediately; chest tube if &gt;20%</td></tr>
-            <tr><td style="font-weight:600;color:var(--text)">CVC (Any)</td><td>Arterial Puncture</td><td>3–5%</td><td><span class="status-dot critical">High</span></td><td>Remove needle, apply pressure 5–10 min</td></tr>
-            <tr><td style="font-weight:600;color:var(--text)">CVC (Any)</td><td>CLABSI</td><td>0.8–5/1000d</td><td><span class="status-dot moderate">Moderate</span></td><td>Blood cultures × 2, early line removal</td></tr>
-            <tr><td style="font-weight:600;color:var(--text)">CVC (Any)</td><td>Air Embolism</td><td>&lt;0.5%</td><td><span class="status-dot critical">Critical</span></td><td>Durant's manoeuvre, 100% O₂, L decubitus</td></tr>
-            <tr><td style="font-weight:600;color:var(--text)">RSI / Intubation</td><td>Oesophageal Intubation</td><td>0.5–8%</td><td><span class="status-dot critical">Critical</span></td><td>Remove ETT, reoxygenate, reattempt</td></tr>
-            <tr><td style="font-weight:600;color:var(--text)">RSI / Intubation</td><td>Hypoxia (SpO₂&lt;90)</td><td>Up to 20%</td><td><span class="status-dot critical">High</span></td><td>BVM, repositioning, LMA if needed</td></tr>
-            <tr><td style="font-weight:600;color:var(--text)">RSI / Intubation</td><td>Right Mainstem</td><td>3–6%</td><td><span class="status-dot moderate">Moderate</span></td><td>Withdraw ETT 2 cm; reconfirm bilateral BS</td></tr>
-            <tr><td style="font-weight:600;color:var(--text)">Chest Tube</td><td>Malposition</td><td>5–10%</td><td><span class="status-dot moderate">Moderate</span></td><td>CXR/US confirm; repositioning or replacement</td></tr>
-            <tr><td style="font-weight:600;color:var(--text)">Chest Tube</td><td>Subcut. Emphysema</td><td>2–5%</td><td><span class="status-dot low">Low</span></td><td>Confirm all tube holes in pleural space</td></tr>
-            <tr><td style="font-weight:600;color:var(--text)">Pericardiocentesis</td><td>Ventricular Puncture</td><td>2–4%</td><td><span class="status-dot critical">Critical</span></td><td>Withdraw needle; emergent surgical backup</td></tr>
-            <tr><td style="font-weight:600;color:var(--text)">Cardioversion</td><td>Skin Burns</td><td>5–10%</td><td><span class="status-dot low">Low</span></td><td>Check pad placement; use conducting gel</td></tr>
+            <tr><td style="font-weight:600;color:var(--text)">CVC (Subclavian)</td><td>Pneumothorax</td><td>1–3%</td><td><span class="status-dot critical">High</span></td><td>CXR; chest tube if &gt;20%</td></tr>
+            <tr><td style="font-weight:600;color:var(--text)">CVC (Any)</td><td>Arterial Puncture</td><td>3–5%</td><td><span class="status-dot critical">High</span></td><td>Remove needle, pressure 5–10 min</td></tr>
+            <tr><td style="font-weight:600;color:var(--text)">CVC (Any)</td><td>CLABSI</td><td>0.8–5/1000d</td><td><span class="status-dot moderate">Mod</span></td><td>Blood cultures × 2, early removal</td></tr>
+            <tr><td style="font-weight:600;color:var(--text)">CVC (Any)</td><td>Air Embolism</td><td>&lt;0.5%</td><td><span class="status-dot critical">Critical</span></td><td>Durant's, 100% O₂, L decubitus</td></tr>
+            <tr><td style="font-weight:600;color:var(--text)">RSI</td><td>Oesophageal Intub.</td><td>0.5–8%</td><td><span class="status-dot critical">Critical</span></td><td>Remove ETT, reoxygenate</td></tr>
+            <tr><td style="font-weight:600;color:var(--text)">RSI</td><td>Hypoxia</td><td>Up to 20%</td><td><span class="status-dot critical">High</span></td><td>BVM, reposition, LMA</td></tr>
+            <tr><td style="font-weight:600;color:var(--text)">RSI</td><td>Right Mainstem</td><td>3–6%</td><td><span class="status-dot moderate">Mod</span></td><td>Withdraw 2 cm; recheck BS</td></tr>
+            <tr><td style="font-weight:600;color:var(--text)">Chest Tube</td><td>Malposition</td><td>5–10%</td><td><span class="status-dot moderate">Mod</span></td><td>CXR/US; reposition</td></tr>
+            <tr><td style="font-weight:600;color:var(--text)">Chest Tube</td><td>Subcut. Emph.</td><td>2–5%</td><td><span class="status-dot low">Low</span></td><td>Confirm holes in pleural space</td></tr>
+            <tr><td style="font-weight:600;color:var(--text)">Pericardio.</td><td>Ventricular Puncture</td><td>2–4%</td><td><span class="status-dot critical">Critical</span></td><td>Withdraw; surgical backup</td></tr>
+            <tr><td style="font-weight:600;color:var(--text)">Cardioversion</td><td>Skin Burns</td><td>5–10%</td><td><span class="status-dot low">Low</span></td><td>Check pads; use gel</td></tr>
           </tbody>
         </table>
       </div>
     </div>
 
     <div id="drugs" class="section">
-      <div class="section-head">
-        <h2><span class="num">08</span>Quick Drug Reference</h2>
-      </div>
-      <div style="overflow-x:auto;background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow-sm)">
+      <div class="section-head"><h2><span class="num">08</span>Quick Drug Reference</h2></div>
+      <div class="data-table-wrap">
         <table class="data-table">
           <thead><tr><th>Drug</th><th>Indication</th><th>Dose</th><th>Onset</th><th>Duration</th><th>Notes</th></tr></thead>
           <tbody>
-            <tr><td style="color:var(--gold2);font-weight:700">Ketamine</td><td>RSI Induction</td><td>1.5–2 mg/kg IV</td><td>~30–60 s</td><td>10–15 min</td><td>Preferred in hypotension; bronchodilator</td></tr>
-            <tr><td style="color:var(--blue);font-weight:700">Etomidate</td><td>RSI Induction</td><td>0.3 mg/kg IV</td><td>~15–45 s</td><td>5–10 min</td><td>Adrenal suppression; avoid in sepsis</td></tr>
-            <tr><td style="color:var(--green);font-weight:700">Succinylcholine</td><td>RSI Paralytic</td><td>1.5 mg/kg IV</td><td>45–60 s</td><td>8–12 min</td><td>Avoid: hyperK, burns, denervation, MH</td></tr>
-            <tr><td style="color:var(--teal);font-weight:700">Rocuronium</td><td>RSI Paralytic</td><td>1.2 mg/kg IV</td><td>60–90 s</td><td>30–60 min</td><td>Reversal: Sugammadex 16 mg/kg</td></tr>
-            <tr><td style="color:var(--warn);font-weight:700">Midazolam</td><td>Proc. Sedation</td><td>0.05–0.1 mg/kg IV</td><td>2–3 min</td><td>45–60 min</td><td>Reverse with Flumazenil; caution elderly</td></tr>
-            <tr><td style="color:var(--red);font-weight:700">Norepinephrine</td><td>Vasopressor</td><td>0.01–3 mcg/kg/min</td><td>1–2 min</td><td>Infusion</td><td>Central line preferred; 1st-line distributive</td></tr>
-            <tr><td style="color:var(--blue);font-weight:700">Adenosine</td><td>SVT Termination</td><td>6 mg → 12 mg IV</td><td>~10 s</td><td>10–20 s</td><td>Large antecubital vein; rapid flush</td></tr>
-            <tr><td style="color:var(--green);font-weight:700">Amiodarone</td><td>VT / AF with WPW</td><td>150 mg IV/10 min</td><td>Minutes</td><td>Hours</td><td>Bradycardia, hypotension; monitor QTc</td></tr>
+            <tr><td style="color:var(--gold2);font-weight:700">Ketamine</td><td>RSI Induction</td><td>1.5–2 mg/kg IV</td><td>30–60s</td><td>10–15 min</td><td>Preferred in hypotension</td></tr>
+            <tr><td style="color:var(--blue);font-weight:700">Etomidate</td><td>RSI Induction</td><td>0.3 mg/kg IV</td><td>15–45s</td><td>5–10 min</td><td>Adrenal suppression</td></tr>
+            <tr><td style="color:var(--green);font-weight:700">Succinylcholine</td><td>Paralytic</td><td>1.5 mg/kg IV</td><td>45–60s</td><td>8–12 min</td><td>Avoid: hyperK, burns, MH</td></tr>
+            <tr><td style="color:var(--teal);font-weight:700">Rocuronium</td><td>Paralytic</td><td>1.2 mg/kg IV</td><td>60–90s</td><td>30–60 min</td><td>Sugammadex for reversal</td></tr>
+            <tr><td style="color:var(--warn);font-weight:700">Midazolam</td><td>Proc. Sedation</td><td>0.05–0.1 mg/kg</td><td>2–3 min</td><td>45–60 min</td><td>Flumazenil to reverse</td></tr>
+            <tr><td style="color:var(--red);font-weight:700">Norepinephrine</td><td>Vasopressor</td><td>0.01–3 mcg/kg/min</td><td>1–2 min</td><td>Infusion</td><td>Central line preferred</td></tr>
+            <tr><td style="color:var(--blue);font-weight:700">Adenosine</td><td>SVT</td><td>6 mg → 12 mg</td><td>~10s</td><td>10–20s</td><td>Large AC vein; rapid flush</td></tr>
+            <tr><td style="color:var(--green);font-weight:700">Amiodarone</td><td>VT / AF-WPW</td><td>150 mg/10 min</td><td>Min</td><td>Hours</td><td>Monitor QTc</td></tr>
           </tbody>
         </table>
       </div>
@@ -1243,49 +1230,26 @@ main{position:relative;z-index:1}
 
   <footer>
     <div>
-      <div class="f-brand">EM Procedures · Procedural Skills Checklist</div>
-      <p>Prepared by <strong style="color:var(--text)">Dr. Mehta</strong> · Emergency Medicine Department · 2025 Edition</p>
+      <div class="f-brand">EM Procedures · Skills Checklist</div>
+      <p>Prepared by <strong style="color:var(--text)">Dr. Mehta</strong> · Emergency Medicine · 2025</p>
     </div>
     <div>
-      <p style="text-align:right">For educational use only. Always follow local clinical protocols.<br>Guidelines per ACEP, UpToDate & ATLS standards.</p>
+      <p>For educational use only. Follow local clinical protocols.<br>Guidelines per ACEP, UpToDate & ATLS.</p>
     </div>
   </footer>
 </main>
 
 <script>
-function toggleSidebar(){
-  document.getElementById('sidebar').classList.toggle('open');
-  document.getElementById('overlay').classList.toggle('open');
-}
-const navLinks=document.querySelectorAll('.nav-item');
-const sections=document.querySelectorAll('[id]');
-function updateActiveNav(){
-  let current='';
-  sections.forEach(s=>{if(window.scrollY>=s.offsetTop-100)current=s.id});
-  navLinks.forEach(l=>{l.classList.remove('active');if(l.getAttribute('href')==='#'+current)l.classList.add('active')});
-}
+function toggleSidebar(){document.getElementById('sidebar').classList.toggle('open');document.getElementById('overlay').classList.toggle('open')}
+const navLinks=document.querySelectorAll('.nav-item'),sections=document.querySelectorAll('[id]');
+function updateActiveNav(){let c='';sections.forEach(s=>{if(window.scrollY>=s.offsetTop-100)c=s.id});navLinks.forEach(l=>{l.classList.remove('active');if(l.getAttribute('href')==='#'+c)l.classList.add('active')})}
 window.addEventListener('scroll',updateActiveNav);
-function toggleCheck(li){li.classList.toggle('checked');updateProgress()}
+function toggleCheck(li){li.classList.toggle('checked')}
 function toggleEquip(el){el.classList.toggle('checked')}
-function updateProgress(){}
-function showTab(btn,tabId){
-  const bar=btn.parentElement;
-  bar.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');
-  const panel=btn.closest('.section');
-  panel.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
-  document.getElementById(tabId).classList.add('active');
-}
-function toggleAccordion(head){
-  const acc=head.closest('.accordion');
-  document.querySelectorAll('.accordion').forEach(a=>{if(a!==acc)a.classList.remove('open')});
-  acc.classList.toggle('open');
-}
+function showTab(b,t){const bar=b.parentElement;bar.querySelectorAll('.tab-btn').forEach(x=>x.classList.remove('active'));b.classList.add('active');const p=b.closest('.section');p.querySelectorAll('.tab-content').forEach(x=>x.classList.remove('active'));document.getElementById(t).classList.add('active')}
+function toggleAccordion(h){const a=h.closest('.accordion');document.querySelectorAll('.accordion').forEach(x=>{if(x!==a)x.classList.remove('open')});a.classList.toggle('open')}
 function scrollTo(id){document.getElementById(id).scrollIntoView({behavior:'smooth'})}
-window.addEventListener('load',()=>{
-  document.querySelectorAll('.bar-fill').forEach(b=>{const w=b.style.width;b.style.width='0';setTimeout(()=>b.style.width=w,300)});
-  document.querySelectorAll('.tracker-fill').forEach(b=>{const w=b.style.width;b.style.width='0';setTimeout(()=>b.style.width=w,400)});
-});
+window.addEventListener('load',()=>{document.querySelectorAll('.bar-fill').forEach(b=>{const w=b.style.width;b.style.width='0';setTimeout(()=>b.style.width=w,300)});document.querySelectorAll('.tracker-fill').forEach(b=>{const w=b.style.width;b.style.width='0';setTimeout(()=>b.style.width=w,400)})});
 </script>
 </body>
 </html>
