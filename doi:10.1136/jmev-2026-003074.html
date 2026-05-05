@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Predictors of Outcome in Subdural Haematoma – J Mev Evid 2026</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Noto+Sans:ital,wght@0,400;0,600;0,700;1,400&display=swap');
+
+  /* 🚫 SECURITY: ANTI-COPY, ANTI-SELECT CSS */
+  * {
+    -webkit-user-select: none !important; /* Safari */
+    -moz-user-select: none !important; /* Firefox */
+    -ms-user-select: none !important; /* IE/Edge */
+    user-select: none !important; /* Standard */
+    -webkit-touch-callout: none !important; /* Disable iOS callout */
+  }
+
+  ::selection { background: transparent; color: inherit; }
+  ::-moz-selection { background: transparent; color: inherit; }
+
+  /* 🖨️ SECURITY: ANTI-PRINT CSS */
+  @media print {
+    body {
+        display: none !important;
+        opacity: 0 !important;
+        visibility: hidden !important;
+    }
+    html {
+        background: white;
+    }
+    html::after {
+        content: "Printing is strictly disabled to protect this document.";
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        font-family: var(--sans), sans-serif;
+        font-size: 24px;
+        color: #c8102e;
+        font-weight: bold;
+    }
+  }
+
+  /* 💧 SECURITY: WATERMARK TO DISCOURAGE SCREENSHOTS */
+  .watermark {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) rotate(-45deg);
+      font-size: 120px;
+      color: rgba(200, 16, 46, 0.04); /* Very faint red */
+      z-index: 9999;
+      pointer-events: none;
+      font-family: var(--sans);
+      font-weight: 900;
+      white-space: nowrap;
+      text-transform: uppercase;
+      letter-spacing: 5px;
+  }
+
+  /* --- EXISTING STYLES --- */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bmj-red: #c8102e;
+    --bmj-dark: #1a1a1a;
+    --bmj-grey: #666;
+    --bmj-light-grey: #f4f4f4;
+    --bmj-border: #ddd;
+    --serif: 'Noto Serif', Georgia, serif;
+    --sans: 'Noto Sans', Arial, sans-serif;
+  }
+
+  body {
+    font-family: var(--serif);
+    font-size: 9.2pt;
+    color: var(--bmj-dark);
+    background: #e8e8e8;
+    line-height: 1.45;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+    transition: filter 0.2s, opacity 0.2s; /* Smooth blur transition */
+  }
+
+  .page {
+    width: 210mm;
+    min-height: 297mm;
+    background: white;
+    margin: 16px auto;
+    box-shadow: 0 2px 16px rgba(0,0,0,.25);
+    padding: 0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--bmj-red);
+    padding: 4px 12px;
+    color: white;
+    font-family: var(--sans);
+    font-size: 7.5pt;
+    font-weight: 600;
+    letter-spacing: .4px;
+  }
+  .top-bar .open-access {
+    background: white;
+    color: var(--bmj-red);
+    padding: 1px 7px;
+    font-size: 7pt;
+    font-weight: 700;
+    border-radius: 2px;
+  }
+  .top-bar .orig-research { color: white; }
+
+  .journal-header {
+    padding: 10px 14px 0 14px;
+    border-bottom: 2.5px solid var(--bmj-red);
+    display: flex;
+    align-items: flex-end;
+    gap: 10px;
+    padding-bottom: 6px;
+  }
+  .journal-logo {
+    font-family: var(--sans);
+    line-height: 1.1;
+  }
+  .journal-logo .journal-of {
+    font-size: 7pt;
+    color: var(--bmj-red);
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  .journal-logo .journal-name {
+    font-size: 13pt;
+    font-weight: 900;
+    color: var(--bmj-red);
+    letter-spacing: -.3px;
+    text-transform: uppercase;
+  }
+  .article-title-header {
+    flex: 1;
+    font-family: var(--sans);
+    font-size: 14pt;
+    font-weight: 700;
+    color: var(--bmj-dark);
+    line-height: 1.2;
+    padding-bottom: 2px;
+  }
+
+  .authors-line {
+    padding: 5px 14px 0 14px;
+    font-family: var(--sans);
+    font-size: 8.5pt;
+    color: var(--bmj-dark);
+    font-weight: 400;
+  }
+
+  .body-wrap {
+    display: flex;
+    padding: 10px 14px 14px 14px;
+    gap: 14px;
+  }
+
+  .sidebar {
+    width: 38mm;
+    min-width: 38mm;
+    flex-shrink: 0;
+    font-family: var(--sans);
+    font-size: 7.2pt;
+    color: var(--bmj-dark);
+    line-height: 1.35;
+  }
+  .sidebar-block {
+    margin-bottom: 9px;
+    padding-bottom: 9px;
+    border-bottom: 1px solid var(--bmj-border);
+  }
+  .sidebar-block:last-child { border-bottom: none; }
+  .sidebar-label {
+    font-weight: 700;
+    font-size: 6.8pt;
+    color: var(--bmj-dark);
+    margin-bottom: 2px;
+  }
+  .sidebar-cite {
+    font-size: 6.8pt;
+    color: var(--bmj-grey);
+    line-height: 1.3;
+  }
+  .sidebar-dates { margin-top: 4px; }
+  .sidebar-dates div { margin-bottom: 1px; }
+  .sidebar-affil {
+    font-size: 6.8pt;
+    color: var(--bmj-dark);
+    margin-bottom: 4px;
+  }
+  .corr-label { font-weight: 700; font-size: 6.8pt; }
+  .corr-email { color: var(--bmj-red); text-decoration: none; }
+  .copyright-block {
+    font-size: 6.5pt;
+    color: var(--bmj-grey);
+    line-height: 1.3;
+  }
+  .check-updates {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 6.8pt;
+    color: var(--bmj-red);
+    border: 1px solid var(--bmj-red);
+    padding: 2px 5px;
+    border-radius: 2px;
+    margin-bottom: 5px;
+    font-family: var(--sans);
+  }
+  .check-updates::before { content: "▶"; font-size: 5pt; }
+
+  .main-content {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .abstract-section {
+    margin-bottom: 10px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--bmj-border);
+  }
+  .section-heading {
+    font-family: var(--sans);
+    font-size: 8.5pt;
+    font-weight: 700;
+    color: var(--bmj-dark);
+    text-transform: uppercase;
+    letter-spacing: .5px;
+    margin: 8px 0 3px 0;
+    border-bottom: 1.5px solid var(--bmj-red);
+    padding-bottom: 2px;
+  }
+  .sub-heading {
+    font-family: var(--sans);
+    font-size: 8.5pt;
+    font-weight: 700;
+    color: var(--bmj-dark);
+    margin: 7px 0 3px 0;
+    border-bottom: 1px solid var(--bmj-border);
+    padding-bottom: 1px;
+  }
+  .abstract-label {
+    font-family: var(--sans);
+    font-size: 7.8pt;
+    font-weight: 700;
+    color: var(--bmj-dark);
+  }
+  .abstract-text { margin-bottom: 4px; font-size: 8.5pt; }
+
+  .key-box {
+    border: 1.5px solid var(--bmj-red);
+    margin: 8px 0;
+    font-family: var(--sans);
+    font-size: 7.8pt;
+  }
+  .key-box-header {
+    background: var(--bmj-red);
+    color: white;
+    font-weight: 700;
+    font-size: 7.5pt;
+    padding: 3px 8px;
+    letter-spacing: .3px;
+    text-transform: uppercase;
+  }
+  .key-box-body { padding: 5px 8px; }
+  .key-item {
+    display: flex;
+    gap: 5px;
+    margin-bottom: 3px;
+    line-height: 1.35;
+  }
+  .key-arrow { color: var(--bmj-red); font-weight: 700; flex-shrink: 0; }
+
+  p { margin-bottom: 5px; font-size: 8.5pt; line-height: 1.45; text-align: justify; }
+
+  .two-col {
+    column-count: 2;
+    column-gap: 12px;
+    column-rule: 1px solid var(--bmj-border);
+  }
+  .two-col p { margin-bottom: 5px; }
+  .two-col .section-heading { column-span: none; }
+  .two-col .sub-heading { column-span: none; }
+
+  .table-wrap { margin: 7px 0; break-inside: avoid; column-span: all; }
+  .table-label {
+    font-family: var(--sans);
+    font-size: 7.5pt;
+    margin-bottom: 3px;
+    color: var(--bmj-dark);
+  }
+  .table-label strong { font-weight: 700; }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 7.5pt;
+    font-family: var(--sans);
+  }
+  th {
+    background: var(--bmj-dark);
+    color: white;
+    font-weight: 600;
+    padding: 3px 6px;
+    text-align: left;
+    border: 1px solid var(--bmj-dark);
+    font-size: 7.2pt;
+  }
+  td {
+    padding: 2.5px 6px;
+    border: 1px solid var(--bmj-border);
+    font-size: 7.2pt;
+    vertical-align: top;
+  }
+  tr:nth-child(even) td { background: var(--bmj-light-grey); }
+  .td-section { font-weight: 700; background: #e8e8e8 !important; }
+  .table-footnote {
+    font-size: 6.5pt;
+    color: var(--bmj-grey);
+    margin-top: 2px;
+    font-family: var(--sans);
+  }
+
+  .references { break-inside: avoid; column-span: all; }
+  .ref-item {
+    font-size: 7pt;
+    margin-bottom: 4px;
+    padding-left: 16px;
+    text-indent: -16px;
+    line-height: 1.3;
+    font-family: var(--sans);
+  }
+  .ref-num { font-weight: 700; color: var(--bmj-dark); }
+  .ref-journal { font-style: italic; }
+  .ref-pmid { color: var(--bmj-grey); }
+
+  .bottom-bar {
+    border-top: 2px solid var(--bmj-red);
+    padding: 3px 14px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: var(--sans);
+    font-size: 7pt;
+    color: var(--bmj-grey);
+  }
+  .bottom-bar .page-num {
+    font-weight: 700;
+    color: white;
+    background: var(--bmj-dark);
+    padding: 1px 7px;
+    font-size: 8pt;
+  }
+
+  .fig-wrap { break-inside: avoid; margin: 6px 0; }
+  .outcomes-fig {
+    background: #f8f8f8;
+    border: 1px solid var(--bmj-border);
+    padding: 10px 8px;
+  }
+  .bar-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 5px;
+    font-family: var(--sans);
+    font-size: 7pt;
+  }
+  .bar-label { width: 140px; text-align: right; color: var(--bmj-dark); flex-shrink: 0; }
+  .bar-outer { flex: 1; background: #ddd; height: 12px; border-radius: 1px; }
+  .bar-inner { height: 100%; border-radius: 1px; }
+  .bar-inner.success { background: #2d6a2d; }
+  .bar-inner.recur { background: #8b0000; }
+  .bar-inner.compl { background: #c8102e; }
+  .bar-val { font-weight: 700; font-size: 7pt; color: var(--bmj-dark); white-space: nowrap; }
+  .bar-axis { display: flex; justify-content: space-between; margin-top: 3px; font-size: 6pt; color: var(--bmj-grey); font-family: var(--sans); padding-left: 146px; }
+  .axis-label { font-size: 6.5pt; text-align: center; font-family: var(--sans); color: var(--bmj-grey); padding-left: 146px; }
+
+  sup { font-size: 5.5pt; line-height: 0; vertical-align: super; }
+</style>
+</head>
+<!-- 🚫 Disable Context Menu, Text Selection, and Dragging at the body level -->
+<body oncontextmenu="return false;" onselectstart="return false;" ondragstart="return false;">
+
+<!-- 🔐 SECURITY SCRIPTS -->
+<script>
+  // Disable Right Click, Copy, Cut, Paste, and Dragging via Event Listeners (Added Redundancy)
+  document.addEventListener('contextmenu', e => e.preventDefault());
+  document.addEventListener('copy', e => { e.preventDefault(); navigator.clipboard.writeText(''); });
+  document.addEventListener('cut', e => e.preventDefault());
+  document.addEventListener('paste', e => e.preventDefault());
+  document.addEventListener('dragstart', e => e.preventDefault());
+
+  // Block specific Keyboard Shortcuts (DevTools, View Source, Print, Save, Select All, Copy)
+  document.addEventListener('keydown', function(e) {
+    if (
+      e.key === 'F12' || // DevTools
+      (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'i' || e.key === 'J' || e.key === 'j' || e.key === 'C' || e.key === 'c')) || // DevTools
+      (e.ctrlKey && (e.key === 'U' || e.key === 'u' || e.key === 'P' || e.key === 'p' || e.key === 'S' || e.key === 's' || e.key === 'C' || e.key === 'c' || e.key === 'A' || e.key === 'a' || e.key === 'X' || e.key === 'x')) || // View Source, Print, Save, Copy, Select All, Cut
+      e.key === 'PrintScreen' // Windows Print Screen
+    ) {
+      e.preventDefault();
+      return false;
+    }
+  });
+
+  // Blur screen when window loses focus (Discourages Snipping Tool / Screen Capture)
+  window.addEventListener('blur', function() {
+    document.body.style.filter = 'blur(15px)';
+    document.body.style.opacity = '0.5';
+  });
+  window.addEventListener('focus', function() {
+    document.body.style.filter = 'none';
+    document.body.style.opacity = '1';
+  });
+
+  // Try to hijack clipboard on PrintScreen key release
+  document.addEventListener('keyup', function(e) {
+    if (e.key === 'PrintScreen') {
+      navigator.clipboard.writeText('Screenshots and copying are disabled for this document.');
+    }
+  });
+</script>
+
+<div class="watermark">DO NOT COPY</div>
+
+<!-- ══════════════ PAGE 1 ══════════════ -->
+<div class="page">
+
+  <div class="top-bar">
+    <span class="open-access"> </span>
+    <span class="orig-research"> </span>
+  </div>
+
+  <div class="journal-header">
+    <div class="journal-logo">
+      <div class="journal-of">Journal of</div>
+      <div class="journal-name">Medical Evidence</div>
+    </div>
+    <div class="article-title-header">
+      Clinical, Radiological, and Outcome Predictors of Subdural Haematoma:
+      A Prospective Observational Study from a Tertiary Emergency Department
+      in Southern India
+    </div>
+  </div>
+
+  <div class="authors-line">
+    Jayant Mehta, R. Senthilkumar, S. Ramalingam, Subramanian Senthilkumar, Priya Nair, R. Venkataraman
+  </div>
+
+  <div class="body-wrap">
+
+    <div class="sidebar">
+
+      <div class="sidebar-block">
+        <div class="sidebar-label">To cite:</div>
+        <div class="sidebar-cite">
+          Mehta J, Senthilkumar R, Ramalingam S, <em>et al.</em> Clinical, radiological, and outcome predictors of subdural haematoma: a prospective observational study from a tertiary emergency department in Southern India.
+          <em>J Mev Evid</em> 2026;<strong>7</strong>:e003074. doi:10.1136/jmev-2026-003074
+        </div>
+      </div>
+
+      <div class="sidebar-block sidebar-dates">
+        <div><strong>Received</strong> 22 April 2026</div>
+        
+      </div>
+
+      <div class="sidebar-block">
+        <div class="sidebar-affil">
+          ¹ Department of Emergency Medicine, JIPMER, Puducherry, India
+        </div>
+        <div class="sidebar-affil">
+          ² Department of Radiodiagnosis and Imaging, JIPMER, Puducherry, India
+        </div>
+        <div class="sidebar-affil">
+          ³ Department of Biostatistics, JIPMER, Puducherry, India
+        </div>
+      </div>
+
+      <div class="sidebar-block">
+        <div class="check-updates">Check for updates</div>
+        <div class="copyright-block">
+          © Author(s) (or their employer(s)) 2025. Re-use permitted under CC BY-NC. No commercial re-use. See rights and permissions. Published by BMJ Group.
+        </div>
+      </div>
+
+    </div>
+
+    <div class="main-content">
+
+      <div class="abstract-section">
+        <div class="section-heading">Abstract</div>
+
+        <p class="abstract-text">
+          <span class="abstract-label">Objectives</span>
+          We aimed to evaluate the clinical profile, imaging characteristics, management strategies, and independent prognostic determinants of outcome in patients presenting with subdural haematoma (SDH) to a tertiary emergency department in South India.
+        </p>
+        <p class="abstract-text">
+          <span class="abstract-label">Design</span>
+          Prospective observational cohort with retrospective record review.
+        </p>
+        <p class="abstract-text">
+          <span class="abstract-label">Setting</span>
+          Single-centre study at JIPMER (Jawaharlal Institute of Postgraduate Medical Education and Research), a national tertiary emergency referral centre in Puducherry, Southern India, from January 2023 to December 2024.
+        </p>
+        <p class="abstract-text">
+          <span class="abstract-label">Participants</span>
+          270 adult patients with CT- and/or MRI-confirmed SDH. Inclusion criteria were age ≥18 years, CT/MRI-confirmed SDH, and presentation during the study period. Exclusion criteria were isolated spinal SDH, isolated traumatic epidural haematoma, and incomplete records.
+        </p>
+        <p class="abstract-text">
+          <span class="abstract-label">Interventions</span>
+          Surgical management (burr-hole drainage, craniotomy, decompressive craniectomy, or middle meningeal artery embolisation) or conservative management with imaging surveillance.
+        </p>
+        <p class="abstract-text">
+          <span class="abstract-label">Main outcome measures</span>
+          Primary outcome: Glasgow Outcome Scale (GOS) at 30 days, dichotomised as favourable (GOS 4–5) versus unfavourable (GOS 1–3). Secondary outcomes: 30-day mortality, surgical complications, and chronic SDH recurrence. Independent predictors were identified using multivariate binary logistic regression.
+        </p>
+        <p class="abstract-text">
+          <span class="abstract-label">Results</span>
+          Of 270 patients (mean age 48.6±18.4 years; 78.1% male), acute SDH was the most frequent subtype (49.6%), followed by chronic SDH (30.4%). Road traffic crashes accounted for 43.7% of cases. Technical success was achieved in all surgical patients; favourable 30-day GOS (4–5) was attained in 59.3%. The 30-day mortality was 20.0%. Among 82 patients with chronic SDH, 17 (20.9%) developed recurrence at 90 days; those receiving adjunct MMA embolisation (n=18) had lower recurrence compared with burr-hole drainage alone (8.3% vs 25.0%; p=0.04). On multivariate analysis, independent predictors of unfavourable outcome were GCS ≤8 at admission (AOR 8.4; 95% CI 4.2 to 16.8; p&lt;0.001), bilateral fixed dilated pupils (AOR 12.1; 95% CI 5.6 to 26.2; p&lt;0.001), midline shift &gt;10 mm (AOR 6.3; 95% CI 3.1 to 12.8; p&lt;0.001), basal cistern obliteration (AOR 9.8; 95% CI 4.4 to 21.8; p&lt;0.001), and time from injury to surgery exceeding 4 hours in acute SDH (AOR 3.6; 95% CI 1.8 to 7.2; p=0.003).
+        </p>
+        <p class="abstract-text">
+          <span class="abstract-label">Conclusions</span>
+          In our cohort, GCS at admission and bilateral fixed pupils were the dominant independent predictors of poor outcome, while basal cistern obliteration appeared to be the strongest imaging predictor of mortality. A streamlined 4-hour surgical pathway and adjunctive MMA embolisation for chronic SDH may improve outcomes, but these findings require confirmation in larger multicentre or randomised studies.
+        </p>
+      </div>
+
+      <div class="key-box">
+        <div class="key-box-header">What is already known on this topic</div>
+        <div class="key-box-body">
+          <div class="key-item">
+            <span class="key-arrow">⇒</span>
+            <span>GCS at admission, pupillary status, and CT imaging parameters are established prognostic markers in SDH, but most evidence comes from Western neurosurgical centres; region-specific prospective data from South Asian emergency departments remain limited.</span>
+          </div>
+        </div>
+        <div class="key-box-header">What this study adds</div>
+        <div class="key-box-body">
+          <div class="key-item">
+            <span class="key-arrow">⇒</span>
+            <span>Road traffic crashes dominate SDH aetiology in this South Indian cohort (43.7%); bilateral fixed pupils (OR 12.1) and basal cistern obliteration (OR 9.8) were the strongest independent predictors of 30-day unfavourable outcome.</span>
+          </div>
+          <div class="key-item">
+            <span class="key-arrow">⇒</span>
+            <span>Adjunct MMA embolisation was associated with lower CSDH recurrence compared with burr-hole drainage alone (8.3% vs 25.0%; p=0.04), supporting its emerging role in chronic SDH management.</span>
+          </div>
+        </div>
+        <div class="key-box-header">How this study might affect research, practice or policy</div>
+        <div class="key-box-body">
+          <div class="key-item">
+            <span class="key-arrow">⇒</span>
+            <span>Emergency departments in South Asia could consider implementing a 4-hour craniotomy pathway as a quality metric, and randomised trials should evaluate MMA embolisation protocols for CSDH in LMIC settings.</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-heading">Introduction</div>
+      <p>Subdural haematoma (SDH) — the collection of blood between the dura and arachnoid membranes — represents a spectrum from rapidly fatal acute haemorrhage to insidiously progressive chronic collections in the elderly.<sup>1,4</sup> Acute SDH may progress to transtentorial herniation within hours, whereas chronic SDH (CSDH) often presents with non-specific symptoms — headache, cognitive decline, unsteady gait — that are easily attributed to ageing.<sup>5</sup> The global epidemiology of SDH is shifting: an ageing population and widespread anticoagulant use are driving a rise in CSDH in high-income countries,<sup>14</sup> while in low- and middle-income countries (LMICs) such as India, acute SDH following road traffic crashes — particularly among young, unprotected two-wheeler riders — disproportionately drives emergency presentations. Non-contrast CT remains the gold standard for emergency diagnosis, with MRI providing additional value in subacute and chronic phases.<sup>12,13</sup> The landmark study by Seelig <em>et al</em> demonstrated that craniotomy within 4 hours in comatose patients reduced mortality from 90% to 30%,<sup>1</sup> a finding that reshaped SDH management globally.</p>
+      <p>Despite this evidence base, region-specific outcome data from South Asian emergency departments are sparse. Most prognostic series come from high-income neurosurgical centres, and extrapolation to LMIC settings — where pre-hospital delays, resource constraints, and a different aetiological mix are the norm — may not hold. We identified a clear knowledge gap regarding the relative weight of clinical, radiological, and management-related predictors in South Indian patients managed under real-world emergency conditions.</p>
+      <p>The objective of this study was to describe the clinical and radiological profile of patients with SDH presenting to a South Indian tertiary emergency department and to identify independent predictors of 30-day outcome.</p>
+
+    </div>
+  </div>
+
+  <div class="bottom-bar">
+    <div><span class="page-num"></span></div>
+    <div> J, <em>et al. J Mev Evid</em> 2026;<strong>7</strong>:e003074. doi:10.1136/jmev-2026-003074</div>
+    <div><strong></strong> </div>
+  </div>
+
+</div>
+
+<!-- ══════════════ PAGE 2 ══════════════ -->
+<div class="page">
+  <div class="top-bar">
+    <span class="open-access">     </span>
+   
+  </div>
+
+  <div style="padding: 10px 14px 0 14px;">
+
+    <div class="two-col">
+
+      <div class="section-heading">Methods</div>
+
+      <div class="sub-heading">Study design and setting</div>
+      <p>We conducted this prospective observational cohort study with retrospective record review at a single tertiary emergency centre (JIPMER, Puducherry, South India) between January 2023 and December 2024. Consecutive eligible patients were enrolled to minimise selection bias.</p>
+
+      <div class="sub-heading">Inclusion and exclusion criteria</div>
+      <p><strong>Inclusion criteria:</strong> age ≥18 years; CT and/or MRI-confirmed SDH; presentation to our emergency department during the study period.</p>
+      <p><strong>Exclusion criteria:</strong> isolated spinal SDH; isolated traumatic epidural haematoma without SDH component; incomplete clinical or imaging records precluding outcome assessment.</p>
+
+      <div class="sub-heading">Data collection and outcomes</div>
+      <p>Data were collected by trained emergency medicine residents using a pre-structured proforma, supplemented by retrospective review of inpatient records and imaging archives. The Glasgow Coma Scale (GCS) was assessed at triage by the attending emergency physician.<sup>3</sup> Pupillary status was documented by penlight examination as reactive, sluggishly reactive, or fixed and dilated (unilateral or bilateral). Missing data were handled by listwise deletion; no imputation was performed.</p>
+      <p>The primary outcome was the Glasgow Outcome Scale (GOS) at 30 days, dichotomised as favourable (GOS 4–5) versus unfavourable (GOS 1–3). Secondary outcomes were 30-day mortality, surgical complications (hospital-acquired pneumonia, post-operative seizures, DVT/PE), and CSDH recurrence (symptomatic re-expansion confirmed on CT requiring re-intervention within 90 days). Follow-up was through outpatient department review and structured telephone interviews; 12 patients (4.4%) were lost to 30-day follow-up and were excluded from the outcome analysis.</p>
+      <p>Demographic data (age, sex, domicile), clinical parameters (haemodynamic status, comorbidities, anticoagulant use, coagulation profile), radiological findings (SDH subtype, laterality, haematoma thickness, midline shift, volume by ABC/2 method, CT density, basal cistern status, associated injuries, MRI sequences), and management details (procedure type, time from injury to surgery) were extracted.</p>
+
+      <div class="sub-heading">Statistical analysis</div>
+      <p>Data were analysed using IBM SPSS V.26.0. We report means (SD) or medians (IQR) for continuous variables and frequencies (%) for categorical variables. Variables with p&lt;0.10 on univariate analysis or strong a priori clinical relevance were entered into a multivariable binary logistic regression model. Results are reported as adjusted odds ratios (AOR) with 95% confidence intervals. Model fit was assessed using the Hosmer–Lemeshow test and Nagelkerke pseudo-R²; variance inflation factors (VIFs) were examined for multicollinearity. Statistical significance was set at p&lt;0.05.</p>
+
+      <div class="sub-heading">Patient and public involvement</div>
+      <p>Patients or the public were not involved in the design, conduct, or dissemination of this study. Written informed consent was obtained from all participants or their legally authorised representatives. The study was approved by the JIPMER Institute Ethics Committee.</p>
+
+      <div class="section-heading">Results</div>
+      <p>During the 24-month study period, 282 patients with SDH were screened; 12 were excluded (incomplete records, n=8; isolated epidural haematoma, n=4), leaving 270 for analysis (Table 1). The mean age was 48.6±18.4 years, with the largest group aged 41–60 years (35.6%). Males predominated (78.1%). Most patients (83.7%) were haemodynamically stable at presentation. Coagulopathy (PT/INR &gt;1.5) was present in 7.0%. Hypertension was reported in 41.5% and diabetes in 28.9%.</p>
+      <p>Acute SDH was the most common subtype (49.6%), followed by chronic (30.4%), subacute (14.1%), and acute-on-chronic (5.9%). Road traffic crashes accounted for 43.7% of cases, ground-level falls for 27.4%, falls from height for 8.9%, and assault for 6.7%. No recalled trauma was documented in 8.1%. Bilateral SDH was seen in 12.6%.</p>
+      <p>Surgical intervention was undertaken in 195 patients (72.2%): burr-hole drainage was the most common procedure (31.9%), followed by emergency craniotomy (21.5%), decompressive craniectomy (5.2%), and MMA embolisation (6.7%, n=18, used as adjunct or primary treatment for CSDH). Conservative management was pursued in 75 patients (27.8%).</p>
+
+    </div>
+
+    <!-- TABLE 1 -->
+    <div class="table-wrap">
+      <div class="table-label"><strong>Table 1</strong> Patient demographics and clinical profile (N=270)</div>
+      <table>
+        <thead>
+          <tr>
+            <th style="width:22%">Section</th>
+            <th style="width:30%">Variable</th>
+            <th style="width:32%">Category</th>
+            <th style="width:16%">n (%)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td class="td-section" colspan="4">Demographic profile</td></tr>
+          <tr><td></td><td>Age (mean±SD = 48.6±18.4)</td><td>≤20 years</td><td>18 (6.7)</td></tr>
+          <tr><td></td><td></td><td>21–40 years</td><td>74 (27.4)</td></tr>
+          <tr><td></td><td></td><td>41–60 years</td><td>96 (35.6)</td></tr>
+          <tr><td></td><td></td><td>61–80 years</td><td>68 (25.2)</td></tr>
+          <tr><td></td><td></td><td>&gt;80 years</td><td>14 (5.1)</td></tr>
+          <tr><td></td><td>Gender</td><td>Male</td><td>211 (78.1)</td></tr>
+          <tr><td></td><td></td><td>Female</td><td>59 (21.9)</td></tr>
+          <tr><td class="td-section" colspan="4">Clinical profile</td></tr>
+          <tr><td></td><td>Haemodynamic status</td><td>Stable</td><td>226 (83.7)</td></tr>
+          <tr><td></td><td></td><td>Unstable</td><td>44 (16.3)</td></tr>
+          <tr><td></td><td>Coagulopathy (PT/INR &gt;1.5)</td><td>Normal</td><td>251 (93.0)</td></tr>
+          <tr><td></td><td></td><td>Elevated</td><td>19 (7.0)</td></tr>
+          <tr><td></td><td>Hypertension</td><td>Present</td><td>112 (41.5)</td></tr>
+          <tr><td></td><td>Diabetes mellitus</td><td>Present</td><td>78 (28.9)</td></tr>
+          <tr><td></td><td>Anticoagulant therapy</td><td>Yes</td><td>38 (14.1)</td></tr>
+          <tr><td></td><td>Antiplatelet therapy</td><td>Yes</td><td>29 (10.7)</td></tr>
+          <tr><td></td><td>Alcohol use</td><td>Yes</td><td>67 (24.8)</td></tr>
+          <tr><td></td><td>Prior SDH</td><td>Yes</td><td>14 (5.2)</td></tr>
+          <tr><td class="td-section" colspan="4">SDH type and aetiology</td></tr>
+          <tr><td></td><td>Subtype</td><td>Acute</td><td>134 (49.6)</td></tr>
+          <tr><td></td><td></td><td>Subacute</td><td>38 (14.1)</td></tr>
+          <tr><td></td><td></td><td>Chronic</td><td>82 (30.4)</td></tr>
+          <tr><td></td><td></td><td>Acute-on-chronic</td><td>16 (5.9)</td></tr>
+          <tr><td></td><td>Mechanism</td><td>Road traffic crash</td><td>118 (43.7)</td></tr>
+          <tr><td></td><td></td><td>Ground-level fall</td><td>74 (27.4)</td></tr>
+          <tr><td></td><td></td><td>Fall from height</td><td>24 (8.9)</td></tr>
+          <tr><td></td><td></td><td>Assault</td><td>18 (6.7)</td></tr>
+          <tr><td></td><td></td><td>No recalled trauma</td><td>22 (8.1)</td></tr>
+          <tr><td></td><td></td><td>Spontaneous/coagulopathy</td><td>8 (3.0)</td></tr>
+          <tr><td></td><td>Laterality</td><td>Right</td><td>132 (48.9)</td></tr>
+          <tr><td></td><td></td><td>Left</td><td>104 (38.5)</td></tr>
+          <tr><td></td><td></td><td>Bilateral</td><td>34 (12.6)</td></tr>
+        </tbody>
+      </table>
+      <div class="table-footnote">SDH, subdural haematoma; INR, international normalised ratio; PT, prothrombin time.</div>
+    </div>
+
+    <div class="two-col">
+      <p>Figure 3 summarises the key outcomes. Technical success was achieved in all 195 surgical patients (100%). Favourable 30-day outcome (GOS 4–5) was attained in 160 patients (59.3%). Immediate complications occurred in 44 patients (16.3%), most commonly hospital-acquired pneumonia and post-operative seizures. The 30-day mortality was 20.0% (n=54). Among the 82 patients with chronic SDH, 3-month survival was 100%, and recurrence requiring re-intervention occurred in 17 (20.9%) within 90 days.</p>
+      <p>In the CSDH subgroup (n=82), patients receiving adjunct MMA embolisation (n=18) had a lower 90-day recurrence rate than those managed with burr-hole drainage alone (n=64): 8.3% (1/18) versus 25.0% (16/64), respectively (p=0.04). This direction of effect, while based on small numbers, aligns with emerging evidence from other centres.<sup>10</sup></p>
+      <p>On multivariate logistic regression (Table 2), the strongest independent predictors of unfavourable outcome were bilateral fixed dilated pupils (AOR 12.1; 95% CI 5.6 to 26.2; p&lt;0.001), basal cistern obliteration (AOR 9.8; 95% CI 4.4 to 21.8; p&lt;0.001), GCS ≤8 at admission (AOR 8.4; 95% CI 4.2 to 16.8; p&lt;0.001), midline shift &gt;10 mm (AOR 6.3; 95% CI 3.1 to 12.8; p&lt;0.001), and surgery beyond 4 hours post-injury in acute SDH (AOR 3.6; 95% CI 1.8 to 7.2; p=0.003).<sup>1,2,8,17,18</sup> MMA embolisation as an adjunct in CSDH was associated with lower odds of unfavourable outcome (AOR 0.35; 95% CI 0.10 to 0.92; p=0.04).<sup>10</sup> Chronic SDH subtype was protective compared with acute SDH (AOR 0.18; 95% CI 0.09 to 0.37; p&lt;0.001).<sup>4,7,20</sup></p>
+      <p>The model showed adequate fit (Hosmer–Lemeshow χ²=6.82, df=8, p=0.557) with Nagelkerke pseudo-R² of 0.72. All VIFs were &lt;2.5, indicating no meaningful multicollinearity. Age &gt;80 years was associated with higher odds of unfavourable outcome (AOR 2.40; 95% CI 1.30 to 4.40; p=0.005), but intermediate age groups and sex did not reach significance.</p>
+    </div>
+
+  </div>
+
+  <div class="bottom-bar">
+    <div><span class="page-num"></span></div>
+    <div>J, <em>et al. J Mev Evid</em> 2026;<strong>7</strong>:e003074. doi:10.1136/jmev-2026-003074</div>
+    <div><strong></strong> </div>
+  </div>
+</div>
+
+<!-- ══════════════ PAGE 3 ══════════════ -->
+<div class="page">
+  <div class="top-bar">
+    <span class="open-access">     </span>
+    <span style="color:rgba(255,255,255,.6);font-size:7pt;"> </span>
+  </div>
+
+  <div style="padding: 10px 14px 0 14px;">
+
+    <!-- OUTCOMES FIGURE -->
+    <div class="fig-wrap">
+      <div class="table-label" style="margin-bottom:5px;"><strong>Figure 3</strong> Outcomes of SDH management (N=270).</div>
+      <div class="outcomes-fig">
+        <div class="bar-row"><div class="bar-label">Technical Success</div><div class="bar-outer"><div class="bar-inner success" style="width:100%"></div></div><div class="bar-val">195/195 (100%)</div></div>
+        <div class="bar-row"><div class="bar-label">Favourable GOS (4–5)</div><div class="bar-outer"><div class="bar-inner success" style="width:59.3%"></div></div><div class="bar-val">160 (59.3%)</div></div>
+        <div class="bar-row"><div class="bar-label">CSDH 3-Month Survival</div><div class="bar-outer"><div class="bar-inner success" style="width:100%"></div></div><div class="bar-val">82/82 (100%)</div></div>
+        <div class="bar-row"><div class="bar-label">CSDH Recurrence (90d)</div><div class="bar-outer"><div class="bar-inner recur" style="width:20.9%"></div></div><div class="bar-val">17 (20.9%)</div></div>
+        <div class="bar-row"><div class="bar-label">Immediate Complications</div><div class="bar-outer"><div class="bar-inner compl" style="width:16.3%"></div></div><div class="bar-val">44 (16.3%)</div></div>
+        <div class="bar-row"><div class="bar-label">30-Day Mortality</div><div class="bar-outer"><div class="bar-inner compl" style="width:20%"></div></div><div class="bar-val">54 (20.0%)</div></div>
+        <div class="bar-axis"><span>0</span><span>30</span><span>60</span><span>90</span></div>
+        <div class="axis-label">Percentage (%)</div>
+      </div>
+    </div>
+
+    <!-- TABLE 2 -->
+    <div class="table-wrap">
+      <div class="table-label"><strong>Table 2</strong> Predictors of unfavourable outcome (GOS 1–3) on multivariate analysis (N=270)</div>
+      <table>
+        <thead>
+          <tr>
+            <th style="width:22%">Category</th>
+            <th style="width:36%">Variable</th>
+            <th style="width:28%">Adjusted OR (95% CI)</th>
+            <th style="width:14%">P value</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td class="td-section" colspan="4">Demographic profile</td></tr>
+          <tr><td></td><td>Age (ref: ≤40 years)<br>&nbsp;&nbsp;41–60 years</td><td>1.41 (0.60 to 3.32)</td><td>0.43</td></tr>
+          <tr><td></td><td>&nbsp;&nbsp;61–80 years</td><td>1.86 (0.77 to 4.47)</td><td>0.16</td></tr>
+          <tr><td></td><td>&nbsp;&nbsp;&gt;80 years</td><td>2.40 (1.30 to 4.40)</td><td>0.005†</td></tr>
+          <tr><td></td><td>Female (vs male)</td><td>0.91 (0.54 to 1.54)</td><td>0.73</td></tr>
+          <tr><td class="td-section" colspan="4">Clinical profile</td></tr>
+          <tr><td></td><td><strong>GCS ≤8 at admission (vs 13–15)</strong></td><td><strong>8.4 (4.2 to 16.8)</strong></td><td><strong>&lt;0.001†</strong></td></tr>
+          <tr><td></td><td>GCS 9–12 (vs 13–15)</td><td>2.8 (1.4 to 5.6)</td><td>0.004†</td></tr>
+          <tr><td></td><td>Haemodynamic instability</td><td>3.20 (1.60 to 6.40)</td><td>0.001†</td></tr>
+          <tr><td></td><td>Coagulopathy</td><td>2.10 (0.80 to 5.50)</td><td>0.13</td></tr>
+          <tr><td></td><td>Anticoagulant use</td><td>2.8 (1.3 to 6.0)</td><td>0.008†</td></tr>
+          <tr><td></td><td><strong>Bilateral fixed dilated pupils</strong></td><td><strong>12.1 (5.6 to 26.2)</strong></td><td><strong>&lt;0.001†</strong></td></tr>
+          <tr><td></td><td>Unilateral fixed pupil</td><td>4.2 (2.1 to 8.4)</td><td>&lt;0.001†</td></tr>
+          <tr><td></td><td>Hypertension</td><td>1.12 (0.71 to 1.77)</td><td>0.62</td></tr>
+          <tr><td></td><td>Diabetes mellitus</td><td>1.37 (0.84 to 2.24)</td><td>0.21</td></tr>
+          <tr><td class="td-section" colspan="4">Imaging findings</td></tr>
+          <tr><td></td><td><strong>Midline shift &gt;10 mm (vs &lt;5 mm)</strong></td><td><strong>6.3 (3.1 to 12.8)</strong></td><td><strong>&lt;0.001†</strong></td></tr>
+          <tr><td></td><td>Midline shift 5–10 mm</td><td>3.6 (1.8 to 7.2)</td><td>0.003†</td></tr>
+          <tr><td></td><td><strong>Basal cistern obliteration</strong></td><td><strong>9.8 (4.4 to 21.8)</strong></td><td><strong>&lt;0.001†</strong></td></tr>
+          <tr><td></td><td>Volume &gt;60 mL</td><td>6.3 (3.1 to 12.8)</td><td>&lt;0.001†</td></tr>
+          <tr><td></td><td>Thickness &gt;20 mm</td><td>2.40 (1.30 to 4.50)</td><td>0.006†</td></tr>
+          <tr><td class="td-section" colspan="4">Management</td></tr>
+          <tr><td></td><td><strong>Surgery &gt;4 hrs (acute SDH)</strong></td><td><strong>3.6 (1.8 to 7.2)</strong></td><td><strong>0.003†</strong></td></tr>
+          <tr><td></td><td>MMA embolisation (CSDH)</td><td>0.35 (0.10 to 0.92)</td><td>0.04†</td></tr>
+          <tr><td class="td-section" colspan="4">Aetiology</td></tr>
+          <tr><td></td><td>Chronic vs acute SDH</td><td>0.18 (0.09 to 0.37)</td><td>&lt;0.001†</td></tr>
+          <tr><td></td><td>Subacute vs acute SDH</td><td>0.29 (0.13 to 0.65)</td><td>0.003†</td></tr>
+        </tbody>
+      </table>
+      <div class="table-footnote">
+        †p&lt;0.05. Hosmer–Lemeshow χ²=6.82, df=8, p=0.557; Nagelkerke pseudo-R²=0.72; all VIFs &lt;2.5.<br>
+        GCS, Glasgow Coma Scale; GOS, Glasgow Outcome Scale; INR, international normalised ratio; MMA, middle meningeal artery; SDH, subdural haematoma; VIF, variance inflation factor.
+      </div>
+    </div>
+
+    <div class="two-col">
+
+      <div class="section-heading">Discussion</div>
+
+      <p>In our study, road traffic accidents were the leading cause of SDH (43.7%), which is typical for our region where young males on two-wheelers are frequently involved. This is quite different from Western countries where falls in elderly patients on blood thinners are more common.<sup>5,14</sup> The male preponderance (78.1%) and the relatively younger mean age (48.6 years) in our cohort reflect the reality of South Indian trauma epidemiology. Our 30-day mortality of 20.0% is on the higher side compared with the 10–15% reported from Western acute SDH series,<sup>2,8</sup> and we think this largely reflects the combination of delayed presentation and a higher proportion of severe acute SDH from high-velocity crashes reaching our centre.</p>
+
+      <p>GCS at admission (AOR 8.4 for GCS ≤8) and bilateral fixed pupils (AOR 12.1) were the two strongest clinical predictors in our model, consistent with Servadei <em>et al</em><sup>17</sup> and Dent <em>et al</em>.<sup>18</sup> A low GCS at triage typically reflects either direct cortical compression, associated diffuse axonal injury, or secondary brainstem compression — all of which limit recovery potential. Bilateral fixed pupils indicate transtentorial herniation with third nerve compression, and in our experience these patients rarely achieved favourable outcomes regardless of how quickly we proceeded to surgery. The practical value of these two assessments is that both can be performed at the bedside without specialised equipment, making them applicable even in peripheral referral hospitals that send patients to centres like ours.</p>
+
+      <p>Among imaging parameters, basal cistern obliteration (AOR 9.8) was a stronger predictor than midline shift &gt;10 mm (AOR 6.3) or haematoma volume &gt;60 mL (AOR 6.3). Cistern status can be quickly assessed on the initial non-contrast CT without volume calculations, and it correlates with herniation severity more directly than linear shift alone, as also described by Parizel <em>et al</em>.<sup>12</sup> In our daily practice, we now routinely flag cistern status on the CT report as a rapid prognostic indicator for the neurosurgery team.</p>
+
+      <p>The finding that surgery beyond 4 hours was associated with higher odds of unfavourable outcome (AOR 3.6) in acute SDH is consistent with Seelig <em>et al</em>'s 1981 observation<sup>1</sup> and the subsequent guidelines by Bullock <em>et al</em>.<sup>8</sup> But here is the practical problem we face: the median time from injury to arrival at our centre was approximately 6.5 hours. Most of these patients were first seen at a peripheral hospital, stabilised there, and then referred — the delay happened before they ever reached our emergency department. Simply improving in-hospital response time would not fix this. What would help is strengthening ambulance networks and establishing direct transfer protocols so that severe head injury patients bypass intermediate hospitals and reach a tertiary centre faster.</p>
+
+      <p>MMA embolisation as an adjunct to burr-hole drainage appeared protective in our CSDH patients (AOR 0.35), with a lower recurrence rate of 8.3% (1/18) versus 25.0% (16/64) in those managed with drainage alone at 90 days (p=0.04). We acknowledge the numbers are small (n=18 in the embolisation group), but the direction of effect matches what Link <em>et al</em><sup>10</sup> and others have reported. The practical limitation at our centre is that interventional neuroradiology services are not available round-the-clock, so we could not offer MMA embolisation to every eligible CSDH patient. Whether this approach should become standard practice in LMIC settings needs to be evaluated in properly powered randomised trials.</p>
+
+      <p>Our overall CSDH recurrence rate of 20.9% falls within the 5–33% range reported in Almenawer <em>et al</em>'s meta-analysis of over 34,000 patients.<sup>16</sup> We noticed that recurrence was lower in the latter part of our study period, which we attribute to two changes: routine subdural drain placement following Santarius <em>et al</em>'s trial,<sup>6</sup> and increasing — though not universal — use of MMA embolisation. Brennan <em>et al</em> reported lower recurrence rates in a UK multicentre cohort,<sup>23</sup> and the difference probably reflects variation in surgical technique, drain duration, and postoperative protocols across centres.</p>
+
+      <p>A few centre-specific challenges shaped our results. First, the high proportion of RTA patients transferred after variable delays meant that many had already exceeded the 4-hour window on arrival. Second, approximately 40% of our patients lacked health insurance, which affected discharge planning and follow-up compliance, contributing to our 4.4% loss to follow-up. Third, interventional neuroradiology access was limited to working hours, constraining our ability to offer timely MMA embolisation. These challenges are not unique to our centre but reflect the broader reality of emergency neurosurgical care in public hospitals across South Asia.</p>
+
+      <div class="sub-heading">Limitations</div>
+      <p>The single-centre design limits generalisability, particularly to private hospital settings or other regions within India. The retrospective record review component introduces risk of information bias, especially for time-dependent variables like time from injury to surgery. We lost 12 patients (4.4%) to 30-day follow-up, which, while modest, could have affected outcome proportions. The MMA embolisation subgroup was small (n=18), and our findings regarding this intervention should be considered hypothesis-generating. We did not perform formal inter-rater reliability assessments for imaging measurements, which may introduce variability. Finally, the observational design means we can report associations but not causation — though the existing randomised evidence for the 4-hour window is supportive.<sup>1</sup></p>
+
+      <div class="section-heading">Conclusion</div>
+      <p>In this prospective South Indian cohort, GCS at admission and bilateral fixed pupils were the dominant independent predictors of unfavourable 30-day outcome, while basal cistern obliteration appeared to be the strongest imaging predictor of mortality. These bedside and CT-based assessments — which require no specialised technology — may serve as practical triage tools in resource-limited emergency settings. A streamlined 4-hour surgical pathway and adjunctive MMA embolisation for chronic SDH may improve outcomes, but these findings require confirmation in larger multicentre or randomised studies conducted in LMIC settings.</p>
+
+    </div>
+
+    <!-- CONTRIBUTIONS ETC -->
+    <div style="font-family:var(--sans);font-size:7.2pt;margin-top:8px;border-top:1px solid var(--bmj-border);padding-top:8px;">
+      <p style="font-size:7.2pt;margin-bottom:3px;"><strong>Acknowledgements</strong> Mr R. Venkataraman, MSc Biostatistics, Department of Biostatistics, JIPMER, Puducherry, India.</p>
+      <p style="font-size:7.2pt;margin-bottom:3px;"><strong>Contributors</strong> JM: guarantor, conception, design, data acquisition, analysis, drafting, final approval. RS: design, data interpretation, critical revision, final approval. SR: imaging analysis and reporting, revision, final approval. SS and PN: data acquisition, interpretation, final approval. RV: statistical analysis, final approval.</p>
+      <p style="font-size:7.2pt;margin-bottom:3px;"><strong>Funding</strong> The authors have not declared a specific grant for this research from any funding agency in the public, commercial, or not-for-profit sectors.</p>
+      <p style="font-size:7.2pt;margin-bottom:3px;"><strong>Competing interests</strong> None declared.</p>
+      <p style="font-size:7.2pt;margin-bottom:3px;"><strong>Patient consent for publication</strong> Written informed consent obtained from all participants or their legally authorised representatives.</p>
+      <p style="font-size:7.2pt;margin-bottom:3px;"><strong>Ethics approval</strong> Approved by the JIPMER Institute Ethics Committee (Ref: JIP/IEC/2023/XXX). The study was performed in conformance with the Declaration of Helsinki.</p>
+      <p style="font-size:7.2pt;margin-bottom:3px;"><strong>Provenance and peer review</strong> Not commissioned; externally peer reviewed.</p>
+      <p style="font-size:7.2pt;"><strong>Data availability statement</strong> All data relevant to the study are included in the article. De-identified participant data available on reasonable request from the corresponding author.</p>
+    </div>
+
+    <!-- REFERENCES -->
+    <div class="references" style="margin-top:8px;">
+      <div class="section-heading">References</div>
+      <div class="two-col">
+        <div class="ref-item"><span class="ref-num">1</span>&nbsp; Seelig JM, Becker DP, Miller JD, Greenberg RP, Ward JD, Choi SC. Traumatic acute subdural hematoma: major mortality reduction in comatose patients treated within four hours. <span class="ref-journal">N Engl J Med</span> 1981;304:1511–8. <span class="ref-pmid">PubMed PMID: 7010172.</span></div>
+        <div class="ref-item"><span class="ref-num">2</span>&nbsp; Wilberger JE Jr, Harris M, Diamond DL. Acute subdural hematoma: morbidity, mortality, and operative timing. <span class="ref-journal">J Neurosurg</span> 1991;74:212–8. <span class="ref-pmid">PubMed PMID: 1988590.</span></div>
+        <div class="ref-item"><span class="ref-num">3</span>&nbsp; Teasdale G, Jennett B. Assessment of coma and impaired consciousness. A practical scale. <span class="ref-journal">Lancet</span> 1974;2:81–4. <span class="ref-pmid">PubMed PMID: 4136544.</span></div>
+        <div class="ref-item"><span class="ref-num">4</span>&nbsp; Markwalder TM. Chronic subdural hematomas: a review. <span class="ref-journal">J Neurosurg</span> 1981;54:637–45. <span class="ref-pmid">PubMed PMID: 7014792.</span></div>
+        <div class="ref-item"><span class="ref-num">5</span>&nbsp; Adhiyaman V, Asghar M, Ganeshram KN, Bhowmick BK. Chronic subdural haematoma in the elderly. <span class="ref-journal">Postgrad Med J</span> 2002;78:71–5. <span class="ref-pmid">PubMed PMID: 11807191.</span></div>
+        <div class="ref-item"><span class="ref-num">6</span>&nbsp; Santarius T, Kirimi PJ, Kolias AG, Hutchinson PJ. Use of drains versus no drains after burr-hole evacuation of chronic subdural haematoma: a randomised controlled trial. <span class="ref-journal">Lancet</span> 2009;374:1067–73. <span class="ref-pmid">PubMed PMID: 19782872.</span></div>
+        <div class="ref-item"><span class="ref-num">7</span>&nbsp; Kolias AG, Chari A, Santarius T, Hutchinson PJ. Chronic subdural haematoma: modern management and emerging therapies. <span class="ref-journal">Nat Rev Neurol</span> 2014;10:570–8. <span class="ref-pmid">PubMed PMID: 25224156.</span></div>
+        <div class="ref-item"><span class="ref-num">8</span>&nbsp; Bullock MR, Chesnut R, Ghajar J, Gordon D, Hartl R, Newell DW, <em>et al.</em> Surgical management of acute subdural hematomas. <span class="ref-journal">Neurosurgery</span> 2006;58:S16–24. <span class="ref-pmid">PubMed PMID: 16540840.</span></div>
+        <div class="ref-item"><span class="ref-num">9</span>&nbsp; Edlmann E, Giorgi-Coll S, Whitfield PC, Carpenter KLH, Hutchinson PJ. Pathophysiology of chronic subdural haematoma: inflammation, angiogenesis and implications for pharmacological treatment. <span class="ref-journal">J Neuroinflammation</span> 2017;14:108. <span class="ref-pmid">PubMed PMID: 28558815.</span></div>
+        <div class="ref-item"><span class="ref-num">10</span>&nbsp; Link TW, Boddu S, Paine SM, Kamel H, Knopman J. Middle meningeal artery embolization for chronic subdural hematoma: a series of 60 cases. <span class="ref-journal">Neurosurgery</span> 2019;85:801–7. <span class="ref-pmid">PubMed PMID: 30690468.</span></div>
+        <div class="ref-item"><span class="ref-num">11</span>&nbsp; Mack LR, Chan SB, Silva JC, Hogan TM. The use of head computed tomography in elderly patients sustaining minor head trauma. <span class="ref-journal">J Emerg Med</span> 2003;24:157–62. <span class="ref-pmid">PubMed PMID: 12609643.</span></div>
+        <div class="ref-item"><span class="ref-num">12</span>&nbsp; Parizel PM, Makkat S, Van Miert E, Van Goethem JW, van den Hauwe L, De Schepper AM. Intracranial hemorrhage: principles of CT and MRI interpretation. <span class="ref-journal">Eur Radiol</span> 2001;11:1770–83. <span class="ref-pmid">PubMed PMID: 11511904.</span></div>
+        <div class="ref-item"><span class="ref-num">13</span>&nbsp; Gomori JM, Grossman RI, Goldberg HI, Zimmerman RA, Bilaniuk LT. Intracranial hematomas: imaging by high-field MR. <span class="ref-journal">Radiology</span> 1985;157:87–93. <span class="ref-pmid">PubMed PMID: 4034983.</span></div>
+        <div class="ref-item"><span class="ref-num">14</span>&nbsp; Balser D, Farooq S, Mehmood T, Reyes M, Samadani U. Actual and projected incidence rates for chronic subdural hematomas in United States Veterans Administration and civilian populations. <span class="ref-journal">J Neurosurg</span> 2015;123:1209–15. <span class="ref-pmid">PubMed PMID: 25955869.</span></div>
+        <div class="ref-item"><span class="ref-num">15</span>&nbsp; Weigel R, Schmiedek P, Krauss JK. Outcome of contemporary surgery for chronic subdural haematoma: evidence based review. <span class="ref-journal">J Neurol Neurosurg Psychiatry</span> 2003;74:937–43. <span class="ref-pmid">PubMed PMID: 12810782.</span></div>
+        <div class="ref-item"><span class="ref-num">16</span>&nbsp; Almenawer SA, Farrokhyar F, Hong C, Alhazzani W, Manoranjan B, Yarascavitch B, <em>et al.</em> Chronic subdural hematoma management: a systematic review and meta-analysis of 34,829 patients. <span class="ref-journal">Ann Surg</span> 2014;259:449–57. <span class="ref-pmid">PubMed PMID: 24253133.</span></div>
+        <div class="ref-item"><span class="ref-num">17</span>&nbsp; Servadei F. Prognostic factors in severely head injured adult patients with acute subdural haematoma. <span class="ref-journal">Acta Neurochir (Wien)</span> 1997;139:279–85. <span class="ref-pmid">PubMed PMID: 9202765.</span></div>
+        <div class="ref-item"><span class="ref-num">18</span>&nbsp; Dent DL, Croce MA, Menke PG, Young BH, Haan JM, Kudsk KA, <em>et al.</em> Prognostic factors after acute subdural hematoma. <span class="ref-journal">J Trauma</span> 1995;39:36–42. <span class="ref-pmid">PubMed PMID: 7636907.</span></div>
+        <div class="ref-item"><span class="ref-num">19</span>&nbsp; Hutchinson PJ, Kolias AG, Timofeev IS, Corteen EA, Czosnyka M, Timothy J, <em>et al.</em> Trial of decompressive craniectomy for traumatic intracranial hypertension. <span class="ref-journal">N Engl J Med</span> 2016;375:1119–30. <span class="ref-pmid">PubMed PMID: 27602507.</span></div>
+        <div class="ref-item"><span class="ref-num">20</span>&nbsp; Holl DC, Volovici V, Dirven CMF, Peul WC, van Kooten F, Jellema K, <em>et al.</em> Pathophysiology and management of chronic subdural hematoma: a systematic review and meta-analysis of case series. <span class="ref-journal">Acta Neurochir (Wien)</span> 2018;160:425–32. <span class="ref-pmid">PubMed PMID: 29168050.</span></div>
+        <div class="ref-item"><span class="ref-num">21</span>&nbsp; Tsutsumi K, Maeda K, Iijima A, Usui M, Okada Y, Kirino T. The relationship of preoperative magnetic resonance imaging findings and closed system drainage in the recurrence of chronic subdural hematoma. <span class="ref-journal">J Neurosurg</span> 1997;87:870–5. <span class="ref-pmid">PubMed PMID: 9384397.</span></div>
+        <div class="ref-item"><span class="ref-num">22</span>&nbsp; Stanisic M, Lund-Johansen M, Mahesparan R. Treatment of chronic subdural hematoma by burr-hole craniostomy in adults: influence of some factors on postoperative recurrence. <span class="ref-journal">Acta Neurochir (Wien)</span> 2005;147:1249–56. <span class="ref-pmid">PubMed PMID: 16177870.</span></div>
+        <div class="ref-item"><span class="ref-num">23</span>&nbsp; Brennan PM, Kolias AG, Joannides AJ, Shapey J, Marcus HJ, Gregson BA, <em>et al.</em> The management and outcome for patients with chronic subdural hematoma: a prospective, multicenter, observational cohort study in the United Kingdom. <span class="ref-journal">J Neurosurg</span> 2017;127:732–9. <span class="ref-pmid">PubMed PMID: 28084916.</span></div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="bottom-bar">
+    <div><span class="page-num"></span></div>
+    <div> J, <em>et al. J Mev Evid</em> 2026;<strong>7</strong>:e003074. doi:10.1136/jmev-2026-003074</div>
+    <div><strong></strong> </div>
+  </div>
+</div>
+
+</body>
+</html>
