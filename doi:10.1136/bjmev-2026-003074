@@ -7,6 +7,59 @@
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Noto+Sans:ital,wght@0,400;0,600;0,700;1,400&display=swap');
 
+  /* 🚫 SECURITY: ANTI-COPY, ANTI-SELECT CSS */
+  * {
+    -webkit-user-select: none !important; /* Safari */
+    -moz-user-select: none !important; /* Firefox */
+    -ms-user-select: none !important; /* IE/Edge */
+    user-select: none !important; /* Standard */
+    -webkit-touch-callout: none !important; /* Disable iOS callout */
+  }
+
+  ::selection { background: transparent; color: inherit; }
+  ::-moz-selection { background: transparent; color: inherit; }
+
+  /* 🖨️ SECURITY: ANTI-PRINT CSS */
+  @media print {
+    body {
+        display: none !important;
+        opacity: 0 !important;
+        visibility: hidden !important;
+    }
+    html {
+        background: white;
+    }
+    html::after {
+        content: "Printing is strictly disabled to protect this document.";
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        font-family: var(--sans), sans-serif;
+        font-size: 24px;
+        color: #c8102e;
+        font-weight: bold;
+    }
+  }
+
+  /* 💧 SECURITY: WATERMARK TO DISCOURAGE SCREENSHOTS */
+  .watermark {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) rotate(-45deg);
+      font-size: 120px;
+      color: rgba(200, 16, 46, 0.04); /* Very faint red */
+      z-index: 9999;
+      pointer-events: none;
+      font-family: var(--sans);
+      font-weight: 900;
+      white-space: nowrap;
+      text-transform: uppercase;
+      letter-spacing: 5px;
+  }
+
+  /* --- EXISTING STYLES --- */
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
   :root {
@@ -27,6 +80,7 @@
     line-height: 1.45;
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
+    transition: filter 0.2s, opacity 0.2s; /* Smooth blur transition */
   }
 
   .page {
@@ -37,6 +91,7 @@
     box-shadow: 0 2px 16px rgba(0,0,0,.25);
     padding: 0;
     position: relative;
+    overflow: hidden;
   }
 
   .top-bar {
@@ -332,14 +387,52 @@
   .axis-label { font-size: 6.5pt; text-align: center; font-family: var(--sans); color: var(--bmj-grey); padding-left: 146px; }
 
   sup { font-size: 5.5pt; line-height: 0; vertical-align: super; }
-
-  @media print {
-    body { background: white; }
-    .page { box-shadow: none; margin: 0; }
-  }
 </style>
 </head>
-<body>
+<!-- 🚫 Disable Context Menu, Text Selection, and Dragging at the body level -->
+<body oncontextmenu="return false;" onselectstart="return false;" ondragstart="return false;">
+
+<!-- 🔐 SECURITY SCRIPTS -->
+<script>
+  // Disable Right Click, Copy, Cut, Paste, and Dragging via Event Listeners (Added Redundancy)
+  document.addEventListener('contextmenu', e => e.preventDefault());
+  document.addEventListener('copy', e => { e.preventDefault(); navigator.clipboard.writeText(''); });
+  document.addEventListener('cut', e => e.preventDefault());
+  document.addEventListener('paste', e => e.preventDefault());
+  document.addEventListener('dragstart', e => e.preventDefault());
+
+  // Block specific Keyboard Shortcuts (DevTools, View Source, Print, Save, Select All, Copy)
+  document.addEventListener('keydown', function(e) {
+    if (
+      e.key === 'F12' || // DevTools
+      (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'i' || e.key === 'J' || e.key === 'j' || e.key === 'C' || e.key === 'c')) || // DevTools
+      (e.ctrlKey && (e.key === 'U' || e.key === 'u' || e.key === 'P' || e.key === 'p' || e.key === 'S' || e.key === 's' || e.key === 'C' || e.key === 'c' || e.key === 'A' || e.key === 'a' || e.key === 'X' || e.key === 'x')) || // View Source, Print, Save, Copy, Select All, Cut
+      e.key === 'PrintScreen' // Windows Print Screen
+    ) {
+      e.preventDefault();
+      return false;
+    }
+  });
+
+  // Blur screen when window loses focus (Discourages Snipping Tool / Screen Capture)
+  window.addEventListener('blur', function() {
+    document.body.style.filter = 'blur(15px)';
+    document.body.style.opacity = '0.5';
+  });
+  window.addEventListener('focus', function() {
+    document.body.style.filter = 'none';
+    document.body.style.opacity = '1';
+  });
+
+  // Try to hijack clipboard on PrintScreen key release
+  document.addEventListener('keyup', function(e) {
+    if (e.key === 'PrintScreen') {
+      navigator.clipboard.writeText('Screenshots and copying are disabled for this document.');
+    }
+  });
+</script>
+
+<div class="watermark">DO NOT COPY</div>
 
 <!-- ══════════════ PAGE 1 ══════════════ -->
 <div class="page">
