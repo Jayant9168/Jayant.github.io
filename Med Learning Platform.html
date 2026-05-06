@@ -459,9 +459,9 @@ body{font-family:var(--font-sans);background:var(--gray-50);color:var(--gray-800
           <span class="sc-link" onclick="showPage('tests')">View all →</span>
         </div>
         <div class="quick-test-list">
-          <div class="qt-item" onclick="openQuizModal('subject','Cardiology MCQs','Cardiology','20 Qs · 30 min')">
+          <div class="qt-item" onclick="window.location.href='booktestCardiology Cardiac Arrhythmias.html'">
             <div class="qt-icon" style="background:#fef2f2">❤️</div>
-            <div class="qt-info"><div class="qt-name">Cardiology MCQs</div><div class="qt-meta">20 questions · 30 min</div></div>
+            <div class="qt-info"><div class="qt-name">Cardiac Arrhythmias</div><div class="qt-meta">20 questions · 30 min</div></div>
             <button class="qt-action">Start</button>
           </div>
           <div class="qt-item" onclick="openQuizModal('mini','Pharmacology Mini','Pharmacology','10 Qs · 12 min')">
@@ -652,7 +652,7 @@ function showPage(id){
 
 // ── TESTS DATA ──
 const tests=[
-  {id:'c1',type:'subject',icon:'❤️',iconBg:'#fef2f2',accent:'#dc2626',subject:'Cardiology',name:'Cardiac Arrhythmias',qs:20,mins:30,diff:'Hard',diffBg:'#fef2f2',diffC:'#dc2626',tags:[{l:'ACLS',c:'#eff4ff',tc:'#1a56db'},{l:'ECG',c:'#ecfdf5',tc:'#059669'}]},
+  {id:'c1',type:'subject',icon:'❤️',iconBg:'#fef2f2',accent:'#dc2626',subject:'Cardiology',name:'Cardiac Arrhythmias',qs:20,mins:30,diff:'Hard',diffBg:'#fef2f2',diffC:'#dc2626',tags:[{l:'ACLS',c:'#eff4ff',tc:'#1a56db'},{l:'ECG',c:'#ecfdf5',tc:'#059669'}], link:'booktestCardiology Cardiac Arrhythmias.html'},
   {id:'c2',type:'subject',icon:'💊',iconBg:'#eff4ff',accent:'#1a56db',subject:'Pharmacology',name:'ACLS Drug Dosages',qs:25,mins:35,diff:'Medium',diffBg:'#fffbeb',diffC:'#d97706',tags:[{l:'Drugs',c:'#eff4ff',tc:'#1a56db'},{l:'Dosing',c:'#fffbeb',tc:'#d97706'}]},
   {id:'c3',type:'subject',icon:'🫁',iconBg:'#ecfeff',accent:'#0891b2',subject:'Respiratory',name:'Ventilator Management',qs:18,mins:25,diff:'Hard',diffBg:'#fef2f2',diffC:'#dc2626',tags:[{l:'ICU',c:'#ecfeff',tc:'#0891b2'}]},
   {id:'c4',type:'mini',icon:'⚡',iconBg:'#fffbeb',accent:'#d97706',subject:'Emergency Med',name:'Rapid EM Assessment',qs:10,mins:12,diff:'Easy',diffBg:'#ecfdf5',diffC:'#059669',tags:[{l:'Mini',c:'#fffbeb',tc:'#d97706'},{l:'EM',c:'#fef2f2',tc:'#dc2626'}]},
@@ -667,7 +667,7 @@ function renderTests(filter='all'){
   const grid=document.getElementById('test-grid');
   const filtered=filter==='all'?tests:tests.filter(t=>t.type===filter);
   grid.innerHTML=filtered.map(t=>`
-    <div class="test-card" style="--card-accent:${t.accent}" onclick="openQuizModal('${t.type}','${t.name}','${t.subject}','${t.qs} Qs · ${t.mins} min')">
+    <div class="test-card" style="--card-accent:${t.accent}" onclick="${t.link ? `window.location.href='${t.link}'` : `openQuizModal('${t.type}','${t.name}','${t.subject}','${t.qs} Qs · ${t.mins} min')`}">
       <div class="tc-difficulty" style="background:${t.diffBg};color:${t.diffC}">${t.diff}</div>
       <div class="tc-icon" style="background:${t.iconBg}">${t.icon}</div>
       <div class="tc-subject">${t.subject}</div>
